@@ -72,10 +72,12 @@ function Utils.AddDebugMethods(dest)
         "DebugTerm",
     }
 
-    if Debug then
+    if _G.ModDevToolsDebug then
         for _, v in pairs(methods) do
             dest[v] = function(_, ...)
-                return Debug[v](Debug, ...)
+                if _G.ModDevToolsDebug and _G.ModDevToolsDebug[v] then
+                    return _G.ModDevToolsDebug[v](_G.ModDevToolsDebug, ...)
+                end
             end
         end
     else
@@ -255,7 +257,7 @@ end
 -- @see DumpFields
 -- @see DumpFunctions
 -- @see DumpReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @tparam[opt] string name The name of the dumped entity
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
@@ -269,7 +271,7 @@ end
 -- @see DumpFields
 -- @see DumpFunctions
 -- @see DumpReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @tparam[opt] string name The name of the dumped entity
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
@@ -283,7 +285,7 @@ end
 -- @see DumpEventListeners
 -- @see DumpFunctions
 -- @see DumpReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @tparam[opt] string name The name of the dumped entity
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
@@ -297,7 +299,7 @@ end
 -- @see DumpEventListeners
 -- @see DumpFields
 -- @see DumpReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @tparam[opt] string name The name of the dumped entity
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
@@ -311,7 +313,7 @@ end
 -- @see DumpEventListeners
 -- @see DumpFields
 -- @see DumpFunctions
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @tparam[opt] string name The name of the dumped entity
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
@@ -361,10 +363,10 @@ end
 --- Returns an entity animation state bank.
 -- @see GetAnimStateBuild
 -- @see GetAnimStateAnim
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn string
 function Utils.GetAnimStateBank(entity)
-    -- TODO: Find a better way of getting the entity AnimState bank instead of using RegEx...
+    -- @todo: Find a better way of getting the entity AnimState bank instead of using RegEx...
     if entity.AnimState then
         local debug = entity:GetDebugString()
         local bank = string.match(debug, "AnimState:.*bank:%s+(%S+)")
@@ -377,7 +379,7 @@ end
 --- Returns an entity animation state build.
 -- @see GetAnimStateBank
 -- @see GetAnimStateAnim
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn string
 function Utils.GetAnimStateBuild(entity)
     if entity.AnimState then
@@ -388,7 +390,7 @@ end
 --- Returns an entity animation state animation.
 -- @see GetAnimStateBank
 -- @see GetAnimStateBuild
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn string
 function Utils.GetAnimStateAnim(entity)
     -- TODO: Find a better way of getting the entity AnimState anim instead of using RegEx...
@@ -403,7 +405,7 @@ end
 
 --- Returns an entity state graph name.
 -- @see GetStateGraphState
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn string
 function Utils.GetStateGraphName(entity)
     -- TODO: Find a better way of getting the entity StateGraph name instead of using RegEx...
@@ -418,7 +420,7 @@ end
 
 --- Returns an entity state graph state.
 -- @see GetStateGraphName
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn string
 function Utils.GetStateGraphState(entity)
     -- TODO: Find a better way of getting the entity StateGraph state instead of using RegEx...
@@ -432,11 +434,12 @@ function Utils.GetStateGraphState(entity)
 end
 
 --- Returns an entity tags.
--- @tparam table entity
+-- @tparam EntityScript entity
+-- @tparam boolean is_all
 -- @treturn string
-function Utils.GetTags(entity, all)
+function Utils.GetTags(entity, is_all)
     -- TODO: Find a better way of getting the entity tag instead of using RegEx...
-    all = all == true
+    is_all = is_all == true
 
     local debug = entity:GetDebugString()
     local tags = string.match(debug, "Tags: (.-)\n")
@@ -444,7 +447,7 @@ function Utils.GetTags(entity, all)
     if tags and string.len(tags) > 0 then
         local result = {}
 
-        if all then
+        if is_all then
             for tag in tags:gmatch("%S+") do
                 table.insert(result, tag)
             end
@@ -468,7 +471,7 @@ end
 -- @see GetFields
 -- @see GetFunctions
 -- @see GetReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn table
 function Utils.GetComponents(entity)
     local result = {}
@@ -488,7 +491,7 @@ end
 -- @see GetFields
 -- @see GetFunctions
 -- @see GetReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn table
 function Utils.GetEventListeners(entity)
     local result = {}
@@ -508,7 +511,7 @@ end
 -- @see GetEventListeners
 -- @see GetFunctions
 -- @see GetReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn table
 function Utils.GetFields(entity)
     local result = {}
@@ -528,7 +531,7 @@ end
 -- @see GetEventListeners
 -- @see GetFields
 -- @see GetReplicas
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn table
 function Utils.GetFunctions(entity)
     local result = {}
@@ -557,7 +560,7 @@ end
 -- @see GetEventListeners
 -- @see GetFields
 -- @see GetFunctions
--- @tparam table entity
+-- @tparam EntityScript entity
 -- @treturn table
 function Utils.GetReplicas(entity)
     local result = {}
