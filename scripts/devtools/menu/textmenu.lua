@@ -34,7 +34,7 @@ function TextMenu:GetIndex()
 end
 
 --- Sets index.
--- @tparam number index
+-- @tparam number idx
 function TextMenu:SetIndex(idx)
     self.index = idx
 end
