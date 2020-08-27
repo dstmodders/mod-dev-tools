@@ -76,8 +76,8 @@ function DevTools:__tostring()
     return self.name
 end
 
---- Initialization
--- @section initialization
+--- Lifecycle
+-- @section lifecycle
 
 --- Initializes.
 --
