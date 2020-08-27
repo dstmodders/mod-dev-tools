@@ -7,6 +7,17 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.submenu.Submenu
+-- @see menu.submenu.CharacterRecipesSubmenu
+-- @see menu.submenu.DebugSubmenu
+-- @see menu.submenu.DumpSubmenu
+-- @see menu.submenu.LabelsSubmenu
+-- @see menu.submenu.MapSubmenu
+-- @see menu.submenu.PlayerBarsSubmenu
+-- @see menu.submenu.PlayerVisionSubmenu
+-- @see menu.submenu.SelectSubmenu
+-- @see menu.submenu.TeleportSubmenu
+-- @see menu.submenu.TimeControlSubmenu
+-- @see menu.submenu.WeatherControlSubmenu
 --
 -- @author Victor Popkov
 -- @copyright 2020
