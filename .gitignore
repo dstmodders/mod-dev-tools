@@ -1,0 +1,33 @@
+### Intellij ###
+.idea/
+
+### VisualStudioCode ###
+.vscode/
+
+### Lua ###
+# luarocks build files
+*.src.rock
+*.zip
+*.tar.gz
+
+# luacov
+luacov.*
+
+### Project ###
+# general
+.github/slack*.json
+busted.out
+coverage/
+description.txt
+lcov.info
+
+# doc
+doc/*
+!doc/.dockerignore
+!doc/docker-stack.yml
+!doc/Dockerfile
+!doc/ldoc/
+
+# steam workshop
+steam-workshop.zip
+workshop*/
