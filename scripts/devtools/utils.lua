@@ -19,6 +19,9 @@
 ----
 local Utils = {}
 
+-- base (to store original functions after overrides)
+local BaseGetModInfo
+
 --- Helpers
 -- @section helpers
 
@@ -564,6 +567,45 @@ function Utils.GetReplicas(entity)
         end
     end
     return result
+end
+
+--- Modmain
+-- @section modmain
+
+--- Hide the modinfo changelog.
+--
+-- Overrides the global `KnownModIndex.GetModInfo` to hide the changelog if it's included in the
+-- description.
+--
+-- @tparam string modname
+-- @tparam boolean enable
+-- @treturn boolean
+function Utils.HideChangelog(modname, enable)
+    if modname and enable and not BaseGetModInfo then
+        BaseGetModInfo =  _G.KnownModIndex.GetModInfo
+        _G.KnownModIndex.GetModInfo = function(_self, _modname)
+            if _modname == modname
+                and _self.savedata
+                and _self.savedata.known_mods
+                and _self.savedata.known_mods[modname]
+            then
+                local TrimString = _G.TrimString
+                local modinfo = _self.savedata.known_mods[modname].modinfo
+                if modinfo and type(modinfo.description) == "string" then
+                    local changelog = modinfo.description:find("v" .. modinfo.version, 0, true)
+                    if type(changelog) == "number" then
+                        modinfo.description = TrimString(modinfo.description:sub(1, changelog - 1))
+                    end
+                end
+            end
+            return BaseGetModInfo(_self, _modname)
+        end
+        return true
+    elseif BaseGetModInfo then
+        _G.KnownModIndex.GetModInfo = BaseGetModInfo
+        BaseGetModInfo = nil
+    end
+    return false
 end
 
 --- RPC
