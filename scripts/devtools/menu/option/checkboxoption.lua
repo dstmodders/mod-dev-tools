@@ -1,9 +1,12 @@
 ----
 -- Checkbox option.
 --
+-- Extends `menu.option.Option`.
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.CheckboxOption
+-- @see menu.option.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020

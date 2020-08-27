@@ -7,6 +7,13 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.Option
+-- @see menu.option.CheckboxOption
+-- @see menu.option.ChoicesOption
+-- @see menu.option.DividerOption
+-- @see menu.option.DoActionOption
+-- @see menu.option.NumericToggleOption
+-- @see menu.option.SubmenuOption
+-- @see menu.option.ToggleCheckboxOption
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -16,7 +23,7 @@
 require "class"
 
 --- Helpers
--- @section general
+-- @section helpers
 
 local function OptionRequired(field, name)
     assert(field ~= nil, "Option " .. name .. " is required")
