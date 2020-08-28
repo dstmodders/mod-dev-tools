@@ -1,7 +1,8 @@
 project = "Dev Tools"
 title = "DST Mod Dev Tools | LDoc"
 description = "dst-mod-dev-tools"
-full_description = "Mod for the game [Don\'t Starve Together](https://www.klei.com/games/dont-starve-together) to improve the development process."
+full_description = "Mod for the game [Don\'t Starve Together](https://www.klei.com/games/dont-starve-together) to improve the development process." .. "\n\n" ..
+    [[- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)]]
 
 dir = "doc"
 file = "./scripts/"
@@ -11,7 +12,7 @@ sort_modules = true
 style = "./doc/ldoc/"
 use_markdown_titles = true
 
-custom_see_handler("^MOD_STATUS_BADGES\.(.*)$", function(name)
-    name = "MOD_STATUS_BADGES." .. name
+custom_see_handler("^MOD_DEV_TOOLS\.(.*)$", function(name)
+    name = "MOD_DEV_TOOLS." .. name
     return name, "../modules/Constants.html#" .. name
 end)
