@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  app:
+    image: ${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
+    networks:
+      - traefik
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      labels:
+        # Traefik (General)
+        - 'traefik.enable=true'
+        # Traefik (Middlewares)
+        - 'traefik.http.middlewares.${DOCKER_STACK_TRAEFIK_NAME}-redirectscheme.redirectscheme.permanent=true'
+        - 'traefik.http.middlewares.${DOCKER_STACK_TRAEFIK_NAME}-redirectscheme.redirectscheme.scheme=https'
+        - 'traefik.http.middlewares.${DOCKER_STACK_TRAEFIK_NAME}-stripprefix.stripprefix.prefixes=${DOCKER_STACK_TRAEFIK_PATH_PREFIX}'
+        # Traefik (Routers - HTTP)
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-http.entrypoints=web'
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-http.middlewares=${DOCKER_STACK_TRAEFIK_NAME}-redirectscheme'
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-http.rule=Host(`${DOCKER_STACK_TRAEFIK_HOST}`) && PathPrefix(`${DOCKER_STACK_TRAEFIK_PATH_PREFIX}`)'
+        # Traefik (Routers - HTTPS)
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-https.entrypoints=websecure'
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-https.middlewares=${DOCKER_STACK_TRAEFIK_NAME}-stripprefix'
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-https.rule=Host(`${DOCKER_STACK_TRAEFIK_HOST}`) && PathPrefix(`${DOCKER_STACK_TRAEFIK_PATH_PREFIX}`)'
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-https.service=${DOCKER_STACK_TRAEFIK_NAME}'
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-https.tls.certresolver=letsencrypt'
+        - 'traefik.http.routers.${DOCKER_STACK_TRAEFIK_NAME}-https.tls=true'
+        # Traefik (Services)
+        - 'traefik.http.services.${DOCKER_STACK_TRAEFIK_NAME}.loadbalancer.server.port=80'
+
+networks:
+  traefik:
+    external: true
