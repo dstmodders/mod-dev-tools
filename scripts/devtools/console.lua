@@ -14,6 +14,8 @@
 ----
 local Console = {}
 
+local Utils = require "devtools/utils"
+
 local _EMOTE_THREAD
 
 --- Helpers
@@ -226,6 +228,19 @@ function d_emotestop()
     end
 end
 
+--- Searches for an item in the inventory by name.
+-- @see d_findinventoryitems
+-- @tparam string prefab Prefab name
+-- @treturn table Prefab
+-- @usage dumptable(d_findinventoryitem("rope"))
+function d_findinventoryitem(prefab)
+    if IsRequiredParameterMissing("prefab", prefab) then
+        return
+    end
+
+    return d_findinventoryitems(prefab)[1]
+end
+
 --- Searches for items in the inventory by a prefab name.
 -- @see d_findinventoryitem
 -- @tparam string prefab Prefab name
@@ -247,19 +262,6 @@ function d_findinventoryitems(prefab)
     end
 
     return result
-end
-
---- Searches for an item in the inventory by name.
--- @see d_findinventoryitems
--- @tparam string prefab Prefab name
--- @treturn table Prefab
--- @usage dumptable(d_findinventoryitem("rope"))
-function d_findinventoryitem(prefab)
-    if IsRequiredParameterMissing("prefab", prefab) then
-        return
-    end
-
-    return d_findinventoryitems(prefab)[1]
 end
 
 --- Says the plain string in the chat.
@@ -304,6 +306,193 @@ function d_says(message, is_global)
 
     is_global = is_global ~= nil and is_global or false
     TheNet:Say(message, not is_global, true)
+end
+
+--- Returns an entity tags.
+-- @tparam EntityScript entity
+-- @tparam boolean is_all
+-- @treturn table
+function d_gettags(...)
+    return Utils.GetTags(...)
+end
+
+--- AnimState
+-- @section animstate
+
+--- Returns an entity animation state animation.
+-- @tparam EntityScript entity
+-- @treturn string
+function d_getanim(...)
+    return Utils.GetAnimStateAnim(...)
+end
+
+--- Returns an entity animation state bank.
+-- @tparam EntityScript entity
+-- @treturn string
+-- @usage d_getanimbank(ThePlayer)
+function d_getanimbank(...)
+    return Utils.GetAnimStateBank(...)
+end
+
+--- Returns an entity animation state build.
+-- @tparam EntityScript entity
+-- @treturn string
+function d_getanimbuild(...)
+    return Utils.GetAnimStateBank(...)
+end
+
+--- Dump
+-- @section dump
+
+--- Dumps all entity components.
+-- @tparam EntityScript entity
+-- @tparam[opt] string name The name of the dumped entity
+-- @tparam[opt] string prepend The prepend string on each line
+-- @treturn table
+-- @usage d_dumpcomponents(ThePlayer)
+function d_dumpcomponents(...)
+    return Utils.DumpComponents(...)
+end
+
+--- Dumps all entity event listeners.
+-- @tparam EntityScript entity
+-- @tparam[opt] string name The name of the dumped entity
+-- @tparam[opt] string prepend The prepend string on each line
+-- @treturn table
+-- @usage d_dumpeventlisteners(ThePlayer)
+function d_dumpeventlisteners(...)
+    return Utils.DumpEventListeners(...)
+end
+
+--- Dumps all entity fields.
+-- @tparam EntityScript entity
+-- @tparam[opt] string name The name of the dumped entity
+-- @tparam[opt] string prepend The prepend string on each line
+-- @treturn table
+-- @usage d_dumpfields(ThePlayer)
+function d_dumpfields(...)
+    return Utils.DumpFields(...)
+end
+
+--- Dumps all entity functions.
+-- @tparam EntityScript entity
+-- @tparam[opt] string name The name of the dumped entity
+-- @tparam[opt] string prepend The prepend string on each line
+-- @treturn table
+-- @usage d_dumpfunctions(ThePlayer)
+function d_dumpfunctions(...)
+    return Utils.DumpFunctions(...)
+end
+
+--- Dumps all entity replicas.
+-- @tparam EntityScript entity
+-- @tparam[opt] string name The name of the dumped entity
+-- @tparam[opt] string prepend The prepend string on each line
+-- @treturn table
+-- @usage d_dumpreplicas(ThePlayer)
+function d_dumpreplicas(...)
+    return Utils.DumpReplicas(...)
+end
+
+--- Returns a table on all entity components.
+-- @tparam EntityScript entity
+-- @treturn table
+-- @usage dumptable(d_getcomponents(ThePlayer))
+function d_getcomponents(...)
+    return Utils.GetComponents(...)
+end
+
+--- Returns a table on all entity event listeners.
+-- @tparam EntityScript entity
+-- @treturn table
+-- @usage dumptable(d_geteventlisteners(ThePlayer))
+function d_geteventlisteners(...)
+    return Utils.GetEventListeners(...)
+end
+
+--- Returns a table on all entity fields.
+-- @tparam EntityScript entity
+-- @treturn table
+-- @usage dumptable(d_getfields(ThePlayer))
+function d_getfields(...)
+    return Utils.GetFields(...)
+end
+
+--- Returns a table on all entity functions.
+-- @tparam EntityScript entity
+-- @treturn table
+-- @usage dumptable(d_getfunctions(ThePlayer))
+function d_getfunctions(...)
+    return Utils.GetFunctions(...)
+end
+
+--- Returns a table on all entity replicas.
+-- @tparam EntityScript entity
+-- @treturn table
+-- @usage dumptable(d_getreplicas(ThePlayer))
+function d_getreplicas(...)
+    return Utils.GetReplicas(...)
+end
+
+--- StateGraph
+-- @section stategraph
+
+--- Returns an entity state graph name.
+-- @tparam EntityScript entity
+-- @treturn string
+function d_getsg(...)
+    return Utils.GetStateGraphName(...)
+end
+
+--- Returns an entity state graph state.
+-- @tparam EntityScript entity
+-- @treturn string
+function d_getsgstate(...)
+    return Utils.GetStateGraphState(...)
+end
+
+--- Table
+-- @section table
+
+--- Compares two tables if they are the same.
+-- @tparam table a Table A
+-- @tparam table b Table B
+-- @treturn boolean
+function d_tablecompare(...)
+    return Utils.TableCompare(...)
+end
+
+--- Counts the number of elements inside the table.
+-- @tparam table t Table
+-- @treturn number
+function d_tablecount(...)
+    return Utils.TableCount(...)
+end
+
+--- Checks whether a table has the provided value.
+-- @tparam table t Table
+-- @tparam string value
+-- @treturn boolean
+function d_tablehasvalue(...)
+    return Utils.TableHasValue(...)
+end
+
+--- Gets the table key based on the value.
+-- @tparam table t Table
+-- @param value Value to look for
+-- @treturn number
+function d_tablekeybyvalue(...)
+    return Utils.TableKeyByValue(...)
+end
+
+--- Merges two tables.
+-- @todo Add nested tables merging support for ipaired tables
+-- @tparam table a Table A
+-- @tparam table b Table B
+-- @tparam[opt] boolean is_merge_nested Should nested tables be merged
+-- @treturn table
+function d_tablemerge(...)
+    return Utils.TableMerge(...)
 end
 
 return Console

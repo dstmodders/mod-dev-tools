@@ -436,7 +436,7 @@ end
 --- Returns an entity tags.
 -- @tparam EntityScript entity
 -- @tparam boolean is_all
--- @treturn string
+-- @treturn table
 function Utils.GetTags(entity, is_all)
     -- TODO: Find a better way of getting the entity tag instead of using RegEx...
     is_all = is_all == true
