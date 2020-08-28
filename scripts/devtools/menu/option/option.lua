@@ -1,8 +1,18 @@
 ----
 -- Base option.
 --
--- Includes base option functionality and should be extended by other option classes. Shouldn't be
--- used on its own.
+-- Includes base option functionality and may be extended by other option classes.
+--
+--    local option = Option({
+--        name = "your_option", -- optional
+--        label = "Your option",
+--        on_accept_fn = function()
+--            print("Your option is accepted")
+--        end,
+--        on_cursor_fn = function()
+--            print("Your option is selected")
+--        end,
+--    })
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -44,6 +54,19 @@ end
 --- Class
 -- @section class
 
+--- Constructor.
+-- @function _ctor
+-- @tparam table options
+-- @usage local option = Option({
+--     name = "your_option", -- optional
+--     label = "Your option",
+--     on_accept_fn = function()
+--         print("Your option is accepted")
+--     end,
+--     on_cursor_fn = function()
+--         print("Your option is selected")
+--     end,
+-- })
 local Option = Class(function(self, options)
     -- asserts (general)
     assert(type(options) == "table", "Options must be a table")
@@ -111,7 +134,7 @@ end
 -- @section callbacks
 
 --- Triggers when accepted.
--- @tparam TextMenu text_menu
+-- @tparam menu.TextMenu text_menu
 function Option:OnAccept(text_menu)
     if self.on_accept_fn then
         self.on_accept_fn(text_menu)
@@ -119,7 +142,7 @@ function Option:OnAccept(text_menu)
 end
 
 --- Triggers when focused.
--- @tparam TextMenu text_menu
+-- @tparam menu.TextMenu text_menu
 function Option:OnCursor(text_menu)
     if self.on_cursor_fn then
         self.on_cursor_fn(text_menu)
@@ -127,7 +150,7 @@ function Option:OnCursor(text_menu)
 end
 
 --- Triggers when cancelled.
--- @tparam TextMenu text_menu
+-- @tparam menu.TextMenu text_menu
 function Option:OnCancel(text_menu) -- luacheck: only
     return text_menu:Pop()
 end

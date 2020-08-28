@@ -3,6 +3,20 @@
 --
 -- Extends `menu.option.Option`.
 --
+--     local submenuoption = SubmenuOption({
+--         name = "your_submenu", -- optional
+--         label = "Your submenu", -- label in the menu will be: "Your submenu..."
+--         options = {
+--             Option({
+--                 name = "your_option", -- optional
+--                 label = "Your option",
+--                 on_accept_fn = function()
+--                     print("Your option is accepted")
+--                 end,
+--             }),
+--         },
+--     })
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.SubmenuOption
@@ -19,6 +33,22 @@ local DividerOption = require "devtools/menu/option/divideroption"
 local DoActionOption = require "devtools/menu/option/doactionoption"
 local Option = require "devtools/menu/option/option"
 
+--- Constructor.
+-- @function _ctor
+-- @tparam table options
+-- @usage local submenuoption = SubmenuOption({
+--     name = "your_submenu", -- optional
+--     label = "Your submenu", -- label in the menu will be: "Your submenu..."
+--     options = {
+--         Option({
+--             name = "your_option", -- optional
+--             label = "Your option",
+--             on_accept_fn = function()
+--                 print("Your option is accepted")
+--             end,
+--         }),
+--     },
+-- })
 local SubmenuOption = Class(Option, function(self, options)
     Option._ctor(self, options)
 
@@ -33,7 +63,7 @@ end)
 -- @section callbacks
 
 --- Triggers when accepted.
--- @tparam TextMenu text_menu
+-- @tparam menu.TextMenu text_menu
 function SubmenuOption:OnAccept(text_menu)
     local options = shallowcopy(self.options)
     table.insert(options, DividerOption())

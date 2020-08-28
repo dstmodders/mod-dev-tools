@@ -3,6 +3,27 @@
 --
 -- Extends `menu.option.Option`.
 --
+--    local choicesoption = ChoicesOption({
+--        name = "your_option", -- optional
+--        label = "Your option",
+--        choices = {
+--            { name = "Default Choice", value = "default" },
+--            { name = "Alternative Choice", value = "alternative" },
+--        },
+--        on_accept_fn = function()
+--            print("Your option is accepted")
+--        end,
+--        on_cursor_fn = function()
+--            print("Your option is selected")
+--        end,
+--        on_get_fn = function()
+--            return "default"
+--        end,
+--        on_set_fn = function(value)
+--            print(value == "default" and "Default Choice" or "Alternative Choice")
+--        end,
+--    })
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.ChoicesOption
@@ -67,6 +88,29 @@ end
 --- Class
 -- @section class
 
+--- Constructor.
+-- @function _ctor
+-- @tparam table options
+-- @usage local choicesoption = ChoicesOption({
+--     name = "your_option", -- optional
+--     label = "Your option",
+--     choices = {
+--         { name = "Default Choice", value = "default" },
+--         { name = "Alternative Choice", value = "alternative" },
+--     },
+--     on_accept_fn = function()
+--         print("Your option is accepted")
+--     end,
+--     on_cursor_fn = function()
+--         print("Your option is selected")
+--     end,
+--     on_get_fn = function()
+--         return "default"
+--     end,
+--     on_set_fn = function(value)
+--         print(value == "default" and "Default Choice" or "Alternative Choice")
+--     end,
+-- })
 local ChoicesOption = Class(Option, function(self, options)
     Option._ctor(self, options)
 
@@ -117,7 +161,7 @@ end
 -- @section callbacks
 
 --- Triggers when accepted.
--- @tparam TextMenu text_menu
+-- @tparam menu.TextMenu text_menu
 function ChoicesOption:OnAccept()
     if not self.on_get_fn and self.key then
         local choice = self.choices[self.key]

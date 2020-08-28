@@ -3,6 +3,23 @@
 --
 -- Extends `menu.option.Option`.
 --
+--    local checkboxoption = CheckboxOption({
+--        name = "your_option", -- optional
+--        label = { name = "Your option", left = true, prefix = "(prefix) " },
+--        on_accept_fn = function()
+--            print("Your option is accepted")
+--        end,
+--        on_cursor_fn = function()
+--            print("Your option is selected")
+--        end,
+--        on_get_fn = function()
+--            return true -- enabled
+--        end,
+--        on_set_fn = function(value)
+--            print("Your option has changed: " .. tostring(value))
+--        end,
+--    })
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.CheckboxOption
@@ -17,10 +34,28 @@ require "class"
 
 local Option = require "devtools/menu/option/option"
 
---
--- Class
---
+--- Class
+-- @section class
 
+--- Constructor.
+-- @function _ctor
+-- @tparam table options
+-- @usage local checkboxoption = CheckboxOption({
+--     name = "your_option", -- optional
+--     label = { name = "Your option", left = true, prefix = "(prefix) " },
+--     on_accept_fn = function()
+--         print("Your option is accepted")
+--     end,
+--     on_cursor_fn = function()
+--         print("Your option is selected")
+--     end,
+--     on_get_fn = function()
+--         return true
+--     end,
+--     on_set_fn = function(value)
+--         print("Your option has changed: " .. tostring(value))
+--     end,
+-- })
 local CheckboxOption = Class(Option, function(self, options)
     Option._ctor(self, options)
 
@@ -38,20 +73,26 @@ local CheckboxOption = Class(Option, function(self, options)
     self.on_set_fn = options.on_set_fn
 end)
 
---
--- General
---
+--- Navigation
+-- @section navigation
 
+--- Left.
 function CheckboxOption:Left()
     self.current = false
     self.on_set_fn(false)
 end
 
+--- Right.
 function CheckboxOption:Right()
     self.current = true
     self.on_set_fn(true)
 end
 
+--- Other
+-- @section other
+
+--- __tostring
+-- @treturn string
 function CheckboxOption:__tostring()
     local label = Option.__tostring(self)
     local value = self.on_get_fn

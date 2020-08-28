@@ -3,6 +3,26 @@
 --
 -- Extends `menu.option.Option`.
 --
+--    local numerictoggleoption = NumericToggleOption({
+--        name = "your_option", -- optional
+--        label = "Your option",
+--        min = 1,
+--        max = 100,
+--        step = 5,
+--        on_accept_fn = function()
+--            print("Your option is accepted")
+--        end,
+--        on_cursor_fn = function()
+--            print("Your option is selected")
+--        end,
+--        on_get_fn = function()
+--            return 50
+--        end,
+--        on_set_fn = function(value)
+--            print("Your option has changed: " .. tostring(value))
+--        end,
+--    })
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.NumericToggleOption
@@ -17,6 +37,28 @@ require "class"
 
 local Option = require "devtools/menu/option/option"
 
+--- Constructor.
+-- @function _ctor
+-- @tparam table options
+-- @usage local numerictoggleoption = NumericToggleOption({
+--     name = "your_option", -- optional
+--     label = "Your option",
+--     min = 1,
+--     max = 100,
+--     step = 5,
+--     on_accept_fn = function()
+--         print("Your option is accepted")
+--     end,
+--     on_cursor_fn = function()
+--         print("Your option is selected")
+--     end,
+--     on_get_fn = function()
+--         return 50
+--     end,
+--     on_set_fn = function(value)
+--         print("Your option has changed: " .. tostring(value))
+--     end,
+-- })
 local NumericToggleOption = Class(Option, function(self, options)
     Option._ctor(self, options)
 
