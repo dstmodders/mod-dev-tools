@@ -16,9 +16,8 @@ require "class"
 
 local Utils = require "devtools/utils"
 
---
--- Helpers
---
+--- Helpers
+-- @section class
 
 local function DebugEvent(name, value)
     print(string.format("[debug] [event] [%s] %s", name, value))
@@ -95,6 +94,15 @@ local Events = Class(function(self, debug)
     -- event listeners
     self.activated_player = {}
     self.activated_player_classified = {}
+
+    -- tests
+    if _G.MOD_DEV_TOOLS_TEST then
+        self._Activate = Activate
+        self._CheckIfAlreadyActivated = CheckIfAlreadyActivated
+        self._CheckIfAlreadyDeactivated = CheckIfAlreadyDeactivated
+        self._Deactivate = Deactivate
+        self._DebugEvent = DebugEvent
+    end
 
     -- other
     self.debug:DebugInit("Debug (Events)")

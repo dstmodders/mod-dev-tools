@@ -372,4 +372,21 @@ function WorldData:__tostring()
     return table.concat(t)
 end
 
+if _G.MOD_DEV_TOOLS_TEST then
+    --WorldData._GetBeargerSpawnerValue = GetBeargerSpawnerValue
+    --WorldData._GetChessUnlocksValue = GetChessUnlocksValue
+    --WorldData._GetDeerclopsSpawnerValue = GetDeerclopsSpawnerValue
+    --WorldData._GetDeersSpawnerValue = GetDeersSpawnerValue
+    --WorldData._GetHoundedValue = GetHoundedValue
+    --WorldData._GetKlausSackSpawnerValue = GetKlausSackSpawnerValue
+    --WorldData._GetMalbatrossSpawnerValue = GetMalbatrossSpawnerValue
+    WorldData._PushSaveDataLine = PushSaveDataLine
+    WorldData._PushWorldLine = PushWorldLine
+    WorldData._PushWorldMoistureLine = PushWorldMoistureLine
+    WorldData._PushWorldPhaseLine = PushWorldPhaseLine
+    WorldData._PushWorldPrecipitationLines = PushWorldPrecipitationLines
+    WorldData._PushWorldTemperatureLine = PushWorldTemperatureLine
+    WorldData._PushWorldWetnessLine = PushWorldWetnessLine
+end
+
 return WorldData

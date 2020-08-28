@@ -495,4 +495,12 @@ function d_tablemerge(...)
     return Utils.TableMerge(...)
 end
 
+if _G.MOD_DEV_TOOLS_TEST then
+    Console._DecodeFileLoad = DecodeFileLoad
+    Console._DecodeFileSuccess = DecodeFileSuccess
+    Console._Error = Error
+    Console._IsInvalidParameterType = IsInvalidParameterType
+    Console._IsRequiredParameterMissing = IsRequiredParameterMissing
+end
+
 return Console

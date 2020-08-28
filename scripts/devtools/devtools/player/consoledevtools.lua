@@ -29,6 +29,8 @@ require "class"
 local DevTools = require "devtools/devtools/devtools"
 local Utils = require "devtools/utils"
 
+local _ConsoleRemote = Utils.ConsoleRemote
+
 --- Constructor.
 -- @function _ctor
 -- @tparam devtools.PlayerDevTools playerdevtools
@@ -47,7 +49,12 @@ local ConsoleDevTools = Class(DevTools, function(self, playerdevtools, devtools)
     self.playerdevtools = playerdevtools
     self.worlddevtools = playerdevtools.world
 
-    DevTools.DoInit(self, playerdevtools, "consoleremote", {
+    -- tests
+    if _G.MOD_DEV_TOOLS_TEST then
+        _ConsoleRemote = _G.ConsoleRemote
+    end
+
+    DevTools.DoInit(self, playerdevtools, "console", {
         -- player
         "SetHealthPercent",
         "SetHungerPercent",
@@ -74,7 +81,7 @@ local ConsoleDevTools = Class(DevTools, function(self, playerdevtools, devtools)
         "SetTimeScale",
 
         -- crafting
-        "ToggleFreeCrafting",
+        --"ToggleFreeCrafting",
         "UnlockRecipe",
         "LockRecipe",
     })
@@ -211,7 +218,7 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
             end
         end
 
-        Utils.ConsoleRemote(unpack(console))
+        _ConsoleRemote(unpack(console))
         debug_fn(self, unpack(debug))
         return true
     end
