@@ -85,6 +85,10 @@ end
 -- - "world"
 --
 -- @see screens.DevToolsScreen
+-- @see screens.DevToolsScreen.SwitchDataToIngredients
+-- @see screens.DevToolsScreen.SwitchDataToNil
+-- @see screens.DevToolsScreen.SwitchDataToSelected
+-- @see screens.DevToolsScreen.SwitchDataToWorld
 -- @tparam string data
 function Submenu:UpdateScreen(data)
     if self.screen then
