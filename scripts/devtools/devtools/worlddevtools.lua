@@ -443,7 +443,7 @@ end
 
 --- Starts the precipitation thread.
 --
--- Starts the thread that sets both `precipitationstarts` and `precipitationends` values used for
+-- Starts the thread that sets both `precipitation_starts` and `precipitation_ends` fields used for
 -- predicting when the rain/show starts/ends.
 --
 -- The in-game prediction accuracy is ~15 minutes at very best.

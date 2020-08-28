@@ -12,7 +12,7 @@
 -- @see devtools.player.MapDevTools
 -- @see devtools.player.VisionDevTools
 -- @see devtools.PlayerDevTools
--- @see devtools.SaveDataDevTools
+-- @see devtools.world.SaveDataDevTools
 -- @see devtools.WorldDevTools
 --
 -- @author Victor Popkov
