@@ -67,8 +67,8 @@ local CraftingDevTools = Class(DevTools, function(self, playerdevtools, devtools
         "CanCraftItem",
 
         -- selection
-        "SetSelectedRecipe",
         "GetSelectedRecipe",
+        "SetSelectedRecipe",
 
         -- free crafting
         "UnlockCharacterRecipes",
@@ -292,16 +292,16 @@ end
 --- Selection
 -- @section selection
 
---- Sets selected recipe.
--- @tparam table recipe
-function CraftingDevTools:SetSelectedRecipe(recipe)
-    self.selected_recipe = recipe
-end
-
 --- Gets selected recipe.
 -- @treturn table
 function CraftingDevTools:GetSelectedRecipe()
     return self.selected_recipe
+end
+
+--- Sets selected recipe.
+-- @tparam table recipe
+function CraftingDevTools:SetSelectedRecipe(recipe)
+    self.selected_recipe = recipe
 end
 
 --- Free Crafting

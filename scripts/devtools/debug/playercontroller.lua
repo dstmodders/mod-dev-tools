@@ -168,7 +168,7 @@ local function DebugRMBClickSendRPCToServer(
 end
 
 --- Overrides `PlayerController` mouse clicks.
--- @tparam PlayerController playercontroller
+-- @tparam debug.PlayerController playercontroller
 function PlayerController:OverrideMouseClicks(playercontroller)
     local OldOnLeftClick = playercontroller.OnLeftClick
     local OldOnRightClick = playercontroller.OnRightClick
@@ -535,7 +535,7 @@ local function RemoteUseItemFromInvTile(self, playercontroller, act, item)
 end
 
 --- Overrides `PlayerController` remotes.
--- @tparam PlayerController playercontroller
+-- @tparam debug.PlayerController playercontroller
 function PlayerController:OverrideRemotes(playercontroller)
     local OldRemoteActionButton = playercontroller.RemoteActionButton
     local OldRemoteAttackButton = playercontroller.RemoteAttackButton

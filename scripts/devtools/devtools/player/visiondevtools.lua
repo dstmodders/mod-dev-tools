@@ -59,8 +59,8 @@ local VisionDevTools = Class(DevTools, function(self, playerdevtools, devtools)
 
     DevTools.DoInit(self, playerdevtools, "vision", {
         -- general
-        "SetCCT",
         "GetCCT",
+        "SetCCT",
         "GetPlayerVisionCCT",
         "UpdatePlayerVisionCCT",
 
@@ -77,16 +77,16 @@ end)
 --- General
 -- @section general
 
---- Sets the CCT.
--- @tparam table cct
-function VisionDevTools:SetCCT(cct)
-    self.cct = cct
-end
-
 --- Gets the CCT.
 -- @treturn table
 function VisionDevTools:GetCCT()
     return self.cct
+end
+
+--- Sets the CCT.
+-- @tparam table cct
+function VisionDevTools:SetCCT(cct)
+    self.cct = cct
 end
 
 --- Gets the PlayerVision CCT.

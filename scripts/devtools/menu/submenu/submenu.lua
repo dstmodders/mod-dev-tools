@@ -154,7 +154,7 @@ function Submenu:AddNumericToggleOption(options)
 end
 
 --- Adds toggle option.
--- @see menu.option.ToggleOption
+-- @see menu.option.ToggleCheckboxOption
 -- @tparam table label
 -- @tparam table get
 -- @tparam table set
