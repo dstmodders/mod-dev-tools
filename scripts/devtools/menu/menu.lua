@@ -119,7 +119,7 @@ end
 --- Sets menu index.
 -- @tparam number idx
 function Menu:SetMenuIndex(idx)
-    return self.menu:SetIndex(idx)
+    self.menu:SetIndex(idx)
 end
 
 --- Clears menu and options.

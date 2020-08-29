@@ -219,10 +219,11 @@ function DevToolsScreen:UpdateMenu(root_idx)
     self.menu_text = Menu(self, self.devtools)
     self.menu_text:Update()
 
-    if root_idx and previous_idx and self.menu_text:GetMenu():AtRoot() then
-        self.menu_text:GetMenu().index = root_idx
-        self.menu_text:GetMenu():Accept()
-        self.menu_text:GetMenu().index = previous_idx
+    local menu = self.menu_text:GetMenu()
+    if root_idx and previous_idx and menu:AtRoot() then
+        menu.index = root_idx
+        menu:Accept()
+        menu.index = previous_idx
     end
 
     return self.menu_text
