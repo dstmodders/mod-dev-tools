@@ -13,13 +13,8 @@ local require = _G.require
 
 _G.MOD_DEV_TOOLS_TEST = false
 
-local Utils = require "devtools/utils"
-
-local DevTools = require "devtools"
-_G.DevTools = DevTools
-
 local DebugUpvalue = require "devtools/debugupvalue"
-local DevToolsScreen = require "screens/devtoolsscreen"
+local Utils = require "devtools/utils"
 
 require "devtools/console"
 
@@ -42,21 +37,20 @@ local TheSim = _G.TheSim
 --- Debugging
 -- @section debugging
 
-local Debug
+local debug
 
-Debug = require "devtools/debug"
-Debug:DoInit(modname)
-Debug:SetIsEnabled(GetModConfigData("debug") and true or false)
-Debug:DebugModConfigs()
+debug = require("devtools/debug")(modname)
+debug:SetIsEnabled(GetModConfigData("debug") and true or false)
+debug:DebugModConfigs()
 
-_G.ModDevToolsDebug = Debug
+_G.ModDevToolsDebug = debug
 
 local function DebugString(...)
-    return Debug and Debug:DebugString(...)
+    return debug and debug:DebugString(...)
 end
 
 local function DebugInit(...)
-    return Debug and Debug:DebugInit(...)
+    return debug and debug:DebugInit(...)
 end
 
 --- Helpers
@@ -81,8 +75,17 @@ end
 --- Initialization
 -- @section initialization
 
-DevTools:DoInit(modname, Debug)
-DevToolsScreen:DoInit(DevTools)
+local devtools
+
+devtools = require("devtools")(modname, debug)
+
+_G.DevTools = devtools
+
+-- keep in mind, we are NOT dealing with a DevToolsScreen instance
+local DevToolsScreen
+
+DevToolsScreen = require "screens/devtoolsscreen"
+DevToolsScreen:DoInit(devtools)
 
 --- Mod warning override
 -- @section mod-warning-override
@@ -93,43 +96,26 @@ _G.DISABLE_MOD_WARNING = GetModConfigData("default_mod_warning")
 -- @section player
 
 local function OnEnterCharacterSelect(world)
-    DevTools:SetIsInCharacterSelect(true)
-
-    if DevTools.player then
-        DevTools:DoTermPlayer()
-    end
-
-    if DevTools.world then
-        DevTools.world:DoTerm()
-    end
-
-    if not DevTools.world then
-        DevTools:DoInitWorld(world)
-        DevTools.world:DoInitSaveData()
-    end
-
+    devtools:SetIsInCharacterSelect(true)
+    devtools:DoTermPlayer()
+    devtools:DoTermWorld()
+    devtools:DoInitWorld(world)
     DebugString("Player is selecting character")
 end
 
 local function OnPlayerActivated(world, player)
-    Debug:DoInitGame()
+    debug:DoInitGame()
 
-    DevTools.inst = player
-    DevTools:SetIsInCharacterSelect(false)
-    DevTools:DoInitWorld(world)
-    DevTools.world:DoInitSaveData()
+    devtools.inst = player
+    devtools:SetIsInCharacterSelect(false)
+    devtools:DoInitWorld(world)
+    devtools:DoInitPlayer(player)
 
-    if DevTools.world then
-        DevTools.world:DoInitSaveData()
-    end
+    if devtools then
+        devtools:SetLabelsFontSize(GetModConfigData("default_labels_font_size"))
+        devtools:SetUsernameLabelsMode(GetModConfigData("default_username_labels_mode"))
 
-    DevTools:DoInitPlayer(player)
-
-    if DevTools then
-        DevTools:SetLabelsFontSize(GetModConfigData("default_labels_font_size"))
-        DevTools:SetUsernameLabelsMode(GetModConfigData("default_username_labels_mode"))
-
-        local playerdevtools = DevTools.player
+        local playerdevtools = devtools.player
         if playerdevtools then
             local crafting = playerdevtools.crafting
             local vision = playerdevtools.vision
@@ -162,8 +148,8 @@ local function OnPlayerActivated(world, player)
 end
 
 local function OnPlayerDeactivated(_, player)
-    DevTools.inst = nil
-    DevTools:SetIsInCharacterSelect(false)
+    devtools.inst = nil
+    devtools:SetIsInCharacterSelect(false)
     DebugString("Player", player:GetDisplayName(), "deactivated")
 end
 
@@ -171,8 +157,8 @@ local function AddPlayerPostInit(onActivatedFn, onDeactivatedFn)
     DebugString("Game ID -", TheSim:GetGameID())
     if IsDST() then
         env.AddPrefabPostInit("world", function(_world)
-            if not DevTools.world then
-                DevTools:DoInitWorld(_world)
+            if not devtools.world then
+                devtools:DoInitWorld(_world)
             end
 
             _world:ListenForEvent("entercharacterselect", function(world)
@@ -250,7 +236,7 @@ local function AddConsoleScreenPostInit(self)
     }, delim = "d_", num_chars = 0 })
 
     local words = {}
-    for k, v in pairs(DevTools) do
+    for k, v in pairs(devtools) do
         if type(v) == "function"
             and k ~= "is_a"
             and k ~= "_ctor"
@@ -279,27 +265,27 @@ local function PlayerControllerPostInit(playercontroller, player)
 
     local OldOnControl = playercontroller.OnControl
     playercontroller.OnControl = function(self, control, down)
-        if not DevTools then
+        if not devtools then
             OldOnControl(self, control, down)
         end
 
-        if not DevTools.player.controller then
-            DevTools.player.controller = playercontroller
+        if not devtools.player.controller then
+            devtools.player.controller = playercontroller
         end
 
-        if DevTools then
+        if devtools then
             if DevToolsScreen then
-                if DevTools:IsPaused()
+                if devtools:IsPaused()
                     and not DevToolsScreen:IsOpen()
                     and control == CONTROL_ACCEPT
                 then
-                    DevTools:Unpause()
+                    devtools:Unpause()
                 end
             end
 
             -- player
-            if DevTools.player then
-                local playerdevtools = DevTools.player
+            if devtools.player then
+                local playerdevtools = devtools.player
                 local is_move_button_down = (down and IsMoveButton(control)) and true or false
 
                 playerdevtools:SetIsMoveButtonDown(is_move_button_down)
@@ -316,7 +302,7 @@ local function PlayerControllerPostInit(playercontroller, player)
         OldOnControl(self, control, down)
     end
 
-    Debug:DoInitPlayerController(playercontroller)
+    debug:DoInitPlayerController(playercontroller)
     DebugInit("PlayerControllerPostInit")
 end
 
@@ -331,7 +317,7 @@ local function WeatherPostInit(weather)
     local OldOnUpdate = weather.OnUpdate
     weather.OnUpdate = function(...)
         OldOnUpdate(...)
-        if DevTools.world then
+        if devtools.world then
             local _moisturefloor = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturefloor")
             local _moisturerate = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturerate")
             local _temperature = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_temperature")
@@ -363,19 +349,16 @@ local function WeatherPostInit(weather)
                 wetness_rate = CalculateWetnessRate(_temperature, precipitation_rate)
             end
 
-            DevTools.world:SetMoistureFloor(
-                type(_moisturefloor) == "userdata" and _moisturefloor:value()
-            )
+            devtools.world:SetMoistureFloor(type(_moisturefloor) == "userdata"
+                and _moisturefloor:value())
 
-            DevTools.world:SetMoistureRate(
-                type(_moisturerate) == "userdata" and _moisturerate:value()
-            )
+            devtools.world:SetMoistureRate(type(_moisturerate) == "userdata"
+                and _moisturerate:value())
 
-            DevTools.world:SetPeakPrecipitationRate(
-                type(_peakprecipitationrate) == "userdata" and _peakprecipitationrate:value()
-            )
+            devtools.world:SetPeakPrecipitationRate(type(_peakprecipitationrate) == "userdata"
+                and _peakprecipitationrate:value())
 
-            DevTools.world:SetWetnessRate(wetness_rate)
+            devtools.world:SetWetnessRate(wetness_rate)
         end
     end
 end
@@ -388,7 +371,7 @@ AddComponentPostInit("weather", WeatherPostInit)
 
 env.AddPlayerPostInit(function(inst)
     inst:ListenForEvent("changearea", function()
-        DevTools:AddUsernameLabel(inst)
+        devtools:AddUsernameLabel(inst)
     end)
 end)
 
@@ -406,11 +389,11 @@ local _KEY_TIME_SCALE_DEFAULT = GetKeyFromConfig("time_scale_default")
 local _KEY_TIME_SCALE_INCREASE = GetKeyFromConfig("time_scale_increase")
 
 local function CanPressInGamePlay()
-    if not DevTools then
+    if not devtools then
         return false
     end
 
-    local playerdevtools = DevTools.player
+    local playerdevtools = devtools.player
     if InGamePlay()
         and playerdevtools
         and not playerdevtools:IsHUDChatInputScreenOpen()
@@ -424,11 +407,11 @@ local function CanPressInGamePlay()
 end
 
 local function IsMasterSim()
-    if not DevTools then
+    if not devtools then
         return false
     end
 
-    local worlddevtools = DevTools.world
+    local worlddevtools = devtools.world
     if InGamePlay() and worlddevtools and worlddevtools:IsMasterSim() then
         return true
     end
@@ -451,7 +434,7 @@ end
 if _KEY_MOVEMENT_PREDICTION then
     TheInput:AddKeyUpHandler(_KEY_MOVEMENT_PREDICTION, function()
         if CanPressInGamePlay() and not IsMasterSim() then
-            local playerdevtools = DevTools.player
+            local playerdevtools = devtools.player
             if playerdevtools then
                 playerdevtools:ToggleMovementPrediction()
             end
@@ -462,7 +445,7 @@ end
 if _KEY_PAUSE then
     TheInput:AddKeyUpHandler(_KEY_PAUSE, function()
         if CanPressInGamePlay() then
-            DevTools:TogglePause()
+            devtools:TogglePause()
         end
     end)
 end
@@ -470,7 +453,7 @@ end
 if _KEY_GOD_MODE then
     TheInput:AddKeyUpHandler(_KEY_GOD_MODE, function()
         if CanPressInGamePlay() then
-            local playerdevtools = DevTools.player
+            local playerdevtools = devtools.player
             playerdevtools:ToggleGodMode()
         end
     end)
@@ -479,7 +462,7 @@ end
 if _KEY_TELEPORT then
     TheInput:AddKeyDownHandler(_KEY_TELEPORT, function()
         if CanPressInGamePlay() then
-            local playerdevtools = DevTools.player
+            local playerdevtools = devtools.player
             playerdevtools:Teleport(_KEY_TELEPORT)
         end
     end)
@@ -487,8 +470,8 @@ end
 
 if _KEY_MAP_INDICATORS_MODE then
     TheInput:AddKeyDownHandler(_KEY_MAP_INDICATORS_MODE, function()
-        if CanPressInGamePlay() and DevTools.player and DevTools.player.map then
-            local mapdevtools = DevTools.player.map
+        if CanPressInGamePlay() and devtools.player and devtools.player.map then
+            local mapdevtools = devtools.player.map
             if mapdevtools and mapdevtools:IsMapScreenOpen() then
                 mapdevtools:SwitchIndicatorsMode()
             end
@@ -498,9 +481,9 @@ end
 
 do
     local function changeTimeScale(amount)
-        if DevTools.world and DevTools.player and DevTools.player.console then
-            local console = DevTools.player.console
-            local worlddevtools = DevTools.world
+        if devtools.world and devtools.player and devtools.player.console then
+            local console = devtools.player.console
+            local worlddevtools = devtools.world
             local timeScale = math.ceil(TheSim:GetTimeScale() * 100)
             timeScale = (timeScale + amount) / 100
             TheSim:SetTimeScale(timeScale)
@@ -530,12 +513,12 @@ end
 if _KEY_TIME_SCALE_DEFAULT then
     TheInput:AddKeyUpHandler(_KEY_TIME_SCALE_DEFAULT, function()
         if CanPressInGamePlay()
-            and DevTools.world
-            and DevTools.player
-            and DevTools.player.console
+            and devtools.world
+            and devtools.player
+            and devtools.player.console
         then
-            local worlddevtools = DevTools.world
-            local console = DevTools.player.console
+            local worlddevtools = devtools.world
+            local console = devtools.player.console
             TheSim:SetTimeScale(1)
             if not worlddevtools.ismastersim then
                 console:SetTimeScale(1)
@@ -550,12 +533,12 @@ end
 local _RESET_COMBINATION = GetModConfigData("reset_combination")
 
 local function Reset(key)
-    if not DevTools then
+    if not devtools then
         return
     end
 
     if TheInput:IsKeyDown(key) then
-        DevTools:Reset()
+        devtools:Reset()
     end
 end
 
