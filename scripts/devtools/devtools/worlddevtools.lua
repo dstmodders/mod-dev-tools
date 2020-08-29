@@ -40,7 +40,7 @@ local WorldDevTools = Class(DevTools, function(self, inst, devtools)
     -- general
     self.inst = inst
     self.ismastersim = inst.ismastersim
-    self.savedata = nil
+    self.savedata = SaveDataDevTools(self, self.devtools)
 
     -- map
     self.is_map_clearing = false
@@ -64,64 +64,8 @@ local WorldDevTools = Class(DevTools, function(self, inst, devtools)
         end
     end
 
-    DevTools.DoInit(self, devtools, "world", {
-        SelectWorld = "Select",
-        SelectWorldNet = "SelectNet",
-
-        -- general
-        "IsMasterSim",
-        "GetSaveDataWorldDevTools",
-        "GetWorld",
-        "GetWorldNet",
-        "IsCave",
-        "GetMeta",
-        "GetSeed",
-        "GetWeatherComponent",
-        "GetTimeUntilPhase",
-        "GetPhase",
-        "GetNextPhase",
-
-        -- selection
-        "GetSelectedEntity",
-        "SelectEntityUnderMouse",
-
-        -- state
-        "GetState",
-        "GetStateCavePhase",
-        "GetStateIsSnowing",
-        "GetStateMoisture",
-        "GetStateMoistureCeil",
-        "GetStatePhase",
-        "GetStatePrecipitationRate",
-        "GetStateRemainingDaysInSeason",
-        "GetStateSeason",
-        "GetStateSnowLevel",
-        "GetStateTemperature",
-        "GetStateWetness",
-
-        -- map
-        "IsMapClearing",
-        "IsMapFogOfWar",
-        "ToggleMapClearing",
-        "ToggleMapFogOfWar",
-
-        -- precipitation
-        "GetPrecipitationStarts",
-        "GetPrecipitationEnds",
-        "IsPrecipitation",
-        "StartPrecipitationThread",
-        "ClearPrecipitationThread",
-
-        -- upvalues
-        "SetMoistureFloor",
-        "SetMoistureRate",
-        "SetPeakPrecipitationRate",
-        "SetWetnessRate",
-        "GetMoistureFloor",
-        "GetMoistureRate",
-        "GetPeakPrecipitationRate",
-        "GetWetnessRate",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- General
@@ -131,12 +75,6 @@ end)
 -- @treturn boolean
 function WorldDevTools:IsMasterSim()
     return self.ismastersim
-end
-
---- Gets SaveDataDevTools.
--- @treturn SaveDataDevTools
-function WorldDevTools:GetSaveDataWorldDevTools()
-    return self.savedata
 end
 
 --- Gets `TheWorld`.
@@ -571,17 +509,73 @@ end
 --- Lifecycle
 -- @section lifecycle
 
+--- Initializes.
+function WorldDevTools:DoInit()
+    DevTools.DoInit(self, self.devtools, "world", {
+        SelectWorld = "Select",
+        SelectWorldNet = "SelectNet",
+
+        -- general
+        "IsMasterSim",
+        "GetWorld",
+        "GetWorldNet",
+        "IsCave",
+        "GetMeta",
+        "GetSeed",
+        "GetWeatherComponent",
+        "GetTimeUntilPhase",
+        "GetPhase",
+        "GetNextPhase",
+
+        -- selection
+        "GetSelectedEntity",
+        "SelectEntityUnderMouse",
+
+        -- state
+        "GetState",
+        "GetStateCavePhase",
+        "GetStateIsSnowing",
+        "GetStateMoisture",
+        "GetStateMoistureCeil",
+        "GetStatePhase",
+        "GetStatePrecipitationRate",
+        "GetStateRemainingDaysInSeason",
+        "GetStateSeason",
+        "GetStateSnowLevel",
+        "GetStateTemperature",
+        "GetStateWetness",
+
+        -- map
+        "IsMapClearing",
+        "IsMapFogOfWar",
+        "ToggleMapClearing",
+        "ToggleMapFogOfWar",
+
+        -- precipitation
+        "GetPrecipitationStarts",
+        "GetPrecipitationEnds",
+        "IsPrecipitation",
+        "StartPrecipitationThread",
+        "ClearPrecipitationThread",
+
+        -- upvalues
+        "SetMoistureFloor",
+        "SetMoistureRate",
+        "SetPeakPrecipitationRate",
+        "SetWetnessRate",
+        "GetMoistureFloor",
+        "GetMoistureRate",
+        "GetPeakPrecipitationRate",
+        "GetWetnessRate",
+    })
+end
+
 --- Terminates.
 function WorldDevTools:DoTerm()
     if self.savedata then
         self.savedata.DoTerm(self.savedata)
     end
     DevTools.DoTerm(self)
-end
-
---- Initializes save data.
-function WorldDevTools:DoInitSaveData()
-    self.savedata = SaveDataDevTools(self, self.devtools)
 end
 
 return WorldDevTools

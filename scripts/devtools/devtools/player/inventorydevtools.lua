@@ -48,26 +48,8 @@ local InventoryDevTools = Class(DevTools, function(self, playerdevtools, devtool
     self.ismastersim = playerdevtools.ismastersim
     self.playerdevtools = playerdevtools
 
-    DevTools.DoInit(self, playerdevtools, "inventory", {
-        -- general
-        "GetInventory",
-        "GetEquippedItem",
-        "HasEquippedItem",
-        "HasEquippedMoggles",
-        "IsEquippableLightSource",
-        "GetInventoryEdible",
-        "EquipActiveItem",
-
-        -- backpack
-        "HasEquippedBackpack",
-        "GetBackpack",
-        "GetBackpackContainer",
-        "GetBackpackItems",
-        "GetBackpackSlotByItem",
-
-        -- selection
-        "SelectEquippedItem",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- General
@@ -237,6 +219,33 @@ function InventoryDevTools:SelectEquippedItem(slot)
         return true
     end
     return false
+end
+
+--- Lifecycle
+-- @section lifecycle
+
+--- Initializes.
+function InventoryDevTools:DoInit()
+    DevTools.DoInit(self, self.playerdevtools, "inventory", {
+        -- general
+        "GetInventory",
+        "GetEquippedItem",
+        "HasEquippedItem",
+        "HasEquippedMoggles",
+        "IsEquippableLightSource",
+        "GetInventoryEdible",
+        "EquipActiveItem",
+
+        -- backpack
+        "HasEquippedBackpack",
+        "GetBackpack",
+        "GetBackpackContainer",
+        "GetBackpackItems",
+        "GetBackpackSlotByItem",
+
+        -- selection
+        "SelectEquippedItem",
+    })
 end
 
 return InventoryDevTools

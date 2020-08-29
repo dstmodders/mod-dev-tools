@@ -45,11 +45,8 @@ local MapDevTools = Class(DevTools, function(self, playerdevtools, devtools)
     self.playerdevtools = playerdevtools
     self.world = playerdevtools.world
 
-    DevTools.DoInit(self, playerdevtools, "map", {
-        -- general
-        "IsMapScreenOpen",
-        "Reveal",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- General
@@ -90,6 +87,18 @@ function MapDevTools:Reveal()
         self:DebugString("Map revealing has been completed")
         return true
     end
+end
+
+--- Lifecycle
+-- @section lifecycle
+
+--- Initializes.
+function MapDevTools:DoInit()
+    DevTools.DoInit(self, self.playerdevtools, "map", {
+        -- general
+        "IsMapScreenOpen",
+        "Reveal",
+    })
 end
 
 return MapDevTools

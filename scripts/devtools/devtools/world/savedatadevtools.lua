@@ -50,20 +50,8 @@ local SaveDataDevTools = Class(DevTools, function(self, worlddevtools, devtools)
         end
     end
 
-    DevTools.DoInit(self, devtools, "world", {
-        -- general
-        GetSaveDataPath = "GetPath",
-        GetSaveData = "GetSaveData",
-        GetSaveDataMapPersistData = "GetMapPersistData",
-        GetSaveDataMeta = "GetMeta",
-        GetSaveDataSeed = "GetSeed",
-        GetSaveDataVersion = "GetVersion",
-        LoadSaveData = "Load",
-
-        -- walrus camps
-        "GuessNrOfWalrusCamps",
-        "GetNrOfWalrusCamps",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- Helpers
@@ -309,6 +297,27 @@ end
 -- @treturn number
 function SaveDataDevTools:GetNrOfWalrusCamps()
     return self.nr_of_walrus_camps
+end
+
+--- Lifecycle
+-- @section lifecycle
+
+--- Initializes.
+function SaveDataDevTools:DoInit()
+    DevTools.DoInit(self, self.devtools, "world", {
+        -- general
+        GetSaveDataPath = "GetPath",
+        GetSaveData = "GetSaveData",
+        GetSaveDataMapPersistData = "GetMapPersistData",
+        GetSaveDataMeta = "GetMeta",
+        GetSaveDataSeed = "GetSeed",
+        GetSaveDataVersion = "GetVersion",
+        LoadSaveData = "Load",
+
+        -- walrus camps
+        "GuessNrOfWalrusCamps",
+        "GetNrOfWalrusCamps",
+    })
 end
 
 return SaveDataDevTools

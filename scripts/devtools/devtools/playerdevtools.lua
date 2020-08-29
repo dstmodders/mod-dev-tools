@@ -93,63 +93,8 @@ local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
         inst:ListenForEvent("weremodedirty", OnWereModeDirty)
     end
 
-    DevTools.DoInit(self, devtools, "player", {
-        GetSelectedPlayer = "GetSelected",
-        SelectPlayer = "Select",
-
-        -- general
-        "GetPlayer",
-        "GetSpeech",
-        "GetWerenessMode",
-        "IsMoveButtonDown",
-        --"SetIsMoveButtonDown",
-        "IsAdmin",
-        "IsSinking",
-        "IsGhost",
-        "IsIdle",
-        "IsOverWater",
-        "IsOwner",
-        "IsPlatformJumping",
-        "IsReal",
-        "IsRunning",
-
-        -- god mode
-        "GetGodModePlayers",
-        "IsGodMode",
-        "ToggleGodMode",
-
-        -- hud
-        "GetHUD",
-        "IsHUDChatInputScreenOpen",
-        "IsHUDConsoleScreenOpen",
-        "IsHUDWritableScreenActive",
-
-        -- lightwatcher
-        "IsInLight",
-        "GetTimeInDark",
-        "GetTimeInLight",
-        "CanGrueAttack",
-
-        -- movement prediction
-        "IsMovementPrediction",
-        "MovementPrediction",
-        "ToggleMovementPrediction",
-
-        -- player
-        "GetHealthPercent",
-        "GetHungerPercent",
-        "GetSanityPercent",
-        "GetMaxHealthPercent",
-        "GetMoisturePercent",
-        "GetTemperature",
-        "GetWerenessPercent",
-
-        -- selection
-        "IsSelectedInSync",
-
-        -- teleport
-        "Teleport",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- General
@@ -645,8 +590,69 @@ function PlayerDevTools:Teleport()
     return true
 end
 
---- Termination
--- @section termination
+--- Lifecycle
+-- @section lifecycle
+
+--- Initializes.
+function PlayerDevTools:DoInit()
+    DevTools.DoInit(self, self.devtools, "player", {
+        GetSelectedPlayer = "GetSelected",
+        SelectPlayer = "Select",
+
+        -- general
+        "GetPlayer",
+        "GetSpeech",
+        "GetWerenessMode",
+        "IsMoveButtonDown",
+        --"SetIsMoveButtonDown",
+        "IsAdmin",
+        "IsSinking",
+        "IsGhost",
+        "IsIdle",
+        "IsOverWater",
+        "IsOwner",
+        "IsPlatformJumping",
+        "IsReal",
+        "IsRunning",
+
+        -- god mode
+        "GetGodModePlayers",
+        "IsGodMode",
+        "ToggleGodMode",
+
+        -- hud
+        "GetHUD",
+        "IsHUDChatInputScreenOpen",
+        "IsHUDConsoleScreenOpen",
+        "IsHUDWritableScreenActive",
+
+        -- lightwatcher
+        "IsInLight",
+        "GetTimeInDark",
+        "GetTimeInLight",
+        "CanGrueAttack",
+
+        -- movement prediction
+        "IsMovementPrediction",
+        "MovementPrediction",
+        "ToggleMovementPrediction",
+
+        -- player
+        "GetHealthPercent",
+        "GetHungerPercent",
+        "GetSanityPercent",
+        "GetMaxHealthPercent",
+        "GetMoisturePercent",
+        "GetTemperature",
+        "GetWerenessPercent",
+
+        -- selection
+        "IsSelectedInSync",
+
+        -- teleport
+        "Teleport",
+    })
+end
 
 --- Terminates.
 function PlayerDevTools:DoTerm()

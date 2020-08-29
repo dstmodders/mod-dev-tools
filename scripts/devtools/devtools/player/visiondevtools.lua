@@ -1,5 +1,5 @@
 ----
--- Player-vision tools.
+-- Player vision tools.
 --
 -- Extends `devtools.DevTools` and includes different vision functionality most of which can be
 -- accessed from the "Player Vision..." submenu.
@@ -57,21 +57,8 @@ local VisionDevTools = Class(DevTools, function(self, playerdevtools, devtools)
     -- unfading
     self.is_forced_unfading = false
 
-    DevTools.DoInit(self, playerdevtools, "vision", {
-        -- general
-        "GetCCT",
-        "SetCCT",
-        "GetPlayerVisionCCT",
-        "UpdatePlayerVisionCCT",
-
-        -- forced HUD visibility
-        "IsForcedHUDVisibility",
-        "ToggleForcedHUDVisibility",
-
-        -- forced unfading
-        "IsForcedUnfading",
-        "ToggleForcedUnfading",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- General
@@ -206,6 +193,28 @@ function VisionDevTools:ToggleForcedUnfading()
         classified:RemoveEventCallback("playerfadedirty", OnPlayerFadeDirty)
         return false
     end
+end
+
+--- Lifecycle
+-- @section lifecycle
+
+--- Initializes.
+function VisionDevTools:DoInit()
+    DevTools.DoInit(self, self.playerdevtools, "vision", {
+        -- general
+        "GetCCT",
+        "SetCCT",
+        "GetPlayerVisionCCT",
+        "UpdatePlayerVisionCCT",
+
+        -- forced HUD visibility
+        "IsForcedHUDVisibility",
+        "ToggleForcedHUDVisibility",
+
+        -- forced unfading
+        "IsForcedUnfading",
+        "ToggleForcedUnfading",
+    })
 end
 
 return VisionDevTools

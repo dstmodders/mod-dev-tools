@@ -27,6 +27,7 @@ describe("WorldDevTools", function()
         _G.SetDebugEntity = nil
         _G.StartThread = nil
         _G.TheInput = nil
+        _G.TheSim = nil
     end)
 
     before_each(function()
@@ -36,6 +37,7 @@ describe("WorldDevTools", function()
         _G.SetDebugEntity = spy.new(Empty)
         _G.StartThread = spy.new(Empty)
         _G.TheInput = spy.new(Empty)
+        _G.TheSim = MockTheSim(mock)
 
         -- initialization
         devtools = MockDevTools(mock)
@@ -110,7 +112,6 @@ describe("WorldDevTools", function()
 
                 -- general
                 "IsMasterSim",
-                "GetSaveDataWorldDevTools",
                 "GetWorld",
                 "GetWorldNet",
                 "IsCave",

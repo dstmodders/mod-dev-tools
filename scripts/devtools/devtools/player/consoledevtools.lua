@@ -54,37 +54,8 @@ local ConsoleDevTools = Class(DevTools, function(self, playerdevtools, devtools)
         _ConsoleRemote = _G.ConsoleRemote
     end
 
-    DevTools.DoInit(self, playerdevtools, "console", {
-        -- player
-        "SetHealthPercent",
-        "SetHungerPercent",
-        "SetSanityPercent",
-        "SetMaxHealthPercent",
-        "SetMoisturePercent",
-        "SetTemperature",
-        "SetWerenessPercent",
-
-        -- teleport
-        "GoNext",
-        "GatherPlayers",
-
-        -- world
-        "DeltaMoisture",
-        "DeltaWetness",
-        "ForcePrecipitation",
-        "MiniQuake",
-        "PushWorldEvent",
-        "SendLightningStrike",
-        "SetSeason",
-        "SetSeasonLength",
-        "SetSnowLevel",
-        "SetTimeScale",
-
-        -- crafting
-        --"ToggleFreeCrafting",
-        "UnlockRecipe",
-        "LockRecipe",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- Helpers
@@ -525,6 +496,44 @@ function ConsoleDevTools:LockRecipe(recipe, player)
     console = { command, values }
 
     return Remote(self, fn_name, console, values, check_values_fns)
+end
+
+--- Lifecycle
+-- @section lifecycle
+
+--- Initializes.
+function ConsoleDevTools:DoInit()
+    DevTools.DoInit(self, self.playerdevtools, "console", {
+        -- player
+        "SetHealthPercent",
+        "SetHungerPercent",
+        "SetSanityPercent",
+        "SetMaxHealthPercent",
+        "SetMoisturePercent",
+        "SetTemperature",
+        "SetWerenessPercent",
+
+        -- teleport
+        "GoNext",
+        "GatherPlayers",
+
+        -- world
+        "DeltaMoisture",
+        "DeltaWetness",
+        "ForcePrecipitation",
+        "MiniQuake",
+        "PushWorldEvent",
+        "SendLightningStrike",
+        "SetSeason",
+        "SetSeasonLength",
+        "SetSnowLevel",
+        "SetTimeScale",
+
+        -- crafting
+        --"ToggleFreeCrafting",
+        "UnlockRecipe",
+        "LockRecipe",
+    })
 end
 
 return ConsoleDevTools

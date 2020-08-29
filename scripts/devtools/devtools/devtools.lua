@@ -42,6 +42,7 @@ local DevTools = Class(function(self, name, devtools)
     -- general
     self.devtools = devtools
     self.name = name ~= nil and name or "DevTools"
+    self.owner = devtools.inst
     self.worlddevtools = devtools.world
 end)
 
@@ -65,6 +66,14 @@ end
 --
 function DevTools:GetFnFullName(fn_name)
     return string.format("%s:%s()", self.name, fn_name)
+end
+
+function DevTools:AddGlobalDevToolsMethods(methods)
+    Utils.AddMethodsToAnotherClass(self, self.devtools, methods)
+end
+
+function DevTools:RemoveGlobalDevToolsMethods(methods)
+    Utils.RemoveMethodsFromAnotherClass(self.devtools, methods)
 end
 
 --- Other
@@ -93,13 +102,13 @@ function DevTools:DoInit(dest, field, methods)
 
     local init = self._init
 
-    if dest and not dest[field] then
+    if dest then
         init.dest = dest
         init.field = field
         dest[field] = self
     end
 
-    Utils.AddMethodsToAnotherClass(self, self.devtools, methods)
+    self:AddGlobalDevToolsMethods(methods)
 
     init.methods = methods
 
@@ -119,9 +128,7 @@ function DevTools:DoTerm()
     end
 
     if init and init.methods then
-        for k, _ in pairs(init.methods) do
-            self.devtools[k] = nil
-        end
+        self:RemoveGlobalDevToolsMethods(init.methods)
     end
 
     self._init = {

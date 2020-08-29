@@ -53,29 +53,8 @@ local CraftingDevTools = Class(DevTools, function(self, playerdevtools, devtools
     -- selection
     self.selected_recipe = nil
 
-    DevTools.DoInit(self, playerdevtools, "crafting", {
-        -- general
-        "BufferBuildPlacer",
-        "MakeRecipeFromMenu",
-        "GetCharacterRecipes",
-        "GetLearnedRecipes",
-        "GetLearnedForRecipes",
-        "GetNamesForRecipes",
-        "GetPlacersForRecipes",
-        "GetNonPlacersForRecipes",
-        "IsRecipeLearned",
-        "CanCraftItem",
-
-        -- selection
-        "GetSelectedRecipe",
-        "SetSelectedRecipe",
-
-        -- free crafting
-        "UnlockCharacterRecipes",
-        "LockCharacterRecipes",
-        "IsFreeCrafting",
-        "ToggleFreeCrafting",
-    })
+    -- self
+    self:DoInit()
 end)
 
 --- General
@@ -391,6 +370,36 @@ function CraftingDevTools:ToggleFreeCrafting(player)
 
         return is_free_crafting
     end
+end
+
+--- Lifecycle
+-- @section lifecycle
+
+--- Initializes.
+function CraftingDevTools:DoInit()
+    DevTools.DoInit(self, self.playerdevtools, "crafting", {
+        -- general
+        "BufferBuildPlacer",
+        "MakeRecipeFromMenu",
+        "GetCharacterRecipes",
+        "GetLearnedRecipes",
+        "GetLearnedForRecipes",
+        "GetNamesForRecipes",
+        "GetPlacersForRecipes",
+        "GetNonPlacersForRecipes",
+        "IsRecipeLearned",
+        "CanCraftItem",
+
+        -- selection
+        "GetSelectedRecipe",
+        "SetSelectedRecipe",
+
+        -- free crafting
+        "UnlockCharacterRecipes",
+        "LockCharacterRecipes",
+        "IsFreeCrafting",
+        "ToggleFreeCrafting",
+    })
 end
 
 return CraftingDevTools
