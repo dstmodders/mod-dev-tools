@@ -36,6 +36,7 @@ local _SCREEN_NAME = "ModDevToolsScreen"
 local DevToolsScreen = Class(Screen, function(self, devtools)
     Screen._ctor(self, _SCREEN_NAME)
 
+    -- widgets
     self.overlay = self:AddChild(Image("images/global.xml", "square.tex"))
     self.overlay:SetVRegPoint(ANCHOR_MIDDLE)
     self.overlay:SetHRegPoint(ANCHOR_MIDDLE)
@@ -63,8 +64,10 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.data:SetRegionSize(640, 480)
     self.data:SetScaleMode(SCALEMODE_PROPORTIONAL)
 
+    -- self
     self:DoInit(devtools)
 
+    -- TheFrontEnd
     TheFrontEnd:HideConsoleLog()
 end)
 
@@ -130,7 +133,7 @@ end
 -- @treturn boolean
 function DevToolsScreen:Open()
     self:DebugString(self.name, "opened")
-    TheFrontEnd:PushScreen(self())
+    TheFrontEnd:PushScreen(self(self.devtools))
     return true
 end
 
@@ -229,6 +232,32 @@ function DevToolsScreen:UpdateMenu(root_idx)
     return self.menu_text
 end
 
+--- Updates ingredients data.
+function DevToolsScreen:UpdateIngredientsData()
+    self.data_text = RecipeData(
+        self.devtools,
+        self.devtools.player.inventory,
+        self.devtools.player.crafting:GetSelectedRecipe()
+    )
+end
+
+--- Updates selected data.
+function DevToolsScreen:UpdateSelectedData()
+    self.data_text = SelectedData(
+        self.devtools,
+        self.devtools.world,
+        self.devtools.player,
+        self.devtools.player.crafting,
+        self.devtools.player:GetSelected(),
+        self.is_selected_entity_data_visible
+    )
+end
+
+--- Updates world data.
+function DevToolsScreen:UpdateWorldData()
+    self.data_text = WorldData(self.devtools.world)
+end
+
 --- Updates data.
 -- @treturn data.RecipeData|data.SelectedData|data.WorldData
 function DevToolsScreen:UpdateData()
@@ -241,27 +270,16 @@ function DevToolsScreen:UpdateData()
         and playerdevtools.crafting
         and playerdevtools.crafting:GetSelectedRecipe()
     then
-        self.data_text = RecipeData(
-            devtools,
-            playerdevtools.inventory,
-            playerdevtools.crafting:GetSelectedRecipe()
-        )
+        self:UpdateIngredientsData()
     elseif self.data_name == "selected"
         and worlddevtools
         and playerdevtools
         and playerdevtools.crafting
         and playerdevtools:GetSelected()
     then
-        self.data_text = SelectedData(
-            devtools,
-            worlddevtools,
-            playerdevtools,
-            playerdevtools.crafting,
-            playerdevtools:GetSelected(),
-            self.is_selected_entity_data_visible
-        )
+        self:UpdateSelectedData()
     elseif self.data_name == "world" and worlddevtools then
-        self.data_text = WorldData(worlddevtools)
+        self:UpdateWorldData()
     end
 
     return self.data_text
