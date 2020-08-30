@@ -117,7 +117,6 @@ describe("WorldDevTools", function()
                 "IsCave",
                 "GetMeta",
                 "GetSeed",
-                "GetWeatherComponent",
                 "GetTimeUntilPhase",
                 "GetPhase",
                 "GetNextPhase",
@@ -146,22 +145,18 @@ describe("WorldDevTools", function()
                 "ToggleMapClearing",
                 "ToggleMapFogOfWar",
 
-                -- precipitation
+                -- weather
+                "GetWeatherComponent",
+                "GetMoistureFloor",
+                "GetMoistureRate",
+                "GetPeakPrecipitationRate",
+                "GetWetnessRate",
+                --"WeatherOnUpdate",
                 "GetPrecipitationStarts",
                 "GetPrecipitationEnds",
                 "IsPrecipitation",
                 "StartPrecipitationThread",
                 "ClearPrecipitationThread",
-
-                -- upvalues
-                "SetMoistureFloor",
-                "SetMoistureRate",
-                "SetPeakPrecipitationRate",
-                "SetWetnessRate",
-                "GetMoistureFloor",
-                "GetMoistureRate",
-                "GetPeakPrecipitationRate",
-                "GetWetnessRate",
             }
 
             AssertAddedMethodsBefore(methods, devtools)
@@ -602,44 +597,16 @@ describe("WorldDevTools", function()
         end)
     end)
 
-    describe("precipitation", function()
-        describe("should have the getter", function()
-            local getters = {
-                precipitation_starts = "GetPrecipitationStarts",
-                precipitation_ends = "GetPrecipitationEnds",
-            }
-
-            for field, getter in pairs(getters) do
-                it(getter, function()
-                    AssertGetter(worlddevtools, field, getter)
-                end)
-            end
-        end)
-    end)
-
-    describe("upvalues", function()
+    describe("weather", function()
         describe("should have the", function()
-            describe("setter", function()
-                local setters = {
-                    weathermoisturefloor = "SetMoistureFloor",
-                    weathermoisturerate = "SetMoistureRate",
-                    weatherpeakprecipitationrate = "SetPeakPrecipitationRate",
-                    weatherwetrate = "SetWetnessRate",
-                }
-
-                for field, setter in pairs(setters) do
-                    it(setter, function()
-                        AssertSetter(worlddevtools, field, setter)
-                    end)
-                end
-            end)
-
             describe("getter", function()
                 local getters = {
-                    weathermoisturefloor = "GetMoistureFloor",
-                    weathermoisturerate = "GetMoistureRate",
-                    weatherpeakprecipitationrate = "GetPeakPrecipitationRate",
-                    weatherwetrate = "GetWetnessRate",
+                    moisture_floor = "GetMoistureFloor",
+                    moisture_rate = "GetMoistureRate",
+                    peak_precipitation_rate = "GetPeakPrecipitationRate",
+                    wetness_rate = "GetWetnessRate",
+                    precipitation_starts = "GetPrecipitationStarts",
+                    precipitation_ends = "GetPrecipitationEnds",
                 }
 
                 for field, getter in pairs(getters) do

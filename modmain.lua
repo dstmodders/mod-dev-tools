@@ -13,7 +13,6 @@ local require = _G.require
 
 _G.MOD_DEV_TOOLS_TEST = false
 
-local DebugUpvalue = require "devtools/debugupvalue"
 local Utils = require "devtools/utils"
 
 require "devtools/console"
@@ -309,47 +308,7 @@ local function WeatherPostInit(weather)
     weather.OnUpdate = function(...)
         OldOnUpdate(...)
         if devtools.world then
-            local _moisturefloor = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturefloor")
-            local _moisturerate = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturerate")
-            local _temperature = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_temperature")
-
-            local _peakprecipitationrate = DebugUpvalue.GetUpvalue(
-                weather.GetDebugString,
-                "_peakprecipitationrate"
-            )
-
-            local precipitation_rate, wetness_rate
-
-            local CalculatePrecipitationRate = DebugUpvalue.GetUpvalue(
-                weather.GetDebugString,
-                "CalculatePrecipitationRate"
-            )
-
-            local CalculateWetnessRate = DebugUpvalue.GetUpvalue(
-                weather.GetDebugString,
-                "CalculateWetnessRate"
-            )
-
-            if CalculatePrecipitationRate and type(CalculatePrecipitationRate) == "function" then
-                precipitation_rate = CalculatePrecipitationRate()
-            end
-
-            if CalculatePrecipitationRate and type(CalculatePrecipitationRate) == "function"
-                and _temperature and type(_temperature) == "number"
-            then
-                wetness_rate = CalculateWetnessRate(_temperature, precipitation_rate)
-            end
-
-            devtools.world:SetMoistureFloor(type(_moisturefloor) == "userdata"
-                and _moisturefloor:value())
-
-            devtools.world:SetMoistureRate(type(_moisturerate) == "userdata"
-                and _moisturerate:value())
-
-            devtools.world:SetPeakPrecipitationRate(type(_peakprecipitationrate) == "userdata"
-                and _peakprecipitationrate:value())
-
-            devtools.world:SetWetnessRate(wetness_rate)
+            devtools.world:WeatherOnUpdate(...)
         end
     end
 end

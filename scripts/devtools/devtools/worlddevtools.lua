@@ -27,6 +27,7 @@
 require "class"
 require "consolecommands"
 
+local DebugUpvalue = require "devtools/debugupvalue"
 local DevTools = require "devtools/devtools/devtools"
 local SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
 local Utils = require "devtools/utils"
@@ -46,16 +47,14 @@ local WorldDevTools = Class(DevTools, function(self, inst, devtools)
     self.is_map_clearing = false
     self.is_map_fog_of_war = true
 
-    -- precipitation
+    -- weather
+    self.moisture_floor = nil
+    self.moisture_rate = nil
+    self.peak_precipitation_rate = nil
     self.precipitation_ends = nil
     self.precipitation_starts = nil
     self.precipitation_thread = nil
-
-    -- upvalues
-    self.weathermoisturefloor = nil
-    self.weathermoisturerate = nil
-    self.weatherpeakprecipitationrate = nil
-    self.weatherwetrate = nil
+    self.wetness_rate = nil
 
     if inst then
         self:StartPrecipitationThread()
@@ -111,27 +110,6 @@ end
 -- @treturn string
 function WorldDevTools:GetSeed()
     return self:GetMeta("seed")
-end
-
---- Gets weather component.
---
--- Returns the component based on the current world type: cave or forest.
---
--- @treturn[1] Weather
--- @treturn[2] CaveWeather
-function WorldDevTools:GetWeatherComponent()
-    if not self.inst or not self.inst.net or not self.inst.net.components then
-        return
-    end
-
-    local component
-    if self:IsCave() then
-        component = self.inst.net.components.caveweather or nil
-        return component ~= nil and component or nil
-    else
-        component = self.inst.net.components.weather or nil
-        return component ~= nil and component or nil
-    end
 end
 
 --- Gets the time until the phase.
@@ -355,8 +333,53 @@ function WorldDevTools:ToggleMapFogOfWar()
     return self.is_map_fog_of_war
 end
 
---- Precipitation
--- @section precipitation
+--- Weather
+-- @section weather
+
+--- Gets weather component.
+--
+-- Returns the component based on the current world type: cave or forest.
+--
+-- @treturn[1] Weather
+-- @treturn[2] CaveWeather
+function WorldDevTools:GetWeatherComponent()
+    if not self.inst or not self.inst.net or not self.inst.net.components then
+        return
+    end
+
+    local component
+    if self:IsCave() then
+        component = self.inst.net.components.caveweather or nil
+        return component ~= nil and component or nil
+    else
+        component = self.inst.net.components.weather or nil
+        return component ~= nil and component or nil
+    end
+end
+
+--- Gets moisture floor.
+-- @treturn number
+function WorldDevTools:GetMoistureFloor()
+    return self.moisture_floor
+end
+
+--- Gets moisture rate.
+-- @treturn number
+function WorldDevTools:GetMoistureRate()
+    return self.moisture_rate
+end
+
+--- Gets peak precipitation rate.
+-- @treturn number
+function WorldDevTools:GetPeakPrecipitationRate()
+    return self.peak_precipitation_rate
+end
+
+--- Gets moisture floor.
+-- @treturn number
+function WorldDevTools:GetWetnessRate()
+    return self.wetness_rate
+end
 
 --- Gets precipitation start time.
 -- @treturn number
@@ -431,79 +454,48 @@ function WorldDevTools:ClearPrecipitationThread()
     Utils.ThreadClear(self.precipitation_thread)
 end
 
---- Upvalues
--- @section upvalues
+--- Integrates with `Weather:OnUpdate()`.
+--
+-- Integrates world functionality into an existing `Weather:OnUpdate()`.
+--
+-- @tparam Weather|CaveWeather weather
+function WorldDevTools:WeatherOnUpdate(weather)
+    local _moisturefloor = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturefloor")
+    local _moisturerate = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturerate")
+    local _temperature = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_temperature")
 
---- Sets `weathermoisturefloor` upvalue.
---
--- This setter is called in the **modmain** where the value is retrieved using the `DebugUpvalue`.
---
--- @tparam number value
-function WorldDevTools:SetMoistureFloor(value)
-    self.weathermoisturefloor = value
-end
+    local _peakprecipitationrate = DebugUpvalue.GetUpvalue(
+        weather.GetDebugString,
+        "_peakprecipitationrate"
+    )
 
---- Sets `weathermoisturerate` upvalue.
---
--- This setter is called in the **modmain** where the value is retrieved using the `DebugUpvalue`.
---
--- @tparam number value
-function WorldDevTools:SetMoistureRate(value)
-    self.weathermoisturerate = value
-end
+    local CalculatePrecipitationRate = DebugUpvalue.GetUpvalue(
+        weather.GetDebugString,
+        "CalculatePrecipitationRate"
+    )
 
---- Sets `weatherpeakprecipitationrate`.
---
--- This setter is called in the **modmain** where the value is retrieved using the `DebugUpvalue`.
---
--- @tparam number value
-function WorldDevTools:SetPeakPrecipitationRate(value)
-    self.weatherpeakprecipitationrate = value
-end
+    local CalculateWetnessRate = DebugUpvalue.GetUpvalue(
+        weather.GetDebugString,
+        "CalculateWetnessRate"
+    )
 
---- Sets `weatherwetrate` upvalue.
---
--- This setter is called in the **modmain** where the value is retrieved using the `DebugUpvalue`.
---
--- @tparam number value
-function WorldDevTools:SetWetnessRate(value)
-    self.weatherwetrate = value
-end
+    local precipitation_rate, wetness_rate
 
---- Gets `weathermoisturefloor` upvalue.
---
--- Returns the value set earlier by `SetMoistureFloor`.
---
--- @treturn number
-function WorldDevTools:GetMoistureFloor()
-    return self.weathermoisturefloor
-end
+    if CalculatePrecipitationRate and type(CalculatePrecipitationRate) == "function" then
+        precipitation_rate = CalculatePrecipitationRate()
+    end
 
---- Gets `weathermoisturerate` upvalue.
---
--- Returns the value set earlier by `SetMoistureRate`.
---
--- @treturn number
-function WorldDevTools:GetMoistureRate()
-    return self.weathermoisturerate
-end
+    if CalculatePrecipitationRate and type(CalculatePrecipitationRate) == "function"
+        and _temperature and type(_temperature) == "number"
+    then
+        wetness_rate = CalculateWetnessRate(_temperature, precipitation_rate)
+    end
 
---- Gets `weatherpeakprecipitationrate`.
---
--- Returns the value set earlier by `SetPeakPrecipitationRate`.
---
--- @treturn number
-function WorldDevTools:GetPeakPrecipitationRate()
-    return self.weatherpeakprecipitationrate
-end
-
---- Gets `weatherwetrate` upvalue.
---
--- Returns the value set earlier by `SetWetnessRate`.
---
--- @treturn number
-function WorldDevTools:GetWetnessRate()
-    return self.weatherwetrate
+    self.wetness_rate = wetness_rate
+    self.moisture_floor = type(_moisturefloor) == "userdata" and _moisturefloor:value()
+    self.moisture_rate = type(_moisturerate) == "userdata" and _moisturerate:value()
+    self.peak_precipitation_rate = type(_peakprecipitationrate) == "userdata"
+        and _peakprecipitationrate:value()
 end
 
 --- Lifecycle
@@ -522,7 +514,6 @@ function WorldDevTools:DoInit()
         "IsCave",
         "GetMeta",
         "GetSeed",
-        "GetWeatherComponent",
         "GetTimeUntilPhase",
         "GetPhase",
         "GetNextPhase",
@@ -551,22 +542,18 @@ function WorldDevTools:DoInit()
         "ToggleMapClearing",
         "ToggleMapFogOfWar",
 
-        -- precipitation
+        -- weather
+        "GetWeatherComponent",
+        "GetMoistureFloor",
+        "GetMoistureRate",
+        "GetPeakPrecipitationRate",
+        "GetWetnessRate",
+        --"WeatherOnUpdate",
         "GetPrecipitationStarts",
         "GetPrecipitationEnds",
         "IsPrecipitation",
         "StartPrecipitationThread",
         "ClearPrecipitationThread",
-
-        -- upvalues
-        "SetMoistureFloor",
-        "SetMoistureRate",
-        "SetPeakPrecipitationRate",
-        "SetWetnessRate",
-        "GetMoistureFloor",
-        "GetMoistureRate",
-        "GetPeakPrecipitationRate",
-        "GetWetnessRate",
     })
 end
 
