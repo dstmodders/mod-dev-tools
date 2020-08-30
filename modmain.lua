@@ -254,19 +254,23 @@ local function AddConsoleScreenPostInit(self)
     })
 end
 
-local function PlayerControllerPostInit(playercontroller, player)
+AddPlayerPostInit(OnPlayerActivated, OnPlayerDeactivated)
+AddClassPostConstruct("screens/consolescreen", AddConsoleScreenPostInit)
+
+--- Player Controller
+-- @section player-controller
+
+AddComponentPostInit("playercontroller", function(playercontroller, player)
     if player ~= _G.ThePlayer then
         return
     end
 
-    --
-    -- Overrides
-    --
-
+    -- overrides PlayerController:OnControl()
     local OldOnControl = playercontroller.OnControl
     playercontroller.OnControl = function(self, control, down)
         if not devtools then
             OldOnControl(self, control, down)
+            return
         end
 
         if not devtools.player.controller then
@@ -274,6 +278,7 @@ local function PlayerControllerPostInit(playercontroller, player)
         end
 
         if devtools then
+            -- screen
             if DevToolsScreen then
                 if devtools:IsPaused()
                     and not DevToolsScreen:IsOpen()
@@ -285,17 +290,7 @@ local function PlayerControllerPostInit(playercontroller, player)
 
             -- player
             if devtools.player then
-                local playerdevtools = devtools.player
-                local is_move_button_down = (down and IsMoveButton(control)) and true or false
-
-                playerdevtools:SetIsMoveButtonDown(is_move_button_down)
-
-                -- automation
-                if playerdevtools.automation
-                    and playerdevtools.automation:CanStartUnsinkingMPThread()
-                then
-                    playerdevtools.automation:StartUnsinkingMPThread()
-                end
+                devtools.player:SetIsMoveButtonDown(down and IsMoveButton(control))
             end
         end
 
@@ -304,11 +299,7 @@ local function PlayerControllerPostInit(playercontroller, player)
 
     debug:DoInitPlayerController(playercontroller)
     DebugInit("PlayerControllerPostInit")
-end
-
-AddPlayerPostInit(OnPlayerActivated, OnPlayerDeactivated)
-AddClassPostConstruct("screens/consolescreen", AddConsoleScreenPostInit)
-AddComponentPostInit("playercontroller", PlayerControllerPostInit)
+end)
 
 --- Weather
 -- @section weather

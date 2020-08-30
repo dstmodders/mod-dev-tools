@@ -308,24 +308,6 @@ function DevTools:Reset()
     return false
 end
 
---- Player Controller
--- @section player-controller
-
---- Does the player controller action.
--- @tparam table pc Player controller
--- @treturn boolean
-function DevTools:PlayerControllerDoAction(pc)
-    local vision
-    local player = self.player
-    if player and player.vision then
-        vision = player.vision
-        if vision then
-            return vision:PlayerControllerDoAction(pc)
-        end
-    end
-    return false
-end
-
 --- Lifecycle
 -- @section lifecycle
 
