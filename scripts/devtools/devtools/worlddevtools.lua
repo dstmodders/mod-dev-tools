@@ -150,14 +150,14 @@ function WorldDevTools:GetTimeUntilPhase(phase)
         and self.inst.net.components.clock:GetTimeUntilPhase(phase)
 end
 
---- Gets the phase.
+--- Gets phase.
 -- @tparam string phase Phase
 -- @treturn number
 function WorldDevTools:GetPhase()
     return self:IsCave() and self:GetStateCavePhase() or self:GetStatePhase()
 end
 
---- Gets the next phase.
+--- Gets next phase.
 --
 -- Returns the value based on the following logic:
 --

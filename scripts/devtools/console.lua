@@ -469,7 +469,7 @@ function d_tablecount(...)
     return Utils.TableCount(...)
 end
 
---- Checks whether a table has the provided value.
+--- Checks if a table has the provided value.
 -- @tparam table t Table
 -- @tparam string value
 -- @treturn boolean

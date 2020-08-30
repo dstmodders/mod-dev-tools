@@ -242,7 +242,7 @@ end
 
 --- Checks if an item can be crafted.
 --
--- Verifies whether the owner has enough ingredients to craft an item by checking the inventory.
+-- Verifies if an owner has enough ingredients to craft an item by checking the inventory.
 --
 -- **NB!** Free crafting doesn't affect this so it should be handled separately.
 --
