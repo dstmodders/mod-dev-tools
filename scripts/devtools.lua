@@ -51,8 +51,14 @@ end
 --- Debugging
 -- @section debugging
 
---- Gets the Debug.
--- @treturn table
+--- Gets `screens.DevToolsScreen`.
+-- @treturn screens.DevToolsScreen
+function DevTools:GetScreen()
+    return self.screen
+end
+
+--- Gets `Debug`.
+-- @treturn Debug
 function DevTools:GetDebug()
     return self.debug
 end
@@ -66,19 +72,19 @@ function DevTools:IsDedicated() -- luacheck: only
     return TheNet:IsDedicated()
 end
 
---- Gets the character select state.
+--- Gets character select state.
 -- @treturn boolean
 function DevTools:IsInCharacterSelect()
     return self.is_in_character_select
 end
 
---- Sets the character select state.
+--- Sets character select state.
 -- @tparam boolean is_in_character_select
 function DevTools:SetIsInCharacterSelect(is_in_character_select)
     self.is_in_character_select = is_in_character_select
 end
 
---- Gets the client table for the user.
+--- Gets client table for the user.
 -- @tparam table user Player
 -- @treturn table
 function DevTools:GetClientTableForUser(user) -- luacheck: only
@@ -88,7 +94,7 @@ function DevTools:GetClientTableForUser(user) -- luacheck: only
     end
 end
 
---- Gets the players client table.
+--- Gets players client table.
 -- @treturn table
 function DevTools:GetPlayersClientTable() -- luacheck: only
     local clients = TheNet and TheNet.GetClientTable and TheNet:GetClientTable() or {}
@@ -112,7 +118,7 @@ function DevTools:IsPaused() -- luacheck: only
     return TheSim:GetTimeScale() == 0
 end
 
---- Pauses the world.
+--- Pauses world.
 -- @treturn boolean
 function DevTools:Pause()
     local playerdevtools = self.player
@@ -139,7 +145,7 @@ function DevTools:Pause()
     end
 end
 
---- Unpauses the world.
+--- Unpauses world.
 -- @treturn boolean
 function DevTools:Unpause()
     local playerdevtools = self.player
@@ -223,13 +229,13 @@ function DevTools:SetLabelsFontSize(size)
     end
 end
 
---- Gets the labels font size.
+--- Gets labels font size.
 -- @treturn number
 function DevTools:GetLabelsFontSize()
     return self.labels_font_size
 end
 
---- Sets the username labels mode.
+--- Sets username labels mode.
 -- @tparam boolean|string mode
 function DevTools:SetUsernameLabelsMode(mode)
     self.labels_username_mode = mode
@@ -251,13 +257,13 @@ function DevTools:SetUsernameLabelsMode(mode)
     end
 end
 
---- Gets the username labels mode.
+--- Gets username labels mode.
 -- @treturn boolean|string
 function DevTools:GetUsernameLabelsMode()
     return self.labels_username_mode
 end
 
---- Adds the username label to the player.
+--- Adds username label to the player.
 -- @tparam table inst Player instance
 -- @treturn boolean
 function DevTools:AddUsernameLabel(inst)
@@ -268,7 +274,7 @@ end
 --- Other
 -- @section other
 
---- Resets the game.
+--- Resets game.
 -- @treturn boolean
 function DevTools:Reset()
     local playerdevtools = self.player
@@ -329,6 +335,7 @@ function DevTools:DoInit(modname, debug)
     self.modname = modname
     self.name = "DevTools"
     self.player = nil
+    self.screen = nil -- set in DevToolsScreen:DoInit()
     self.world = nil
 
     -- labels

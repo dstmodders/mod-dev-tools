@@ -377,6 +377,11 @@ function DevToolsScreen:DoInit(devtools)
     self.is_selected_entity_data_visible = true
     self.menu_text = nil
     self.name = _SCREEN_NAME
+
+    -- devtools
+    if devtools then
+        devtools.screen = self
+    end
 end
 
 return DevToolsScreen
