@@ -257,6 +257,21 @@ function PlayerDevTools:IsRunning(player)
     end
 end
 
+--- Changes current times cale.
+-- @tparam number amount Amount to change between -4 to 4.
+-- @tparam boolean is_fixed Should it be fixed without increasing/decreasing?
+function PlayerDevTools:ChangeTimeScale(amount, is_fixed)
+    local time_scale
+    time_scale = is_fixed and amount or TheSim:GetTimeScale() + amount
+    time_scale = time_scale < 0 and 0 or time_scale
+    time_scale = time_scale >= 4 and 4 or time_scale
+    print(amount, time_scale)
+    TheSim:SetTimeScale(time_scale)
+    if not self.ismastersim then
+        self.console:SetTimeScale(time_scale)
+    end
+end
+
 --- God Mode
 -- @section god-mode
 

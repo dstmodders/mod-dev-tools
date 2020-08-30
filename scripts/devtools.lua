@@ -66,7 +66,18 @@ end
 --- General
 -- @section general
 
---- Checks whether it's a dedicated server game.
+--- Checks if a user can press our key.
+-- @treturn boolean
+function DevTools:CanPressKeyInGamePlay()
+    local playerdevtools = self.player
+    return InGamePlay()
+        and playerdevtools
+        and not playerdevtools:IsHUDChatInputScreenOpen()
+        and not playerdevtools:IsHUDConsoleScreenOpen()
+        and not playerdevtools:IsHUDWritableScreenActive()
+end
+
+--- Checks if it's a dedicated server game.
 -- @treturn boolean
 function DevTools:IsDedicated() -- luacheck: only
     return TheNet:IsDedicated()

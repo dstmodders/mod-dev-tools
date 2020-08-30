@@ -378,34 +378,6 @@ end)
 --- Keybinds
 -- @section keybinds
 
-local _KEY_GOD_MODE = GetKeyFromConfig("key_god_mode")
-local _KEY_MAP_INDICATORS_MODE = GetKeyFromConfig("key_map_indicators_mode")
-local _KEY_MENU_TOGGLE = GetKeyFromConfig("key_menu_toggle")
-local _KEY_MOVEMENT_PREDICTION = GetKeyFromConfig("key_movement_prediction")
-local _KEY_PAUSE = GetKeyFromConfig("key_pause")
-local _KEY_TELEPORT = GetKeyFromConfig("key_teleport")
-local _KEY_TIME_SCALE_DECREASE = GetKeyFromConfig("time_scale_decrease")
-local _KEY_TIME_SCALE_DEFAULT = GetKeyFromConfig("time_scale_default")
-local _KEY_TIME_SCALE_INCREASE = GetKeyFromConfig("time_scale_increase")
-
-local function CanPressInGamePlay()
-    if not devtools then
-        return false
-    end
-
-    local playerdevtools = devtools.player
-    if InGamePlay()
-        and playerdevtools
-        and not playerdevtools:IsHUDChatInputScreenOpen()
-        and not playerdevtools:IsHUDConsoleScreenOpen()
-        and not playerdevtools:IsHUDWritableScreenActive()
-    then
-        return true
-    end
-
-    return false
-end
-
 local function IsMasterSim()
     if not devtools then
         return false
@@ -419,21 +391,19 @@ local function IsMasterSim()
     return false
 end
 
+local _KEY_MENU_TOGGLE = GetKeyFromConfig("key_menu_toggle")
 if _KEY_MENU_TOGGLE then
     TheInput:AddKeyUpHandler(_KEY_MENU_TOGGLE, function()
-        if not DevToolsScreen then
-            return
-        end
-
-        if DevToolsScreen:CanToggle() then
+        if DevToolsScreen and DevToolsScreen:CanToggle() then
             DevToolsScreen:Toggle()
         end
     end)
 end
 
+local _KEY_MOVEMENT_PREDICTION = GetKeyFromConfig("key_movement_prediction")
 if _KEY_MOVEMENT_PREDICTION then
     TheInput:AddKeyUpHandler(_KEY_MOVEMENT_PREDICTION, function()
-        if CanPressInGamePlay() and not IsMasterSim() then
+        if devtools and devtools:CanPressKeyInGamePlay() and not IsMasterSim() then
             local playerdevtools = devtools.player
             if playerdevtools then
                 playerdevtools:ToggleMovementPrediction()
@@ -442,87 +412,69 @@ if _KEY_MOVEMENT_PREDICTION then
     end)
 end
 
+local _KEY_PAUSE = GetKeyFromConfig("key_pause")
 if _KEY_PAUSE then
     TheInput:AddKeyUpHandler(_KEY_PAUSE, function()
-        if CanPressInGamePlay() then
+        if devtools and devtools:CanPressKeyInGamePlay() then
             devtools:TogglePause()
         end
     end)
 end
 
+local _KEY_GOD_MODE = GetKeyFromConfig("key_god_mode")
 if _KEY_GOD_MODE then
     TheInput:AddKeyUpHandler(_KEY_GOD_MODE, function()
-        if CanPressInGamePlay() then
+        if devtools and devtools:CanPressKeyInGamePlay() then
             local playerdevtools = devtools.player
             playerdevtools:ToggleGodMode()
         end
     end)
 end
 
+local _KEY_TELEPORT = GetKeyFromConfig("key_teleport")
 if _KEY_TELEPORT then
     TheInput:AddKeyDownHandler(_KEY_TELEPORT, function()
-        if CanPressInGamePlay() then
+        if devtools and devtools:CanPressKeyInGamePlay() then
             local playerdevtools = devtools.player
             playerdevtools:Teleport(_KEY_TELEPORT)
         end
     end)
 end
 
-if _KEY_MAP_INDICATORS_MODE then
-    TheInput:AddKeyDownHandler(_KEY_MAP_INDICATORS_MODE, function()
-        if CanPressInGamePlay() and devtools.player and devtools.player.map then
-            local mapdevtools = devtools.player.map
-            if mapdevtools and mapdevtools:IsMapScreenOpen() then
-                mapdevtools:SwitchIndicatorsMode()
+local _KEY_TIME_SCALE_INCREASE = GetKeyFromConfig("key_time_scale_increase")
+if _KEY_TIME_SCALE_INCREASE then
+    TheInput:AddKeyDownHandler(_KEY_TIME_SCALE_INCREASE, function()
+        local playerdevtools = Utils.ChainGet(devtools, "player")
+        if playerdevtools and devtools:CanPressKeyInGamePlay() then
+            if TheInput:IsKeyDown(KEY_SHIFT) then
+                playerdevtools:ChangeTimeScale(4, true)
+            else
+                playerdevtools:ChangeTimeScale(0.1)
             end
         end
     end)
 end
 
-do
-    local function changeTimeScale(amount)
-        if devtools.world and devtools.player and devtools.player.console then
-            local console = devtools.player.console
-            local worlddevtools = devtools.world
-            local timeScale = math.ceil(TheSim:GetTimeScale() * 100)
-            timeScale = (timeScale + amount) / 100
-            TheSim:SetTimeScale(timeScale)
-            if not worlddevtools.ismastersim then
-                console:SetTimeScale(timeScale)
+local _KEY_TIME_SCALE_DECREASE = GetKeyFromConfig("key_time_scale_decrease")
+if _KEY_TIME_SCALE_DECREASE then
+    TheInput:AddKeyDownHandler(_KEY_TIME_SCALE_DECREASE, function()
+        local playerdevtools = Utils.ChainGet(devtools, "player")
+        if playerdevtools and devtools:CanPressKeyInGamePlay() then
+            if TheInput:IsKeyDown(KEY_SHIFT) then
+                playerdevtools:ChangeTimeScale(0, true)
+            else
+                playerdevtools:ChangeTimeScale(-0.1)
             end
         end
-    end
-
-    if _KEY_TIME_SCALE_INCREASE then
-        TheInput:AddKeyUpHandler(_KEY_TIME_SCALE_INCREASE, function()
-            if CanPressInGamePlay() then
-                changeTimeScale(10)
-            end
-        end)
-    end
-
-    if _KEY_TIME_SCALE_DECREASE then
-        TheInput:AddKeyUpHandler(_KEY_TIME_SCALE_DECREASE, function()
-            if CanPressInGamePlay() then
-                changeTimeScale(-10)
-            end
-        end)
-    end
+    end)
 end
 
+local _KEY_TIME_SCALE_DEFAULT = GetKeyFromConfig("key_time_scale_default")
 if _KEY_TIME_SCALE_DEFAULT then
     TheInput:AddKeyUpHandler(_KEY_TIME_SCALE_DEFAULT, function()
-        if CanPressInGamePlay()
-            and devtools.world
-            and devtools.player
-            and devtools.player.console
-        then
-            local worlddevtools = devtools.world
-            local console = devtools.player.console
-            TheSim:SetTimeScale(1)
-            if not worlddevtools.ismastersim then
-                console:SetTimeScale(1)
-            end
+        local playerdevtools = Utils.ChainGet(devtools, "player")
+        if playerdevtools and devtools:CanPressKeyInGamePlay() then
+            playerdevtools:ChangeTimeScale(1, true)
         end
     end)
 end
@@ -530,18 +482,13 @@ end
 --- Reset
 -- @section reset
 
-local _RESET_COMBINATION = GetModConfigData("reset_combination")
-
 local function Reset(key)
-    if not devtools then
-        return
-    end
-
-    if TheInput:IsKeyDown(key) then
+    if devtools and TheInput:IsKeyDown(key) then
         devtools:Reset()
     end
 end
 
+local _RESET_COMBINATION = GetModConfigData("reset_combination")
 if _RESET_COMBINATION == "ctrl_r" then
     TheInput:AddKeyUpHandler(KEY_R, function()
         return Reset(KEY_CTRL)
