@@ -27,7 +27,7 @@ local WorldData = Class(Data, function(self, worlddevtools)
 
     -- general
     self.save_data_lines_stack = {}
-    self.savedatadevtools = worlddevtools.savedata
+    self.savedatadevtools = worlddevtools and worlddevtools.savedata
     self.world_lines_stack = {}
     self.worlddevtools = worlddevtools
 
@@ -56,11 +56,15 @@ end
 --- World
 -- @section world
 
-local function PushWorldLine(self, name, value)
+--- Pushes world line.
+-- @tparam string name
+-- @tparam string value
+function WorldData:PushWorldLine(name, value)
     self:PushLine(self.world_lines_stack, name, value)
 end
 
-local function PushWorldMoistureLine(self)
+--- Pushes world moisture line.
+function WorldData:PushWorldMoistureLine()
     local worlddevtools = self.worlddevtools
     local moisture = worlddevtools:GetStateMoisture()
     local moisture_ceil = worlddevtools:GetStateMoistureCeil()
@@ -83,11 +87,12 @@ local function PushWorldMoistureLine(self)
             and self:ToValueSplit({ moisture_floor, moisture_string, moisture_ceil })
             or self:ToValueSplit({ moisture_string, moisture_ceil })
 
-        PushWorldLine(self, "Moisture", value)
+        self:PushWorldLine("Moisture", value)
     end
 end
 
-local function PushWorldPhaseLine(self)
+--- Pushes world phase line.
+function WorldData:PushWorldPhaseLine()
     local worlddevtools = self.worlddevtools
     local phase = worlddevtools:GetPhase()
     if phase ~= nil then
@@ -95,21 +100,22 @@ local function PushWorldPhaseLine(self)
         if next_phase then
             local seconds = worlddevtools:GetTimeUntilPhase(next_phase)
             if seconds ~= nil then
-                PushWorldLine(self, "Phase", { phase, self:ToValueClock(seconds, true) })
+                self:PushWorldLine("Phase", { phase, self:ToValueClock(seconds, true) })
             else
-                PushWorldLine(self, "Phase", phase)
+                self:PushWorldLine("Phase", phase)
             end
         end
     end
 end
 
-local function PushWorldPrecipitationLines(self)
+--- Pushes world precipitation line.
+function WorldData:PushWorldPrecipitationLines()
     local worlddevtools = self.worlddevtools
 
     local precipitation_rate = worlddevtools:GetStatePrecipitationRate()
     if precipitation_rate and precipitation_rate > 0 then
         local peakprecipitationrate = worlddevtools:GetPeakPrecipitationRate()
-        PushWorldLine(self, "Precipitation Rate", peakprecipitationrate ~= nil
+        self:PushWorldLine("Precipitation Rate", peakprecipitationrate ~= nil
             and { precipitation_rate, peakprecipitationrate }
             or self:ToValueFloat(precipitation_rate))
     end
@@ -121,29 +127,30 @@ local function PushWorldPrecipitationLines(self)
     if precipitation_starts and precipitation_ends then
         local label = is_snowing and "Snow" or "Rain"
         if not worlddevtools:IsPrecipitation() then
-            PushWorldLine(self, label .. " Starts", "~" .. self:ToValueClock(precipitation_starts))
+            self:PushWorldLine(label .. " Starts", "~" .. self:ToValueClock(precipitation_starts))
         else
-            PushWorldLine(self, label .. " Ends", "~" .. self:ToValueClock(precipitation_ends))
+            self:PushWorldLine(label .. " Ends", "~" .. self:ToValueClock(precipitation_ends))
         end
     end
 
     if is_snowing then
-        PushWorldLine(
-            self,
+        self:PushWorldLine(
             "Snow Level",
             self:ToValuePercent(worlddevtools:GetStateSnowLevel() * 100)
         )
     end
 end
 
-local function PushWorldTemperatureLine(self)
+--- Pushes world temperature line.
+function WorldData:PushWorldTemperatureLine()
     local temperature = self.worlddevtools:GetStateTemperature()
     if temperature ~= nil then
-        PushWorldLine(self, "Temperature", self:ToValueScale(temperature))
+        self:PushWorldLine("Temperature", self:ToValueScale(temperature))
     end
 end
 
-local function PushWorldWetnessLine(self)
+--- Pushes world wetness line.
+function WorldData:PushWorldWetnessLine()
     local worlddevtools = self.worlddevtools
     local wetness = worlddevtools:GetStateWetness()
     local wetness_rate = worlddevtools:GetWetnessRate()
@@ -155,7 +162,7 @@ local function PushWorldWetnessLine(self)
         elseif wetness_rate and wetness_rate < 0 then
             value = string.format("%s (-%0.2f)", value, math.abs(wetness_rate))
         end
-        PushWorldLine(self, "Wetness", value)
+        self:PushWorldLine("Wetness", value)
     end
 end
 
@@ -165,182 +172,219 @@ function WorldData:PushWorldData()
 
     local worlddevtools = self.worlddevtools
 
-    PushWorldLine(self, "Seed", worlddevtools:GetSeed())
-    PushWorldLine(self, "Season", worlddevtools:GetStateSeason())
-    PushWorldPhaseLine(self)
-    PushWorldTemperatureLine(self)
-    PushWorldMoistureLine(self)
-    PushWorldPrecipitationLines(self)
-    PushWorldWetnessLine(self)
+    self:PushWorldLine("Seed", worlddevtools:GetSeed())
+    self:PushWorldLine("Season", worlddevtools:GetStateSeason())
+    self:PushWorldPhaseLine()
+    self:PushWorldTemperatureLine()
+    self:PushWorldMoistureLine()
+    self:PushWorldPrecipitationLines()
+    self:PushWorldWetnessLine()
 
-    -- Commented out intentionally. Will be uncommented later.
+    -- Commented out intentionally. Maybe will be uncommented later.
     --local savedatadevtools = self.savedatadevtools
     --if savedatadevtools and not worlddevtools:IsCave() then
-    --    PushWorldLine(self, "Walrus Camps", savedatadevtools:GetNrOfWalrusCamps())
+    --    self:PushWorldLine("Walrus Camps", savedatadevtools:GetNrOfWalrusCamps())
     --end
 end
 
 --- Save data
 -- @section save-data
 
-local function PushSaveDataLine(self, name, value)
+--- Pushes save data line.
+-- @tparam string name
+-- @tparam string value
+function WorldData:PushSaveDataLine(name, value)
     self:PushLine(self.save_data_lines_stack, name, value)
 end
 
---local function GetDeerclopsSpawnerValue(persistdata)
---    if not persistdata or type(persistdata.deerclopsspawner) ~= "table" then
---        return "unavailable"
---    end
---
---    local spawner = persistdata.deerclopsspawner
---
---    if spawner.warning == true then
---        return "warning"
---    end
---
---    return spawner.activehassler ~= nil and "yes" or "no"
---end
---
---local function GetBeargerSpawnerValue(self, persistdata)
---    if not persistdata or type(persistdata.beargerspawner) ~= "table" then
---        return "unavailable"
---    end
---
---    local spawner = persistdata.beargerspawner
---
---    if spawner.warning == true then
---        return "warning"
---    end
---
---    if type(spawner.activehasslers) == "table" then
---        if #spawner.activehasslers == 0 and type(spawner.lastKillDay) == "number" then
---            return self:ToValueSplit({ "killed", "day " .. spawner.lastKillDay })
---        elseif #spawner.activehasslers > 0 then
---            return "yes"
---        end
---
---        return "no"
---    end
---
---    return "error"
---end
---
---local function GetMalbatrossSpawnerValue(self, persistdata)
---    if not persistdata or type(persistdata.malbatrossspawner) ~= "table" then
---        return "unavailable"
---    end
---
---    local spawner = persistdata.malbatrossspawner
---
---    if spawner.activeguid ~= nil then
---        return "yes"
---    end
---
---    local timetospawn = spawner._time_until_spawn
---    if type(timetospawn) == "number" then
---        if spawner._firstspawn == true or timetospawn <= 0 then
---            return "waiting"
---        elseif timetospawn > 0 then
---            return self:ToValueClock(timetospawn - GetTime())
---        end
---
---        return "no"
---    end
---
---    return "error"
---end
---
---local function GetDeersSpawnerValue(self, persistdata)
---    if not persistdata or type(persistdata.deerherdspawner) ~= "table" then
---        return "unavailable"
---    end
---
---    local spawner = persistdata.deerherdspawner
---    local timetospawn = spawner._timetospawn
---
---    if type(timetospawn) == "number" then
---        return timetospawn <= 0
---            and "waiting"
---            or self:ToValueClock(timetospawn - GetTime())
---    end
---
---    if type(spawner._activedeer) == "table" then
---        return #spawner._activedeer
---    end
---
---    return "error"
---end
---
---local function GetKlausSackSpawnerValue(self, persistdata)
---    if not persistdata or type(persistdata.klaussackspawner) ~= "table" then
---        return "unavailable"
---    end
---
---    local timetorespawn = persistdata.klaussackspawner.timetorespawn
---    if type(timetorespawn) == "number" then
---        return timetorespawn > 0
---            and self:ToValueClock(timetorespawn - GetTime())
---            or "no"
---    elseif timetorespawn == false then
---        return "yes"
---    end
---
---    return "error"
---end
---
---local function GetHoundedValue(self, persistdata)
---    if not persistdata or type(persistdata.hounded) ~= "table" then
---        return "unavailable"
---    end
---
---    local timetoattack = persistdata.hounded.timetoattack
---    if type(timetoattack) == "number" then
---        return timetoattack > 0
---            and self:ToValueClock(timetoattack - GetTime())
---            or "no"
---    end
---
---    return "error"
---end
---
---local function GetChessUnlocksValue(persistdata)
---    if not persistdata or type(persistdata.chessunlocks) ~= "table" then
---        return "unavailable"
---    end
---
---    local unlocks = persistdata.chessunlocks.unlocks
---    if type(unlocks) == "table" then
---        return #unlocks > 0
---            and table.concat(unlocks, ", ")
---            or "no"
---    end
---
---    return "error"
---end
+--- Pushes `deerclopsspawner` line.
+function WorldData:PushDeerclopsSpawnerLine()
+    local value
+
+    local data = self.savedatadevtools:GetMapPersistData()
+    if not data or type(data.deerclopsspawner) ~= "table" then
+        value = "unavailable"
+    end
+
+    if not value then
+        local spawner = data.deerclopsspawner
+        if spawner and spawner.warning == true then
+            value = "warning"
+        elseif spawner then
+            value = spawner.activehassler ~= nil and "yes" or "no"
+        end
+    end
+
+    self:PushSaveDataLine("Deerclops", value)
+end
+
+--- Pushes `beargerspawner` line.
+function WorldData:PushBeargerSpawnerLine()
+    local value
+
+    local data = self.savedatadevtools:GetMapPersistData()
+    if not data or type(data.beargerspawner) ~= "table" then
+        value = "unavailable"
+    end
+
+    if not value then
+        local spawner = data.beargerspawner
+        if spawner and spawner.warning == true then
+            value = "warning"
+        elseif spawner and type(spawner.activehasslers) == "table" then
+            if #spawner.activehasslers == 0 and type(spawner.lastKillDay) == "number" then
+                value = self:ToValueSplit({ "killed", "day " .. spawner.lastKillDay })
+            elseif #spawner.activehasslers > 0 then
+                value = "yes"
+            else
+                value = "no"
+            end
+        end
+    end
+
+    self:PushSaveDataLine("Bearger", value or "error")
+end
+
+--- Pushes `malbatrossspawner` line.
+function WorldData:PushMalbatrossSpawnerLine()
+    local value
+
+    local data = self.savedatadevtools:GetMapPersistData()
+    if not data or type(data.malbatrossspawner) ~= "table" then
+        value = "unavailable"
+    end
+
+    if not value then
+        local spawner = data.malbatrossspawner
+        if spawner and spawner.activeguid ~= nil then
+            value = "yes"
+        elseif spawner then
+            local timetospawn = spawner._time_until_spawn
+            if type(timetospawn) == "number" then
+                if spawner._firstspawn == true or timetospawn <= 0 then
+                    value = "waiting"
+                elseif timetospawn > 0 then
+                    value = self:ToValueClock(timetospawn - GetTime())
+                else
+                    value = "no"
+                end
+            end
+        end
+    end
+
+    self:PushSaveDataLine("Malbatross", value or "error")
+end
+
+--- Pushes `deerherdspawner` line.
+function WorldData:PushDeersSpawnerLine()
+    local value
+
+    local data = self.savedatadevtools:GetMapPersistData()
+    if not data or type(data.deerherdspawner) ~= "table" then
+        value = "unavailable"
+    end
+
+    if not value then
+        local spawner = data.deerherdspawner
+        if spawner and type(spawner._timetospawn) == "number" then
+            value = spawner._timetospawn <= 0
+                and "waiting"
+                or self:ToValueClock(spawner._timetospawn - GetTime())
+        elseif spawner and type(spawner._activedeer) == "table" then
+            value = #spawner._activedeer
+        end
+    end
+
+    self:PushSaveDataLine("Deers", value or "error")
+end
+
+--- Pushes `klaussackspawner` line.
+function WorldData:PushKlausSackSpawnerLine()
+    local value
+
+    local data = self.savedatadevtools:GetMapPersistData()
+    if not data or type(data.klaussackspawner) ~= "table" then
+        value = "unavailable"
+    end
+
+    if not value then
+        local spawner = data.klaussackspawner
+        if spawner and type(spawner.timetorespawn) == "number" then
+            value = spawner.timetorespawn > 0
+                and self:ToValueClock(spawner.timetorespawn - GetTime())
+                or "no"
+        elseif spawner and spawner.timetorespawn == false then
+            value = "yes"
+        end
+    end
+
+    self:PushSaveDataLine("Klaus Sack", value or "error")
+end
+
+--- Pushes `hounded` line.
+function WorldData:PushHoundedLine()
+    local value
+
+    local data = self.savedatadevtools:GetMapPersistData()
+    if not data or type(data.hounded) ~= "table" then
+        value = "unavailable"
+    end
+
+    if not value then
+        local hounded = data.hounded
+        if hounded and type(hounded.timetoattack) == "number" then
+            value = hounded.timetoattack > 0
+                and self:ToValueClock(hounded.timetoattack - GetTime())
+                or "no"
+        end
+    end
+
+    self:PushSaveDataLine(
+        (self.worlddevtools:IsCave() and "Worms" or "Hounds") .. " Attack",
+        value or "error"
+    )
+end
+
+--- Pushes `chessunlocks` line.
+function WorldData:PushChessUnlocksLine()
+    local value
+
+    local data = self.savedatadevtools:GetMapPersistData()
+    if not data or type(data.chessunlocks) ~= "table" then
+        value = "unavailable"
+    end
+
+    if not value then
+        local chessunlocks = data.chessunlocks
+        if chessunlocks and type(chessunlocks.unlocks) == "table" then
+            value = #chessunlocks.unlocks > 0
+                and table.concat(chessunlocks.unlocks, ", ")
+                or "no"
+        end
+    end
+
+    self:PushSaveDataLine("Chess Unlocks", value or "error")
+end
 
 --- Pushes save data.
 function WorldData:PushSaveData()
     Utils.AssertRequiredField("WorldData.savedatadevtools", self.savedatadevtools)
     Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
 
-    PushSaveDataLine(self, "Seed", self.savedatadevtools:GetSeed())
-    PushSaveDataLine(self, "Save Version", self.savedatadevtools:GetVersion())
+    self:PushSaveDataLine("Seed", self.savedatadevtools:GetSeed())
+    self:PushSaveDataLine("Save Version", self.savedatadevtools:GetVersion())
 
-    -- Commented out intentionally. Will be uncommented later.
-    --local worlddevtools = self.worlddevtools
-    --local persistdata = self.savedatadevtools:GetMapPersistData()
-    --if persistdata then
-    --    if not worlddevtools:IsCave() then
-    --        PushSaveDataLine(self, "Deerclops", GetDeerclopsSpawnerValue(persistdata))
-    --        PushSaveDataLine(self, "Bearger", GetBeargerSpawnerValue(self, persistdata))
-    --        PushSaveDataLine(self, "Malbatross", GetMalbatrossSpawnerValue(self, persistdata))
-    --        PushSaveDataLine(self, "Deers", GetDeersSpawnerValue(self, persistdata))
-    --        PushSaveDataLine(self, "Klaus Sack", GetKlausSackSpawnerValue(self, persistdata))
-    --        PushSaveDataLine(self, "Hounds Attack", GetHoundedValue(self, persistdata))
-    --    else
-    --        PushSaveDataLine(self, "Worms Attack", GetHoundedValue(self, persistdata))
+    -- Commented out intentionally. Maybe will be uncommented later.
+    --if self.savedatadevtools:GetMapPersistData() then
+    --    if not self.worlddevtools:IsCave() then
+    --        self:PushDeerclopsSpawnerLine()
+    --        self:PushBeargerSpawnerLine()
+    --        self:PushMalbatrossSpawnerLine()
+    --        self:PushDeersSpawnerLine()
+    --        self:PushKlausSackSpawnerLine()
     --    end
-    --    PushSaveDataLine(self, "Chess Unlocks", GetChessUnlocksValue(persistdata))
+    --    self:PushHoundedLine()
+    --    self:PushChessUnlocksLine()
     --end
 end
 
@@ -370,23 +414,6 @@ function WorldData:__tostring()
     end
 
     return table.concat(t)
-end
-
-if _G.MOD_DEV_TOOLS_TEST then
-    --WorldData._GetBeargerSpawnerValue = GetBeargerSpawnerValue
-    --WorldData._GetChessUnlocksValue = GetChessUnlocksValue
-    --WorldData._GetDeerclopsSpawnerValue = GetDeerclopsSpawnerValue
-    --WorldData._GetDeersSpawnerValue = GetDeersSpawnerValue
-    --WorldData._GetHoundedValue = GetHoundedValue
-    --WorldData._GetKlausSackSpawnerValue = GetKlausSackSpawnerValue
-    --WorldData._GetMalbatrossSpawnerValue = GetMalbatrossSpawnerValue
-    WorldData._PushSaveDataLine = PushSaveDataLine
-    WorldData._PushWorldLine = PushWorldLine
-    WorldData._PushWorldMoistureLine = PushWorldMoistureLine
-    WorldData._PushWorldPhaseLine = PushWorldPhaseLine
-    WorldData._PushWorldPrecipitationLines = PushWorldPrecipitationLines
-    WorldData._PushWorldTemperatureLine = PushWorldTemperatureLine
-    WorldData._PushWorldWetnessLine = PushWorldWetnessLine
 end
 
 return WorldData

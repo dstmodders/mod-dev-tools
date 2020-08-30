@@ -101,7 +101,10 @@ end
 --- Player
 -- @section player
 
-local function PushPlayerLine(self, name, value)
+--- Pushes player line.
+-- @tparam string name
+-- @tparam string value
+function SelectedData:PushPlayerLine(name, value)
     self:PushLine(self.player_lines_stack, name, value)
 end
 
@@ -117,46 +120,42 @@ function SelectedData:PushPlayerData()
     local player = self.player
     local playerdevtools = self.playerdevtools
 
-    PushPlayerLine(self, "GUID", player.GUID)
-    PushPlayerLine(self, "Prefab", player.entity:GetPrefabName())
-    PushPlayerLine(self, "Display Name", player:GetDisplayName())
+    self:PushPlayerLine("GUID", player.GUID)
+    self:PushPlayerLine("Prefab", player.entity:GetPrefabName())
+    self:PushPlayerLine("Display Name", player:GetDisplayName())
 
     local state_name, state = GetStateGraph(self, player)
     if state_name ~= false then
-        PushPlayerLine(self, "StateGraph", { state_name, state })
+        self:PushPlayerLine("StateGraph", { state_name, state })
     end
 
     local bank, build, anim = GetAnimState(self, player)
     if bank ~= false then
-        PushPlayerLine(self, "AnimState", { bank, build, anim })
+        self:PushPlayerLine("AnimState", { bank, build, anim })
     end
 
     if playerdevtools:IsOwner(player) or playerdevtools:IsReal(player) == false then
         if devtools.inst == player or (devtools.ismastersim or playerdevtools:IsAdmin()) then
             local health = self:ToValuePercent(playerdevtools:GetHealthPercent(player) or 0)
             local health_max = self:ToValuePercent(playerdevtools:GetMaxHealthPercent(player) or 0)
-            PushPlayerLine(self, "Health / Maximum", { health, health_max })
+            self:PushPlayerLine("Health / Maximum", { health, health_max })
 
-            PushPlayerLine(
-                self,
+            self:PushPlayerLine(
                 "Hunger",
                 self:ToValuePercent(playerdevtools:GetHungerPercent(player))
             )
 
-            PushPlayerLine(
-                self,
+            self:PushPlayerLine(
                 "Sanity",
                 self:ToValuePercent(playerdevtools:GetSanityPercent(player))
             )
 
-            PushPlayerLine(
-                self,
+            self:PushPlayerLine(
                 "Moisture",
                 self:ToValuePercent(playerdevtools:GetMoisturePercent(player))
             )
 
-            PushPlayerLine(
-                self,
+            self:PushPlayerLine(
                 "Temperature",
                 self:ToValueScale(playerdevtools:GetTemperature(player))
             )
@@ -166,12 +165,12 @@ function SelectedData:PushPlayerData()
     if devtools.ismastersim or playerdevtools:IsAdmin() then
         local is_god_mode = playerdevtools:IsGodMode(player)
         if is_god_mode ~= nil then
-            PushPlayerLine(self, "God Mode", (is_god_mode and "enabled" or "disabled"))
+            self:PushPlayerLine("God Mode", (is_god_mode and "enabled" or "disabled"))
         end
 
         local is_free_crafting = craftingdevtools:IsFreeCrafting(player)
         if is_free_crafting ~= nil then
-            PushPlayerLine(self, "Free Crafting", is_free_crafting and "enabled" or "disabled")
+            self:PushPlayerLine("Free Crafting", is_free_crafting and "enabled" or "disabled")
         end
     end
 end

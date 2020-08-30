@@ -147,6 +147,7 @@ files["scripts/**/*.lua"] = {
     "ConsoleCommandPlayer",
     "dumptable",
     "GetDebugEntity",
+    "GetTime",
     "GetValidRecipe",
     "global_error_widget",
     "global_loading_widget",

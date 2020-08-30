@@ -57,7 +57,10 @@ end
 --- Recipe
 -- @section recipe
 
-local function PushRecipeLine(self, name, value)
+--- Pushes recipe line.
+-- @tparam string name
+-- @tparam string value
+function RecipeData:PushRecipeLine(name, value)
     self:PushLine(self.recipe_lines_stack, name, value)
 end
 
@@ -68,24 +71,24 @@ function RecipeData:PushRecipeData()
 
     local recipe = self.recipe
 
-    PushRecipeLine(self, "RPC ID", recipe.rpc_id)
+    self:PushRecipeLine("RPC ID", recipe.rpc_id)
 
     if recipe.nounlock ~= nil and type(recipe.nounlock) == "boolean" then
-        PushRecipeLine(self, "Unlockable", tostring(not recipe.nounlock and "yes" or "no"))
+        self:PushRecipeLine("Unlockable", tostring(not recipe.nounlock and "yes" or "no"))
     end
 
-    PushRecipeLine(self, "Name", recipe.name)
+    self:PushRecipeLine("Name", recipe.name)
 
     if recipe.product then
         if recipe.numtogive and recipe.numtogive > 1 then
-            PushRecipeLine(self, "Product", { recipe.product, recipe.numtogive })
+            self:PushRecipeLine("Product", { recipe.product, recipe.numtogive })
         else
-            PushRecipeLine(self, "Product", recipe.product)
+            self:PushRecipeLine("Product", recipe.product)
         end
     end
 
-    PushRecipeLine(self, "Placer", recipe.placer)
-    PushRecipeLine(self, "Builder Tag", recipe.builder_tag)
+    self:PushRecipeLine("Placer", recipe.placer)
+    self:PushRecipeLine("Builder Tag", recipe.builder_tag)
 
     if recipe.build_mode then
         local mode = "NONE"
@@ -94,16 +97,19 @@ function RecipeData:PushRecipeData()
         elseif recipe.build_mode == BUILDMODE.WATER then
             mode = "WATER"
         end
-        PushRecipeLine(self, "Build Mode", mode)
+        self:PushRecipeLine("Build Mode", mode)
     end
 
-    PushRecipeLine(self, "Build Distance", recipe.build_distance)
+    self:PushRecipeLine("Build Distance", recipe.build_distance)
 end
 
 --- Ingredients
 -- @section ingredients
 
-local function PushIngredientLine(self, type, amount)
+--- Pushes ingredient line.
+-- @tparam string type
+-- @tparam number amount
+function RecipeData:PushIngredientLine(type, amount)
     local inventory = self.inventorydevtools:GetInventory()
     local name = Utils.GetStringName(type)
 
@@ -127,7 +133,7 @@ function RecipeData:PushIngredientsData()
 
     if self.recipe.ingredients then
         for _, ingredient in pairs(self.recipe.ingredients) do
-            PushIngredientLine(self, ingredient.type, ingredient.amount)
+            self:PushIngredientLine(ingredient.type, ingredient.amount)
         end
     end
 end
