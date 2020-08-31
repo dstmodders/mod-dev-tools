@@ -653,7 +653,7 @@ function Utils.EnableSendRPCToServer()
         SendRPCToServer = _SendRPCToServer
         _SendRPCToServer = nil
         DebugString("SendRPCToServer: enabled")
-    elseif Debug then
+    else
         DebugString("SendRPCToServer: already enabled")
     end
 end
