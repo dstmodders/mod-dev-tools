@@ -70,18 +70,13 @@ files["modmain.lua"] = {
 
   -- globals
   globals = {
-    "Assets",
     "GLOBAL",
   },
   read_globals = {
     "AddClassPostConstruct",
     "AddComponentPostInit",
-    "AddPrefabPostInit",
-    "AddPrefabPostInitAny",
-    "Asset",
     "GetModConfigData",
     "modname",
-    "TableCount",
   },
 }
 
@@ -171,13 +166,12 @@ files["scripts/**/*.lua"] = {
     "TheSim",
     "TrackedAssert",
     "Vector3",
-    "WHITE",
 
     -- constants
     "ACTIONS",
-    "ANCHOR_RIGHT",
     "ANCHOR_LEFT",
     "ANCHOR_MIDDLE",
+    "ANCHOR_RIGHT",
     "ANCHOR_TOP",
     "BODYTEXTFONT",
     "BUILDMODE",
@@ -200,6 +194,7 @@ files["scripts/**/*.lua"] = {
     "SCALEMODE_FILLSCREEN",
     "SCALEMODE_PROPORTIONAL",
     "SPECIAL_EVENTS",
+    "WHITE",
 
     -- threads
     "KillThreadsWithID",
