@@ -60,19 +60,12 @@ describe("PlayerDevTools", function()
 
     before_each(function()
         -- test data
-        inst = MockPlayerInst(mock, "PlayerInst", nil, { "godmode", "idle" }, { "wereness" })
-        player_dead = MockPlayerInst(mock, "PlayerDead", "KU_one", { "dead", "idle" })
-        player_hopping = MockPlayerInst(mock, "PlayerHopping", "KU_two", { "hopping" })
-        player_running = MockPlayerInst(mock, "PlayerRunning", "KU_four", { "running" })
-        player_sinking = MockPlayerInst(mock, "PlayerSinking", "KU_five", { "sinking" })
-        player_over_water = MockPlayerInst(
-            mock,
-            "PlayerOverWater",
-            "KU_three",
-            nil,
-            nil,
-            { 100, 0, 100 }
-        )
+        inst = MockPlayerInst("PlayerInst", nil, { "godmode", "idle" }, { "wereness" })
+        player_dead = MockPlayerInst("PlayerDead", "KU_one", { "dead", "idle" })
+        player_hopping = MockPlayerInst("PlayerHopping", "KU_two", { "hopping" })
+        player_running = MockPlayerInst("PlayerRunning", "KU_four", { "running" })
+        player_sinking = MockPlayerInst("PlayerSinking", "KU_five", { "sinking" })
+        player_over_water = MockPlayerInst("PlayerOverWater", "KU_three", nil, nil, { 100, 0, 100 })
 
         players = {
             inst,
@@ -84,7 +77,7 @@ describe("PlayerDevTools", function()
         }
 
         -- globals (TheNet)
-        _G.TheNet = MockTheNet(mock, {
+        _G.TheNet = MockTheNet({
             {
                 userid = inst.userid,
                 admin = true
@@ -116,11 +109,11 @@ describe("PlayerDevTools", function()
         _G.ConsoleRemote = spy.new(Empty)
         _G.GROUND = { INVALID = 255 }
         _G.SetDebugEntity = spy.new(Empty)
-        _G.TheSim = MockTheSim(mock)
+        _G.TheSim = MockTheSim()
 
         -- initialization
-        devtools = MockDevTools(mock)
-        world = MockWorldDevTools(mock)
+        devtools = MockDevTools()
+        world = MockWorldDevTools()
 
         PlayerDevTools = require "devtools/devtools/playerdevtools"
         playerdevtools = PlayerDevTools(inst, world, devtools)
@@ -131,7 +124,7 @@ describe("PlayerDevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            devtools = MockDevTools(mock)
+            devtools = MockDevTools()
 
             -- initialization
             PlayerDevTools = require "devtools/devtools/playerdevtools"
@@ -292,7 +285,7 @@ describe("PlayerDevTools", function()
 
             describe("when the TheNet.GetClientTable() returns an empty table", function()
                 before_each(function()
-                    _G.TheNet = MockTheNet(mock, {})
+                    _G.TheNet = MockTheNet({})
                     GetClientTable = TheNet.GetClientTable
                 end)
 
@@ -582,7 +575,7 @@ describe("PlayerDevTools", function()
         -- TODO: Split the PlayerDevTools:IsOverWater() tests into smaller ones
         describe("IsOverWater", function()
             local function AssertOverWater(player)
-                world = MockWorldDevTools(mock)
+                world = MockWorldDevTools()
                 playerdevtools.world = world
 
                 assert.spy(player.Transform.GetWorldPosition).was_not_called()
@@ -617,7 +610,7 @@ describe("PlayerDevTools", function()
             end
 
             local function AssertNotOverWater(player)
-                world = MockWorldDevTools(mock)
+                world = MockWorldDevTools()
                 playerdevtools.world = world
 
                 assert.spy(player.Transform.GetWorldPosition).was_not_called()
@@ -651,7 +644,7 @@ describe("PlayerDevTools", function()
                 player.Transform = nil
                 assert.is_nil(playerdevtools:IsOverWater(player))
 
-                world = MockWorldDevTools(mock, true)
+                world = MockWorldDevTools(true)
                 playerdevtools.world = world
 
                 world.inst.Map.IsVisualGroundAtPoint = nil

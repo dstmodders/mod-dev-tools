@@ -28,7 +28,7 @@ describe("WorldData", function()
         _G.GetTime = spy.new(ReturnValueFn(0))
 
         -- initialization
-        worlddevtools = MockWorldDevTools(mock)
+        worlddevtools = MockWorldDevTools()
 
         WorldData = require "devtools/data/worlddata"
         worlddata = WorldData(worlddevtools)

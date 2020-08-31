@@ -16,7 +16,7 @@ describe("DevTools", function()
 
     before_each(function()
         -- initialization
-        _devtools = MockDevTools(mock)
+        _devtools = MockDevTools()
 
         DevTools = require "devtools/devtools/devtools"
         devtools = DevTools("Test", _devtools)
@@ -27,7 +27,7 @@ describe("DevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            _devtools = MockDevTools(mock)
+            _devtools = MockDevTools()
 
             -- initialization
             DevTools = require "devtools/devtools/devtools"

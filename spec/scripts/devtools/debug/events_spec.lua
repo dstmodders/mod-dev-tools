@@ -33,7 +33,7 @@ describe("Events", function()
 
     before_each(function()
         -- test data
-        player = MockPlayerInst(mock)
+        player = MockPlayerInst()
 
         -- initialization
         debug = mock({

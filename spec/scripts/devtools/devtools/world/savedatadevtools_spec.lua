@@ -20,11 +20,11 @@ describe("SaveDataDevTools", function()
 
     before_each(function()
         -- globals
-        _G.TheSim = MockTheSim(mock)
+        _G.TheSim = MockTheSim()
 
         -- initialization
-        devtools = MockDevTools(mock)
-        worlddevtools = MockWorldDevTools(mock)
+        devtools = MockDevTools()
+        worlddevtools = MockWorldDevTools()
 
         SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
         savedatadevtools = SaveDataDevTools(worlddevtools, devtools)
@@ -35,7 +35,7 @@ describe("SaveDataDevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            devtools = MockDevTools(mock)
+            devtools = MockDevTools()
 
             -- initialization
             SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"

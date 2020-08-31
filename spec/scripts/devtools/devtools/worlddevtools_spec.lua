@@ -1,7 +1,7 @@
 require "busted.runner"()
 
 describe("WorldDevTools", function()
-    -- general
+    -- setup
     local match
 
     -- before_each initialization
@@ -37,11 +37,11 @@ describe("WorldDevTools", function()
         _G.SetDebugEntity = spy.new(Empty)
         _G.StartThread = spy.new(Empty)
         _G.TheInput = spy.new(Empty)
-        _G.TheSim = MockTheSim(mock)
+        _G.TheSim = MockTheSim()
 
         -- initialization
-        devtools = MockDevTools(mock)
-        inst = MockWorldInst(mock)
+        devtools = MockDevTools()
+        inst = MockWorldInst()
 
         WorldDevTools = require "devtools/devtools/worlddevtools"
         worlddevtools = WorldDevTools(inst, devtools)
@@ -58,7 +58,7 @@ describe("WorldDevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            devtools = MockDevTools(mock)
+            devtools = MockDevTools()
 
             -- initialization
             WorldDevTools = require "devtools/devtools/worlddevtools"

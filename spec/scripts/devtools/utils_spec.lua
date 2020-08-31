@@ -35,8 +35,8 @@ describe("Utils", function()
         DebugSpyClear()
 
         -- globals
-        _G.TheNet = MockTheNet(mock)
-        _G.TheSim = MockTheSim(mock)
+        _G.TheNet = MockTheNet()
+        _G.TheSim = MockTheSim()
     end)
 
     describe("general", function()

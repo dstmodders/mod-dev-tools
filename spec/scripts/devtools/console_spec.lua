@@ -120,7 +120,7 @@ describe("Console", function()
 
             before_each(function()
                 RunInSandboxSafe = spy.new(Empty)
-                TheSim = MockTheSim(mock)
+                TheSim = MockTheSim()
 
                 _G.RunInSandboxSafe = RunInSandboxSafe
                 _G.TheSim = TheSim

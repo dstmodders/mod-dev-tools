@@ -16,8 +16,8 @@ describe("CraftingDevTools", function()
 
     before_each(function()
         -- initialization
-        devtools = MockDevTools(mock)
-        playerdevtools = MockPlayerDevTools(mock)
+        devtools = MockDevTools()
+        playerdevtools = MockPlayerDevTools()
         playerdevtools.crafting = nil
 
         CraftingDevTools = require "devtools/devtools/player/craftingdevtools"
@@ -29,8 +29,8 @@ describe("CraftingDevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            devtools = MockDevTools(mock)
-            playerdevtools = MockPlayerDevTools(mock)
+            devtools = MockDevTools()
+            playerdevtools = MockPlayerDevTools()
             playerdevtools.crafting = nil
 
             -- initialization

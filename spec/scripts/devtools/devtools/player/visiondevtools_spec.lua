@@ -36,11 +36,11 @@ describe("VisionDevTools", function()
 
     before_each(function()
         -- globals
-        _G.TheSim = MockTheSim(mock)
+        _G.TheSim = MockTheSim()
 
         -- initialization
-        devtools = MockDevTools(mock)
-        playerdevtools = MockPlayerDevTools(mock)
+        devtools = MockDevTools()
+        playerdevtools = MockPlayerDevTools()
         playerdevtools.vision = nil
 
         VisionDevTools = require "devtools/devtools/player/visiondevtools"
@@ -52,8 +52,8 @@ describe("VisionDevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            devtools = MockDevTools(mock)
-            playerdevtools = MockPlayerDevTools(mock)
+            devtools = MockDevTools()
+            playerdevtools = MockPlayerDevTools()
             playerdevtools.vision = nil
 
             -- initialization

@@ -16,8 +16,8 @@ describe("MapDevTools", function()
 
     before_each(function()
         -- initialization
-        devtools = MockDevTools(mock)
-        playerdevtools = MockPlayerDevTools(mock)
+        devtools = MockDevTools()
+        playerdevtools = MockPlayerDevTools()
 
         MapDevTools = require "devtools/devtools/player/mapdevtools"
         mapdevtools = MapDevTools(playerdevtools, devtools)
@@ -28,8 +28,8 @@ describe("MapDevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            devtools = MockDevTools(mock)
-            playerdevtools = MockPlayerDevTools(mock)
+            devtools = MockDevTools()
+            playerdevtools = MockPlayerDevTools()
 
             -- initialization
             MapDevTools = require "devtools/devtools/player/mapdevtools"

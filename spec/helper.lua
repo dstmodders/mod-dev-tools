@@ -147,7 +147,7 @@ end
 --
 
 function MockRPCInit()
-    local spy = require 'busted'.spy
+    local spy = require("busted").spy
 
     _G.ACTIONS = {
         EQUIP = {
@@ -163,7 +163,7 @@ function MockRPCInit()
         UseItemFromInvTile = 56,
     }
 
-    _G.SendRPCToServer = spy.new(Empty())
+    _G.SendRPCToServer = spy.new(Empty)
 end
 
 function MockRPCTerm()
@@ -220,16 +220,16 @@ function AssertChainNil(fn, src, ...)
 end
 
 function AssertMethodExists(class, fn_name)
-    local assert = require "busted".assert
+    local assert = require("busted").assert
     local classname = class.name ~= nil and class.name or "Class"
     assert.is_not_nil(
         class[fn_name],
-        string.format("Function %s:%s() is missing", classname, fn_name)
+        string.format("Function %s:%s() is missing", tostring(classname), tostring(fn_name))
     )
 end
 
 function AssertMethodIsMissing(class, fn_name)
-    local assert = require "busted".assert
+    local assert = require("busted").assert
     local classname = class.name ~= nil and class.name or "Class"
     assert.is_nil(class[fn_name], string.format("Function %s:%s() exists", classname, fn_name))
 end
@@ -237,19 +237,19 @@ end
 function AssertGetter(class, field, fn_name, test_data)
     test_data = test_data ~= nil and test_data or "test"
 
-    local assert = require "busted".assert
     AssertMethodExists(class, fn_name)
     local classname = class.name ~= nil and class.name or "Class"
     local fn = class[fn_name]
 
     local msg = string.format(
         "Getter %s:%s() doesn't return the %s.%s value",
-        classname,
-        fn_name,
-        classname,
-        field
+        tostring(classname),
+        tostring(fn_name),
+        tostring(classname),
+        tostring(field)
     )
 
+    local assert = require("busted").assert
     assert.is_equal(class[field], fn(class), msg)
     class[field] = test_data
     assert.is_equal(test_data, fn(class), msg)
@@ -258,20 +258,21 @@ end
 function AssertSetter(class, field, fn_name, test_data)
     test_data = test_data ~= nil and test_data or "test"
 
-    local assert = require "busted".assert
     AssertMethodExists(class, fn_name)
     local classname = class.name ~= nil and class.name or "Class"
     local fn = class[fn_name]
 
     local msg = string.format(
         "Setter %s:%s() doesn't set the %s.%s value",
-        classname,
-        fn_name,
-        classname,
-        field
+        tostring(classname),
+        tostring(fn_name),
+        tostring(classname),
+        tostring(field)
     )
 
     fn(class, test_data)
+
+    local assert = require("busted").assert
     assert.is_equal(test_data, class[field], msg)
 end
 
@@ -279,13 +280,13 @@ end
 -- Mocks
 --
 
-function MockTheNet(mock, client_table)
+function MockTheNet(client_table)
     client_table = client_table ~= nil and client_table or {
         { userid = "KU_admin", admin = true },
         { userid = "KU_one", admin = false },
     }
 
-    return mock({
+    return require("busted").mock({
         GetClientTable = function()
             return client_table
         end,
@@ -293,8 +294,8 @@ function MockTheNet(mock, client_table)
     })
 end
 
-function MockTheSim(mock)
-    return mock({
+function MockTheSim()
+    return require("busted").mock({
         GetPersistentString = Empty,
         GetPosition = Empty,
         ProjectScreenPos = function()
@@ -303,27 +304,27 @@ function MockTheSim(mock)
     })
 end
 
-function MockDevTools(mock)
-    return mock({
+function MockDevTools()
+    return require("busted").mock({
         name = "DevTools",
     })
 end
 
-function MockInventoryReplica(mock)
-    return mock({
+function MockInventoryReplica()
+    return require("busted").mock({
         GetEquippedItem = Empty,
         GetItems = Empty,
     })
 end
 
-function MockPlayerDevTools(mock)
-    local world = MockWorldDevTools(mock)
-    return mock({
+function MockPlayerDevTools()
+    local world = MockWorldDevTools()
+    return require("busted").mock({
         console = {},
         controller = nil,
         crafting = {},
-        inst = MockPlayerInst(mock, "PlayerInst"),
-        inventory = MockInventoryReplica(mock),
+        inst = MockPlayerInst("PlayerInst"),
+        inventory = MockInventoryReplica(),
         ismastersim = world.inst.ismastersim,
         name = "PlayerDevTools",
         vision = {},
@@ -332,7 +333,7 @@ function MockPlayerDevTools(mock)
     })
 end
 
-function MockPlayerInst(mock, name, userid, states, tags, position)
+function MockPlayerInst(name, userid, states, tags, position)
     userid = userid ~= nil and userid or "KU_admin"
     states = states ~= nil and states or { "idle" }
     tags = tags ~= nil and tags or {}
@@ -369,7 +370,7 @@ function MockPlayerInst(mock, name, userid, states, tags, position)
         table.insert(tags, "busy")
     end
 
-    return mock({
+    return require("busted").mock({
         components = {
             health = {
                 invincible = TableHasValue(states, "godmode"),
@@ -405,7 +406,7 @@ function MockPlayerInst(mock, name, userid, states, tags, position)
         },
         prefab = "wilson",
         replica = {
-            inventory = MockInventoryReplica(mock),
+            inventory = MockInventoryReplica(),
         },
         sg = {
             HasStateTag = function(_, tag)
@@ -441,9 +442,9 @@ function MockPlayerInst(mock, name, userid, states, tags, position)
     })
 end
 
-function MockWorldDevTools(mock)
-    return mock({
-        inst = MockWorldInst(mock),
+function MockWorldDevTools()
+    return require("busted").mock({
+        inst = MockWorldInst(),
         name = "WorldDevTools",
         GetMoistureFloor = ReturnValueFn(250),
         GetMoistureRate = ReturnValueFn(1.5),
@@ -470,8 +471,8 @@ function MockWorldDevTools(mock)
     })
 end
 
-function MockWorldInst(mock)
-    return mock({
+function MockWorldInst()
+    return require("busted").mock({
         ismastersim = true,
         meta = {
             saveversion = "5.031",

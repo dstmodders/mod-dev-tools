@@ -1,14 +1,14 @@
 require "busted.runner"()
 
 describe("ConsoleDevTools", function()
-    -- general
+    -- setup
     local match
+
+    -- before_each initialization
+    local ConsoleDevTools, consoledevtools
     local devtools, playerdevtools
 
-    -- initialization
-    local ConsoleDevTools, consoledevtools
-
-    -- debug
+    -- before_each debug
     local DebugSelectedPlayerString, DebugString
     local DebugError, DebugErrorNotAdmin, DebugErrorNotInCave, DebugErrorNotInForest
 
@@ -29,14 +29,14 @@ describe("ConsoleDevTools", function()
 
     before_each(function()
         -- general
-        devtools = MockDevTools(mock)
-        playerdevtools = MockPlayerDevTools(mock)
+        devtools = MockDevTools()
+        playerdevtools = MockPlayerDevTools()
 
         -- globals
         _G.ConsoleRemote = spy.new(Empty)
         _G.MOD_DEV_TOOLS_TEST = true
-        _G.TheNet = MockTheNet(mock)
-        _G.TheSim = MockTheSim(mock)
+        _G.TheNet = MockTheNet()
+        _G.TheSim = MockTheSim()
 
         -- initialization
         ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
@@ -54,8 +54,8 @@ describe("ConsoleDevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            devtools = MockDevTools(mock)
-            playerdevtools = MockPlayerDevTools(mock)
+            devtools = MockDevTools()
+            playerdevtools = MockPlayerDevTools()
 
             -- initialization
             ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
