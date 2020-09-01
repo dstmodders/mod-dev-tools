@@ -70,38 +70,6 @@ local Menu = Class(function(self, screen, devtools)
     self.title = title
 end)
 
---- Helpers
--- @section helpers
-
-local function AddDividerOption(self)
-    table.insert(self.options, DividerOption())
-end
-
-local function AddToggleOption(self, label, get, set, idx)
-    if not get.src or not set.src then
-        return
-    end
-
-    table.insert(self.options, ToggleCheckboxOption({
-        label = label,
-        get = get,
-        set = set,
-        on_accept_fn = function()
-            return idx and self.screen:UpdateMenu(idx)
-        end,
-    }))
-end
-
-local function AddGrabProfileOption(self)
-    table.insert(self.options, DoActionOption({
-        label = "Grab Profile",
-        on_accept_fn = function()
-            TheSim:Profile()
-            self.screen:Close()
-        end,
-    }))
-end
-
 --- General
 -- @section general
 
@@ -129,6 +97,48 @@ function Menu:Clear()
     self.options = {}
 end
 
+--- Options
+-- @section options
+
+--- Adds divider option.
+function Menu:AddDividerOption()
+    table.insert(self.options, DividerOption())
+end
+
+--- Adds toggle option.
+-- @tparam string label
+-- @tparam table get
+-- @tparam table set
+-- @tparam number idx
+function Menu:AddToggleOption(label, get, set, idx)
+    if not get.src or not set.src then
+        return
+    end
+
+    table.insert(self.options, ToggleCheckboxOption({
+        label = label,
+        get = get,
+        set = set,
+        on_accept_fn = function()
+            return idx and self.screen:UpdateMenu(idx)
+        end,
+    }))
+end
+
+--- Adds grab profile option.
+function Menu:AddGrabProfileOption()
+    table.insert(self.options, DoActionOption({
+        label = "Grab Profile",
+        on_accept_fn = function()
+            TheSim:Profile()
+            self.screen:Close()
+        end,
+    }))
+end
+
+--- Menu
+-- @section menu
+
 --- Adds submenu.
 -- @tparam menu.submenu.Submenu submenu Class submenu (not an instance)
 function Menu:AddSubmenu(submenu)
@@ -137,17 +147,92 @@ function Menu:AddSubmenu(submenu)
     end
 end
 
---- Update
--- @section update
+--- Adds select submenus.
+-- @see AddMenu
+function Menu:AddSelectSubmenu()
+    self:AddSubmenu(SelectSubmenu)
+    self:AddDividerOption()
+end
 
---- Updates menu.
---
--- Clears both menu (`menu.TextMenu`) and options and recreates them.
---
--- @see menu.TextMenu
-function Menu:Update()
-    self:Clear()
+--- Adds selected player submenus.
+-- @see AddMenu
+function Menu:AddSelectedPlayerSubmenus()
+    local devtools = self.devtools
+    local playerdevtools = devtools.player
+    local craftingdevtools = playerdevtools.crafting
 
+    if playerdevtools:IsAdmin() then
+        local player = playerdevtools:GetSelected()
+        local prefix = #devtools:GetAllPlayers() > 1
+            and string.format("[ %s ]  ", player:GetDisplayName())
+            or ""
+
+        self:AddToggleOption(
+            { name = "God Mode", prefix = prefix },
+            { src = playerdevtools, name = "IsGodMode" },
+            { src = playerdevtools, name = "ToggleGodMode" }
+        )
+
+        self:AddToggleOption(
+            { name = "Free Crafting", prefix = prefix },
+            { src = craftingdevtools, name = "IsFreeCrafting" },
+            { src = craftingdevtools, name = "ToggleFreeCrafting" },
+            3
+        )
+
+        self:AddSubmenu(PlayerBarsSubmenu)
+        self:AddSubmenu(TeleportSubmenu)
+        self:AddDividerOption()
+    end
+end
+
+--- Adds player submenus.
+-- @see AddMenu
+function Menu:AddPlayerSubmenus()
+    local devtools = self.devtools
+    local playerdevtools = devtools.player
+    local worlddevtools = devtools.world
+
+    if not worlddevtools:IsMasterSim() then
+        self:AddToggleOption(
+            { name = "Movement Prediction" },
+            { src = playerdevtools, name = "IsMovementPrediction" },
+            { src = playerdevtools, name = "ToggleMovementPrediction" }
+        )
+    end
+
+    self:AddSubmenu(CharacterRecipesSubmenu)
+    self:AddSubmenu(LabelsSubmenu)
+    self:AddSubmenu(MapSubmenu)
+    self:AddSubmenu(PlayerVisionSubmenu)
+    self:AddDividerOption()
+end
+
+--- Adds world submenus.
+-- @see AddMenu
+function Menu:AddWorldSubmenus()
+    self:AddSubmenu(TimeControlSubmenu)
+    self:AddSubmenu(WeatherControlSubmenu)
+    self:AddDividerOption()
+end
+
+--- Adds general submenus.
+-- @see AddMenu
+function Menu:AddGeneralSubmenus()
+    self:AddSubmenu(DebugSubmenu)
+    self:AddSubmenu(DumpSubmenu)
+    self:AddSubmenu(LanguageSubmenu)
+    self:AddDividerOption()
+    self:AddGrabProfileOption()
+end
+
+--- Adds menu.
+-- @see AddGeneralSubmenus
+-- @see AddPlayerSubmenus
+-- @see AddSelectedPlayerSubmenus
+-- @see AddSelectSubmenu
+-- @see AddWorldSubmenus
+function Menu:AddMenu()
     self.menu = TextMenu(self.title)
 
     local devtools = self.devtools
@@ -155,71 +240,27 @@ function Menu:Update()
     local worlddevtools = devtools.world
 
     if devtools and worlddevtools and playerdevtools then
-        local craftingdevtools = playerdevtools.crafting
-
-        -- select
-        self:AddSubmenu(SelectSubmenu)
-        AddDividerOption(self)
-
-        -- player
-        if playerdevtools:IsAdmin() then
-            local player = playerdevtools:GetSelected()
-            local prefix = #devtools:GetAllPlayers() > 1
-                and string.format("[ %s ]  ", player:GetDisplayName())
-                or ""
-
-            AddToggleOption(
-                self,
-                { name = "God Mode", prefix = prefix },
-                { src = playerdevtools, name = "IsGodMode" },
-                { src = playerdevtools, name = "ToggleGodMode" }
-            )
-
-            AddToggleOption(
-                self,
-                { name = "Free Crafting", prefix = prefix },
-                { src = craftingdevtools, name = "IsFreeCrafting" },
-                { src = craftingdevtools, name = "ToggleFreeCrafting" },
-                3
-            )
-
-            self:AddSubmenu(PlayerBarsSubmenu)
-            self:AddSubmenu(TeleportSubmenu)
-            AddDividerOption(self)
-        end
-
-        -- self
-        if not worlddevtools:IsMasterSim() then
-            AddToggleOption(
-                self,
-                { name = "Movement Prediction" },
-                { src = playerdevtools, name = "IsMovementPrediction" },
-                { src = playerdevtools, name = "ToggleMovementPrediction" }
-            )
-        end
-
-        self:AddSubmenu(CharacterRecipesSubmenu)
-        self:AddSubmenu(LabelsSubmenu)
-        self:AddSubmenu(MapSubmenu)
-        self:AddSubmenu(PlayerVisionSubmenu)
-        AddDividerOption(self)
-
-        -- world
-        if playerdevtools:IsAdmin() then
-            self:AddSubmenu(TimeControlSubmenu)
-            self:AddSubmenu(WeatherControlSubmenu)
-            AddDividerOption(self)
-        end
+        self:AddSelectSubmenu()
+        self:AddSelectedPlayerSubmenus()
+        self:AddPlayerSubmenus()
+        self:AddWorldSubmenus()
     end
 
-    -- general
-    self:AddSubmenu(DebugSubmenu)
-    self:AddSubmenu(DumpSubmenu)
-    self:AddSubmenu(LanguageSubmenu)
+    self:AddGeneralSubmenus()
+end
 
-    AddDividerOption(self)
-    AddGrabProfileOption(self)
+--- Update
+-- @section update
 
+--- Updates menu.
+--
+-- Clears menu (`menu.TextMenu`) and recreates it.
+--
+-- @see AddMenu
+-- @see menu.TextMenu
+function Menu:Update()
+    self:Clear()
+    self:AddMenu()
     self.menu:PushOptions(self.options, "")
 end
 

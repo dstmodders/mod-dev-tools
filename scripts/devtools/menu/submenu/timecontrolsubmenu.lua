@@ -34,7 +34,13 @@ local TimeControlSubmenu = Class(Submenu, function(self, devtools, root)
     self.world = devtools.world
 
     -- options
-    if self.world and self.console and self.screen then
+    if self.devtools
+        and self.world
+        and self.player
+        and self.player:IsAdmin()
+        and self.console
+        and self.screen
+    then
         self:AddOptions()
         self:AddToRoot()
     end
