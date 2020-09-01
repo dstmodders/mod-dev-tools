@@ -17,12 +17,19 @@ require "class"
 
 local Submenu = require "devtools/menu/submenu/submenu"
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam devtools.DevTools devtools
+-- @tparam Widget root
+-- @usage local teleportsubmenu = TeleportSubmenu(devtools, root)
 local TeleportSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Teleport", "TeleportSubmenu", #root + 1)
 
     -- general
     self.console = devtools.player and devtools.player.console
-    self.devtools = devtools
     self.player = devtools.player
     self.world = devtools.world
 

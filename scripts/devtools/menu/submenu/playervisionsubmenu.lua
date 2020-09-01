@@ -74,6 +74,14 @@ local CC_CHOICES = {
     },
 }
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam devtools.DevTools devtools
+-- @tparam Widget root
+-- @usage local playervisionsubmenu = PlayerVisionSubmenu(devtools, root)
 local PlayerVisionSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Player Vision", "PlayerVisionSubmenu")
 

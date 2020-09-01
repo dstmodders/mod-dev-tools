@@ -18,6 +18,14 @@ require "class"
 local Utils = require "devtools/utils"
 local Submenu = require "devtools/menu/submenu/submenu"
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam devtools.DevTools devtools
+-- @tparam Widget root
+-- @usage local debugsubmenu = DebugSubmenu(devtools, root)
 local DebugSubmenu = Class(Submenu, function(self, devtools, root)
     Utils.AddDebugMethods(self)
     Submenu._ctor(self, devtools, root, "Debug", "DebugSubmenu")

@@ -35,6 +35,17 @@ local NumericToggleOption = require "devtools/menu/option/numerictoggleoption"
 local SubmenuOption = require "devtools/menu/option/submenuoption"
 local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam devtools.DevTools devtools
+-- @tparam Widget root
+-- @tparam string label
+-- @tparam string name
+-- @tparam[opt] number menu_idx
+-- @usage local submenu = Submenu(devtools, root)
 local Submenu = Class(function(self, devtools, root, label, name, menu_idx)
     Utils.AddDebugMethods(self)
 
@@ -86,8 +97,9 @@ end
 -- - "world"
 --
 -- @see screens.DevToolsScreen
--- @see screens.DevToolsScreen.SwitchDataToIngredients
+-- @see screens.DevToolsScreen.SwitchDataToFrontEnd
 -- @see screens.DevToolsScreen.SwitchDataToNil
+-- @see screens.DevToolsScreen.SwitchDataToRecipe
 -- @see screens.DevToolsScreen.SwitchDataToSelected
 -- @see screens.DevToolsScreen.SwitchDataToWorld
 -- @tparam string data

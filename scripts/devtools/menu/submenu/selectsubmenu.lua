@@ -17,11 +17,18 @@ require "class"
 
 local Submenu = require "devtools/menu/submenu/submenu"
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam devtools.DevTools devtools
+-- @tparam Widget root
+-- @usage local selectsubmenu = SelectSubmenu(devtools, root)
 local SelectSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Select", "SelectSubmenu", #root + 1)
 
     -- general
-    self.devtools = devtools
     self.inventory = devtools.player and devtools.player.inventory
     self.player = devtools.player
     self.world = devtools.world

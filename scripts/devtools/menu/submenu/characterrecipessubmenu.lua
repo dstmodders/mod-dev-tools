@@ -18,6 +18,14 @@ require "class"
 local Submenu = require "devtools/menu/submenu/submenu"
 local Utils = require "devtools/utils"
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam devtools.DevTools devtools
+-- @tparam Widget root
+-- @usage local characterrecipessubmenu = CharacterRecipesSubmenu(devtools, root)
 local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Character Recipes", "CharacterRecipesSubmenu")
 
