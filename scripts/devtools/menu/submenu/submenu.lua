@@ -14,6 +14,7 @@
 -- @see menu.submenu.MapSubmenu
 -- @see menu.submenu.PlayerBarsSubmenu
 -- @see menu.submenu.PlayerVisionSubmenu
+-- @see menu.submenu.SeasonControlSubmenu
 -- @see menu.submenu.SelectSubmenu
 -- @see menu.submenu.TeleportSubmenu
 -- @see menu.submenu.TimeControlSubmenu

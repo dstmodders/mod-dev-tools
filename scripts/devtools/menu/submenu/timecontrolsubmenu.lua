@@ -91,79 +91,6 @@ local function AddPushWorldEventOption(self, label, event)
     })
 end
 
-local function AddAdvanceSeasonOption(self)
-    self:AddDoActionOption({
-        label = "Advance Season",
-        on_accept_fn = function()
-            for _ = 1, self.world:GetStateRemainingDaysInSeason() do
-                self.console:PushWorldEvent("ms_advanceseason")
-            end
-            UpdateScreen(self)
-        end,
-    })
-end
-
-local function AddRetreatSeasonOption(self)
-    self:AddDoActionOption({
-        label = "Retreat Season",
-        on_accept_fn = function()
-            for _ = 1, self.world:GetStateRemainingDaysInSeason() do
-                self.console:PushWorldEvent("ms_retreatseason")
-            end
-            UpdateScreen(self)
-        end,
-    })
-end
-
-local function AddSeasonOption(self)
-    local choices = {
-        { name = "Autumn", value = "autumn" },
-        { name = "Spring", value = "spring" },
-        { name = "Summer", value = "summer" },
-        { name = "Winter", value = "winter" },
-    }
-
-    self:AddChoicesOption({
-        label = "Season",
-        choices = choices,
-        on_get_fn = function()
-            return self.world:GetStateSeason()
-        end,
-        on_set_fn = function(value)
-            self.console:SetSeason(value)
-            UpdateScreen(self)
-        end,
-    })
-end
-
-local function AddSeasonLengthOptions(self)
-    local seasons = {
-        { name = "Autumn", value = "autumn", default = 20 },
-        { name = "Spring", value = "spring", default = 20 },
-        { name = "Summer", value = "summer", default = 15 },
-        { name = "Winter", value = "winter", default = 15 },
-    }
-
-    for _, season in pairs(seasons) do
-        self:AddNumericToggleOption({
-            label = string.format("Season Length (%s)", season.name),
-            min = 1,
-            max = 100,
-            on_accept_fn = function()
-                self.console:SetSeasonLength(season.value, season.default)
-                UpdateScreen(self)
-            end,
-            on_get_fn = function()
-                return self.world:GetState(season.value .. "length")
-            end,
-            on_set_fn = function(value)
-                self.console:SetSeasonLength(season.value, value)
-                UpdateScreen(self)
-            end,
-        })
-    end
-end
-
 --- General
 -- @section general
 
@@ -186,16 +113,6 @@ function TimeControlSubmenu:AddOptions()
 
     AddPushWorldEventOption(self, "Next Day", "ms_nextcycle")
     AddPushWorldEventOption(self, "Next Phase", "ms_nextphase")
-
-    self:AddDividerOption()
-    AddAdvanceSeasonOption(self)
-    AddRetreatSeasonOption(self)
-
-    self:AddDividerOption()
-    AddSeasonOption(self)
-
-    self:AddDividerOption()
-    AddSeasonLengthOptions(self)
 end
 
 return TimeControlSubmenu

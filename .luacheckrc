@@ -196,6 +196,7 @@ files["scripts/**/*.lua"] = {
     "SCALEMODE_FILLSCREEN",
     "SCALEMODE_PROPORTIONAL",
     "SPECIAL_EVENTS",
+    "TUNING",
     "WHITE",
 
     -- threads
