@@ -192,6 +192,10 @@ local function AddConsoleScreenPostInit(self)
     })
 
     self.console_edit:AddWordPredictionDictionary({ words = {
+        "mptable",
+    }, delim = "du", num_chars = 2 })
+
+    self.console_edit:AddWordPredictionDictionary({ words = {
         -- general
         "decodefile",
         "decodesavedata",

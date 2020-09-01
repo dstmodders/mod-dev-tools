@@ -133,6 +133,7 @@ files["scripts/**/*.lua"] = {
     "d_tablehasvalue",
     "d_tablekeybyvalue",
     "d_tablemerge",
+    "dumptable",
   },
   read_globals = {
     -- general
