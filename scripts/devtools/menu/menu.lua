@@ -128,6 +128,14 @@ function Menu:Clear()
     self.options = {}
 end
 
+--- Adds submenu.
+-- @tparam menu.submenu.Submenu submenu Class submenu (not an instance)
+function Menu:AddSubmenu(submenu)
+    if submenu._ctor then
+        submenu(self.devtools, self.options)
+    end
+end
+
 --- Update
 -- @section update
 
@@ -142,16 +150,14 @@ function Menu:Update()
     self.menu = TextMenu(self.title)
 
     local devtools = self.devtools
-    local debug = devtools:GetDebug()
     local playerdevtools = devtools.player
-    local screen = self.screen
     local worlddevtools = devtools.world
 
     if devtools and worlddevtools and playerdevtools then
         local craftingdevtools = playerdevtools.crafting
 
         -- select
-        SelectSubmenu(self.options, devtools, worlddevtools, playerdevtools, screen)
+        self:AddSubmenu(SelectSubmenu)
         AddDividerOption(self)
 
         -- player
@@ -176,8 +182,8 @@ function Menu:Update()
                 3
             )
 
-            PlayerBarsSubmenu(self.options, devtools, worlddevtools, playerdevtools, screen)
-            TeleportSubmenu(self.options, devtools, worlddevtools, playerdevtools, screen)
+            self:AddSubmenu(PlayerBarsSubmenu)
+            self:AddSubmenu(TeleportSubmenu)
             AddDividerOption(self)
         end
 
@@ -191,23 +197,23 @@ function Menu:Update()
             )
         end
 
-        CharacterRecipesSubmenu(self.options, devtools, playerdevtools.crafting, screen)
-        LabelsSubmenu(self.options, devtools)
-        MapSubmenu(self.options, worlddevtools, playerdevtools.map, screen)
-        PlayerVisionSubmenu(self.options, playerdevtools.vision)
+        self:AddSubmenu(CharacterRecipesSubmenu)
+        self:AddSubmenu(LabelsSubmenu)
+        self:AddSubmenu(MapSubmenu)
+        self:AddSubmenu(PlayerVisionSubmenu)
         AddDividerOption(self)
 
         -- world
         if playerdevtools:IsAdmin() then
-            TimeControlSubmenu(self.options, devtools, worlddevtools, playerdevtools, screen)
-            WeatherControlSubmenu(self.options, devtools, worlddevtools, playerdevtools, screen)
+            self:AddSubmenu(TimeControlSubmenu)
+            self:AddSubmenu(WeatherControlSubmenu)
             AddDividerOption(self)
         end
     end
 
     -- general
-    DebugSubmenu(self.options, worlddevtools, playerdevtools, debug)
-    DumpSubmenu(self.options, worlddevtools, playerdevtools)
+    self:AddSubmenu(DebugSubmenu)
+    self:AddSubmenu(DumpSubmenu)
     AddGrabProfileOption(self)
 
     self.menu:PushOptions(self.options, "")

@@ -18,20 +18,14 @@ require "class"
 local Submenu = require "devtools/menu/submenu/submenu"
 local Utils = require "devtools/utils"
 
-local CharacterRecipesSubmenu = Class(Submenu, function(
-    self,
-    root,
-    devtools,
-    craftingdevtools,
-    screen
-)
-    Submenu._ctor(self, root, "Character Recipes", "CharacterRecipesSubmenu", screen)
+local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Character Recipes", "CharacterRecipesSubmenu")
 
     -- general
-    self.crafting = craftingdevtools
-    self.devtools = devtools
+    self.crafting = devtools.player and devtools.player.crafting
 
-    if self.devtools and self.crafting and screen then
+    -- options
+    if self.devtools and self.crafting and devtools.screen then
         local recipes = self.crafting:GetCharacterRecipes()
         local learned = self.crafting:GetLearnedForRecipes(recipes)
         if learned and #learned > 0 then

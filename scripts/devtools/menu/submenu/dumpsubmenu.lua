@@ -18,13 +18,14 @@ require "class"
 local Submenu = require "devtools/menu/submenu/submenu"
 local Utils = require "devtools/utils"
 
-local DumpSubmenu = Class(Submenu, function(self, root, worlddevtools, playerdevtools)
-    Submenu._ctor(self, root, "Dump", "DumpSubmenu")
+local DumpSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Dump", "DumpSubmenu")
 
     -- general
-    self.player = playerdevtools
-    self.world = worlddevtools
+    self.player = devtools.player
+    self.world = devtools.world
 
+    -- options
     self:AddOptions()
     self:AddToRoot()
 end)

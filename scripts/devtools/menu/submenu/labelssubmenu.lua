@@ -17,12 +17,10 @@ require "class"
 
 local Submenu = require "devtools/menu/submenu/submenu"
 
-local LabelsSubmenu = Class(Submenu, function(self, root, devtools)
-    Submenu._ctor(self, root, "Labels", "LabelsSubmenu")
+local LabelsSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Labels", "LabelsSubmenu")
 
-    -- general
-    self.devtools = devtools
-
+    -- options
     if self.devtools then
         self:AddOptions()
         self:AddToRoot()

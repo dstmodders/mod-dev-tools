@@ -17,14 +17,15 @@ require "class"
 
 local Submenu = require "devtools/menu/submenu/submenu"
 
-local MapSubmenu = Class(Submenu, function(self, root, worlddevtools, mapdevtools, screen)
-    Submenu._ctor(self, root, "Map", "MapSubmenu", screen)
+local MapSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Map", "MapSubmenu")
 
     -- general
-    self.map = mapdevtools
-    self.world = worlddevtools
+    self.map = devtools.player and devtools.player.map
+    self.world = devtools.world
 
-    if self.world and self.map and screen then
+    -- options
+    if self.world and self.map and self.screen then
         self:AddOptions()
         self:AddToRoot()
     end

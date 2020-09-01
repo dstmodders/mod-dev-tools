@@ -17,24 +17,18 @@ require "class"
 
 local Submenu = require "devtools/menu/submenu/submenu"
 
-local PlayerBarsSubmenu = Class(Submenu, function(
-    self,
-    root,
-    devtools,
-    worlddevtools,
-    playerdevtools,
-    screen
-)
-    Submenu._ctor(self, root, "Player Bars", "PlayerBarsSubmenu", screen, #root + 1)
+local PlayerBarsSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Player Bars", "PlayerBarsSubmenu", #root + 1)
 
     -- general
-    self.console = playerdevtools.console
+    self.console = devtools.player and devtools.player.console
     self.devtools = devtools
-    self.player = playerdevtools
-    self.world = worlddevtools
+    self.player = devtools.player
+    self.world = devtools.world
 
-    if self.world and self.player and self.player:IsAdmin() and self.console and screen then
-        self:AddSelectedPlayerLabelPrefix(devtools, playerdevtools)
+    -- options
+    if self.world and self.player and self.player:IsAdmin() and self.console and self.screen then
+        self:AddSelectedPlayerLabelPrefix(devtools, self.player)
         self:AddOptions()
         self:AddToRoot()
     end

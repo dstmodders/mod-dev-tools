@@ -74,12 +74,13 @@ local CC_CHOICES = {
     },
 }
 
-local PlayerVisionSubmenu = Class(Submenu, function(self, root, visiondevtools)
-    Submenu._ctor(self, root, "Player Vision", "PlayerVisionSubmenu")
+local PlayerVisionSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Player Vision", "PlayerVisionSubmenu")
 
     -- general
-    self.vision = visiondevtools
+    self.vision = devtools.player and devtools.player.vision
 
+    -- options
     if self.vision then
         self:AddOptions()
         self:AddToRoot()

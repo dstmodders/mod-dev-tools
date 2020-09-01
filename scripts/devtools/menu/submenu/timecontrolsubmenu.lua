@@ -17,23 +17,17 @@ require "class"
 
 local Submenu = require "devtools/menu/submenu/submenu"
 
-local TimeControlSubmenu = Class(Submenu, function(
-    self,
-    root,
-    devtools,
-    worlddevtools,
-    playerdevtools,
-    screen
-)
-    Submenu._ctor(self, root, "Time Control", "TimeControlSubmenu", screen, #root + 1)
+local TimeControlSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Time Control", "TimeControlSubmenu", #root + 1)
 
     -- general
-    self.console = playerdevtools.console
+    self.console = devtools.player and devtools.player.console
     self.devtools = devtools
-    self.player = playerdevtools
-    self.world = worlddevtools
+    self.player = devtools.player
+    self.world = devtools.world
 
-    if self.world and self.console and screen then
+    -- options
+    if self.world and self.console and self.screen then
         self:AddOptions()
         self:AddToRoot()
     end

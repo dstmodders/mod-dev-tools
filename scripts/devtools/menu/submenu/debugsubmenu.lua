@@ -18,21 +18,16 @@ require "class"
 local Utils = require "devtools/utils"
 local Submenu = require "devtools/menu/submenu/submenu"
 
-local DebugSubmenu = Class(Submenu, function(
-    self,
-    root,
-    worlddevtools,
-    playerdevtools,
-    debug
-)
+local DebugSubmenu = Class(Submenu, function(self, devtools, root)
     Utils.AddDebugMethods(self)
-    Submenu._ctor(self, root, "Debug", "DebugSubmenu")
+    Submenu._ctor(self, devtools, root, "Debug", "DebugSubmenu")
 
     -- general
-    self.debug = debug
-    self.player = playerdevtools
-    self.world = worlddevtools
+    self.debug = devtools.debug
+    self.player = devtools.player
+    self.world = devtools.world
 
+    -- options
     if self.debug and self.world and self.player then
         self:AddOptions()
         self:AddToRoot()

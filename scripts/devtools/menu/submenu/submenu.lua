@@ -1,8 +1,7 @@
 ----
 -- Base submenu.
 --
--- Includes base submenu functionality and must be extended by other submenu classes. Shouldn't be
--- used on its own.
+-- Includes base submenu functionality and must be extended by other submenu classes.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -36,16 +35,17 @@ local NumericToggleOption = require "devtools/menu/option/numerictoggleoption"
 local SubmenuOption = require "devtools/menu/option/submenuoption"
 local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 
-local Submenu = Class(function(self, root, label, name, screen, menu_idx)
+local Submenu = Class(function(self, devtools, root, label, name, menu_idx)
     Utils.AddDebugMethods(self)
 
     -- general
+    self.devtools = devtools
     self.label = label
     self.menu_idx = menu_idx
     self.name = name
     self.options = {}
     self.root = root
-    self.screen = screen
+    self.screen = devtools.screen
 end)
 
 --- General

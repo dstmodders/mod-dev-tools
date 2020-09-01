@@ -17,22 +17,16 @@ require "class"
 
 local Submenu = require "devtools/menu/submenu/submenu"
 
-local WeatherControlSubmenu = Class(Submenu, function(
-    self,
-    root,
-    devtools,
-    worlddevtools,
-    playerdevtools,
-    screen
-)
-    Submenu._ctor(self, root, "Weather Control", "WeatherControlSubmenu", screen, #root + 1)
+local WeatherControlSubmenu = Class(Submenu, function(self, devtools, root)
+    Submenu._ctor(self, devtools, root, "Weather Control", "WeatherControlSubmenu", #root + 1)
 
     -- general
-    self.console = playerdevtools.console
+    self.console = devtools.player and devtools.player.console
     self.devtools = devtools
-    self.player = playerdevtools
-    self.world = worlddevtools
+    self.player = devtools.player
+    self.world = devtools.world
 
+    -- options
     if self.devtools and self.world and self.player and self.player:IsAdmin() and self.console then
         self:AddOptions()
         self:AddToRoot()
