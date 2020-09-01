@@ -22,10 +22,17 @@ local MapSubmenu = Class(Submenu, function(self, devtools, root)
 
     -- general
     self.map = devtools.player and devtools.player.map
+    self.player = devtools.player
     self.world = devtools.world
 
     -- options
-    if self.world and self.map and self.screen then
+    if self.world
+        and self.world:IsMasterSim()
+        and self.player
+        and self.player:IsAdmin()
+        and self.map
+        and self.screen
+    then
         self:AddOptions()
         self:AddToRoot()
     end
