@@ -161,23 +161,21 @@ end
 --- __tostring
 -- @treturn string
 function Option:__tostring()
+    local label
+
     if type(self.label) == "table" and self.label.name then
-        local label = self.label.name
-        if type(label) == "string" then
-            return label
-        end
-
-        if type(label) == "function" then
-            return label()
-        end
+        label = self.label.name
+    else
+        label = self.label
     end
 
-    if type(self.label) == "string" then
-        return self.label
+    if type(label) == "function" then
+        label = label()
     end
 
-    if type(self.label) == "function" then
-        return self.label()
+    if type(label) == "string" then
+        label = label:gsub("\n.*", "") -- only keep the first line
+        return label
     end
 
     return "???"

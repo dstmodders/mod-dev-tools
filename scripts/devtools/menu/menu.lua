@@ -34,6 +34,7 @@ local CharacterRecipesSubmenu = require "devtools/menu/submenu/characterrecipess
 local DebugSubmenu = require "devtools/menu/submenu/debugsubmenu"
 local DumpSubmenu = require "devtools/menu/submenu/dumpsubmenu"
 local LabelsSubmenu = require "devtools/menu/submenu/labelssubmenu"
+local LanguageSubmenu = require "devtools/menu/submenu/languagesubmenu"
 local MapSubmenu = require "devtools/menu/submenu/mapsubmenu"
 local PlayerBarsSubmenu = require "devtools/menu/submenu/playerbarssubmenu"
 local PlayerVisionSubmenu = require "devtools/menu/submenu/playervisionsubmenu"
@@ -214,6 +215,9 @@ function Menu:Update()
     -- general
     self:AddSubmenu(DebugSubmenu)
     self:AddSubmenu(DumpSubmenu)
+    self:AddSubmenu(LanguageSubmenu)
+
+    AddDividerOption(self)
     AddGrabProfileOption(self)
 
     self.menu:PushOptions(self.options, "")

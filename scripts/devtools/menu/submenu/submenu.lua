@@ -10,6 +10,7 @@
 -- @see menu.submenu.DebugSubmenu
 -- @see menu.submenu.DumpSubmenu
 -- @see menu.submenu.LabelsSubmenu
+-- @see menu.submenu.LanguageSubmenu
 -- @see menu.submenu.MapSubmenu
 -- @see menu.submenu.PlayerBarsSubmenu
 -- @see menu.submenu.PlayerVisionSubmenu
