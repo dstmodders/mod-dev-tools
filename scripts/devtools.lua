@@ -123,24 +123,26 @@ end
 --- Resets game.
 -- @treturn boolean
 function DevTools:Reset()
-    local playerdevtools = self.player
-    local worlddevtools = self.world
-    if InGamePlay() and playerdevtools and worlddevtools then
-        if worlddevtools.ismastersim then
-            self:DebugString("Resetting local game...")
-            TheNet:SendWorldRollbackRequestToServer(0)
-            return true
-        elseif playerdevtools:IsAdmin() then
-            self:DebugString("Resetting remote game...")
-            Utils.ConsoleRemote("TheNet:SendWorldRollbackRequestToServer(0)")
-            return true
-        end
-    else
+    if not InGamePlay() or not self.world then
         self:DebugString("Resetting...")
         StartNextInstance()
         return true
     end
-    return false
+
+    if self.player and not self.player:IsAdmin() then
+        self:DebugErrorNotAdmin("DevTools:Reset()")
+        return false
+    end
+
+    if self.world.ismastersim then
+        self:DebugString("Resetting local game...")
+        TheNet:SendWorldRollbackRequestToServer(0)
+    else
+        self:DebugString("Resetting remote game...")
+        Utils.ConsoleRemote("TheNet:SendWorldRollbackRequestToServer(0)")
+    end
+
+    return true
 end
 
 --- Labels
