@@ -33,81 +33,75 @@ end)
 --- Helpers
 -- @section helpers
 
-local function Label(is_reversed, name, title)
-    local label = string.format("%s (%s)", title, name)
-    return is_reversed and string.format("%s (%s)", name, title) or label
-end
+local function AddDumpOptions(self, name, object, options)
+    object = object ~= nil and object or _G[name]
 
-local function AddDumpOption(self, label, object)
-    if object then
-        self:AddDoActionOption({
-            label = label,
-            on_accept_fn = function()
-                dumptable(object)
-            end,
-        })
-    end
-end
+    local nr_of_components =#Utils.GetComponents(object)
+    local nr_of_event_listeners = #Utils.GetEventListeners(object)
+    local nr_of_fields = #Utils.GetFields(object)
+    local nr_of_functions = #Utils.GetFunctions(object)
 
-local function AddDumpComponentsOption(self, name, object, is_reversed)
-    if object and Utils.DumpComponents then
+    if nr_of_components > 0 then
         self:AddDoActionOption({
-            label = Label(is_reversed, name, "Components"),
+            label = "Components",
             on_accept_fn = function()
                 Utils.DumpComponents(object, name)
             end,
-        })
+        }, options)
     end
-end
 
-local function AddDumpEventListenersOption(self, name, object, is_reversed)
-    if object and Utils.DumpEventListeners then
+    if nr_of_event_listeners > 0 then
         self:AddDoActionOption({
-            label = Label(is_reversed, name, "Event Listeners"),
+            label = "Event Listeners",
             on_accept_fn = function()
                 Utils.DumpEventListeners(object, name)
             end,
-        })
+        }, options)
     end
-end
 
-local function AddDumpFieldsOption(self, name, object, is_reversed)
-    if object and Utils.DumpFields then
+    if nr_of_fields > 0 then
         self:AddDoActionOption({
-            label = Label(is_reversed, name, "Fields"),
+            label = "Fields",
             on_accept_fn = function()
                 Utils.DumpFields(object, name)
             end,
-        })
+        }, options)
     end
-end
 
-local function AddDumpFunctionsOption(self, name, object, is_reversed)
-    if object and Utils.DumpFunctions then
+    if nr_of_functions > 0 then
         self:AddDoActionOption({
-            label = Label(is_reversed, name, "Functions"),
+            label = "Functions", -- those are "Methods" logically, but it's Lua, so who cares
             on_accept_fn = function()
                 Utils.DumpFunctions(object, name)
             end,
-        })
+        }, options)
     end
+
+    if nr_of_components > 0
+        or nr_of_event_listeners > 0
+        or nr_of_fields > 0
+        or nr_of_functions > 0
+    then
+        self:AddDividerOption(options)
+    end
+
+    self:AddDoActionOption({
+        label = "dumptable", -- those are "Methods" logically, but it's Lua, so who cares
+        on_accept_fn = function()
+            dumptable(object)
+        end,
+    }, options)
 end
 
-local function AddDumpReplicasOption(self, name, object, is_reversed)
-    if object and Utils.DumpReplicas then
-        self:AddDoActionOption({
-            label = Label(is_reversed, name, "Replicas"),
-            on_accept_fn = function()
-                Utils.DumpReplicas(object, name)
-            end,
+local function AddDumpSubmenu(self, name, object)
+    object = object ~= nil and object or _G[name]
+    if object then
+        local _options = {}
+        AddDumpOptions(self, name, object, _options)
+        self:AddSubmenuOption({
+            label = name,
+            options = _options,
         })
-    end
-end
-
-local function AddDumpSelectedEntityOption(self, fn, is_reversed)
-    local entity = self.world:GetSelectedEntity()
-    if entity then
-        fn(self, "Selected Entity", entity, is_reversed)
     end
 end
 
@@ -116,119 +110,42 @@ end
 
 --- Adds options.
 function DumpSubmenu:AddOptions()
-    AddDumpOption(self, "AllRecipes", AllRecipes)
-    AddDumpOption(self, "Profile", Profile)
-
-    if self.world then
+    if self.player then
         local selected_entity = self.world:GetSelectedEntity()
-        local world = self.world:GetWorld()
-        local world_net = self.world:GetWorldNet()
-
-        if world then
-            AddDumpOption(self, "TheWorld.meta", self.world:GetMeta())
-            AddDumpOption(self, "TheWorld.state", self.world:GetState())
-
-            if world and world.topology and world.topology.ids then
-                AddDumpOption(self, "TheWorld.topology.ids", world.topology.ids)
-            end
-
+        local player = self.player:GetPlayer()
+        if player and selected_entity and player ~= selected_entity then
+            AddDumpSubmenu(self, "Selected Entity", selected_entity)
             self:AddDividerOption()
         end
-
-        if self.player then
-            local player = self.player:GetPlayer()
-
-            if player and selected_entity and player ~= selected_entity then
-                AddDumpSelectedEntityOption(self, AddDumpComponentsOption, true)
-                AddDumpSelectedEntityOption(self, AddDumpEventListenersOption, true)
-                AddDumpSelectedEntityOption(self, AddDumpFieldsOption, true)
-                AddDumpSelectedEntityOption(self, AddDumpFunctionsOption, true)
-                AddDumpSelectedEntityOption(self, AddDumpReplicasOption, true)
-                self:AddDividerOption()
-            end
-
-            AddDumpComponentsOption(self, "ThePlayer", player)
-        end
-
-        AddDumpComponentsOption(self, "TheWorld", world)
-        AddDumpComponentsOption(self, "TheWorld.net", world_net)
-
-        self:AddDividerOption()
-
-        if self.player then
-            local player = self.player:GetPlayer()
-            if player then
-                AddDumpEventListenersOption(self, "ThePlayer", player)
-                AddDumpEventListenersOption(
-                    self,
-                    "ThePlayer.player_classified",
-                    player.player_classified
-                )
-            end
-        end
-
-        AddDumpEventListenersOption(self, "TheWorld", world)
-        AddDumpEventListenersOption(self, "TheWorld.net", world_net)
-
-        self:AddDividerOption()
     end
 
-    AddDumpFieldsOption(self, "DevTools", DevTools)
-    AddDumpFieldsOption(self, "TheCamera", TheCamera)
-    AddDumpFieldsOption(self, "TheFrontEnd", TheFrontEnd)
-    AddDumpFieldsOption(self, "Profile", Profile)
-
-    if self.player then
-        local player = self.player:GetPlayer()
-        if player then
-            AddDumpFieldsOption(self, "ThePlayer", player)
-            AddDumpFieldsOption(self, "ThePlayer.player_classified", player.player_classified)
-        end
-    end
+    AddDumpSubmenu(self, "AllRecipes")
+    AddDumpSubmenu(self, "Profile")
+    AddDumpSubmenu(self, "TheCamera")
+    AddDumpSubmenu(self, "TheFrontEnd")
+    AddDumpSubmenu(self, "TheSim")
+    AddDumpSubmenu(self, "TheNet")
 
     if self.world then
-        local world = self.world:GetWorld()
-        AddDumpFieldsOption(self, "TheWorld", world)
-        AddDumpFieldsOption(self, "TheWorld.net", self.world:GetWorldNet())
+        self:AddDividerOption()
+        AddDumpSubmenu(self, "TheWorld")
+        AddDumpSubmenu(self, "TheWorld.Map", TheWorld.Map)
+        AddDumpSubmenu(self, "TheWorld.meta", TheWorld.meta)
+        AddDumpSubmenu(self, "TheWorld.net", TheWorld.net)
+        AddDumpSubmenu(self, "TheWorld.state", TheWorld.state)
+        AddDumpSubmenu(self, "TheWorld.topology", TheWorld.topology)
+        AddDumpSubmenu(self, "TheWorld.topology.ids", TheWorld.topology.ids)
+    end
+
+    if self.player then
+        self:AddDividerOption()
+        AddDumpSubmenu(self, "ThePlayer", ThePlayer)
+        AddDumpSubmenu(self, "ThePlayer.Physics", ThePlayer.Physics)
+        AddDumpSubmenu(self, "ThePlayer.player_classified", ThePlayer.player_classified)
     end
 
     self:AddDividerOption()
-
-    AddDumpFunctionsOption(self, "DevTools", DevTools)
-    AddDumpFunctionsOption(self, "Profile", Profile)
-    AddDumpFunctionsOption(self, "TheCamera", TheCamera)
-    AddDumpFunctionsOption(self, "TheFrontEnd", TheFrontEnd)
-    AddDumpFunctionsOption(self, "TheInventory", TheInventory)
-    AddDumpFunctionsOption(self, "TheNet", TheNet)
-
-    if self.player then
-        local player = self.player:GetPlayer()
-        if player then
-            AddDumpFunctionsOption(self, "ThePlayer", player)
-            AddDumpFunctionsOption(self, "ThePlayer.Physics", player.Physics)
-            AddDumpFunctionsOption(self, "ThePlayer.player_classified", player.player_classified)
-        end
-    end
-
-    AddDumpFunctionsOption(self, "TheSim", TheSim)
-
-    if self.world then
-        local world = self.world:GetWorld()
-        local world_net = self.world:GetWorldNet()
-
-        AddDumpFunctionsOption(self, "TheWorld", world)
-
-        if world and world.Map then
-            AddDumpFunctionsOption(self, "TheWorld.Map", world.Map)
-        end
-
-        AddDumpFunctionsOption(self, "TheWorld.net", world_net)
-    end
-
-    if self.player then
-        self:AddDividerOption()
-        AddDumpReplicasOption(self, "ThePlayer", self.player:GetPlayer())
-    end
+    AddDumpSubmenu(self, "DevTools")
 end
 
 return DumpSubmenu

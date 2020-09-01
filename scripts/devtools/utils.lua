@@ -33,8 +33,8 @@ local function PrintDumpValues(table, title, name, prepend)
     prepend = prepend ~= nil and prepend .. " " or ""
 
     print(prepend .. (name
-        and string.format("Dumping %s %s...", name, title)
-        or string.format("Dumping %s...", title)))
+        and string.format('Dumping "%s" %s...', name, title)
+        or string.format('Dumping "%s"...', title)))
 
     if #table > 0 then
         table = Utils.TableSortAlphabetically(table)

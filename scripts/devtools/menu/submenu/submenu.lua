@@ -125,36 +125,54 @@ end
 --- Adds checkbox option.
 -- @see menu.option.CheckboxOption
 -- @tparam table options
-function Submenu:AddCheckboxOption(options)
-    table.insert(self.options, CheckboxOption(options))
+-- @tparam[opt] table root
+function Submenu:AddCheckboxOption(options, root)
+    root = root ~= nil and root or self.options
+    table.insert(root, CheckboxOption(options))
 end
 
 --- Adds choices option.
 -- @see menu.option.ChoicesOption
 -- @tparam table options
-function Submenu:AddChoicesOption(options)
-    table.insert(self.options, ChoicesOption(options))
+-- @tparam[opt] table root
+function Submenu:AddChoicesOption(options, root)
+    root = root ~= nil and root or self.options
+    table.insert(root, ChoicesOption(options))
 end
 
 --- Adds divider option.
 -- @see menu.option.DividerOption
--- @tparam table options
-function Submenu:AddDividerOption()
-    table.insert(self.options, DividerOption())
+-- @tparam[opt] table root
+function Submenu:AddDividerOption(root)
+    root = root ~= nil and root or self.options
+    table.insert(root, DividerOption())
 end
 
 --- Adds do action option.
 -- @see menu.option.DoActionOption
 -- @tparam table options
-function Submenu:AddDoActionOption(options)
-    table.insert(self.options, DoActionOption(options))
+-- @tparam[opt] table root
+function Submenu:AddDoActionOption(options, root)
+    root = root ~= nil and root or self.options
+    table.insert(root, DoActionOption(options))
 end
 
 --- Adds numeric toggle option.
 -- @see menu.option.NumericToggleOption
 -- @tparam table options
-function Submenu:AddNumericToggleOption(options)
-    table.insert(self.options, NumericToggleOption(options))
+-- @tparam[opt] table root
+function Submenu:AddNumericToggleOption(options, root)
+    root = root ~= nil and root or self.options
+    table.insert(root, NumericToggleOption(options))
+end
+
+--- Adds submenu option.
+-- @see menu.option.SubmenuOption
+-- @tparam table options
+-- @tparam[opt] table root
+function Submenu:AddSubmenuOption(options, root)
+    root = root ~= nil and root or self.options
+    table.insert(root, SubmenuOption(options))
 end
 
 --- Adds toggle option.
@@ -163,12 +181,15 @@ end
 -- @tparam table get
 -- @tparam table set
 -- @tparam number idx
-function Submenu:AddToggleOption(label, get, set, idx)
+-- @tparam[opt] table root
+function Submenu:AddToggleOption(label, get, set, idx, root)
+    root = root ~= nil and root or self.options
+
     if not get.src or not set.src then
         return
     end
 
-    table.insert(self.options, ToggleCheckboxOption({
+    table.insert(root, ToggleCheckboxOption({
         label = label,
         get = get,
         set = set,
