@@ -120,6 +120,93 @@ function DevTools:GetPlayersClientTable() -- luacheck: only
     return clients
 end
 
+--- Resets game.
+-- @treturn boolean
+function DevTools:Reset()
+    local playerdevtools = self.player
+    local worlddevtools = self.world
+    if InGamePlay() and playerdevtools and worlddevtools then
+        if worlddevtools.ismastersim then
+            self:DebugString("Resetting local game...")
+            TheNet:SendWorldRollbackRequestToServer(0)
+            return true
+        elseif playerdevtools:IsAdmin() then
+            self:DebugString("Resetting remote game...")
+            Utils.ConsoleRemote("TheNet:SendWorldRollbackRequestToServer(0)")
+            return true
+        end
+    else
+        self:DebugString("Resetting...")
+        StartNextInstance()
+        return true
+    end
+    return false
+end
+
+--- Labels
+-- @section labels
+
+local function AddEntityLabel(self, inst)
+    inst.entity:AddLabel()
+    inst.Label:SetFont(BODYTEXTFONT)
+    inst.Label:SetFontSize(self.labels_font_size)
+    inst.Label:SetWorldOffset(0, 2.3, 0)
+    inst.Label:Enable(true)
+end
+
+--- Sets the labels font size.
+-- @tparam number size Font size
+function DevTools:SetLabelsFontSize(size)
+    self.labels_font_size = size
+    for _, inst in pairs(self:GetAllPlayers()) do
+        if inst:IsValid() and inst.Label then
+            inst.Label:SetFontSize(size)
+        end
+    end
+end
+
+--- Gets labels font size.
+-- @treturn number
+function DevTools:GetLabelsFontSize()
+    return self.labels_font_size
+end
+
+--- Sets username labels mode.
+-- @tparam boolean|string mode
+function DevTools:SetUsernameLabelsMode(mode)
+    self.labels_username_mode = mode
+    for _, inst in pairs(self:GetAllPlayers()) do
+        if inst:IsValid() and inst.Label then
+            local client = self:GetClientTableForUser(inst)
+
+            inst.Label:Enable(true)
+            inst.Label:SetText(inst.name)
+
+            if mode == "default" then
+                inst.Label:SetColour(unpack(WHITE))
+            elseif mode == "coloured" and client and client.colour then
+                inst.Label:SetColour(unpack(client.colour))
+            elseif not mode then
+                inst.Label:Enable(false)
+            end
+        end
+    end
+end
+
+--- Gets username labels mode.
+-- @treturn boolean|string
+function DevTools:GetUsernameLabelsMode()
+    return self.labels_username_mode
+end
+
+--- Adds username label to the player.
+-- @tparam table inst Player instance
+-- @treturn boolean
+function DevTools:AddUsernameLabel(inst)
+    AddEntityLabel(self, inst)
+    self:SetUsernameLabelsMode(self.labels_username_mode)
+end
+
 --- Pausing
 -- @section pausing
 
@@ -218,94 +305,13 @@ function DevTools:GetPlayerByUsername(username)
     return nil
 end
 
---- Labels
--- @section labels
-
-local function AddEntityLabel(self, inst)
-    inst.entity:AddLabel()
-    inst.Label:SetFont(BODYTEXTFONT)
-    inst.Label:SetFontSize(self.labels_font_size)
-    inst.Label:SetWorldOffset(0, 2.3, 0)
-    inst.Label:Enable(true)
-end
-
---- Sets the labels font size.
--- @tparam number size Font size
-function DevTools:SetLabelsFontSize(size)
-    self.labels_font_size = size
-    for _, inst in pairs(self:GetAllPlayers()) do
-        if inst:IsValid() and inst.Label then
-            inst.Label:SetFontSize(size)
-        end
-    end
-end
-
---- Gets labels font size.
--- @treturn number
-function DevTools:GetLabelsFontSize()
-    return self.labels_font_size
-end
-
---- Sets username labels mode.
--- @tparam boolean|string mode
-function DevTools:SetUsernameLabelsMode(mode)
-    self.labels_username_mode = mode
-    for _, inst in pairs(self:GetAllPlayers()) do
-        if inst:IsValid() and inst.Label then
-            local client = self:GetClientTableForUser(inst)
-
-            inst.Label:Enable(true)
-            inst.Label:SetText(inst.name)
-
-            if mode == "default" then
-                inst.Label:SetColour(unpack(WHITE))
-            elseif mode == "coloured" and client and client.colour then
-                inst.Label:SetColour(unpack(client.colour))
-            elseif not mode then
-                inst.Label:Enable(false)
-            end
-        end
-    end
-end
-
---- Gets username labels mode.
--- @treturn boolean|string
-function DevTools:GetUsernameLabelsMode()
-    return self.labels_username_mode
-end
-
---- Adds username label to the player.
--- @tparam table inst Player instance
--- @treturn boolean
-function DevTools:AddUsernameLabel(inst)
-    AddEntityLabel(self, inst)
-    self:SetUsernameLabelsMode(self.labels_username_mode)
-end
-
 --- Other
 -- @section other
 
---- Resets game.
--- @treturn boolean
-function DevTools:Reset()
-    local playerdevtools = self.player
-    local worlddevtools = self.world
-    if InGamePlay() and playerdevtools and worlddevtools then
-        if worlddevtools.ismastersim then
-            self:DebugString("Resetting local game...")
-            TheNet:SendWorldRollbackRequestToServer(0)
-            return true
-        elseif playerdevtools:IsAdmin() then
-            self:DebugString("Resetting remote game...")
-            Utils.ConsoleRemote("TheNet:SendWorldRollbackRequestToServer(0)")
-            return true
-        end
-    else
-        self:DebugString("Resetting...")
-        StartNextInstance()
-        return true
-    end
-    return false
+--- __tostring
+-- @treturn string
+function DevTools:__tostring()
+    return self.name
 end
 
 --- Lifecycle
