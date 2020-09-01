@@ -77,20 +77,22 @@ local function AddDumpOptions(self, name, object, options)
         }, options)
     end
 
-    if nr_of_components > 0
-        or nr_of_event_listeners > 0
-        or nr_of_fields > 0
-        or nr_of_functions > 0
-    then
-        self:AddDividerOption(options)
-    end
+    if type(object) == "table" then
+        if nr_of_components > 0
+            or nr_of_event_listeners > 0
+            or nr_of_fields > 0
+            or nr_of_functions > 0
+        then
+            self:AddDividerOption(options)
+        end
 
-    self:AddDoActionOption({
-        label = "dumptable", -- those are "Methods" logically, but it's Lua, so who cares
-        on_accept_fn = function()
-            dumptable(object)
-        end,
-    }, options)
+        self:AddDoActionOption({
+            label = "dumptable", -- those are "Methods" logically, but it's Lua, so who cares
+            on_accept_fn = function()
+                dumptable(object)
+            end,
+        }, options)
+    end
 end
 
 local function AddDumpSubmenu(self, name, object)
@@ -119,15 +121,7 @@ function DumpSubmenu:AddOptions()
         end
     end
 
-    AddDumpSubmenu(self, "AllRecipes")
-    AddDumpSubmenu(self, "Profile")
-    AddDumpSubmenu(self, "TheCamera")
-    AddDumpSubmenu(self, "TheFrontEnd")
-    AddDumpSubmenu(self, "TheSim")
-    AddDumpSubmenu(self, "TheNet")
-
     if self.world then
-        self:AddDividerOption()
         AddDumpSubmenu(self, "TheWorld")
         AddDumpSubmenu(self, "TheWorld.Map", TheWorld.Map)
         AddDumpSubmenu(self, "TheWorld.meta", TheWorld.meta)
@@ -135,14 +129,39 @@ function DumpSubmenu:AddOptions()
         AddDumpSubmenu(self, "TheWorld.state", TheWorld.state)
         AddDumpSubmenu(self, "TheWorld.topology", TheWorld.topology)
         AddDumpSubmenu(self, "TheWorld.topology.ids", TheWorld.topology.ids)
+        self:AddDividerOption()
     end
 
     if self.player then
-        self:AddDividerOption()
         AddDumpSubmenu(self, "ThePlayer", ThePlayer)
         AddDumpSubmenu(self, "ThePlayer.Physics", ThePlayer.Physics)
         AddDumpSubmenu(self, "ThePlayer.player_classified", ThePlayer.player_classified)
+        self:AddDividerOption()
     end
+
+    AddDumpSubmenu(self, "AccountManager")
+    AddDumpSubmenu(self, "AllRecipes")
+    AddDumpSubmenu(self, "Entity")
+    AddDumpSubmenu(self, "EntityScript")
+    AddDumpSubmenu(self, "KnownModIndex")
+    AddDumpSubmenu(self, "Profile")
+
+    self:AddDividerOption()
+    AddDumpSubmenu(self, "TheCamera")
+    AddDumpSubmenu(self, "TheConfig")
+    AddDumpSubmenu(self, "TheCookbook")
+    AddDumpSubmenu(self, "TheFrontEnd")
+    AddDumpSubmenu(self, "TheGameService")
+    AddDumpSubmenu(self, "TheGlobalInstance")
+    AddDumpSubmenu(self, "TheInput")
+    AddDumpSubmenu(self, "TheInputProxy")
+    AddDumpSubmenu(self, "TheInventory")
+    AddDumpSubmenu(self, "TheMixer")
+    AddDumpSubmenu(self, "TheNet")
+    AddDumpSubmenu(self, "TheRecipeBook")
+    AddDumpSubmenu(self, "TheShard")
+    AddDumpSubmenu(self, "TheSim")
+    AddDumpSubmenu(self, "TheSystemService")
 
     self:AddDividerOption()
     AddDumpSubmenu(self, "DevTools")
