@@ -23,6 +23,7 @@ local Screen = require "widgets/screen"
 local Text = require "widgets/text"
 local Utils = require "devtools/utils"
 
+local FrontEndData = require "devtools/data/frontenddata"
 local RecipeData = require "devtools/data/recipedata"
 local SelectedData = require "devtools/data/selecteddata"
 local WorldData = require "devtools/data/worlddata"
@@ -158,10 +159,17 @@ end
 --- Data
 -- @section data
 
---- Switches data to ingredients.
+--- Switches data to front-end.
 -- @see menu.submenu.Submenu.UpdateScreen
-function DevToolsScreen:SwitchDataToIngredients()
-    self.data_name = "ingredients"
+function DevToolsScreen:SwitchDataToFrontEnd()
+    self.data_name = "front-end"
+    self:UpdateData()
+end
+
+--- Switches data to recipe.
+-- @see menu.submenu.Submenu.UpdateScreen
+function DevToolsScreen:SwitchDataToRecipe()
+    self.data_name = "recipe"
     self:UpdateData()
 end
 
@@ -232,13 +240,18 @@ function DevToolsScreen:UpdateMenu(root_idx)
     return self.menu_text
 end
 
---- Updates ingredients data.
-function DevToolsScreen:UpdateIngredientsData()
+--- Updates recipe data.
+function DevToolsScreen:UpdateRecipeData()
     self.data_text = RecipeData(
         self.devtools,
         self.devtools.player.inventory,
         self.devtools.player.crafting:GetSelectedRecipe()
     )
+end
+
+--- Updates front-end data.
+function DevToolsScreen:UpdateFrontEndData()
+    self.data_text = FrontEndData(self.screen)
 end
 
 --- Updates selected data.
@@ -265,12 +278,14 @@ function DevToolsScreen:UpdateData()
     local playerdevtools = devtools.player
     local worlddevtools = devtools.world
 
-    if self.data_name == "ingredients"
+    if self.data_name == "front-end" then
+        self:UpdateFrontEndData()
+    elseif self.data_name == "recipe"
         and playerdevtools
         and playerdevtools.crafting
         and playerdevtools.crafting:GetSelectedRecipe()
     then
-        self:UpdateIngredientsData()
+        self:UpdateRecipeData()
     elseif self.data_name == "selected"
         and worlddevtools
         and playerdevtools
@@ -319,7 +334,7 @@ function DevToolsScreen:OnRawKey(key, down)
         elseif key == KEY_ENTER then
             if InGamePlay() then
                 if menu:AtRoot() and option_name == "LearnedBuilderRecipesSubmenu" then
-                    self:SwitchDataToIngredients()
+                    self:SwitchDataToRecipe()
                 elseif menu:AtRoot() and option_name == "SelectSubmenu" then
                     self.is_selected_entity_data_visible = true
                     self:SwitchDataToSelected()
@@ -389,7 +404,7 @@ function DevToolsScreen:DoInit(devtools)
     Utils.AddDebugMethods(self)
 
     -- general
-    self.data_name = InGamePlay() and "world" or nil
+    self.data_name = InGamePlay() and "world" or "front-end"
     self.data_text = nil
     self.devtools = devtools
     self.is_selected_entity_data_visible = true

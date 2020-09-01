@@ -47,13 +47,13 @@ local function AddRecipeOption(self, label, item)
             if recipe then
                 self.crafting:MakeRecipeFromMenu(recipe)
             end
-            self:UpdateScreen("ingredients")
+            self:UpdateScreen("recipe")
         end,
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
                 self.crafting:SetSelectedRecipe(recipe)
-                self:UpdateScreen("ingredients")
+                self:UpdateScreen("recipe")
             end
         end,
     })
@@ -76,13 +76,13 @@ local function AddRecipeSkinsOption(self, label, item, skins)
         label = label,
         choices = choices,
         on_accept_fn = function()
-            self:UpdateScreen("ingredients")
+            self:UpdateScreen("recipe")
         end,
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
                 self.crafting:SetSelectedRecipe(recipe)
-                self:UpdateScreen("ingredients")
+                self:UpdateScreen("recipe")
             end
         end,
         on_set_fn = function(value)

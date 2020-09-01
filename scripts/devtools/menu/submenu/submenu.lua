@@ -80,8 +80,9 @@ end
 --
 -- Switches data based on the provided data string and updates the screen:
 --
+-- - "front-end"
+-- - "recipe"
 -- - "selected"
--- - "ingredients"
 -- - "world"
 --
 -- @see screens.DevToolsScreen
@@ -92,10 +93,12 @@ end
 -- @tparam string data
 function Submenu:UpdateScreen(data)
     if self.screen then
-        if data == "selected" then
+        if data == "front-end" then
+            self.screen:SwitchDataToFrontEnd()
+        elseif data == "recipe" then
+            self.screen:SwitchDataToRecipe()
+        elseif data == "selected" then
             self.screen:SwitchDataToSelected()
-        elseif data == "ingredients" then
-            self.screen:SwitchDataToIngredients()
         elseif data == "world" then
             self.screen:SwitchDataToWorld()
         else
