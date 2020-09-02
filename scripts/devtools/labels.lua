@@ -29,13 +29,17 @@ local Labels = Class(function(self, devtools)
     Utils.AddDebugMethods(self)
 
     -- general
+    self.default_font = nil
+    self.default_font_size = nil
+    self.default_username_mode = nil
     self.devtools = devtools
     self.font = BODYTEXTFONT
     self.font_size = 18
     self.is_selected_enabled = false
+    self.is_username_enabled = false
     self.name = "Labels"
     self.selected_entity = nil
-    self.username_mode = false
+    self.username_mode = "default"
 
     -- thread
     Utils.ThreadStart(_LABEL_UPDATE_THREAD_ID, function()
@@ -60,10 +64,19 @@ end
 -- @tparam string font
 function Labels:SetFont(font)
     if type(font) == "string" then
+        if not self.default_font then
+            self.default_font = font
+        end
         self.font = font
         self:OnUpdate()
         self:UpdateUsername()
     end
+end
+
+--- Gets default font.
+-- @treturn number
+function Labels:GetDefaultFont()
+    return self.default_font
 end
 
 --- Gets font size.
@@ -75,28 +88,59 @@ end
 --- Sets the font size.
 -- @tparam number size
 function Labels:SetFontSize(size)
-    self.font_size = size
-    self:OnUpdate()
-    self:UpdateUsername()
+    if type(size) == "number" then
+        if not self.default_font_size then
+            self.default_font_size = size
+        end
+        self.font_size = size
+        self:OnUpdate()
+        self:UpdateUsername()
+    end
 end
 
---- Data
--- @section data
+--- Gets default font size.
+-- @treturn number
+function Labels:GetDefaultFontSize()
+    return self.default_font_size
+end
+
+--- Selected
+-- @section selected
+
+--- Checks if selected is enabled state.
+-- @treturn boolean
+function Labels:IsSelectedEnabled()
+    return self.is_selected_enabled
+end
+
+--- Sets selected enabled state.
+-- @treturn boolean enabled
+function Labels:SetIsSelectedEnabled(enabled)
+    self.is_selected_enabled = enabled
+    self:OnUpdate()
+end
+
+--- Toggles selected enabled state.
+function Labels:ToggleSelectedEnabled()
+    self.is_selected_enabled = not self.is_selected_enabled
+    self:OnUpdate()
+end
 
 --- Adds select label.
 -- @tparam EntityScript[opt] inst Entity instance
 -- @treturn boolean
 function Labels:AddSelect(inst)
-    if inst then
+    if self.is_selected_enabled and inst then
         self:RemoveSelect(self.selected_entity)
         if not inst.Label then
             inst.entity:AddLabel()
         end
-        inst.Label:Enable(true)
         self.selected_entity = inst
-        return true
+    else
+        self:RemoveSelect(inst)
     end
-    return false
+    self:UpdateSelected()
+    return self.is_selected_enabled
 end
 
 --- Removes select label.
@@ -105,7 +149,7 @@ end
 function Labels:RemoveSelect(inst)
     inst = inst ~= nil and inst or self.selected_entity
     if inst and inst.Label then
-        if inst:HasTag("player") and self.username_mode ~= false then
+        if inst:HasTag("player") and self.username_mode then
             self:AddUsername(inst)
         else
             inst.Label:Enable(false)
@@ -119,6 +163,25 @@ end
 --- Username
 -- @section username
 
+--- Checks if username is enabled state.
+-- @treturn boolean
+function Labels:IsUsernameEnabled()
+    return self.is_username_enabled
+end
+
+--- Sets username enabled state.
+-- @treturn boolean enabled
+function Labels:SetIsUsernameEnabled(enabled)
+    self.is_username_enabled = enabled
+    self:UpdateUsername()
+end
+
+--- Toggles username enabled state.
+function Labels:ToggleUsernameEnabled()
+    self.is_username_enabled = not self.is_username_enabled
+    self:UpdateUsername()
+end
+
 --- Gets username mode.
 -- @treturn boolean|string
 function Labels:GetUsernameMode()
@@ -128,26 +191,31 @@ end
 --- Sets username mode.
 -- @tparam boolean|string mode
 function Labels:SetUsernameMode(mode)
+    if self.default_username_mode == nil then
+        self.default_username_mode = mode
+    end
     self.username_mode = mode
     self:UpdateUsername()
+end
+
+--- Gets default username mode.
+-- @treturn boolean|string
+function Labels:GetDefaultUsernameMode()
+    return self.default_username_mode
 end
 
 --- Adds username label to a player.
 -- @tparam EntityScript inst Player instance
 -- @treturn boolean
 function Labels:AddUsername(inst)
-    -- label
-    if not inst.Label then
-        inst.entity:AddLabel()
+    if self.is_username_enabled and inst and inst:HasTag("player") then
+        -- label
+        if not inst.Label then
+            inst.entity:AddLabel()
+        end
     end
-
-    inst.Label:SetFont(self.font)
-    inst.Label:SetFontSize(self.font_size)
-    inst.Label:SetWorldOffset(0, 2.3, 0)
-    inst.Label:Enable(true)
-
-    -- update
     self:UpdateUsername()
+    return self.is_username_enabled
 end
 
 --- Update
@@ -155,8 +223,8 @@ end
 
 --- Updates selected label.
 function Labels:UpdateSelected()
-    if self.selected_entity and self.selected_entity:IsValid() then
-        local inst = self.selected_entity
+    local inst = self.selected_entity
+    if self.is_selected_enabled and inst and inst:IsValid() then
         local text = ""
 
         if inst.name then
@@ -189,11 +257,14 @@ function Labels:UpdateSelected()
         end
 
         -- add
+        inst.Label:Enable(true)
         inst.Label:SetColour(unpack(WHITE))
         inst.Label:SetFont(self.font)
         inst.Label:SetFontSize(self.font_size)
         inst.Label:SetText(text)
         inst.Label:SetWorldOffset(0, 0, 0)
+    elseif not self.is_selected_enabled and inst and inst:IsValid() and inst.Label then
+        inst.Label:Enable(false)
     end
 end
 
@@ -201,18 +272,21 @@ end
 function Labels:UpdateUsername()
     for _, inst in pairs(self.devtools:GetAllPlayers()) do
         if inst:IsValid() and inst.Label then
-            local client = self.devtools:GetClientTableForUser(inst)
+            if self.is_username_enabled then
+                local client = self.devtools:GetClientTableForUser(inst)
 
-            inst.Label:Enable(true)
-            inst.Label:SetText(inst.name)
-            inst.Label:SetFont(self.font)
-            inst.Label:SetFontSize(self.font_size)
+                inst.Label:Enable(true)
+                inst.Label:SetFont(self.font)
+                inst.Label:SetFontSize(self.font_size)
+                inst.Label:SetText(inst.name)
+                inst.Label:SetWorldOffset(0, 2.3, 0)
 
-            if self.username_mode == "default" then
-                inst.Label:SetColour(unpack(WHITE))
-            elseif self.username_mode == "coloured" and client and client.colour then
-                inst.Label:SetColour(unpack(client.colour))
-            elseif not self.username_mode then
+                if self.username_mode == "default" then
+                    inst.Label:SetColour(unpack(WHITE))
+                elseif self.username_mode == "coloured" and client and client.colour then
+                    inst.Label:SetColour(unpack(client.colour))
+                end
+            else
                 inst.Label:Enable(false)
             end
         end
