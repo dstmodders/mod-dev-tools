@@ -72,7 +72,7 @@ function WorldData:PushWorldMoistureLine()
     local moisture_floor = worlddevtools:GetMoistureFloor()
 
     if moisture ~= nil and moisture_ceil ~= nil and moisture_rate ~= nil then
-        local moisture_string = self:ToValueFloat(moisture)
+        local moisture_string = Utils.StringValueFloat(moisture)
 
         if moisture_rate and moisture_rate > 0 then
             moisture_string = string.format(
@@ -84,8 +84,8 @@ function WorldData:PushWorldMoistureLine()
         end
 
         local value = moisture_floor
-            and self:ToValueSplit({ moisture_floor, moisture_string, moisture_ceil })
-            or self:ToValueSplit({ moisture_string, moisture_ceil })
+            and Utils.StringTableSplit({ moisture_floor, moisture_string, moisture_ceil })
+            or Utils.StringTableSplit({ moisture_string, moisture_ceil })
 
         self:PushWorldLine("Moisture", value)
     end
@@ -100,7 +100,7 @@ function WorldData:PushWorldPhaseLine()
         if next_phase then
             local seconds = worlddevtools:GetTimeUntilPhase(next_phase)
             if seconds ~= nil then
-                self:PushWorldLine("Phase", { phase, self:ToValueClock(seconds, true) })
+                self:PushWorldLine("Phase", { phase, Utils.StringValueClock(seconds, true) })
             else
                 self:PushWorldLine("Phase", phase)
             end
@@ -117,7 +117,7 @@ function WorldData:PushWorldPrecipitationLines()
         local peakprecipitationrate = worlddevtools:GetPeakPrecipitationRate()
         self:PushWorldLine("Precipitation Rate", peakprecipitationrate ~= nil
             and { precipitation_rate, peakprecipitationrate }
-            or self:ToValueFloat(precipitation_rate))
+            or Utils.StringValueFloat(precipitation_rate))
     end
 
     local is_snowing = worlddevtools:GetStateIsSnowing()
@@ -127,16 +127,19 @@ function WorldData:PushWorldPrecipitationLines()
     if precipitation_starts and precipitation_ends then
         local label = is_snowing and "Snow" or "Rain"
         if not worlddevtools:IsPrecipitation() then
-            self:PushWorldLine(label .. " Starts", "~" .. self:ToValueClock(precipitation_starts))
+            self:PushWorldLine(
+                label .. " Starts",
+                "~" .. Utils.StringValueClock(precipitation_starts)
+            )
         else
-            self:PushWorldLine(label .. " Ends", "~" .. self:ToValueClock(precipitation_ends))
+            self:PushWorldLine(label .. " Ends", "~" .. Utils.StringValueClock(precipitation_ends))
         end
     end
 
     if is_snowing then
         self:PushWorldLine(
             "Snow Level",
-            self:ToValuePercent(worlddevtools:GetStateSnowLevel() * 100)
+            Utils.StringValuePercent(worlddevtools:GetStateSnowLevel() * 100)
         )
     end
 end
@@ -145,7 +148,7 @@ end
 function WorldData:PushWorldTemperatureLine()
     local temperature = self.worlddevtools:GetStateTemperature()
     if temperature ~= nil then
-        self:PushWorldLine("Temperature", self:ToValueScale(temperature))
+        self:PushWorldLine("Temperature", Utils.StringValueScale(temperature))
     end
 end
 
@@ -156,7 +159,7 @@ function WorldData:PushWorldWetnessLine()
     local wetness_rate = worlddevtools:GetWetnessRate()
 
     if wetness and wetness > 0 then
-        local value = self:ToValuePercent(wetness)
+        local value = Utils.StringValuePercent(wetness)
         if wetness_rate and wetness_rate > 0 then
             value = string.format("%s (+%0.2f)", value, math.abs(wetness_rate))
         elseif wetness_rate and wetness_rate < 0 then
@@ -233,7 +236,7 @@ function WorldData:PushBeargerSpawnerLine()
             value = "warning"
         elseif spawner and type(spawner.activehasslers) == "table" then
             if #spawner.activehasslers == 0 and type(spawner.lastKillDay) == "number" then
-                value = self:ToValueSplit({ "killed", "day " .. spawner.lastKillDay })
+                value = Utils.StringTableSplit({ "killed", "day " .. spawner.lastKillDay })
             elseif #spawner.activehasslers > 0 then
                 value = "yes"
             else
@@ -264,7 +267,7 @@ function WorldData:PushMalbatrossSpawnerLine()
                 if spawner._firstspawn == true or timetospawn <= 0 then
                     value = "waiting"
                 elseif timetospawn > 0 then
-                    value = self:ToValueClock(timetospawn - GetTime())
+                    value = Utils.StringValueClock(timetospawn - GetTime())
                 else
                     value = "no"
                 end
@@ -289,7 +292,7 @@ function WorldData:PushDeersSpawnerLine()
         if spawner and type(spawner._timetospawn) == "number" then
             value = spawner._timetospawn <= 0
                 and "waiting"
-                or self:ToValueClock(spawner._timetospawn - GetTime())
+                or Utils.StringValueClock(spawner._timetospawn - GetTime())
         elseif spawner and type(spawner._activedeer) == "table" then
             value = #spawner._activedeer
         end
@@ -311,7 +314,7 @@ function WorldData:PushKlausSackSpawnerLine()
         local spawner = data.klaussackspawner
         if spawner and type(spawner.timetorespawn) == "number" then
             value = spawner.timetorespawn > 0
-                and self:ToValueClock(spawner.timetorespawn - GetTime())
+                and Utils.StringValueClock(spawner.timetorespawn - GetTime())
                 or "no"
         elseif spawner and spawner.timetorespawn == false then
             value = "yes"
@@ -334,7 +337,7 @@ function WorldData:PushHoundedLine()
         local hounded = data.hounded
         if hounded and type(hounded.timetoattack) == "number" then
             value = hounded.timetoattack > 0
-                and self:ToValueClock(hounded.timetoattack - GetTime())
+                and Utils.StringValueClock(hounded.timetoattack - GetTime())
                 or "no"
         end
     end
