@@ -34,7 +34,7 @@ local function PrintDumpValues(table, title, name, prepend)
 
     print(prepend .. (name
         and string.format('Dumping "%s" %s...', name, title)
-        or string.format('Dumping "%s"...', title)))
+        or string.format('Dumping %s...', title)))
 
     if #table > 0 then
         table = Utils.TableSortAlphabetically(table)
@@ -332,42 +332,6 @@ function Utils.DumpReplicas(entity, name, prepend)
     PrintDumpValues(Utils.GetReplicas(entity), "Replicas", name, prepend)
 end
 
---- Gets the next table value.
---
--- When the next value doesn't exist it returns the first one.
---
--- **NB!** Currently supports only "ipaired" tables.
---
--- @tparam table t Table
--- @tparam string value Value
--- @treturn string
-function Utils.TableNextValue(t, value)
-    if type(t) ~= "table" then
-        return false
-    end
-
-    for k, v in pairs(t) do
-        if v == value then
-            return k < #t and t[k + 1] or t[1]
-        end
-    end
-end
-
---- Sorts the table elements alphabetically.
--- @tparam table t Table
--- @treturn number
-function Utils.TableSortAlphabetically(t)
-    if type(t) ~= "table" then
-        return false
-    end
-
-    table.sort(t, function(a, b)
-        return a:lower() < b:lower()
-    end)
-
-    return t
-end
-
 --- Entity
 -- @section entity
 
@@ -658,6 +622,80 @@ function Utils.EnableSendRPCToServer()
     end
 end
 
+--- String
+-- @section string
+
+--- Converts a number into a clock string.
+-- @tparam number seconds Seconds
+-- @tparam boolean is_hour_disabled Should hours be disabled?
+-- @treturn string
+function Utils.StringValueClock(seconds, is_hour_disabled)
+    seconds = tonumber(seconds)
+    if seconds <= 0 then
+        return is_hour_disabled and "00:00" or "00:00:00";
+    end
+    local h = string.format("%02.f", math.floor(seconds / 3600));
+    local m = string.format("%02.f", math.floor(seconds / 60 - (h * 60)));
+    local s = string.format("%02.f", math.floor(seconds - h * 3600 - m * 60));
+    return is_hour_disabled and m .. ":" .. s or h .. ":" .. m .. ":" .. s
+end
+
+--- Converts a number into a float string.
+-- @tparam number num
+-- @treturn string
+function Utils.StringValueFloat(num)
+    return string.format("%0.2f", num or 0)
+end
+
+--- Converts a number into a percentage string.
+-- @tparam number num
+-- @treturn string
+function Utils.StringValuePercent(num)
+    return string.format("%0.2f", num or 0) .. "%"
+end
+
+--- Converts a number into a scale string.
+-- @tparam number num
+-- @treturn string
+function Utils.StringValueScale(num)
+    return string.format("%0.2f°", num or 0)
+end
+
+--- Converts a table values into a string.
+--
+-- Converts a table:
+--
+--    { "one", "two", "three" }
+--
+-- To string:
+--
+--    one | two | three"
+--
+-- @tparam table t
+-- @treturn string
+function Utils.StringTableSplit(t)
+    if type(t) == "table" and #t > 0 then
+        local value, value_clean
+
+        value = ""
+        for _, v in pairs(t) do
+            value_clean = v
+
+            -- and math.floor(value_clean) ~= value_clean
+            if type(value_clean) == "number" then
+                value_clean = Utils.StringValueFloat(v)
+            end
+
+            value = value .. value_clean
+            if next(t, _) ~= nil then
+                value = value .. " | "
+            end
+        end
+
+        return value
+    end
+end
+
 --- Table
 -- @section table
 
@@ -793,6 +831,42 @@ function Utils.TableMerge(a, b, is_merge_nested)
     return a
 end
 
+--- Gets the next table value.
+--
+-- When the next value doesn't exist it returns the first one.
+--
+-- **NB!** Currently supports only "ipaired" tables.
+--
+-- @tparam table t Table
+-- @tparam string value Value
+-- @treturn string
+function Utils.TableNextValue(t, value)
+    if type(t) ~= "table" then
+        return false
+    end
+
+    for k, v in pairs(t) do
+        if v == value then
+            return k < #t and t[k + 1] or t[1]
+        end
+    end
+end
+
+--- Sorts the table elements alphabetically.
+-- @tparam table t Table
+-- @treturn number
+function Utils.TableSortAlphabetically(t)
+    if type(t) ~= "table" then
+        return false
+    end
+
+    table.sort(t, function(a, b)
+        return a:lower() < b:lower()
+    end)
+
+    return t
+end
+
 --- Thread
 -- @section thread
 
@@ -802,11 +876,15 @@ end
 --
 -- @tparam string id Thread ID
 -- @tparam function fn Thread function
--- @tparam function whl While function
+-- @tparam[opt] function whl While function
 -- @tparam[opt] function init Initialization function
 -- @tparam[opt] function term Termination function
 -- @treturn table
 function Utils.ThreadStart(id, fn, whl, init, term)
+    whl = whl ~= nil and whl or function()
+        return true
+    end
+
     return StartThread(function()
         DebugString("Thread started")
         if init then
