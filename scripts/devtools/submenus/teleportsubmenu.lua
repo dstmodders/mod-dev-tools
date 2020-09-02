@@ -45,7 +45,7 @@ end)
 -- @section helpers
 
 local function AddGatherPlayersOption(self)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = "Gather Players",
         on_accept_fn = function()
             self.console:GatherPlayers()
@@ -55,7 +55,7 @@ local function AddGatherPlayersOption(self)
 end
 
 local function AddGoNextOption(self, label, prefab)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = label,
         on_accept_fn = function()
             local gonext = prefab

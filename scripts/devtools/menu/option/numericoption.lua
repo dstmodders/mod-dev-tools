@@ -3,7 +3,7 @@
 --
 -- Extends `menu.option.Option`.
 --
---    local numerictoggleoption = NumericToggleOption({
+--    local numericoption = NumericOption({
 --        name = "your_option", -- optional
 --        label = "Your option",
 --        min = 1,
@@ -25,7 +25,7 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.NumericToggleOption
+-- @classmod menu.option.NumericOption
 -- @see menu.option.Option
 --
 -- @author Victor Popkov
@@ -40,7 +40,7 @@ local Option = require "devtools/menu/option/option"
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local numerictoggleoption = NumericToggleOption({
+-- @usage local numericoption = NumericOption({
 --     name = "your_option", -- optional
 --     label = "Your option",
 --     min = 1,
@@ -59,7 +59,7 @@ local Option = require "devtools/menu/option/option"
 --         print("Your option has changed: " .. tostring(value))
 --     end,
 -- })
-local NumericToggleOption = Class(Option, function(self, options)
+local NumericOption = Class(Option, function(self, options)
     Option._ctor(self, options)
 
     -- asserts
@@ -79,7 +79,7 @@ end)
 -- @section navigation
 
 --- Left.
-function NumericToggleOption:Left()
+function NumericOption:Left()
     local value = self.on_get_fn()
     if value > self.min then
         if TheInput:IsKeyDown(KEY_LSHIFT) or TheInput:IsKeyDown(KEY_RSHIFT) then
@@ -91,7 +91,7 @@ function NumericToggleOption:Left()
 end
 
 --- Right.
-function NumericToggleOption:Right()
+function NumericOption:Right()
     local value = self.on_get_fn()
     if value < self.max then
         if TheInput:IsKeyDown(KEY_LSHIFT) or TheInput:IsKeyDown(KEY_RSHIFT) then
@@ -107,7 +107,7 @@ end
 
 --- __tostring
 -- @treturn string
-function NumericToggleOption:__tostring()
+function NumericOption:__tostring()
     local label = Option.__tostring(self)
     if type(self.on_get_fn) == "function" and self.on_get_fn() then
         return label .. "    [ " .. tostring(self.on_get_fn()) .. " ]"
@@ -115,4 +115,4 @@ function NumericToggleOption:__tostring()
     return label
 end
 
-return NumericToggleOption
+return NumericOption

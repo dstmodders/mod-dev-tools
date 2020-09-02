@@ -30,7 +30,7 @@
 require "class"
 
 local DividerOption = require "devtools/menu/option/divideroption"
-local DoActionOption = require "devtools/menu/option/doactionoption"
+local ActionOption = require "devtools/menu/option/actionoption"
 local Option = require "devtools/menu/option/option"
 
 --- Constructor.
@@ -67,7 +67,7 @@ end)
 function SubmenuOption:OnAccept(text_menu)
     local options = shallowcopy(self.options)
     table.insert(options, DividerOption())
-    table.insert(options, DoActionOption({
+    table.insert(options, ActionOption({
         label = "Back",
         on_accept_fn = function(_menu)
             _menu:Pop()

@@ -73,7 +73,7 @@ end
 
 local function AddSendLightningStrikeOption(self)
     if not self.world:IsCave() then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "Send Lightning Strike",
             on_accept_fn = function()
                 local pos = TheInput:GetWorldPosition()
@@ -86,7 +86,7 @@ end
 
 local function AddSendMiniEarthquakeOption(self)
     if self.world:IsCave() then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "Send Mini Earthquake",
             on_accept_fn = function()
                 self.console:MiniQuake()
@@ -102,7 +102,7 @@ local function AddMoistureOption(self)
 
     if floor and ceil then
         local delta
-        self:AddNumericToggleOption({
+        self:AddNumericOption({
             label = "Moisture",
             min = floor,
             max = ceil,
@@ -121,7 +121,7 @@ end
 
 local function AddSnowLevelOption(self)
     if not self.world:IsCave() then
-        self:AddNumericToggleOption({
+        self:AddNumericOption({
             label = "Snow Level",
             min = 0,
             max = 100,
@@ -139,7 +139,7 @@ end
 
 local function AddWetnessOption(self)
     local delta
-    self:AddNumericToggleOption({
+    self:AddNumericOption({
         label = "Wetness",
         min = 0,
         max = 100,

@@ -48,7 +48,7 @@ end)
 
 local function AddRecipeOption(self, label, item)
     local recipe
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = label,
         on_accept_fn = function()
             recipe = GetValidRecipe(item)
@@ -104,7 +104,7 @@ end
 
 local function AddPlacerOption(self, label, placer)
     local recipe
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = label,
         on_accept_fn = function()
             recipe = GetValidRecipe(placer)

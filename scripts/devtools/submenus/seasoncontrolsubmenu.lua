@@ -57,7 +57,7 @@ local function UpdateScreen(self)
 end
 
 local function AddAdvanceSeasonOption(self)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = "Advance Season",
         on_accept_fn = function()
             for _ = 1, self.world:GetStateRemainingDaysInSeason() do
@@ -69,7 +69,7 @@ local function AddAdvanceSeasonOption(self)
 end
 
 local function AddRetreatSeasonOption(self)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = "Retreat Season",
         on_accept_fn = function()
             for _ = 1, self.world:GetStateRemainingDaysInSeason() do
@@ -110,7 +110,7 @@ local function AddSeasonLengthOptions(self)
     }
 
     for _, season in pairs(seasons) do
-        self:AddNumericToggleOption({
+        self:AddNumericOption({
             label = string.format("Season Length (%s)", season.name),
             min = 1,
             max = 100,

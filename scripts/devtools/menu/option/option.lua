@@ -20,8 +20,8 @@
 -- @see menu.option.CheckboxOption
 -- @see menu.option.ChoicesOption
 -- @see menu.option.DividerOption
--- @see menu.option.DoActionOption
--- @see menu.option.NumericToggleOption
+-- @see menu.option.ActionOption
+-- @see menu.option.NumericOption
 -- @see menu.option.SubmenuOption
 -- @see menu.option.ToggleCheckboxOption
 --

@@ -2,10 +2,10 @@ require "busted.runner"()
 
 local Helper = require "spec/scripts/devtools/menu/option/helper"
 
-describe("NumericToggleOption", function()
+describe("NumericOption", function()
     -- before_each initialization
     local options
-    local NumericToggleOption, numerictoggleoption
+    local NumericOption, numericoption
 
     before_each(function()
         -- initialization
@@ -20,8 +20,8 @@ describe("NumericToggleOption", function()
             step = 1,
         }
 
-        NumericToggleOption = require "devtools/menu/option/numerictoggleoption"
-        numerictoggleoption = NumericToggleOption(options)
+        NumericOption = require "devtools/menu/option/numericoption"
+        numericoption = NumericOption(options)
     end)
 
     insulate("when initializing", function()
@@ -30,7 +30,7 @@ describe("NumericToggleOption", function()
         end
 
         local init_fn = function()
-            NumericToggleOption(options)
+            NumericOption(options)
         end
 
         local function AssertDefaults(self)
@@ -47,7 +47,7 @@ describe("NumericToggleOption", function()
         end
 
         it("should have the default fields", function()
-            AssertDefaults(numerictoggleoption)
+            AssertDefaults(numericoption)
         end)
 
         Helper.TestOptionAsserts(options_fn, init_fn, "max", "number")

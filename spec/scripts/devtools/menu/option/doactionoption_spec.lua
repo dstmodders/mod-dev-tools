@@ -1,9 +1,9 @@
 require "busted.runner"()
 
-describe("DoActionOption", function()
+describe("ActionOption", function()
     -- before_each initialization
     local options
-    local DoActionOption, doactionoption
+    local ActionOption, actionoption
 
     before_each(function()
         -- initialization
@@ -13,8 +13,8 @@ describe("DoActionOption", function()
             on_cursor_fn = spy.new(Empty),
         }
 
-        DoActionOption = require "devtools/menu/option/doactionoption"
-        doactionoption = DoActionOption(options)
+        ActionOption = require "devtools/menu/option/actionoption"
+        actionoption = ActionOption(options)
     end)
 
     insulate("when initializing", function()
@@ -27,7 +27,7 @@ describe("DoActionOption", function()
         end
 
         it("should have the default fields", function()
-            AssertDefaults(doactionoption)
+            AssertDefaults(actionoption)
         end)
     end)
 end)

@@ -92,7 +92,7 @@ end
 
 local function AddFontSizeOption(self)
     local default = 18
-    self:AddNumericToggleOption({
+    self:AddNumericOption({
         label = "Font Size",
         min = 6,
         max = 32,

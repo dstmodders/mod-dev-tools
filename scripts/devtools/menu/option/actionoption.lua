@@ -6,7 +6,7 @@
 -- Extends `menu.option.Option` but doesn't add anything. It's a leftover from my private one based
 -- on which this mod has been created.
 --
---    local doactionoption = DoActionOption({
+--    local actionoption = ActionOption({
 --        name = "your_option", -- optional
 --        label = "Your option",
 --        on_accept_fn = function()
@@ -19,7 +19,7 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.DoActionOption
+-- @classmod menu.option.ActionOption
 -- @see menu.option.Option
 --
 -- @author Victor Popkov
@@ -34,7 +34,7 @@ local Option = require "devtools/menu/option/option"
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local doactionoption = DoActionOption({
+-- @usage local actionoption = ActionOption({
 --     name = "your_option", -- optional
 --     label = "Your option",
 --     on_accept_fn = function()
@@ -44,8 +44,8 @@ local Option = require "devtools/menu/option/option"
 --         print("Your option is selected")
 --     end,
 -- })
-local DoActionOption = Class(Option, function(self, options)
+local ActionOption = Class(Option, function(self, options)
     Option._ctor(self, options)
 end)
 
-return DoActionOption
+return ActionOption

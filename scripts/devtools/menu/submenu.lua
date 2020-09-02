@@ -32,8 +32,8 @@ local Utils = require "devtools/utils"
 local CheckboxOption = require "devtools/menu/option/checkboxoption"
 local ChoicesOption = require "devtools/menu/option/choicesoption"
 local DividerOption = require "devtools/menu/option/divideroption"
-local DoActionOption = require "devtools/menu/option/doactionoption"
-local NumericToggleOption = require "devtools/menu/option/numerictoggleoption"
+local ActionOption = require "devtools/menu/option/actionoption"
+local NumericOption = require "devtools/menu/option/numericoption"
 local SubmenuOption = require "devtools/menu/option/submenuoption"
 local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 
@@ -166,21 +166,21 @@ function Submenu:AddDividerOption(root)
 end
 
 --- Adds do action option.
--- @see menu.option.DoActionOption
+-- @see menu.option.ActionOption
 -- @tparam table options
 -- @tparam[opt] table root
-function Submenu:AddDoActionOption(options, root)
+function Submenu:AddActionOption(options, root)
     root = root ~= nil and root or self.options
-    table.insert(root, DoActionOption(options))
+    table.insert(root, ActionOption(options))
 end
 
 --- Adds numeric toggle option.
--- @see menu.option.NumericToggleOption
+-- @see menu.option.NumericOption
 -- @tparam table options
 -- @tparam[opt] table root
-function Submenu:AddNumericToggleOption(options, root)
+function Submenu:AddNumericOption(options, root)
     root = root ~= nil and root or self.options
-    table.insert(root, NumericToggleOption(options))
+    table.insert(root, NumericOption(options))
 end
 
 --- Adds submenu option.

@@ -50,7 +50,7 @@ local function AddDumpOptions(self, name, object, options)
     local nr_of_functions = #Utils.GetFunctions(object)
 
     if nr_of_components > 0 then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "Components",
             on_accept_fn = function()
                 Utils.DumpComponents(object, name)
@@ -59,7 +59,7 @@ local function AddDumpOptions(self, name, object, options)
     end
 
     if nr_of_event_listeners > 0 then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "Event Listeners",
             on_accept_fn = function()
                 Utils.DumpEventListeners(object, name)
@@ -68,7 +68,7 @@ local function AddDumpOptions(self, name, object, options)
     end
 
     if nr_of_fields > 0 then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "Fields",
             on_accept_fn = function()
                 Utils.DumpFields(object, name)
@@ -77,7 +77,7 @@ local function AddDumpOptions(self, name, object, options)
     end
 
     if nr_of_functions > 0 then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "Functions", -- those are "Methods" logically, but it's Lua, so who cares
             on_accept_fn = function()
                 Utils.DumpFunctions(object, name)
@@ -94,7 +94,7 @@ local function AddDumpOptions(self, name, object, options)
             self:AddDividerOption(options)
         end
 
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "dumptable", -- those are "Methods" logically, but it's Lua, so who cares
             on_accept_fn = function()
                 dumptable(object)

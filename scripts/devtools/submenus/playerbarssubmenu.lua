@@ -45,7 +45,7 @@ end)
 -- @section helpers
 
 local function AddFullOption(self, is_inst_in_wereness_form)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = "Full",
         on_accept_fn = function()
             self.console:SetMaxHealthPercent(100)
@@ -69,7 +69,7 @@ local function AddPlayerBarOption(self, label, getter, setter, min, max, step)
     max = max ~= nil and max or 100
     step = step ~= nil and step or 5
 
-    self:AddNumericToggleOption({
+    self:AddNumericOption({
         label = label,
         min = min,
         max = max,

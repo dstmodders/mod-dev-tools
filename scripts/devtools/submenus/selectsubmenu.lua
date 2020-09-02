@@ -71,7 +71,7 @@ end
 
 local function AddSelectPlayerOptions(self)
     for _, v in pairs(self.devtools:GetAllPlayers()) do
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = AppendSelected(self, v:GetDisplayName(), v, self.player:GetSelected()),
             on_accept_fn = function()
                 self.player:Select(v)
@@ -82,7 +82,7 @@ local function AddSelectPlayerOptions(self)
 end
 
 local function AddSelectEntityUnderMouseOptions(self)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = AppendSelected(self, "Entity Under Mouse", self.world:GetSelectedEntity(), {
             self.player:GetSelected(),
             self.world:GetWorld(),
@@ -100,7 +100,7 @@ end
 
 local function AddSelectEquippedItem(self, slot)
     if self.inventory:HasEquippedItem(slot) then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = AppendSelected(
                 self,
                 string.format("Equipped Item (%s)", slot:gsub("^%l", string.upper)),
@@ -115,7 +115,7 @@ local function AddSelectEquippedItem(self, slot)
 end
 
 local function AddSelectWorldOptions(self)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = AppendSelected(self, "TheWorld", self.world:GetWorld()),
         on_accept_fn = function()
             self.world:Select()
@@ -125,7 +125,7 @@ local function AddSelectWorldOptions(self)
 end
 
 local function AddSelectWorldNetOptions(self)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = AppendSelected(self, "TheWorld.net", self.world:GetWorldNet()),
         on_accept_fn = function()
             self.world:SelectNet()

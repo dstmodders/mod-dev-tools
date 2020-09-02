@@ -43,7 +43,7 @@ end)
 -- @section helpers
 
 local function AddLanguageOption(self, label, name)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = label,
         on_accept_fn = function()
             local id = LANGUAGE[name]

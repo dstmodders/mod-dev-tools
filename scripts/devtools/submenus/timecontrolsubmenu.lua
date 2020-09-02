@@ -57,7 +57,7 @@ local function UpdateScreen(self)
 end
 
 local function AddTimeScaleOption(self)
-    self:AddNumericToggleOption({
+    self:AddNumericOption({
         label = "Time Scale",
         min = 1,
         max = 400,
@@ -82,7 +82,7 @@ local function AddTimeScaleOption(self)
 end
 
 local function AddPushWorldEventOption(self, label, event)
-    self:AddDoActionOption({
+    self:AddActionOption({
         label = label,
         on_accept_fn = function()
             self.console:PushWorldEvent(event)

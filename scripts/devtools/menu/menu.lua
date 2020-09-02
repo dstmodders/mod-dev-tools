@@ -46,7 +46,7 @@ local WeatherControlSubmenu = require "devtools/submenus/weathercontrolsubmenu"
 
 -- options
 local DividerOption = require "devtools/menu/option/divideroption"
-local DoActionOption = require "devtools/menu/option/doactionoption"
+local ActionOption = require "devtools/menu/option/actionoption"
 local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 
 --- Constructor.
@@ -128,7 +128,7 @@ end
 
 --- Adds grab profile option.
 function Menu:AddGrabProfileOption()
-    table.insert(self.options, DoActionOption({
+    table.insert(self.options, ActionOption({
         label = "Grab Profile",
         on_accept_fn = function()
             TheSim:Profile()

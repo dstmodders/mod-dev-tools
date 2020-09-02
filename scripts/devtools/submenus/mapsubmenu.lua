@@ -51,7 +51,7 @@ end)
 
 local function AddRevealOption(self)
     if self.world:IsMasterSim() then
-        self:AddDoActionOption({
+        self:AddActionOption({
             label = "Reveal",
             on_accept_fn = function()
                 self.map:Reveal()
