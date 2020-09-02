@@ -1,12 +1,12 @@
 ----
 -- Player vision submenu.
 --
--- Extends `menu.submenu.Submenu`.
+-- Extends `menu.Submenu`.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.submenu.PlayerVisionSubmenu
--- @see menu.submenu.Submenu
+-- @classmod submenus.PlayerVisionSubmenu
+-- @see menu.Submenu
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -15,7 +15,7 @@
 ----
 require "class"
 
-local Submenu = require "devtools/menu/submenu/submenu"
+local Submenu = require "devtools/menu/submenu"
 
 local CC_CHOICES = {
     { name = "Default", value = "nil" },

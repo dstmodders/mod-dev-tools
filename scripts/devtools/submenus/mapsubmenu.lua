@@ -1,12 +1,12 @@
 ----
 -- Map submenu.
 --
--- Extends `menu.submenu.Submenu`.
+-- Extends `menu.Submenu`.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.submenu.MapSubmenu
--- @see menu.submenu.Submenu
+-- @classmod submenus.MapSubmenu
+-- @see menu.Submenu
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -15,7 +15,7 @@
 ----
 require "class"
 
-local Submenu = require "devtools/menu/submenu/submenu"
+local Submenu = require "devtools/menu/submenu"
 
 --- Lifecycle
 -- @section lifecycle

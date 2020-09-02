@@ -6,17 +6,17 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.Menu
--- @see menu.submenu.CharacterRecipesSubmenu
--- @see menu.submenu.DebugSubmenu
--- @see menu.submenu.DumpSubmenu
--- @see menu.submenu.LabelsSubmenu
--- @see menu.submenu.MapSubmenu
--- @see menu.submenu.PlayerBarsSubmenu
--- @see menu.submenu.PlayerVisionSubmenu
--- @see menu.submenu.SelectSubmenu
--- @see menu.submenu.TeleportSubmenu
--- @see menu.submenu.TimeControlSubmenu
--- @see menu.submenu.WeatherControlSubmenu
+-- @see submenus.CharacterRecipesSubmenu
+-- @see submenus.DebugSubmenu
+-- @see submenus.DumpSubmenu
+-- @see submenus.LabelsSubmenu
+-- @see submenus.MapSubmenu
+-- @see submenus.PlayerBarsSubmenu
+-- @see submenus.PlayerVisionSubmenu
+-- @see submenus.SelectSubmenu
+-- @see submenus.TeleportSubmenu
+-- @see submenus.TimeControlSubmenu
+-- @see submenus.WeatherControlSubmenu
 -- @see menu.TextMenu
 --
 -- @author Victor Popkov
@@ -30,19 +30,19 @@ require "consolecommands"
 local TextMenu = require "devtools/menu/textmenu"
 
 -- submenus
-local CharacterRecipesSubmenu = require "devtools/menu/submenu/characterrecipessubmenu"
-local DebugSubmenu = require "devtools/menu/submenu/debugsubmenu"
-local DumpSubmenu = require "devtools/menu/submenu/dumpsubmenu"
-local LabelsSubmenu = require "devtools/menu/submenu/labelssubmenu"
-local LanguageSubmenu = require "devtools/menu/submenu/languagesubmenu"
-local MapSubmenu = require "devtools/menu/submenu/mapsubmenu"
-local PlayerBarsSubmenu = require "devtools/menu/submenu/playerbarssubmenu"
-local PlayerVisionSubmenu = require "devtools/menu/submenu/playervisionsubmenu"
-local SeasonControlSubmenu = require "devtools/menu/submenu/seasoncontrolsubmenu"
-local SelectSubmenu = require "devtools/menu/submenu/selectsubmenu"
-local TeleportSubmenu = require "devtools/menu/submenu/teleportsubmenu"
-local TimeControlSubmenu = require "devtools/menu/submenu/timecontrolsubmenu"
-local WeatherControlSubmenu = require "devtools/menu/submenu/weathercontrolsubmenu"
+local CharacterRecipesSubmenu = require "devtools/submenus/characterrecipessubmenu"
+local DebugSubmenu = require "devtools/submenus/debugsubmenu"
+local DumpSubmenu = require "devtools/submenus/dumpsubmenu"
+local LabelsSubmenu = require "devtools/submenus/labelssubmenu"
+local LanguageSubmenu = require "devtools/submenus/languagesubmenu"
+local MapSubmenu = require "devtools/submenus/mapsubmenu"
+local PlayerBarsSubmenu = require "devtools/submenus/playerbarssubmenu"
+local PlayerVisionSubmenu = require "devtools/submenus/playervisionsubmenu"
+local SeasonControlSubmenu = require "devtools/submenus/seasoncontrolsubmenu"
+local SelectSubmenu = require "devtools/submenus/selectsubmenu"
+local TeleportSubmenu = require "devtools/submenus/teleportsubmenu"
+local TimeControlSubmenu = require "devtools/submenus/timecontrolsubmenu"
+local WeatherControlSubmenu = require "devtools/submenus/weathercontrolsubmenu"
 
 -- options
 local DividerOption = require "devtools/menu/option/divideroption"
@@ -141,7 +141,7 @@ end
 -- @section menu
 
 --- Adds submenu.
--- @tparam menu.submenu.Submenu submenu Class submenu (not an instance)
+-- @tparam menu.Submenu submenu Class submenu (not an instance)
 function Menu:AddSubmenu(submenu)
     if submenu._ctor then
         submenu(self.devtools, self.options)

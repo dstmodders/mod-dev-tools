@@ -160,35 +160,35 @@ end
 -- @section data
 
 --- Switches data to front-end.
--- @see menu.submenu.Submenu.UpdateScreen
+-- @see menu.Submenu.UpdateScreen
 function DevToolsScreen:SwitchDataToFrontEnd()
     self.data_name = "front-end"
     self:UpdateData()
 end
 
 --- Switches data to recipe.
--- @see menu.submenu.Submenu.UpdateScreen
+-- @see menu.Submenu.UpdateScreen
 function DevToolsScreen:SwitchDataToRecipe()
     self.data_name = "recipe"
     self:UpdateData()
 end
 
 --- Switches data to selected.
--- @see menu.submenu.Submenu.UpdateScreen
+-- @see menu.Submenu.UpdateScreen
 function DevToolsScreen:SwitchDataToSelected()
     self.data_name = "selected"
     self:UpdateData()
 end
 
 --- Switches data to world.
--- @see menu.submenu.Submenu.UpdateScreen
+-- @see menu.Submenu.UpdateScreen
 function DevToolsScreen:SwitchDataToWorld()
     self.data_name = "world"
     self:UpdateData()
 end
 
 --- Switches data to nil.
--- @see menu.submenu.Submenu.UpdateScreen
+-- @see menu.Submenu.UpdateScreen
 function DevToolsScreen:SwitchDataToNil()
     self.data_name = nil
     self.data_text = nil
