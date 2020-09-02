@@ -23,7 +23,7 @@ local Utils = require "devtools/utils"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.DevTools devtools
+-- @tparam DevTools devtools
 -- @tparam Widget root
 -- @usage local characterrecipessubmenu = CharacterRecipesSubmenu(devtools, root)
 local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)

@@ -42,7 +42,7 @@ local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.DevTools devtools
+-- @tparam DevTools devtools
 -- @tparam Widget root
 -- @tparam string label
 -- @tparam string name

@@ -79,7 +79,7 @@ local CC_CHOICES = {
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.DevTools devtools
+-- @tparam DevTools devtools
 -- @tparam Widget root
 -- @usage local playervisionsubmenu = PlayerVisionSubmenu(devtools, root)
 local PlayerVisionSubmenu = Class(Submenu, function(self, devtools, root)

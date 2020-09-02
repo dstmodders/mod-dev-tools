@@ -22,7 +22,7 @@ local Submenu = require "devtools/menu/submenu/submenu"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.DevTools devtools
+-- @tparam DevTools devtools
 -- @tparam Widget root
 -- @usage local seasoncontrolsubmenu = SeasonControlSubmenu(devtools, root)
 local SeasonControlSubmenu = Class(Submenu, function(self, devtools, root)
