@@ -126,27 +126,27 @@ function Labels:ToggleSelectedEnabled()
     self:OnUpdate()
 end
 
---- Adds select label.
+--- Adds selected label.
 -- @tparam EntityScript[opt] inst Entity instance
 -- @treturn boolean
-function Labels:AddSelect(inst)
+function Labels:AddSelected(inst)
     if self.is_selected_enabled and inst then
-        self:RemoveSelect(self.selected_entity)
+        self:RemoveSelected(self.selected_entity)
         if not inst.Label then
             inst.entity:AddLabel()
         end
         self.selected_entity = inst
     else
-        self:RemoveSelect(inst)
+        self:RemoveSelected(inst)
     end
     self:UpdateSelected()
     return self.is_selected_enabled
 end
 
---- Removes select label.
+--- Removes selected label.
 -- @tparam EntityScript[opt] inst Entity instance
 -- @treturn boolean
-function Labels:RemoveSelect(inst)
+function Labels:RemoveSelected(inst)
     inst = inst ~= nil and inst or self.selected_entity
     if inst and inst.Label then
         if inst:HasTag("player") and self.username_mode then
