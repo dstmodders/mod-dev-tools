@@ -23,7 +23,7 @@ local Utils = require "devtools/utils"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.DevTools devtools
+-- @tparam DevTools devtools
 -- @tparam Widget root
 -- @usage local dumpsubmenu = DumpSubmenu(devtools, root)
 local DumpSubmenu = Class(Submenu, function(self, devtools, root)
@@ -142,8 +142,11 @@ function DumpSubmenu:AddOptions()
 
     if self.player then
         AddDumpSubmenu(self, "ThePlayer", ThePlayer)
+        AddDumpSubmenu(self, "ThePlayer.AnimState", ThePlayer.AnimState)
         AddDumpSubmenu(self, "ThePlayer.Physics", ThePlayer.Physics)
         AddDumpSubmenu(self, "ThePlayer.player_classified", ThePlayer.player_classified)
+        AddDumpSubmenu(self, "ThePlayer.sg", ThePlayer.sg)
+        AddDumpSubmenu(self, "ThePlayer.Transform", ThePlayer.Transform)
         self:AddDividerOption()
     end
 
@@ -152,6 +155,7 @@ function DumpSubmenu:AddOptions()
     AddDumpSubmenu(self, "Entity")
     AddDumpSubmenu(self, "EntityScript")
     AddDumpSubmenu(self, "KnownModIndex")
+    AddDumpSubmenu(self, "LOC")
     AddDumpSubmenu(self, "Profile")
 
     self:AddDividerOption()
