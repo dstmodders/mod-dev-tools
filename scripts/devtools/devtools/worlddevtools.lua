@@ -172,6 +172,7 @@ end
 -- @treturn boolean Always true
 function WorldDevTools:Select()
     SetDebugEntity(self.inst)
+    self.devtools.labels:RemoveSelected()
     self:DebugString("Selected TheWorld")
     return true
 end
@@ -185,6 +186,7 @@ end
 -- @treturn boolean Always true
 function WorldDevTools:SelectNet()
     SetDebugEntity(self.inst.net)
+    self.devtools.labels:RemoveSelected()
     self:DebugString("Selected TheWorld.net")
     return true
 end
@@ -200,9 +202,15 @@ function WorldDevTools:SelectEntityUnderMouse()
     local entity = TheInput:GetWorldEntityUnderMouse()
     if entity then
         SetDebugEntity(entity)
+        self.devtools.labels:AddSelected(entity)
         self:DebugString("Selected", entity:GetDisplayName())
         return true
     end
+
+    SetDebugEntity(nil)
+    self.devtools.labels:RemoveSelected()
+    self:DebugString("Unselected")
+
     return false
 end
 

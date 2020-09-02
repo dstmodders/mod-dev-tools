@@ -558,6 +558,7 @@ function PlayerDevTools:Select(player)
 
     SetDebugEntity(player)
     self.selected_client = player
+    self.devtools.labels:AddSelected(player)
 
     if self.ismastersim then
         self:DebugString("Selected", name)

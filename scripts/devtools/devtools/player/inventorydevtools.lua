@@ -214,7 +214,8 @@ end
 function InventoryDevTools:SelectEquippedItem(slot)
     local item = self:GetEquippedItem(slot)
     if item then
-        SetDebugEntity(self:GetEquippedItem(slot))
+        SetDebugEntity(item)
+        self.devtools.labels:AddSelected(item)
         self:DebugString("Selected equipped item", "(" .. slot .. ")")
         return true
     end

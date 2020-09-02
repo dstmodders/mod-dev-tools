@@ -307,6 +307,11 @@ end
 function MockDevTools()
     return require("busted").mock({
         name = "DevTools",
+        labels = {
+            AddSelected = Empty,
+            AddUsername = Empty,
+            RemoveSelected = Empty,
+        },
     })
 end
 

@@ -1,7 +1,7 @@
 name = "Dev Tools"
 version = "0.1.0"
 description = [[Version: ]] .. version .. "\n\n" ..
-    [[An extendable mod for both developers and testers to simplify the most common tasks. Acts as an alternative to debugkeys.]]
+    [[Simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
@@ -100,24 +100,24 @@ local function CreateKeyList()
     end
 
     -- key list
-    local key_list = {}
+    local list = {}
 
-    AddDisabled(key_list)
-    AddArrowKeys(key_list)
-    AddFunctionKeys(key_list)
-    AddTypewriterKeys(key_list)
-    AddNavigationKeys(key_list)
-    AddKeysByName(key_list, { "Escape", "Pause", "Print" })
+    AddDisabled(list)
+    AddArrowKeys(list)
+    AddFunctionKeys(list)
+    AddTypewriterKeys(list)
+    AddNavigationKeys(list)
+    AddKeysByName(list, { "Escape", "Pause", "Print" })
 
-    return key_list
+    return list
 end
 
-local function CreateNumberList(t)
-    local number_list = {}
-    for i = 1, #t do
-        number_list[i] = { description = t[i], data = t[i] }
+local function CreateNumbersBetweenList(first, last)
+    local list = {}
+    for i = first, last do
+        list[i - first + 1] = { description = i, data = i }
     end
-    return number_list
+    return list
 end
 
 --
@@ -125,11 +125,31 @@ end
 --
 
 local key_list = CreateKeyList()
-local labels_font_size_list = CreateNumberList({ 14, 16, 18, 20, 22, 24, 26 })
+local labels_font_size_list = CreateNumbersBetweenList(6, 32)
 
 local boolean = {
     { description = "Yes", data = true },
     { description = "No", data = false },
+}
+
+local labels_font_list = {
+    { description = "Belisa... (50)", data = "UIFONT", hover = "Belisa Plumilla Manual (50)", },
+    { description = "Belisa... (100)", data = "TITLEFONT", hover = "Belisa Plumilla Manual (100)" },
+    { description = "Belisa... (Button)", data = "BUTTONFONT", hover = "Belisa Plumilla Manual (Button)" },
+    { description = "Belisa... (Talking)", data = "TALKINGFONT", hover = "Belisa Plumilla Manual (Talking)" },
+    { description = "Bellefair", data = "CHATFONT", hover = "Bellefair" },
+    { description = "Bellefair Outline", data = "CHATFONT_OUTLINE", hover = "Bellefair Outline" },
+    { description = "Hammerhead", data = "HEADERFONT", hover = "Hammerhead" },
+    { description = "Henny Penny", data = "TALKINGFONT_WORMWOOD", hover = "Henny Penny (Wormwood)" },
+    { description = "Mountains of...", data = "TALKINGFONT_HERMIT", hover = "Mountains of Christmas (Hermit)" },
+    { description = "Open Sans", data = "DIALOGFONT", hover = "Open Sans" },
+    { description = "PT Mono", data = "CODEFONT", hover = "PT Mono" },
+    { description = "Spirequal Light", data = "NEWFONT", hover = "Spirequal Light" },
+    { description = "Spirequal... S", data = "NEWFONT_SMALL", hover = "Spirequal Light (Small)" },
+    { description = "Spirequal... O", data = "NEWFONT_OUTLINE", hover = "Spirequal Light Outline" },
+    { description = "Spirequal... O/S", data = "NEWFONT_OUTLINE_SMALL", hover = "Spirequal Light Outline (Small)" },
+    { description = "Stint Ultra...", data = "BODYTEXTFONT", hover = "Stint Ultra Condensed" },
+    { description = "Stint Ultra... S", data = "SMALLNUMBERFONT", hover = "Stint Ultra Condensed (Small)" },
 }
 
 local reset_combinations = {
@@ -140,7 +160,6 @@ local reset_combinations = {
 }
 
 local username_labels_modes = {
-    { description = "Disabled", data = false, hover = "Disabled: no username labels" },
     { description = "Default", data = "default", hover = "Default: white username labels" },
     { description = "Coloured", data = "coloured", hover = "Coloured: coloured username labels" },
 }
@@ -152,6 +171,7 @@ configuration_options = {
     AddConfig("Pause key", "key_pause", key_list, "KEY_P", "Key used for pausing the game"),
     AddConfig("God mode key", "key_god_mode", key_list, "KEY_G", "Key used for toggling god mode"),
     AddConfig("Teleport key", "key_teleport", key_list, "KEY_T", "Key used for (fake) teleporting on mouse position"),
+    AddConfig("Select entity key", "key_select_entity", key_list, "KEY_Z", "Key used for selecting an entity under mouse"),
     AddConfig("Increase time scale key", "key_time_scale_increase", key_list, false, "Key used to speed up the time scale.\nHold down the Shift key to scale up to the maximum"),
     AddConfig("Decrease time scale key", "key_time_scale_decrease", key_list, false, "Key used to slow down the time scale.\nHold down the Shift key to scale down to the minimum"),
     AddConfig("Default time scale key", "key_time_scale_default", key_list, false, "Key used to restore the default time scale"),
@@ -162,8 +182,11 @@ configuration_options = {
     AddConfig("Default free crafting mode", "default_free_crafting", boolean, true, "Should the free crafting mode be enabled by default?"),
 
     AddSection("Labels"),
+    AddConfig("Default labels font", "default_labels_font", labels_font_list, "BODYTEXTFONT", "Which labels font should be used by default?"),
     AddConfig("Default labels font size", "default_labels_font_size", labels_font_size_list, 18, "Which labels font size should be used by default?"),
-    AddConfig("Default username labels mode", "default_username_labels_mode", username_labels_modes, false, "Which username labels mode should be used by default?"),
+    AddConfig("Default selected labels", "default_selected_labels", boolean, true, "Should the selected labels be enabled by default?"),
+    AddConfig("Default username labels", "default_username_labels", boolean, false, "Should the username labels be enabled by default?"),
+    AddConfig("Default username labels mode", "default_username_labels_mode", username_labels_modes, "default", "Which username labels mode should be used by default?"),
 
     AddSection("Player vision"),
     AddConfig("Default forced HUD visibility", "default_forced_hud_visibility", boolean, true, "Should the forced HUD visibility be enabled by default?"),
@@ -171,6 +194,5 @@ configuration_options = {
 
     AddSection("Other"),
     AddConfig("Disable mod warning", "default_mod_warning", boolean, true, "Should the mod warning be disabled?"),
-    AddConfig("Hide changelog", "hide_changelog", boolean, true, "Should the changelog in the mod description be hidden?"),
     AddConfig("Debug", "debug", boolean, false, "Should the debug mode be enabled?"),
 }

@@ -24,6 +24,7 @@
 -- @classmod DevTools
 -- @see devtools.PlayerDevTools
 -- @see devtools.WorldDevTools
+-- @see Labels
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -33,6 +34,7 @@
 require "class"
 require "consolecommands"
 
+local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
 local Utils = require "devtools/utils"
 local WorldDevTools = require "devtools/devtools/worlddevtools"
@@ -143,70 +145,6 @@ function DevTools:Reset()
     end
 
     return true
-end
-
---- Labels
--- @section labels
-
-local function AddEntityLabel(self, inst)
-    inst.entity:AddLabel()
-    inst.Label:SetFont(BODYTEXTFONT)
-    inst.Label:SetFontSize(self.labels_font_size)
-    inst.Label:SetWorldOffset(0, 2.3, 0)
-    inst.Label:Enable(true)
-end
-
---- Sets the labels font size.
--- @tparam number size Font size
-function DevTools:SetLabelsFontSize(size)
-    self.labels_font_size = size
-    for _, inst in pairs(self:GetAllPlayers()) do
-        if inst:IsValid() and inst.Label then
-            inst.Label:SetFontSize(size)
-        end
-    end
-end
-
---- Gets labels font size.
--- @treturn number
-function DevTools:GetLabelsFontSize()
-    return self.labels_font_size
-end
-
---- Sets username labels mode.
--- @tparam boolean|string mode
-function DevTools:SetUsernameLabelsMode(mode)
-    self.labels_username_mode = mode
-    for _, inst in pairs(self:GetAllPlayers()) do
-        if inst:IsValid() and inst.Label then
-            local client = self:GetClientTableForUser(inst)
-
-            inst.Label:Enable(true)
-            inst.Label:SetText(inst.name)
-
-            if mode == "default" then
-                inst.Label:SetColour(unpack(WHITE))
-            elseif mode == "coloured" and client and client.colour then
-                inst.Label:SetColour(unpack(client.colour))
-            elseif not mode then
-                inst.Label:Enable(false)
-            end
-        end
-    end
-end
-
---- Gets username labels mode.
--- @treturn boolean|string
-function DevTools:GetUsernameLabelsMode()
-    return self.labels_username_mode
-end
-
---- Adds username label to the player.
--- @tparam table inst Player instance
--- @treturn boolean
-function DevTools:AddUsernameLabel(inst)
-    AddEntityLabel(self, inst)
-    self:SetUsernameLabelsMode(self.labels_username_mode)
 end
 
 --- Pausing
@@ -333,15 +271,12 @@ function DevTools:DoInit(modname, debug)
     self.inst = nil
     self.is_in_character_select = false
     self.ismastersim = nil
+    self.labels = Labels(self)
     self.modname = modname
     self.name = "DevTools"
     self.player = nil
     self.screen = nil -- set in DevToolsScreen:DoInit()
     self.world = nil
-
-    -- labels
-    self.labels_font_size = 18
-    self.labels_username_mode = false
 end
 
 --- Initializes when the world is initialized.

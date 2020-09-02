@@ -80,8 +80,7 @@ devtools = require("devtools")(modname, debug)
 
 _G.DevTools = devtools
 
--- keep in mind, we are NOT dealing with a DevToolsScreen instance
-local DevToolsScreen
+local DevToolsScreen -- not an instance
 
 DevToolsScreen = require "screens/devtoolsscreen"
 DevToolsScreen:DoInit(devtools)
@@ -111,9 +110,6 @@ local function OnPlayerActivated(world, player)
     devtools:DoInitPlayer(player)
 
     if devtools then
-        devtools:SetLabelsFontSize(GetModConfigData("default_labels_font_size"))
-        devtools:SetUsernameLabelsMode(GetModConfigData("default_username_labels_mode"))
-
         local playerdevtools = devtools.player
         if playerdevtools then
             local crafting = playerdevtools.crafting
@@ -140,6 +136,14 @@ local function OnPlayerActivated(world, player)
                     vision:ToggleForcedUnfading()
                 end
             end
+        end
+
+        if devtools.labels then
+            devtools.labels:SetFont(_G[GetModConfigData("default_labels_font")])
+            devtools.labels:SetFontSize(GetModConfigData("default_labels_font_size"))
+            devtools.labels:SetIsSelectedEnabled(GetModConfigData("default_selected_labels"))
+            devtools.labels:SetIsUsernameEnabled(GetModConfigData("default_username_labels"))
+            devtools.labels:SetUsernameMode(GetModConfigData("default_username_labels_mode"))
         end
     end
 
@@ -325,7 +329,9 @@ AddComponentPostInit("weather", WeatherPostInit)
 
 env.AddPlayerPostInit(function(inst)
     inst:ListenForEvent("changearea", function()
-        devtools:AddUsernameLabel(inst)
+        if devtools and devtools.labels then
+            devtools.labels:AddUsername(inst)
+        end
     end)
 end)
 
@@ -391,6 +397,16 @@ if _KEY_TELEPORT then
         if devtools and devtools:CanPressKeyInGamePlay() then
             local playerdevtools = devtools.player
             playerdevtools:Teleport(_KEY_TELEPORT)
+        end
+    end)
+end
+
+local _KEY_SELECT_ENTITY = GetKeyFromConfig("key_select_entity")
+if _KEY_SELECT_ENTITY then
+    TheInput:AddKeyUpHandler(_KEY_SELECT_ENTITY, function()
+        local worlddevtools = Utils.ChainGet(devtools, "world")
+        if worlddevtools and devtools:CanPressKeyInGamePlay() then
+            worlddevtools:SelectEntityUnderMouse()
         end
     end)
 end
