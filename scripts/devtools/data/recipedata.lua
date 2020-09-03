@@ -111,7 +111,7 @@ end
 -- @tparam number amount
 function RecipeData:PushIngredientLine(type, amount)
     local inventory = self.inventorydevtools:GetInventory()
-    local name = Utils.GetStringName(type)
+    local name = Utils.Constant.GetStringName(type)
 
     if inventory then
         local state = inventory:Has(type, amount)

@@ -170,7 +170,7 @@ function CraftingDevTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
     for _, v in pairs(recipes) do
         recipe = GetValidRecipe(v)
         if recipe.name then
-            table.insert(result, Utils.GetStringName(recipe.name))
+            table.insert(result, Utils.Constant.GetStringName(recipe.name))
         end
     end
 

@@ -72,8 +72,8 @@ local function AddRecipeSkinsOption(self, label, item, skins)
 
     local choices = {}
     for _, skin in pairs(skins) do
-        skin_name = Utils.GetStringSkinName(skin)
-        skin_idx = Utils.GetSkinIndex(item, skin)
+        skin_name = Utils.Constant.GetStringSkinName(skin)
+        skin_idx = Utils.Constant.GetSkinIndex(item, skin)
         table.insert(choices, {
             name = skin_name and skin_name or "Classic",
             value = skin_idx and skin_idx or 0

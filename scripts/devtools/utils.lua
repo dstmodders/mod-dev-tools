@@ -12,6 +12,7 @@
 --
 -- @module Utils
 -- @see Utils.Chain
+-- @see Utils.Constant
 -- @see Utils.Debug
 -- @see Utils.Dump
 -- @see Utils.Entity
@@ -30,6 +31,7 @@
 local Utils = {}
 
 Utils.Chain = require "devtools/utils/chain"
+Utils.Constant = require "devtools/utils/constant"
 Utils.Debug = require "devtools/utils/debug"
 Utils.Dump = require "devtools/utils/dump"
 Utils.Entity = require "devtools/utils/entity"
@@ -39,9 +41,6 @@ Utils.RPC = require "devtools/utils/rpc"
 Utils.String = require "devtools/utils/string"
 Utils.Table = require "devtools/utils/table"
 Utils.Thread = require "devtools/utils/thread"
-
---- General
--- @section general
 
 --- Assets if the required field is not missing.
 -- @tparam string name
@@ -58,37 +57,6 @@ function Utils.ConsoleRemote(cmd, data)
     local fn_str = string.format(cmd, unpack(data or {}))
     local x, _, z = TheSim:ProjectScreenPos(TheSim:GetPosition())
     TheNet:SendRemoteExecute(fn_str, x, z)
-end
-
---- Constants
--- @section constants
-
---- Returns a skin index.
--- @see GetStringSkinName
--- @see GetStringName
--- @tparam string prefab
--- @tparam number skin
--- @treturn string
-function Utils.GetSkinIndex(prefab, skin)
-    return PREFAB_SKINS_IDS[prefab] and PREFAB_SKINS_IDS[prefab][skin]
-end
-
---- Returns a string skin name.
--- @see GetSkinIndex
--- @see GetStringName
--- @tparam number skin
--- @treturn string
-function Utils.GetStringSkinName(skin)
-    return STRINGS.SKIN_NAMES[skin]
-end
-
---- Returns a string name.
--- @see GetSkinIndex
--- @see GetStringSkinName
--- @tparam string name
--- @treturn string
-function Utils.GetStringName(name)
-    return STRINGS.NAMES[string.upper(name)]
 end
 
 return Utils
