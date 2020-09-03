@@ -15,6 +15,7 @@
 -- @see Utils.Dump
 -- @see Utils.Entity
 -- @see Utils.Methods
+-- @see Utils.RPC
 -- @see Utils.String
 -- @see Utils.Table
 -- @see Utils.Thread
@@ -30,19 +31,13 @@ Utils.Chain = require "devtools/utils/chain"
 Utils.Dump = require "devtools/utils/dump"
 Utils.Entity = require "devtools/utils/entity"
 Utils.Methods = require "devtools/utils/methods"
+Utils.RPC = require "devtools/utils/rpc"
 Utils.String = require "devtools/utils/string"
 Utils.Table = require "devtools/utils/table"
 Utils.Thread = require "devtools/utils/thread"
 
 -- base (to store original functions after overrides)
 local BaseGetModInfo
-
---- Helpers
--- @section helpers
-
-local function DebugString(...)
-    return _G.ModDevToolsDebug and _G.ModDevToolsDebug:DebugString(...)
-end
 
 --- Debugging
 -- @section debugging
@@ -174,42 +169,6 @@ function Utils.HideChangelog(modname, enable)
         BaseGetModInfo = nil
     end
     return false
-end
-
---- RPC
--- @section rpc
-
-local _SendRPCToServer
-
---- Checks if `SendRPCToServer()` is enabled.
--- @treturn boolean
-function Utils.IsSendRPCToServerEnabled()
-    return _SendRPCToServer == nil
-end
-
---- Disables `SendRPCToServer()`.
---
--- Only affects the `SendRPCToServer()` wrapper function Utils.and leaves the `TheNet:SendRPCToServer()`
--- as is.
-function Utils.DisableSendRPCToServer()
-    if not _SendRPCToServer then
-        _SendRPCToServer = SendRPCToServer
-        SendRPCToServer = function() end
-        DebugString("SendRPCToServer: disabled")
-    else
-        DebugString("SendRPCToServer: already disabled")
-    end
-end
-
---- Enables `SendRPCToServer()`.
-function Utils.EnableSendRPCToServer()
-    if _SendRPCToServer then
-        SendRPCToServer = _SendRPCToServer
-        _SendRPCToServer = nil
-        DebugString("SendRPCToServer: enabled")
-    else
-        DebugString("SendRPCToServer: already enabled")
-    end
 end
 
 return Utils
