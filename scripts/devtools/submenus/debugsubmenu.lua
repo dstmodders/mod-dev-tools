@@ -60,7 +60,7 @@ local function AddDebugOption(self, label, debug_keys)
                 end
                 return true
             end,
-            on_set_fn = function(value)
+            on_set_fn = function(_, _, value)
                 for _, debug_key in pairs(debug_keys) do
                     self.debug:SetIsDebug(debug_key, value)
                 end
@@ -75,7 +75,7 @@ local function AddDebugOption(self, label, debug_keys)
             on_get_fn = function()
                 return self.debug:IsDebug(debug_keys)
             end,
-            on_set_fn = function(value)
+            on_set_fn = function(_, _, value)
                 self.debug:SetIsDebug(debug_keys, value)
             end,
         })
@@ -92,7 +92,7 @@ local function AddDebugPlayerEventsOption(self)
         on_get_fn = function()
             return self.debug:IsDebug(name)
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             if value ~= self.debug:IsDebug(name) then
                 self.debug:SetIsDebug(name, value)
                 local player = self.player.inst
@@ -114,7 +114,7 @@ local function AddDebugPlayerClassifiedEventsOption(self)
         on_get_fn = function()
             return self.debug:IsDebug(name)
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             if value ~= self.debug:IsDebug(name) then
                 self.debug:SetIsDebug(name, value)
                 local player = self.player.inst
@@ -152,7 +152,7 @@ local function AddDebugToggleAllPlayerEventsOption(self)
             end
             return true
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             for debug_key, functions in pairs(debug_keys) do
                 if value ~= self.debug:IsDebug(debug_key) then
                     self.debug:SetIsDebug(debug_key, value)

@@ -4,6 +4,27 @@
 -- Extends `menu.option.Option` and is very similar to `menu.option.CheckboxOption` except it
 -- auto-adds `on_get_fn` and `on_set_fn` based on the provided `get` and `src` values.
 --
+--    local togglecheckboxoption = ToggleCheckboxOption({
+--        name = "fog_of_war", -- optional
+--        label = "Fog of War",
+--        get = {
+--            src = worlddevtools, -- can be a function, see "set" as a reference
+--            name = "IsMapFogOfWar",
+--        },
+--        set = {
+--            src = function(self, submenu) -- can be a field, see "get" as a reference
+--                return submenu.devtools.world
+--            end,
+--            name = "ToggleMapFogOfWar",
+--        },
+--        on_accept_fn = function(self, submenu, textmenu)
+--            print("Your option is accepted")
+--        end,
+--        on_cursor_fn = function(self, submenu, textmenu)
+--            print("Your option is selected")
+--        end,
+--    }, submenu)
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.ToggleCheckboxOption
@@ -21,36 +42,38 @@ local CheckboxOption = require "devtools/menu/option/checkboxoption"
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local togglecheckboxoption = ToggleCheckboxOption({
---     name = "fog_of_war", -- optional
---     label = "Fog of War",
---     get = { src = worlddevtools, name = "IsMapFogOfWar" },
---     set = { src = worlddevtools, name = "ToggleMapFogOfWar" }
---     on_accept_fn = function()
---         print("Your option is accepted")
---     end,
---     on_cursor_fn = function()
---         print("Your option is selected")
---     end,
--- })
-local ToggleCheckboxOption = Class(CheckboxOption, function(self, options)
+-- @tparam menu.Submenu submenu
+-- @usage local togglecheckboxoption = ToggleCheckboxOption(options, submenu)
+local ToggleCheckboxOption = Class(CheckboxOption, function(self, options, submenu)
+    local label
     if type(options.label) == "string" then
-        options.label = "Toggle " .. options.label
+        label = options.label
+        if not label:match("^Toggle ") then
+            options.label = "Toggle " .. label
+        end
     elseif type(options.label) == "table" and options.label.name then
-        options.label.name = "Toggle " .. options.label.name
-    end
-
-    options.on_get_fn = function()
-        return options.get.src[options.get.name](options.get.src)
-    end
-
-    options.on_set_fn = function(value)
-        if value ~= options.get.src[options.get.name](options.get.src) then
-            options.set.src[options.set.name](options.set.src)
+        label = options.label.name
+        if not label:match("^Toggle ") then
+            options.label.name = "Toggle " .. label
         end
     end
 
-    CheckboxOption._ctor(self, options)
+    local set_src = options.set.src
+    local get_src = options.get.src
+
+    options.on_get_fn = function()
+        get_src = type(get_src) == "function" and get_src(self, submenu) or get_src
+        return get_src[options.get.name](get_src)
+    end
+
+    options.on_set_fn = function(value)
+        set_src = type(set_src) == "function" and set_src(self, submenu) or set_src
+        if value ~= get_src[options.get.name](get_src) then
+            set_src[options.set.name](set_src)
+        end
+    end
+
+    CheckboxOption._ctor(self, options, submenu)
 end)
 
 return ToggleCheckboxOption

@@ -106,7 +106,7 @@ local function AddCCOTOption(self)
             local override = self.vision:GetCCT()
             return override and override or "nil"
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             self.vision:SetCCT(value)
             value = value ~= nil and value or "nil"
             self.vision:UpdatePlayerVisionCCT(value)

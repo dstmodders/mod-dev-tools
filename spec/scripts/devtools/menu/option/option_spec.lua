@@ -7,7 +7,7 @@ describe("Option", function()
     local match
 
     -- before_each
-    local options
+    local options, submenu
     local Option, option
 
     setup(function()
@@ -23,8 +23,10 @@ describe("Option", function()
             on_cursor_fn = spy.new(Empty),
         }
 
+        submenu = {}
+
         Option = require "devtools/menu/option/option"
-        option = Option(options)
+        option = Option(options, submenu)
     end)
 
     insulate("when initializing", function()
@@ -53,7 +55,7 @@ describe("Option", function()
 
                     it("should error", function()
                         assert.has_error(function()
-                            Option(options)
+                            Option(options, submenu)
                         end, "Option label.name is required")
                     end)
                 end)
@@ -65,7 +67,7 @@ describe("Option", function()
 
                     it("should error", function()
                         assert.has_error(function()
-                            Option(options)
+                            Option(options, submenu)
                         end, "Option label.name should be a string")
                     end)
                 end)
@@ -118,7 +120,11 @@ describe("Option", function()
                     assert.spy(options.on_accept_fn).was_not_called()
                     option:OnAccept(menu)
                     assert.spy(options.on_accept_fn).was_called(1)
-                    assert.spy(options.on_accept_fn).was_called_with(match.is_ref(menu))
+                    assert.spy(options.on_accept_fn).was_called_with(
+                        match.is_ref(option),
+                        match.is_ref(submenu),
+                        match.is_ref(menu)
+                    )
                 end)
             end)
         end)
@@ -129,7 +135,11 @@ describe("Option", function()
                     assert.spy(options.on_cursor_fn).was_not_called()
                     option:OnCursor(menu)
                     assert.spy(options.on_cursor_fn).was_called(1)
-                    assert.spy(options.on_cursor_fn).was_called_with(match.is_ref(menu))
+                    assert.spy(options.on_cursor_fn).was_called_with(
+                        match.is_ref(option),
+                        match.is_ref(submenu),
+                        match.is_ref(menu)
+                    )
                 end)
             end)
         end)

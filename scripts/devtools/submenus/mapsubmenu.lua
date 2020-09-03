@@ -46,43 +46,32 @@ local MapSubmenu = Class(Submenu, function(self, devtools, root)
     end
 end)
 
---- Helpers
--- @section helpers
-
-local function AddRevealOption(self)
-    if self.world:IsMasterSim() then
-        self:AddActionOption({
-            label = "Reveal",
-            on_accept_fn = function()
-                self.map:Reveal()
-                self.screen:Close()
-            end,
-        })
-    end
-end
-
 --- General
 -- @section general
 
 --- Adds options.
 function MapSubmenu:AddOptions()
-    AddRevealOption(self)
+    self:AddActionOption({
+        label = "Reveal",
+        on_accept_fn = function()
+            self.map:Reveal()
+            self.screen:Close()
+        end,
+    })
 
-    if self.world:IsMasterSim() then
-        self:AddDividerOption()
+    self:AddDividerOption()
 
-        self:AddToggleOption(
-            { name = "Clearing" },
-            { src = self.world, name = "IsMapClearing" },
-            { src = self.world, name = "ToggleMapClearing" }
-        )
+    self:AddToggleOption(
+        { name = "Clearing" },
+        { src = self.world, name = "IsMapClearing" },
+        { src = self.world, name = "ToggleMapClearing" }
+    )
 
-        self:AddToggleOption(
-            { name = "Fog of War" },
-            { src = self.world, name = "IsMapFogOfWar" },
-            { src = self.world, name = "ToggleMapFogOfWar" }
-        )
-    end
+    self:AddToggleOption(
+        { name = "Fog of War" },
+        { src = self.world, name = "IsMapFogOfWar" },
+        { src = self.world, name = "ToggleMapFogOfWar" }
+    )
 end
 
 return MapSubmenu

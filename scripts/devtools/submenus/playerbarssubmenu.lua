@@ -80,7 +80,7 @@ local function AddPlayerBarOption(self, label, getter, setter, min, max, step)
         on_get_fn = function()
             return math.floor(self.player[getter](self.player))
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             self.console[setter](self.console, value)
             self:UpdateScreen("selected")
         end,

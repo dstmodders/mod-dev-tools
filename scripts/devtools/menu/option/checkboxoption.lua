@@ -5,20 +5,24 @@
 --
 --    local checkboxoption = CheckboxOption({
 --        name = "your_option", -- optional
---        label = { name = "Your option", left = true, prefix = "(prefix) " },
---        on_accept_fn = function()
+--        label = {
+--            name = "Your option",
+--            left = true,
+--            prefix = "(prefix) ",
+--        },
+--        on_accept_fn = function(self, submenu, textmenu)
 --            print("Your option is accepted")
 --        end,
---        on_cursor_fn = function()
+--        on_cursor_fn = function(self, submenu, textmenu)
 --            print("Your option is selected")
 --        end,
---        on_get_fn = function()
+--        on_get_fn = function(self, submenu)
 --            return true -- enabled
 --        end,
---        on_set_fn = function(value)
+--        on_set_fn = function(self, submenu, value)
 --            print("Your option has changed: " .. tostring(value))
 --        end,
---    })
+--    }, submenu)
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -40,24 +44,10 @@ local Option = require "devtools/menu/option/option"
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local checkboxoption = CheckboxOption({
---     name = "your_option", -- optional
---     label = { name = "Your option", left = true, prefix = "(prefix) " },
---     on_accept_fn = function()
---         print("Your option is accepted")
---     end,
---     on_cursor_fn = function()
---         print("Your option is selected")
---     end,
---     on_get_fn = function()
---         return true
---     end,
---     on_set_fn = function(value)
---         print("Your option has changed: " .. tostring(value))
---     end,
--- })
-local CheckboxOption = Class(Option, function(self, options)
-    Option._ctor(self, options)
+-- @tparam menu.Submenu submenu
+-- @usage local checkboxoption = CheckboxOption(options, submenu)
+local CheckboxOption = Class(Option, function(self, options, submenu)
+    Option._ctor(self, options, submenu)
 
     -- asserts (label)
     if type(options.label) == "table" then
@@ -79,13 +69,13 @@ end)
 --- Left.
 function CheckboxOption:Left()
     self.current = false
-    self.on_set_fn(false)
+    self.on_set_fn(self, self.submenu, false)
 end
 
 --- Right.
 function CheckboxOption:Right()
     self.current = true
-    self.on_set_fn(true)
+    self.on_set_fn(self, self.submenu, true)
 end
 
 --- Other
@@ -96,7 +86,7 @@ end
 function CheckboxOption:__tostring()
     local label = Option.__tostring(self)
     local value = self.on_get_fn
-        and (self.on_get_fn() and "true" or "false")
+        and (self.on_get_fn(self, self.submenu) and "true" or "false")
         or tostring(self.current)
 
     if type(self.label) == "table" and self.label.left then

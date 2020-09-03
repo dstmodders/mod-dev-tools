@@ -84,7 +84,7 @@ local function AddFontOption(self)
             local size = self.devtools.labels:GetFont()
             return size and size or default
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             self.devtools.labels:SetFont(value)
         end,
     })
@@ -103,7 +103,7 @@ local function AddFontSizeOption(self)
             local size = self.devtools.labels:GetFontSize()
             return size and size or default
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             self.devtools.labels:SetFontSize(value)
         end,
     })
@@ -127,7 +127,7 @@ local function AddUsernameOption(self)
             local mode = self.devtools.labels:GetUsernameMode()
             return mode and mode or default
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             self.devtools.labels:SetUsernameMode(value)
         end,
     })

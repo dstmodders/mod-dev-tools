@@ -93,7 +93,7 @@ local function AddRecipeSkinsOption(self, label, item, skins)
                 self:UpdateScreen("recipe")
             end
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             recipe = GetValidRecipe(item)
             if recipe then
                 self.crafting:MakeRecipeFromMenu(recipe, value)

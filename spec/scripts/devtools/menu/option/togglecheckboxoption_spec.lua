@@ -2,21 +2,25 @@ require "busted.runner"()
 
 describe("ToggleCheckboxOption", function()
     -- before_each initialization
-    local options
+    local options, submenu
     local ToggleCheckboxOption, togglecheckboxoption
 
     before_each(function()
         -- initialization
         options = {
             label = "Test",
+            get = {},
+            set = {},
             on_accept_fn = spy.new(Empty),
             on_cursor_fn = spy.new(Empty),
             on_get_fn = spy.new(Empty),
             on_set_fn = spy.new(Empty),
         }
 
+        submenu = {}
+
         ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
-        togglecheckboxoption = ToggleCheckboxOption(options)
+        togglecheckboxoption = ToggleCheckboxOption(options, submenu)
     end)
 
     insulate("when initializing", function()

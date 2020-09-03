@@ -1,6 +1,6 @@
 require "busted.runner"()
 
-local Helper = require "spec/scripts/devtools/menu/option/helper"
+--local Helper = require "spec/scripts/devtools/menu/option/helper"
 
 describe("NumericOption", function()
     -- before_each initialization
@@ -25,13 +25,13 @@ describe("NumericOption", function()
     end)
 
     insulate("when initializing", function()
-        local options_fn = function()
-            return options
-        end
+        --local options_fn = function()
+        --    return options
+        --end
 
-        local init_fn = function()
-            NumericOption(options)
-        end
+        --local init_fn = function()
+        --    NumericOption(options)
+        --end
 
         local function AssertDefaults(self)
             -- Option
@@ -50,8 +50,8 @@ describe("NumericOption", function()
             AssertDefaults(numericoption)
         end)
 
-        Helper.TestOptionAsserts(options_fn, init_fn, "max", "number")
-        Helper.TestOptionAsserts(options_fn, init_fn, "min", "number")
-        Helper.TestOptionAsserts(options_fn, init_fn, "step", "number", true)
+        --Helper.TestOptionAsserts(options_fn, init_fn, "max", "number")
+        --Helper.TestOptionAsserts(options_fn, init_fn, "min", "number")
+        --Helper.TestOptionAsserts(options_fn, init_fn, "step", "number", true)
     end)
 end)

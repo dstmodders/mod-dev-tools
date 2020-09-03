@@ -59,6 +59,13 @@ local Submenu = Class(function(self, devtools, root, label, name, menu_idx)
     self.options = {}
     self.root = root
     self.screen = devtools.screen
+
+    -- callbacks
+    self.on_add_to_root_fn = nil
+    self.on_init_fn = nil
+
+    -- self
+    self:OnInit()
 end)
 
 --- General
@@ -129,40 +136,24 @@ end
 -- @section options
 
 --- Adds to root.
-function Submenu:AddToRoot()
-    if type(self.root) == "table" then
-        table.insert(self.root, SubmenuOption({
-            label = self.label,
-            name = self.name,
-            options = self.options,
-        }))
+function Submenu:AddToRoot(root, option)
+    root = root ~= nil and root or self.root
+    option = option ~= nil and option or SubmenuOption({
+        label = self.label,
+        name = self.name,
+        options = self.options,
+    })
+
+    if type(root) == "table" and type(self.on_add_to_root_fn) ~= "function" then
+        table.insert(root, option)
+    elseif type(root) == "table" and type(self.on_add_to_root_fn) == "function" then
+        if type(self.on_add_to_root_fn) == "function" then
+            if self:OnOnAddToRoot(root) ~= false then
+                table.insert(root, option)
+            end
+            return
+        end
     end
-end
-
---- Adds checkbox option.
--- @see menu.option.CheckboxOption
--- @tparam table options
--- @tparam[opt] table root
-function Submenu:AddCheckboxOption(options, root)
-    root = root ~= nil and root or self.options
-    table.insert(root, CheckboxOption(options))
-end
-
---- Adds choices option.
--- @see menu.option.ChoicesOption
--- @tparam table options
--- @tparam[opt] table root
-function Submenu:AddChoicesOption(options, root)
-    root = root ~= nil and root or self.options
-    table.insert(root, ChoicesOption(options))
-end
-
---- Adds divider option.
--- @see menu.option.DividerOption
--- @tparam[opt] table root
-function Submenu:AddDividerOption(root)
-    root = root ~= nil and root or self.options
-    table.insert(root, DividerOption())
 end
 
 --- Adds do action option.
@@ -171,7 +162,33 @@ end
 -- @tparam[opt] table root
 function Submenu:AddActionOption(options, root)
     root = root ~= nil and root or self.options
-    table.insert(root, ActionOption(options))
+    self:AddToRoot(root, ActionOption(options, self))
+end
+
+--- Adds checkbox option.
+-- @see menu.option.CheckboxOption
+-- @tparam table options
+-- @tparam[opt] table root
+function Submenu:AddCheckboxOption(options, root)
+    root = root ~= nil and root or self.options
+    self:AddToRoot(root, CheckboxOption(options, self))
+end
+
+--- Adds choices option.
+-- @see menu.option.ChoicesOption
+-- @tparam table options
+-- @tparam[opt] table root
+function Submenu:AddChoicesOption(options, root)
+    root = root ~= nil and root or self.options
+    self:AddToRoot(root, ChoicesOption(options, self))
+end
+
+--- Adds divider option.
+-- @see menu.option.DividerOption
+-- @tparam[opt] table root
+function Submenu:AddDividerOption(root)
+    root = root ~= nil and root or self.options
+    self:AddToRoot(root, DividerOption(self))
 end
 
 --- Adds numeric toggle option.
@@ -180,7 +197,7 @@ end
 -- @tparam[opt] table root
 function Submenu:AddNumericOption(options, root)
     root = root ~= nil and root or self.options
-    table.insert(root, NumericOption(options))
+    self:AddToRoot(root, NumericOption(options, self))
 end
 
 --- Adds submenu option.
@@ -189,7 +206,16 @@ end
 -- @tparam[opt] table root
 function Submenu:AddSubmenuOption(options, root)
     root = root ~= nil and root or self.options
-    table.insert(root, SubmenuOption(options))
+    self:AddToRoot(root, SubmenuOption(options, self))
+end
+
+--- Adds toggle checkbox option.
+-- @see menu.option.ToggleCheckboxOption
+-- @tparam table options
+-- @tparam[opt] table root
+function Submenu:AddToggleCheckboxOption(options, root)
+    root = root ~= nil and root or self.options
+    self:AddToRoot(root, ToggleCheckboxOption(options, self))
 end
 
 --- Adds toggle option.
@@ -213,7 +239,65 @@ function Submenu:AddToggleOption(label, get, set, idx, root)
         on_accept_fn = function()
             return idx and self.screen:UpdateMenu(idx)
         end,
-    }))
+    }, self))
+end
+
+--- Callbacks
+-- @section callbacks
+
+--- Gets on add to root function.
+-- @see OnOnAddToRoot
+-- @treturn function
+function Submenu:GetOnAddToRootFn()
+    return self.on_add_to_root_fn
+end
+
+--- Sets on add to root function.
+-- @see OnOnAddToRoot
+-- @tparam function fn
+function Submenu:SetOnAddToRootFn(fn)
+    self.on_add_to_root_fn = fn
+end
+
+--- Triggers when adding to the root.
+-- @see GetOnAddToRootFn
+-- @see SetOnAddToRootFn
+-- @tparam table root
+-- @usage function Submenu:OnOnAddToRoot()
+--     Submenu.OnOnAddToRoot(self)
+--     -- your logic
+-- end
+function Submenu:OnOnAddToRoot(root)
+    if type(self.on_add_to_root_fn) == "function" then
+        return self:on_add_to_root_fn(root)
+    end
+end
+
+--- Gets on init function.
+-- @see OnInit
+-- @treturn function
+function Submenu:GetOnInitFn()
+    return self.on_init_fn
+end
+
+--- Sets on init function.
+-- @see OnInit
+-- @tparam function fn
+function Submenu:SetOnInitFn(fn)
+    self.on_init_fn = fn
+end
+
+--- Triggers when initializing.
+-- @see GetOnInitFn
+-- @see SetOnInitFn
+-- @usage function Submenu:OnInit()
+--     Submenu.OnInit(self)
+--     -- your logic
+-- end
+function Submenu:OnInit()
+    if type(self.on_init_fn) == "function" then
+        self:on_init_fn(self.devtools, self.root, self.label, self.name, self.menu_idx)
+    end
 end
 
 return Submenu

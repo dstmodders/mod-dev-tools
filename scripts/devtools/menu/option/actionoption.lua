@@ -1,21 +1,21 @@
 ----
--- Do action option.
+-- Action option.
 --
--- _**NB!** This option may be removed in the upcoming version._
---
--- Extends `menu.option.Option` but doesn't add anything. It's a leftover from my private one based
+-- Extends `menu.option.Option` but doesn't add anything. It's a leftover from my original mod based
 -- on which this mod has been created.
+--
+-- Not removed for convenience to differentiate from the base option.
 --
 --    local actionoption = ActionOption({
 --        name = "your_option", -- optional
---        label = "Your option",
---        on_accept_fn = function()
+--        label = "Your option", -- or table: { name = "Your option" }
+--        on_accept_fn = function(self, submenu, textmenu)
 --            print("Your option is accepted")
 --        end,
---        on_cursor_fn = function()
+--        on_cursor_fn = function(self, submenu, textmenu)
 --            print("Your option is selected")
 --        end,
---    })
+--    }, submenu)
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -34,18 +34,9 @@ local Option = require "devtools/menu/option/option"
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local actionoption = ActionOption({
---     name = "your_option", -- optional
---     label = "Your option",
---     on_accept_fn = function()
---         print("Your option is accepted")
---     end,
---     on_cursor_fn = function()
---         print("Your option is selected")
---     end,
--- })
-local ActionOption = Class(Option, function(self, options)
-    Option._ctor(self, options)
+-- @usage local actionoption = ActionOption(options, submenu)
+local ActionOption = Class(Option, function(self, options, submenu)
+    Option._ctor(self, options, submenu)
 end)
 
 return ActionOption

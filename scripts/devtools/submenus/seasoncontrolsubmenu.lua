@@ -94,7 +94,7 @@ local function AddSeasonOption(self)
         on_get_fn = function()
             return self.world:GetStateSeason()
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             self.console:SetSeason(value)
             UpdateScreen(self)
         end,
@@ -121,7 +121,7 @@ local function AddSeasonLengthOptions(self)
             on_get_fn = function()
                 return self.world:GetState(season.value .. "length")
             end,
-            on_set_fn = function(value)
+            on_set_fn = function(_, _, value)
                 self.console:SetSeasonLength(season.value, value)
                 UpdateScreen(self)
             end,

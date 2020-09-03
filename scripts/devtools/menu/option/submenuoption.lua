@@ -10,12 +10,12 @@
 --             Option({
 --                 name = "your_option", -- optional
 --                 label = "Your option",
---                 on_accept_fn = function()
+--                 on_accept_fn = function(self, submenu, textmenu)
 --                     print("Your option is accepted")
 --                 end,
 --             }),
 --         },
---     })
+--     }, submenu)
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -36,21 +36,10 @@ local Option = require "devtools/menu/option/option"
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local submenuoption = SubmenuOption({
---     name = "your_submenu", -- optional
---     label = "Your submenu", -- label in the menu will be: "Your submenu..."
---     options = {
---         Option({
---             name = "your_option", -- optional
---             label = "Your option",
---             on_accept_fn = function()
---                 print("Your option is accepted")
---             end,
---         }),
---     },
--- })
-local SubmenuOption = Class(Option, function(self, options)
-    Option._ctor(self, options)
+-- @tparam menu.Submenu submenu
+-- @usage local submenuoption = SubmenuOption(options, submenu)
+local SubmenuOption = Class(Option, function(self, options, submenu)
+    Option._ctor(self, options, submenu)
 
     -- asserts
     self._OptionType(options.options, "options", "table")
@@ -63,18 +52,18 @@ end)
 -- @section callbacks
 
 --- Triggers when accepted.
--- @tparam menu.TextMenu text_menu
-function SubmenuOption:OnAccept(text_menu)
+-- @tparam menu.TextMenu textmenu
+function SubmenuOption:OnAccept(textmenu)
     local options = shallowcopy(self.options)
     table.insert(options, DividerOption())
     table.insert(options, ActionOption({
         label = "Back",
-        on_accept_fn = function(_menu)
-            _menu:Pop()
+        on_accept_fn = function()
+            textmenu:Pop()
         end,
     }))
-    text_menu:PushOptions(options, self.name)
-    Option.OnAccept(self, text_menu)
+    textmenu:PushOptions(options, self.name)
+    Option.OnAccept(self, textmenu)
 end
 
 --- Other

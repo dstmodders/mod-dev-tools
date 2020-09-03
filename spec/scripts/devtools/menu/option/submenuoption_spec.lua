@@ -7,7 +7,7 @@ describe("SubmenuOption", function()
     local match
 
     -- before_each initialization
-    local options
+    local options, submenu
     local SubmenuOption, submenuoption
 
     setup(function()
@@ -23,8 +23,10 @@ describe("SubmenuOption", function()
             options = { 1, 2, 3, 4, 5 },
         }
 
+        submenu = {}
+
         SubmenuOption = require "devtools/menu/option/submenuoption"
-        submenuoption = SubmenuOption(options)
+        submenuoption = SubmenuOption(options, submenu)
     end)
 
     insulate("when initializing", function()
@@ -33,7 +35,7 @@ describe("SubmenuOption", function()
         end
 
         local init_fn = function()
-            SubmenuOption(options)
+            SubmenuOption(options, submenu)
         end
 
         local function AssertDefaults(self)
@@ -79,7 +81,11 @@ describe("SubmenuOption", function()
                     assert.spy(options.on_accept_fn).was_not_called()
                     submenuoption:OnAccept(menu)
                     assert.spy(options.on_accept_fn).was_called(1)
-                    assert.spy(options.on_accept_fn).was_called_with(match.is_ref(menu))
+                    assert.spy(options.on_accept_fn).was_called_with(
+                        match.is_ref(submenuoption),
+                        match.is_ref(submenu),
+                        match.is_ref(menu)
+                    )
                 end)
 
                 it("should push options to the menu", function()

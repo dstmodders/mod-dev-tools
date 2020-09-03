@@ -71,7 +71,7 @@ local function AddTimeScaleOption(self)
         on_get_fn = function()
             return math.ceil(TheSim:GetTimeScale() * 100)
         end,
-        on_set_fn = function(value)
+        on_set_fn = function(_, _, value)
             value = value / 100
             TheSim:SetTimeScale(value)
             if not self.world.ismastersim then

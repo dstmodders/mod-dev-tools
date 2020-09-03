@@ -10,19 +10,20 @@
 --            { name = "Default Choice", value = "default" },
 --            { name = "Alternative Choice", value = "alternative" },
 --        },
---        on_accept_fn = function()
+--        on_accept_fn = function(self, submenu, textmenu)
 --            print("Your option is accepted")
 --        end,
---        on_cursor_fn = function()
+--        on_cursor_fn = function(self, submenu, textmenu)
 --            print("Your option is selected")
 --        end,
---        on_get_fn = function()
+--        on_get_fn = function(self, submenu)
 --            return "default"
 --        end,
---        on_set_fn = function(value)
+--        -- I'm not sure about the 4th parameter, it was added ~1 year ago and I'm lazy...
+--        on_set_fn = function(self, submenu, value, previous)
 --            print(value == "default" and "Default Choice" or "Alternative Choice")
 --        end,
---    })
+--    }, submenu)
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -91,28 +92,10 @@ end
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local choicesoption = ChoicesOption({
---     name = "your_option", -- optional
---     label = "Your option",
---     choices = {
---         { name = "Default Choice", value = "default" },
---         { name = "Alternative Choice", value = "alternative" },
---     },
---     on_accept_fn = function()
---         print("Your option is accepted")
---     end,
---     on_cursor_fn = function()
---         print("Your option is selected")
---     end,
---     on_get_fn = function()
---         return "default"
---     end,
---     on_set_fn = function(value)
---         print(value == "default" and "Default Choice" or "Alternative Choice")
---     end,
--- })
-local ChoicesOption = Class(Option, function(self, options)
-    Option._ctor(self, options)
+-- @tparam menu.Submenu submenu
+-- @usage local choicesoption = ChoicesOption(options, submenu)
+local ChoicesOption = Class(Option, function(self, options, submenu)
+    Option._ctor(self, options, submenu)
 
     -- asserts
     self._OptionType(options.choices, "choices", "table")
@@ -126,7 +109,7 @@ local ChoicesOption = Class(Option, function(self, options)
     self.on_set_fn = options.on_set_fn
 
     if self.choices and self.on_get_fn then
-        self.key = GetTableKeyByValue(self.choices, self.on_get_fn())
+        self.key = GetTableKeyByValue(self.choices, self.on_get_fn(self, self.submenu))
     end
 end)
 
@@ -136,9 +119,9 @@ end)
 --- Left.
 function ChoicesOption:Left()
     if self.on_get_fn then
-        local key = GetTableKeyByValue(self.choices, self.on_get_fn())
+        local key = GetTableKeyByValue(self.choices, self.on_get_fn(self, self.submenu))
         if key then
-            self.on_set_fn(GetLeftKeyValue(self, key), key)
+            self.on_set_fn(self, self.submenu, GetLeftKeyValue(self, key), key)
         end
     elseif self.key then
         GetLeftKeyValue(self)
@@ -148,9 +131,9 @@ end
 --- Right.
 function ChoicesOption:Right()
     if self.on_get_fn then
-        local key = GetTableKeyByValue(self.choices, self.on_get_fn())
+        local key = GetTableKeyByValue(self.choices, self.on_get_fn(self, self.submenu))
         if key then
-            self.on_set_fn(GetRightKeyValue(self, key), key)
+            self.on_set_fn(self, self.submenu, GetRightKeyValue(self, key), key)
         end
     elseif self.key then
         GetRightKeyValue(self)
@@ -161,12 +144,12 @@ end
 -- @section callbacks
 
 --- Triggers when accepted.
--- @tparam menu.TextMenu text_menu
+-- @tparam menu.TextMenu textmenu
 function ChoicesOption:OnAccept()
     if not self.on_get_fn and self.key then
         local choice = self.choices[self.key]
         if choice and choice.value then
-            self.on_set_fn(self.choices[self.key].value, self.key)
+            self.on_set_fn(self, self.submenu, self.choices[self.key].value, self.key)
         end
     end
     Option.OnAccept(self)
@@ -182,7 +165,7 @@ function ChoicesOption:__tostring()
     local label = Option.__tostring(self)
 
     if self.on_get_fn and self.choices then
-        key = GetTableKeyByValue(self.choices, self.on_get_fn())
+        key = GetTableKeyByValue(self.choices, self.on_get_fn(self, self.submenu))
     end
 
     return key and label .. "    [ " .. tostring(self.choices[key].name) .. " ]" or label

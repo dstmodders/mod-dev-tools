@@ -3,7 +3,7 @@
 --
 -- Extends `menu.option.Option`.
 --
---    local divideroption = DividerOption()
+--    local divideroption = DividerOption(submenu)
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -21,9 +21,10 @@ local Option = require "devtools/menu/option/option"
 
 --- Constructor.
 -- @function _ctor
--- @usage local divideroption = DividerOption()
-local DividerOption = Class(Option, function(self)
-    Option._ctor(self, { label = "" })
+-- @tparam menu.Submenu submenu
+-- @usage local divideroption = DividerOption(submenu)
+local DividerOption = Class(Option, function(self, submenu)
+    Option._ctor(self, { label = "" }, submenu)
     self.is_divider = true
 end)
 

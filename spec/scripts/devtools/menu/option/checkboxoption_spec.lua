@@ -1,9 +1,16 @@
 require "busted.runner"()
 
 describe("CheckboxOption", function()
+    -- setup
+    local match
+
     -- before_each initialization
-    local options
+    local options, submenu
     local CheckboxOption, checkboxoption
+
+    setup(function()
+        match = require "luassert.match"
+    end)
 
     before_each(function()
         -- initialization
@@ -15,8 +22,10 @@ describe("CheckboxOption", function()
             on_set_fn = spy.new(Empty),
         }
 
+        submenu = {}
+
         CheckboxOption = require "devtools/menu/option/checkboxoption"
-        checkboxoption = CheckboxOption(options)
+        checkboxoption = CheckboxOption(options, submenu)
     end)
 
     insulate("when initializing", function()
@@ -54,7 +63,7 @@ describe("CheckboxOption", function()
 
                     it("shouldn't error", function()
                         assert.has_not_error(function()
-                            CheckboxOption(options)
+                            CheckboxOption(options, submenu)
                         end)
                     end)
                 end)
@@ -66,7 +75,7 @@ describe("CheckboxOption", function()
 
                     it("shouldn't error when valid", function()
                         assert.has_not_error(function()
-                            CheckboxOption(options)
+                            CheckboxOption(options, submenu)
                         end)
                     end)
 
@@ -77,7 +86,7 @@ describe("CheckboxOption", function()
 
                         it("should error", function()
                             assert.has_error(function()
-                                CheckboxOption(options)
+                                CheckboxOption(options, submenu)
                             end, "Option label.left should be a boolean")
                         end)
                     end)
@@ -91,7 +100,7 @@ describe("CheckboxOption", function()
 
                         it("shouldn't error", function()
                             assert.has_not_error(function()
-                                CheckboxOption(options)
+                                CheckboxOption(options, submenu)
                             end)
                         end)
                     end)
@@ -103,7 +112,7 @@ describe("CheckboxOption", function()
 
                         it("shouldn't error when valid", function()
                             assert.has_not_error(function()
-                                CheckboxOption(options)
+                                CheckboxOption(options, submenu)
                             end)
                         end)
 
@@ -114,7 +123,7 @@ describe("CheckboxOption", function()
 
                             it("should error", function()
                                 assert.has_error(function()
-                                    CheckboxOption(options)
+                                    CheckboxOption(options, submenu)
                                 end, "Option label.prefix should be a string")
                             end)
                         end)
@@ -132,7 +141,11 @@ describe("CheckboxOption", function()
                 checkboxoption:Left()
                 assert.is_false(checkboxoption.current)
                 assert.spy(options.on_set_fn).was_called(1)
-                assert.spy(options.on_set_fn).was_called_with(false)
+                assert.spy(options.on_set_fn).was_called_with(
+                    match.is_ref(checkboxoption),
+                    match.is_ref(submenu),
+                    false
+                )
             end)
         end)
 
@@ -143,7 +156,11 @@ describe("CheckboxOption", function()
                 checkboxoption:Right()
                 assert.is_true(checkboxoption.current)
                 assert.spy(options.on_set_fn).was_called(1)
-                assert.spy(options.on_set_fn).was_called_with(true)
+                assert.spy(options.on_set_fn).was_called_with(
+                    match.is_ref(checkboxoption),
+                    match.is_ref(submenu),
+                    true
+                )
             end)
         end)
     end)
@@ -154,7 +171,10 @@ describe("CheckboxOption", function()
                 assert.spy(checkboxoption.on_get_fn).was_not_called()
                 checkboxoption:__tostring()
                 assert.spy(checkboxoption.on_get_fn).was_called(1)
-                assert.spy(checkboxoption.on_get_fn).was_called_with()
+                assert.spy(checkboxoption.on_get_fn).was_called_with(
+                    match.is_ref(checkboxoption),
+                    match.is_ref(submenu)
+                )
             end)
         end
 

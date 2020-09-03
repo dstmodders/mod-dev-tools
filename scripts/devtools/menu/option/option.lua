@@ -5,22 +5,22 @@
 --
 --    local option = Option({
 --        name = "your_option", -- optional
---        label = "Your option",
---        on_accept_fn = function()
+--        label = "Your option", -- or table: { name = "Your option" }
+--        on_accept_fn = function(self, submenu, textmenu)
 --            print("Your option is accepted")
 --        end,
---        on_cursor_fn = function()
+--        on_cursor_fn = function(self, submenu, textmenu)
 --            print("Your option is selected")
 --        end,
---    })
+--    }, submenu)
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.option.Option
+-- @see menu.option.ActionOption
 -- @see menu.option.CheckboxOption
 -- @see menu.option.ChoicesOption
 -- @see menu.option.DividerOption
--- @see menu.option.ActionOption
 -- @see menu.option.NumericOption
 -- @see menu.option.SubmenuOption
 -- @see menu.option.ToggleCheckboxOption
@@ -57,17 +57,9 @@ end
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
--- @usage local option = Option({
---     name = "your_option", -- optional
---     label = "Your option",
---     on_accept_fn = function()
---         print("Your option is accepted")
---     end,
---     on_cursor_fn = function()
---         print("Your option is selected")
---     end,
--- })
-local Option = Class(function(self, options)
+-- @tparam menu.Submenu submenu
+-- @usage local option = Option(options, submenu)
+local Option = Class(function(self, options, submenu)
     -- asserts (general)
     assert(type(options) == "table", "Options must be a table")
 
@@ -86,12 +78,15 @@ local Option = Class(function(self, options)
     -- options
     self.label = options.label
     self.name = options.name
-    self.on_accept_fn = options.on_accept_fn
-    self.on_cursor_fn = options.on_cursor_fn
+    self.submenu = submenu
 
     if not options.name then
         self.name = self.label
     end
+
+    -- callbacks
+    self.on_accept_fn = options.on_accept_fn
+    self.on_cursor_fn = options.on_cursor_fn
 
     -- local
     self._OptionRequired = OptionRequired
@@ -134,25 +129,25 @@ end
 -- @section callbacks
 
 --- Triggers when accepted.
--- @tparam menu.TextMenu text_menu
-function Option:OnAccept(text_menu)
-    if self.on_accept_fn then
-        self.on_accept_fn(text_menu)
+-- @tparam menu.TextMenu textmenu
+function Option:OnAccept(textmenu)
+    if type(self.on_accept_fn) == "function" or type(self.on_accept_fn) == "table" then
+        self.on_accept_fn(self, self.submenu, textmenu)
     end
 end
 
 --- Triggers when focused.
--- @tparam menu.TextMenu text_menu
-function Option:OnCursor(text_menu)
-    if self.on_cursor_fn then
-        self.on_cursor_fn(text_menu)
+-- @tparam menu.TextMenu textmenu
+function Option:OnCursor(textmenu)
+    if type(self.on_cursor_fn) == "function" or type(self.on_accept_fn) == "table" then
+        self.on_cursor_fn(self, self.submenu, textmenu)
     end
 end
 
 --- Triggers when cancelled.
--- @tparam menu.TextMenu text_menu
-function Option:OnCancel(text_menu) -- luacheck: only
-    return text_menu:Pop()
+-- @tparam menu.TextMenu textmenu
+function Option:OnCancel(textmenu) -- luacheck: only
+    return textmenu:Pop()
 end
 
 --- Other
