@@ -11,6 +11,7 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @module Utils
+-- @see Utils.Dump
 -- @see Utils.String
 -- @see Utils.Table
 --
@@ -21,6 +22,7 @@
 ----
 local Utils = {}
 
+Utils.Dump = require "devtools/utils/dump"
 Utils.String = require "devtools/utils/string"
 Utils.Table = require "devtools/utils/table"
 
@@ -32,23 +34,6 @@ local BaseGetModInfo
 
 local function DebugString(...)
     return _G.ModDevToolsDebug and _G.ModDevToolsDebug:DebugString(...)
-end
-
-local function PrintDumpValues(table, title, name, prepend)
-    prepend = prepend ~= nil and prepend .. " " or ""
-
-    print(prepend .. (name
-        and string.format('Dumping "%s" %s...', name, title)
-        or string.format('Dumping %s...', title)))
-
-    if #table > 0 then
-        table = Utils.Table.SortAlphabetically(table)
-        for _, v in pairs(table) do
-            print(prepend .. v)
-        end
-    else
-        print(prepend .. "No " .. title)
-    end
 end
 
 --- Debugging
@@ -264,79 +249,6 @@ function Utils.GetStringName(name)
     return STRINGS.NAMES[string.upper(name)]
 end
 
---- Dump
--- @section dump
-
---- Dumps all entity components.
--- @usage DumpComponents(ThePlayer, "ThePlayer")
--- @see DumpEventListeners
--- @see DumpFields
--- @see DumpFunctions
--- @see DumpReplicas
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
-function Utils.DumpComponents(entity, name, prepend)
-    PrintDumpValues(Utils.GetComponents(entity), "Components", name, prepend)
-end
-
---- Dumps all entity event listeners.
--- @usage DumpEventListeners(ThePlayer, "ThePlayer")
--- @see DumpComponents
--- @see DumpFields
--- @see DumpFunctions
--- @see DumpReplicas
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
-function Utils.DumpEventListeners(entity, name, prepend)
-    PrintDumpValues(Utils.GetEventListeners(entity), "Event Listeners", name, prepend)
-end
-
---- Dumps all entity fields.
--- @usage DumpFields(ThePlayer, "ThePlayer")
--- @see DumpComponents
--- @see DumpEventListeners
--- @see DumpFunctions
--- @see DumpReplicas
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
-function Utils.DumpFields(entity, name, prepend)
-    PrintDumpValues(Utils.GetFields(entity), "Fields", name, prepend)
-end
-
---- Dumps all entity functions.
--- @usage DumpFunctions(ThePlayer, "ThePlayer")
--- @see DumpComponents
--- @see DumpEventListeners
--- @see DumpFields
--- @see DumpReplicas
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
-function Utils.DumpFunctions(entity, name, prepend)
-    PrintDumpValues(Utils.GetFunctions(entity), "Functions", name, prepend)
-end
-
---- Dumps all entity replicas.
--- @usage DumpReplicas(ThePlayer, "ThePlayer")
--- @see DumpComponents
--- @see DumpEventListeners
--- @see DumpFields
--- @see DumpFunctions
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
-function Utils.DumpReplicas(entity, name, prepend)
-    PrintDumpValues(Utils.GetReplicas(entity), "Replicas", name, prepend)
-end
-
 --- Entity
 -- @section entity
 
@@ -443,113 +355,6 @@ function Utils.GetTags(entity, is_all)
             return Utils.Table.SortAlphabetically(result)
         end
     end
-end
-
---- Returns a table on all entity components.
--- @usage dumptable(GetComponents(ThePlayer))
--- @see GetEventListeners
--- @see GetFields
--- @see GetFunctions
--- @see GetReplicas
--- @tparam EntityScript entity
--- @treturn table
-function Utils.GetComponents(entity)
-    local result = {}
-    if type(entity) == "table" or type(entity) == "userdata" then
-        if type(entity.components) == "table" then
-            for k, _ in pairs(entity.components) do
-                table.insert(result, k)
-            end
-        end
-    end
-    return result
-end
-
---- Returns a table on all entity event listeners.
--- @usage dumptable(GetEventListeners(ThePlayer))
--- @see GetComponents
--- @see GetFields
--- @see GetFunctions
--- @see GetReplicas
--- @tparam EntityScript entity
--- @treturn table
-function Utils.GetEventListeners(entity)
-    local result = {}
-    if type(entity) == "table" or type(entity) == "userdata" then
-        if type(entity.event_listeners) == "table" then
-            for k, _ in pairs(entity.event_listeners) do
-                table.insert(result, k)
-            end
-        end
-    end
-    return result
-end
-
---- Returns a table on all entity fields.
--- @usage dumptable(GetFields(ThePlayer))
--- @see GetComponents
--- @see GetEventListeners
--- @see GetFunctions
--- @see GetReplicas
--- @tparam EntityScript entity
--- @treturn table
-function Utils.GetFields(entity)
-    local result = {}
-    if type(entity) == "table" then
-        for k, v in pairs(entity) do
-            if type(v) ~= "function" then
-                table.insert(result, k)
-            end
-        end
-    end
-    return result
-end
-
---- Returns a table on all entity functions.
--- @usage dumptable(GetFunctions(ThePlayer))
--- @see GetComponents
--- @see GetEventListeners
--- @see GetFields
--- @see GetReplicas
--- @tparam EntityScript entity
--- @treturn table
-function Utils.GetFunctions(entity)
-    local result = {}
-    local metatable = getmetatable(entity)
-
-    if metatable and metatable["__index"] then
-        for k, _ in pairs(metatable["__index"]) do
-            table.insert(result, k)
-        end
-    end
-
-    if type(entity) == "table" and #result == 0 then
-        for k, v in pairs(entity) do
-            if type(v) == "function" then
-                table.insert(result, k)
-            end
-        end
-    end
-
-    return result
-end
-
---- Returns a table on all entity replicas.
--- @usage dumptable(GetReplicas(ThePlayer))
--- @see GetComponents
--- @see GetEventListeners
--- @see GetFields
--- @see GetFunctions
--- @tparam EntityScript entity
--- @treturn table
-function Utils.GetReplicas(entity)
-    local result = {}
-    if entity.replica and type(entity.replica._) == "table" then
-        for k, _ in pairs(entity.replica._) do
-            table.insert(result, k)
-        end
-    end
-    return result
 end
 
 --- Modmain

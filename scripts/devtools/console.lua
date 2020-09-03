@@ -351,7 +351,7 @@ end
 -- @treturn table
 -- @usage d_dumpcomponents(ThePlayer)
 function d_dumpcomponents(...)
-    return Utils.DumpComponents(...)
+    return Utils.Dump.Components(...)
 end
 
 --- Dumps all entity event listeners.
@@ -361,7 +361,7 @@ end
 -- @treturn table
 -- @usage d_dumpeventlisteners(ThePlayer)
 function d_dumpeventlisteners(...)
-    return Utils.DumpEventListeners(...)
+    return Utils.Dump.EventListeners(...)
 end
 
 --- Dumps all entity fields.
@@ -371,7 +371,7 @@ end
 -- @treturn table
 -- @usage d_dumpfields(ThePlayer)
 function d_dumpfields(...)
-    return Utils.DumpFields(...)
+    return Utils.Dump.Fields(...)
 end
 
 --- Dumps all entity functions.
@@ -381,7 +381,7 @@ end
 -- @treturn table
 -- @usage d_dumpfunctions(ThePlayer)
 function d_dumpfunctions(...)
-    return Utils.DumpFunctions(...)
+    return Utils.Dump.Functions(...)
 end
 
 --- Dumps all entity replicas.
@@ -391,7 +391,7 @@ end
 -- @treturn table
 -- @usage d_dumpreplicas(ThePlayer)
 function d_dumpreplicas(...)
-    return Utils.DumpReplicas(...)
+    return Utils.Dump.Replicas(...)
 end
 
 --- Returns a table on all entity components.
@@ -399,7 +399,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getcomponents(ThePlayer))
 function d_getcomponents(...)
-    return Utils.GetComponents(...)
+    return Utils.Dump.GetComponents(...)
 end
 
 --- Returns a table on all entity event listeners.
@@ -407,7 +407,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_geteventlisteners(ThePlayer))
 function d_geteventlisteners(...)
-    return Utils.GetEventListeners(...)
+    return Utils.Dump.GetEventListeners(...)
 end
 
 --- Returns a table on all entity fields.
@@ -415,7 +415,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getfields(ThePlayer))
 function d_getfields(...)
-    return Utils.GetFields(...)
+    return Utils.Dump.GetFields(...)
 end
 
 --- Returns a table on all entity functions.
@@ -423,7 +423,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getfunctions(ThePlayer))
 function d_getfunctions(...)
-    return Utils.GetFunctions(...)
+    return Utils.Dump.GetFunctions(...)
 end
 
 --- Returns a table on all entity replicas.
@@ -431,7 +431,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getreplicas(ThePlayer))
 function d_getreplicas(...)
-    return Utils.GetReplicas(...)
+    return Utils.Dump.GetReplicas(...)
 end
 
 --- StateGraph

@@ -44,16 +44,16 @@ end)
 local function AddDumpOptions(self, name, object, options)
     object = object ~= nil and object or _G[name]
 
-    local nr_of_components =#Utils.GetComponents(object)
-    local nr_of_event_listeners = #Utils.GetEventListeners(object)
-    local nr_of_fields = #Utils.GetFields(object)
-    local nr_of_functions = #Utils.GetFunctions(object)
+    local nr_of_components =#Utils.Dump.GetComponents(object)
+    local nr_of_event_listeners = #Utils.Dump.GetEventListeners(object)
+    local nr_of_fields = #Utils.Dump.GetFields(object)
+    local nr_of_functions = #Utils.Dump.GetFunctions(object)
 
     if nr_of_components > 0 then
         self:AddActionOption({
             label = "Components",
             on_accept_fn = function()
-                Utils.DumpComponents(object, name)
+                Utils.Dump.Components(object, name)
             end,
         }, options)
     end
@@ -62,7 +62,7 @@ local function AddDumpOptions(self, name, object, options)
         self:AddActionOption({
             label = "Event Listeners",
             on_accept_fn = function()
-                Utils.DumpEventListeners(object, name)
+                Utils.Dump.EventListeners(object, name)
             end,
         }, options)
     end
@@ -71,7 +71,7 @@ local function AddDumpOptions(self, name, object, options)
         self:AddActionOption({
             label = "Fields",
             on_accept_fn = function()
-                Utils.DumpFields(object, name)
+                Utils.Dump.Fields(object, name)
             end,
         }, options)
     end
@@ -80,7 +80,7 @@ local function AddDumpOptions(self, name, object, options)
         self:AddActionOption({
             label = "Functions", -- those are "Methods" logically, but it's Lua, so who cares
             on_accept_fn = function()
-                Utils.DumpFunctions(object, name)
+                Utils.Dump.Functions(object, name)
             end,
         }, options)
     end
