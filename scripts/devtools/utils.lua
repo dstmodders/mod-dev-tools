@@ -14,6 +14,7 @@
 -- @see Utils.Dump
 -- @see Utils.String
 -- @see Utils.Table
+-- @see Utils.Thread
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -25,6 +26,7 @@ local Utils = {}
 Utils.Dump = require "devtools/utils/dump"
 Utils.String = require "devtools/utils/string"
 Utils.Table = require "devtools/utils/table"
+Utils.Thread = require "devtools/utils/thread"
 
 -- base (to store original functions after overrides)
 local BaseGetModInfo
@@ -429,55 +431,6 @@ function Utils.EnableSendRPCToServer()
         DebugString("SendRPCToServer: enabled")
     else
         DebugString("SendRPCToServer: already enabled")
-    end
-end
-
---- Thread
--- @section thread
-
---- Starts a new thread.
---
--- Just a convenience wrapper for the `StartThread`.
---
--- @tparam string id Thread ID
--- @tparam function fn Thread function
--- @tparam[opt] function whl While function
--- @tparam[opt] function init Initialization function
--- @tparam[opt] function term Termination function
--- @treturn table
-function Utils.ThreadStart(id, fn, whl, init, term)
-    whl = whl ~= nil and whl or function()
-        return true
-    end
-
-    return StartThread(function()
-        DebugString("Thread started")
-        if init then
-            init()
-        end
-        while whl() do
-            fn()
-        end
-        if term then
-            term()
-        end
-        Utils.ThreadClear()
-    end, id)
-end
-
---- Clears a thread.
--- @tparam table thread Thread
-function Utils.ThreadClear(thread)
-    local task = scheduler:GetCurrentTask()
-    if thread or task then
-        if thread and not task then
-            DebugString("[" .. thread.id .. "]", "Thread cleared")
-        else
-            DebugString("Thread cleared")
-        end
-        thread = thread ~= nil and thread or task
-        KillThreadsWithID(thread.id)
-        thread:SetList(nil)
     end
 end
 

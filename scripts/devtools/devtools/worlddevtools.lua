@@ -422,7 +422,7 @@ function WorldDevTools:StartPrecipitationThread()
     local current_floor, previous_floor, diff_floor
     local frames
 
-    self.precipitation_thread = Utils.ThreadStart(_PRECIPITATION_THREAD_ID, function()
+    self.precipitation_thread = Utils.Thread.Start(_PRECIPITATION_THREAD_ID, function()
         moisture = self:GetStateMoisture()
         moisture_ceil = self:GetStateMoistureCeil()
         moisture_floor = self:GetMoistureFloor() or 0
@@ -459,7 +459,7 @@ end
 --
 -- Stops the thread started earlier by the `StartPrecipitationThread`.
 function WorldDevTools:ClearPrecipitationThread()
-    Utils.ThreadClear(self.precipitation_thread)
+    Utils.Thread.Clear(self.precipitation_thread)
 end
 
 --- Integrates with `Weather:OnUpdate()`.
