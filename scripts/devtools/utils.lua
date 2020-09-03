@@ -12,6 +12,7 @@
 --
 -- @module Utils
 -- @see Utils.String
+-- @see Utils.Table
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -20,9 +21,8 @@
 ----
 local Utils = {}
 
-local String = require "devtools/utils/string"
-
-Utils.String = String
+Utils.String = require "devtools/utils/string"
+Utils.Table = require "devtools/utils/table"
 
 -- base (to store original functions after overrides)
 local BaseGetModInfo
@@ -42,7 +42,7 @@ local function PrintDumpValues(table, title, name, prepend)
         or string.format('Dumping %s...', title)))
 
     if #table > 0 then
-        table = Utils.TableSortAlphabetically(table)
+        table = Utils.Table.SortAlphabetically(table)
         for _, v in pairs(table) do
             print(prepend .. v)
         end
@@ -433,14 +433,14 @@ function Utils.GetTags(entity, is_all)
             end
         else
             for tag in tags:gmatch("%S+") do
-                if not Utils.TableHasValue(result, tag) then
+                if not Utils.Table.HasValue(result, tag) then
                     table.insert(result, tag)
                 end
             end
         end
 
         if #result > 0 then
-            return Utils.TableSortAlphabetically(result)
+            return Utils.Table.SortAlphabetically(result)
         end
     end
 end
@@ -625,177 +625,6 @@ function Utils.EnableSendRPCToServer()
     else
         DebugString("SendRPCToServer: already enabled")
     end
-end
-
---- Table
--- @section table
-
---- Compares two tables if they are the same.
--- @tparam table a Table A
--- @tparam table b Table B
--- @treturn boolean
-function Utils.TableCompare(a, b)
-    -- basic validation
-    if a == b then
-        return true
-    end
-
-    -- null check
-    if a == nil or b == nil then
-        return false
-    end
-
-    -- validate type
-    if type(a) ~= "table" then
-        return false
-    end
-
-    -- compare meta tables
-    local meta_table_a = getmetatable(a)
-    local meta_table_b = getmetatable(b)
-    if not Utils.TableCompare(meta_table_a, meta_table_b) then
-        return false
-    end
-
-    -- compare nested tables
-    for index, va in pairs(a) do
-        local vb = b[index]
-        if not Utils.TableCompare(va, vb) then
-            return false
-        end
-    end
-
-    for index, vb in pairs(b) do
-        local va = a[index]
-        if not Utils.TableCompare(va, vb) then
-            return false
-        end
-    end
-
-    return true
-end
-
---- Counts the number of elements inside the table.
--- @tparam table t Table
--- @treturn number
-function Utils.TableCount(t)
-    if type(t) ~= "table" then
-        return false
-    end
-
-    local result = 0
-    for _ in pairs(t) do
-        result = result + 1
-    end
-
-    return result
-end
-
---- Checks if a table has the provided value.
--- @tparam table t Table
--- @tparam string value
--- @treturn boolean
-function Utils.TableHasValue(t, value)
-    if type(t) ~= "table" then
-        return false
-    end
-
-    for _, v in pairs(t) do
-        if v == value then
-            return true
-        end
-    end
-
-    return false
-end
-
---- Gets the table key based on the value.
--- @tparam table t Table
--- @param value Value to look for
--- @treturn number
-function Utils.TableKeyByValue(t, value)
-    if type(t) ~= "table" then
-        return false
-    end
-
-    for k, v in pairs(t) do
-        if v == value then
-            return k
-        end
-    end
-end
-
---- Merges two tables.
--- @todo Add nested tables merging support for ipaired tables
--- @tparam table a Table A
--- @tparam table b Table B
--- @tparam[opt] boolean is_merge_nested Should nested tables be merged
--- @treturn table
-function Utils.TableMerge(a, b, is_merge_nested)
-    -- guessing if the table is an ipaired one
-    local is_ipaired = true
-    for k, _ in pairs(b) do
-        if type(k) ~= "number" then
-            is_ipaired = false
-        end
-    end
-
-    if is_ipaired then
-        for i = 1, #b do
-            a[#a + 1] = b[i]
-        end
-    else
-        for k, v in pairs(b) do
-            if is_merge_nested then
-                if type(v) == "table" then
-                    if type(a[k] or false) == "table" then
-                        Utils.TableMerge(a[k] or {}, b[k] or {})
-                    else
-                        a[k] = v
-                    end
-                end
-            else
-                a[k] = v
-            end
-        end
-    end
-    return a
-end
-
---- Gets the next table value.
---
--- When the next value doesn't exist it returns the first one.
---
--- **NB!** Currently supports only "ipaired" tables.
---
--- @tparam table t Table
--- @tparam string value Value
--- @treturn string
-function Utils.TableNextValue(t, value)
-    if type(t) ~= "table" then
-        return false
-    end
-
-    for k, v in pairs(t) do
-        if v == value then
-            return k < #t and t[k + 1] or t[1]
-        end
-    end
-end
-
---- Sorts the table elements alphabetically.
--- @tparam table t Table
--- @treturn number
-function Utils.TableSortAlphabetically(t)
-    if type(t) ~= "table" then
-        return false
-    end
-
-    table.sort(t, function(a, b)
-        return a:lower() < b:lower()
-    end)
-
-    return t
 end
 
 --- Thread

@@ -47,7 +47,7 @@ local function GetTableKeyByValue(list, value)
     for k, v in pairs(list) do
         if v.value == value
             or (type(v.value) == "table"
-            and Utils.TableCompare(v.value, value))
+            and Utils.Table.Compare(v.value, value))
         then
             return k
         end

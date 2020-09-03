@@ -146,7 +146,7 @@ end
 -- @tparam string phase Current phase
 -- @treturn string Next phase
 function WorldDevTools:GetNextPhase(phase) -- luacheck: only
-    return Utils.TableNextValue({ "day", "dusk", "night" }, phase)
+    return Utils.Table.NextValue({ "day", "dusk", "night" }, phase)
 end
 
 --- Selection

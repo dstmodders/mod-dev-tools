@@ -459,14 +459,14 @@ end
 -- @tparam table b Table B
 -- @treturn boolean
 function d_tablecompare(...)
-    return Utils.TableCompare(...)
+    return Utils.Table.Compare(...)
 end
 
 --- Counts the number of elements inside the table.
 -- @tparam table t Table
 -- @treturn number
 function d_tablecount(...)
-    return Utils.TableCount(...)
+    return Utils.Table.Count(...)
 end
 
 --- Checks if a table has the provided value.
@@ -474,7 +474,7 @@ end
 -- @tparam string value
 -- @treturn boolean
 function d_tablehasvalue(...)
-    return Utils.TableHasValue(...)
+    return Utils.Table.HasValue(...)
 end
 
 --- Gets the table key based on the value.
@@ -482,7 +482,7 @@ end
 -- @param value Value to look for
 -- @treturn number
 function d_tablekeybyvalue(...)
-    return Utils.TableKeyByValue(...)
+    return Utils.Table.KeyByValue(...)
 end
 
 --- Merges two tables.
@@ -492,7 +492,7 @@ end
 -- @tparam[opt] boolean is_merge_nested Should nested tables be merged
 -- @treturn table
 function d_tablemerge(...)
-    return Utils.TableMerge(...)
+    return Utils.Table.Merge(...)
 end
 
 --- Klei

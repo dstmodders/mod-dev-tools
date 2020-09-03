@@ -24,7 +24,7 @@ local function DebugEvent(name, value)
 end
 
 local function CheckIfAlreadyActivated(self, fn_name, activated)
-    local count = Utils.TableCount(activated)
+    local count = Utils.Table.Count(activated)
     if count > 0 then
         self.debug:DebugError(
             string.format("%s:%s():", self.name, fn_name),
@@ -35,7 +35,7 @@ local function CheckIfAlreadyActivated(self, fn_name, activated)
 end
 
 local function CheckIfAlreadyDeactivated(self, fn_name, activated)
-    local count = Utils.TableCount(activated)
+    local count = Utils.Table.Count(activated)
     if count == 0 then
         self.debug:DebugError(
             string.format("%s:%s():", self.name, fn_name),
@@ -59,7 +59,7 @@ local function Activate(self, name, entity)
 
     self.debug:DebugString(
         "Activated debugging of the",
-        Utils.TableCount(result),
+        Utils.Table.Count(result),
         name,
         "event listeners"
     )
@@ -68,7 +68,7 @@ local function Activate(self, name, entity)
 end
 
 local function Deactivate(self, name, entity, activated)
-    local count = Utils.TableCount(activated)
+    local count = Utils.Table.Count(activated)
 
     for event, callback in pairs(activated) do
         entity:RemoveEventCallback(event, callback)
@@ -119,7 +119,7 @@ function Events:ActivatePlayer(player)
 
     if not player
         or not player.event_listeners
-        or Utils.TableCount(player.event_listeners) == 0
+        or Utils.Table.Count(player.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_player)
     then
         return false
@@ -154,7 +154,7 @@ function Events:ActivatePlayerClassified(player)
     if not player
         or not player.player_classified
         or not player.player_classified.event_listeners
-        or Utils.TableCount(player.player_classified.event_listeners) == 0
+        or Utils.Table.Count(player.player_classified.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_player_classified)
     then
         return false
