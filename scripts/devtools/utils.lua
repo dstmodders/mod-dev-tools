@@ -16,6 +16,7 @@
 -- @see Utils.Dump
 -- @see Utils.Entity
 -- @see Utils.Methods
+-- @see Utils.Modmain
 -- @see Utils.RPC
 -- @see Utils.String
 -- @see Utils.Table
@@ -33,13 +34,11 @@ Utils.Debug = require "devtools/utils/debug"
 Utils.Dump = require "devtools/utils/dump"
 Utils.Entity = require "devtools/utils/entity"
 Utils.Methods = require "devtools/utils/methods"
+Utils.Modmain = require "devtools/utils/modmain"
 Utils.RPC = require "devtools/utils/rpc"
 Utils.String = require "devtools/utils/string"
 Utils.Table = require "devtools/utils/table"
 Utils.Thread = require "devtools/utils/thread"
-
--- base (to store original functions after overrides)
-local BaseGetModInfo
 
 --- General
 -- @section general
@@ -90,45 +89,6 @@ end
 -- @treturn string
 function Utils.GetStringName(name)
     return STRINGS.NAMES[string.upper(name)]
-end
-
---- Modmain
--- @section modmain
-
---- Hide the modinfo changelog.
---
--- Overrides the global `KnownModIndex.GetModInfo` to hide the changelog if it's included in the
--- description.
---
--- @tparam string modname
--- @tparam boolean enable
--- @treturn boolean
-function Utils.HideChangelog(modname, enable)
-    if modname and enable and not BaseGetModInfo then
-        BaseGetModInfo =  _G.KnownModIndex.GetModInfo
-        _G.KnownModIndex.GetModInfo = function(_self, _modname)
-            if _modname == modname
-                and _self.savedata
-                and _self.savedata.known_mods
-                and _self.savedata.known_mods[modname]
-            then
-                local TrimString = _G.TrimString
-                local modinfo = _self.savedata.known_mods[modname].modinfo
-                if modinfo and type(modinfo.description) == "string" then
-                    local changelog = modinfo.description:find("v" .. modinfo.version, 0, true)
-                    if type(changelog) == "number" then
-                        modinfo.description = TrimString(modinfo.description:sub(1, changelog - 1))
-                    end
-                end
-            end
-            return BaseGetModInfo(_self, _modname)
-        end
-        return true
-    elseif BaseGetModInfo then
-        _G.KnownModIndex.GetModInfo = BaseGetModInfo
-        BaseGetModInfo = nil
-    end
-    return false
 end
 
 return Utils

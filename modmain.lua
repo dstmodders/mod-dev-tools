@@ -252,7 +252,7 @@ local function AddConsoleScreenPostInit(self)
             table.insert(words, k)
         end
     end
-    words = Utils.TableSortAlphabetically(words)
+    words = Utils.Table.SortAlphabetically(words)
 
     self.console_edit:AddWordPredictionDictionary({
         words = words,
@@ -404,7 +404,7 @@ end
 local _KEY_SELECT_ENTITY = GetKeyFromConfig("key_select_entity")
 if _KEY_SELECT_ENTITY then
     TheInput:AddKeyUpHandler(_KEY_SELECT_ENTITY, function()
-        local worlddevtools = Utils.ChainGet(devtools, "world")
+        local worlddevtools = Utils.Chain.Get(devtools, "world")
         if worlddevtools and devtools:CanPressKeyInGamePlay() then
             worlddevtools:SelectEntityUnderMouse()
         end
@@ -414,7 +414,7 @@ end
 local _KEY_TIME_SCALE_INCREASE = GetKeyFromConfig("key_time_scale_increase")
 if _KEY_TIME_SCALE_INCREASE then
     TheInput:AddKeyDownHandler(_KEY_TIME_SCALE_INCREASE, function()
-        local playerdevtools = Utils.ChainGet(devtools, "player")
+        local playerdevtools = Utils.Chain.Get(devtools, "player")
         if playerdevtools and devtools:CanPressKeyInGamePlay() then
             if TheInput:IsKeyDown(KEY_SHIFT) then
                 playerdevtools:ChangeTimeScale(4, true)
@@ -428,7 +428,7 @@ end
 local _KEY_TIME_SCALE_DECREASE = GetKeyFromConfig("key_time_scale_decrease")
 if _KEY_TIME_SCALE_DECREASE then
     TheInput:AddKeyDownHandler(_KEY_TIME_SCALE_DECREASE, function()
-        local playerdevtools = Utils.ChainGet(devtools, "player")
+        local playerdevtools = Utils.Chain.Get(devtools, "player")
         if playerdevtools and devtools:CanPressKeyInGamePlay() then
             if TheInput:IsKeyDown(KEY_SHIFT) then
                 playerdevtools:ChangeTimeScale(0, true)
@@ -442,7 +442,7 @@ end
 local _KEY_TIME_SCALE_DEFAULT = GetKeyFromConfig("key_time_scale_default")
 if _KEY_TIME_SCALE_DEFAULT then
     TheInput:AddKeyUpHandler(_KEY_TIME_SCALE_DEFAULT, function()
-        local playerdevtools = Utils.ChainGet(devtools, "player")
+        local playerdevtools = Utils.Chain.Get(devtools, "player")
         if playerdevtools and devtools:CanPressKeyInGamePlay() then
             playerdevtools:ChangeTimeScale(1, true)
         end
@@ -477,5 +477,5 @@ end
 -- @section knownmodindex
 
 if GetModConfigData("hide_changelog") then
-    Utils.HideChangelog(modname, true)
+    Utils.Modmain.HideChangelog(modname, true)
 end
