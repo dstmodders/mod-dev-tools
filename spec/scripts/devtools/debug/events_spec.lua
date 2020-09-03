@@ -4,9 +4,6 @@ describe("Events", function()
     -- setup
     local match
 
-    -- before_each test data
-    local player
-
     -- initialization
     local DebugError, DebugString, debug
     local Events, events
@@ -29,11 +26,12 @@ describe("Events", function()
 
         -- globals
         _G.MOD_DEV_TOOLS_TEST = nil
+        _G.ThePlayer = nil
     end)
 
     before_each(function()
         -- test data
-        player = MockPlayerInst()
+        _G.ThePlayer = MockPlayerInst()
 
         -- initialization
         debug = mock({
@@ -318,19 +316,23 @@ describe("Events", function()
 
     describe("general", function()
         describe("ActivatePlayer", function()
-            describe("when the player is not passed", function()
+            describe("when the player is not available", function()
+                before_each(function()
+                    _G.ThePlayer = nil
+                end)
+
                 it("should return false", function()
                     assert.is_false(events:ActivatePlayer())
                 end)
             end)
 
-            describe("when the player is passed", function()
+            describe("when the player is available", function()
                 describe("without event listeners", function()
                     it("should return false", function()
-                        player.event_listeners = {}
-                        assert.is_false(events:ActivatePlayer(player))
-                        player.event_listeners = nil
-                        assert.is_false(events:ActivatePlayer(player))
+                        _G.ThePlayer.event_listeners = {}
+                        assert.is_false(events:ActivatePlayer())
+                        _G.ThePlayer.event_listeners = nil
+                        assert.is_false(events:ActivatePlayer())
                     end)
                 end)
 
@@ -342,12 +344,12 @@ describe("Events", function()
 
                         it("should add events", function()
                             assert.is_equal(0, TableCount(events.activated_player))
-                            events:ActivatePlayer(player)
+                            events:ActivatePlayer()
                             assert.is_equal(3, TableCount(events.activated_player))
                         end)
 
                         it("should return true", function()
-                            assert.is_true(events:ActivatePlayer(player))
+                            assert.is_true(events:ActivatePlayer())
                         end)
                     end)
 
@@ -358,7 +360,7 @@ describe("Events", function()
 
                         it("should debug error", function()
                             assert.spy(DebugError).was_not_called()
-                            events:ActivatePlayer(player)
+                            events:ActivatePlayer()
                             assert.spy(DebugError).was_called(1)
                             assert.spy(DebugError).was_called_with(
                                 match.is_ref(debug),
@@ -368,7 +370,7 @@ describe("Events", function()
                         end)
 
                         it("should return false", function()
-                            assert.is_false(events:ActivatePlayer(player))
+                            assert.is_false(events:ActivatePlayer())
                         end)
                     end)
                 end)
@@ -376,13 +378,17 @@ describe("Events", function()
         end)
 
         describe("DeactivatePlayer", function()
-            describe("when the player is not passed", function()
+            describe("when the player is not available", function()
+                before_each(function()
+                    _G.ThePlayer = nil
+                end)
+
                 it("should return false", function()
                     assert.is_false(events:DeactivatePlayer())
                 end)
             end)
 
-            describe("when the player is passed", function()
+            describe("when the player is available", function()
                 describe("and the corresponding activated table", function()
                     describe("is empty", function()
                         before_each(function()
@@ -391,7 +397,7 @@ describe("Events", function()
 
                         it("should debug error", function()
                             assert.spy(DebugError).was_not_called()
-                            events:DeactivatePlayer(player)
+                            events:DeactivatePlayer()
                             assert.spy(DebugError).was_called(1)
                             assert.spy(DebugError).was_called_with(
                                 match.is_ref(debug),
@@ -401,7 +407,7 @@ describe("Events", function()
                         end)
 
                         it("should return false", function()
-                            assert.is_false(events:DeactivatePlayer(player))
+                            assert.is_false(events:DeactivatePlayer())
                         end)
                     end)
 
@@ -412,12 +418,12 @@ describe("Events", function()
 
                         it("should remove all events", function()
                             assert.is_equal(2, TableCount(events.activated_player))
-                            events:DeactivatePlayer(player)
+                            events:DeactivatePlayer()
                             assert.is_equal(0, TableCount(events.activated_player))
                         end)
 
                         it("should return true", function()
-                            assert.is_true(events:DeactivatePlayer(player))
+                            assert.is_true(events:DeactivatePlayer())
                         end)
                     end)
                 end)
@@ -425,21 +431,25 @@ describe("Events", function()
         end)
 
         describe("ActivatePlayerClassified", function()
-            describe("when the player is not passed", function()
+            describe("when the player is not available", function()
+                before_each(function()
+                    _G.ThePlayer = nil
+                end)
+
                 it("should return false", function()
                     assert.is_false(events:ActivatePlayerClassified())
                 end)
             end)
 
-            describe("when the player is passed", function()
+            describe("when the player is available", function()
                 describe("without event listeners", function()
                     it("should return false", function()
-                        player.player_classified.event_listeners = {}
-                        assert.is_false(events:ActivatePlayerClassified(player))
-                        player.player_classified.event_listeners = nil
-                        assert.is_false(events:ActivatePlayerClassified(player))
-                        player.player_classified = nil
-                        assert.is_false(events:ActivatePlayerClassified(player))
+                        _G.ThePlayer.player_classified.event_listeners = {}
+                        assert.is_false(events:ActivatePlayerClassified())
+                        _G.ThePlayer.player_classified.event_listeners = nil
+                        assert.is_false(events:ActivatePlayerClassified())
+                        _G.ThePlayer.player_classified = nil
+                        assert.is_false(events:ActivatePlayerClassified())
                     end)
                 end)
 
@@ -451,12 +461,12 @@ describe("Events", function()
 
                         it("should add events", function()
                             assert.is_equal(0, TableCount(events.activated_player_classified))
-                            events:ActivatePlayerClassified(player)
+                            events:ActivatePlayerClassified()
                             assert.is_equal(3, TableCount(events.activated_player_classified))
                         end)
 
                         it("should return true", function()
-                            assert.is_true(events:ActivatePlayerClassified(player))
+                            assert.is_true(events:ActivatePlayerClassified())
                         end)
                     end)
 
@@ -467,7 +477,7 @@ describe("Events", function()
 
                         it("should debug error", function()
                             assert.spy(DebugError).was_not_called()
-                            events:ActivatePlayerClassified(player)
+                            events:ActivatePlayerClassified()
                             assert.spy(DebugError).was_called(1)
                             assert.spy(DebugError).was_called_with(
                                 match.is_ref(debug),
@@ -477,7 +487,7 @@ describe("Events", function()
                         end)
 
                         it("should return false", function()
-                            assert.is_false(events:ActivatePlayerClassified(player))
+                            assert.is_false(events:ActivatePlayerClassified())
                         end)
                     end)
                 end)
@@ -485,13 +495,17 @@ describe("Events", function()
         end)
 
         describe("DeactivatePlayerClassified", function()
-            describe("when the player is not passed", function()
+            describe("when the player is not available", function()
+                before_each(function()
+                    _G.ThePlayer = nil
+                end)
+
                 it("should return false", function()
                     assert.is_false(events:DeactivatePlayerClassified())
                 end)
             end)
 
-            describe("when the player is passed", function()
+            describe("when the player is available", function()
                 describe("and the corresponding activated table", function()
                     describe("is empty", function()
                         before_each(function()
@@ -500,7 +514,7 @@ describe("Events", function()
 
                         it("should debug error", function()
                             assert.spy(DebugError).was_not_called()
-                            assert.is_false(events:DeactivatePlayerClassified(player))
+                            assert.is_false(events:DeactivatePlayerClassified())
                             assert.spy(DebugError).was_called(1)
                             assert.spy(DebugError).was_called_with(
                                 match.is_ref(debug),
@@ -510,7 +524,7 @@ describe("Events", function()
                         end)
 
                         it("should return false", function()
-                            assert.is_false(events:DeactivatePlayerClassified(player))
+                            assert.is_false(events:DeactivatePlayerClassified())
                         end)
                     end)
 
@@ -521,12 +535,12 @@ describe("Events", function()
 
                         it("should remove all events", function()
                             assert.is_equal(2, TableCount(events.activated_player_classified))
-                            events:DeactivatePlayerClassified(player)
+                            events:DeactivatePlayerClassified()
                             assert.is_equal(0, TableCount(events.activated_player_classified))
                         end)
 
                         it("should return true", function()
-                            assert.is_true(events:DeactivatePlayerClassified(player))
+                            assert.is_true(events:DeactivatePlayerClassified())
                         end)
                     end)
                 end)

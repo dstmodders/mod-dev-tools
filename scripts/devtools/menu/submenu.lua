@@ -7,7 +7,7 @@
 --
 -- @classmod menu.Submenu
 -- @see submenus.CharacterRecipesSubmenu
--- @see submenus.DebugSubmenu
+-- @see submenus.Debug
 -- @see submenus.DumpSubmenu
 -- @see submenus.Labels
 -- @see submenus.LanguageSubmenu

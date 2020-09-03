@@ -8,7 +8,7 @@
 -- @classmod menu.Menu
 -- @see menu.TextMenu
 -- @see submenus.CharacterRecipesSubmenu
--- @see submenus.DebugSubmenu
+-- @see submenus.Debug
 -- @see submenus.DumpSubmenu
 -- @see submenus.Labels
 -- @see submenus.LanguageSubmenu
@@ -33,7 +33,7 @@ local TextMenu = require "devtools/menu/textmenu"
 
 -- submenus
 local CharacterRecipesSubmenu = require "devtools/submenus/characterrecipessubmenu"
-local DebugSubmenu = require "devtools/submenus/debugsubmenu"
+local Debug = require "devtools/submenus/debug"
 local DumpSubmenu = require "devtools/submenus/dumpsubmenu"
 local Labels = require "devtools/submenus/labels"
 local LanguageSubmenu = require "devtools/submenus/languagesubmenu"
@@ -229,7 +229,7 @@ end
 --- Adds general submenus.
 -- @see AddMenu
 function Menu:AddGeneralSubmenus()
-    self:AddSubmenu(DebugSubmenu)
+    self:AddSubmenu(Debug)
     self:AddSubmenu(DumpSubmenu)
     self:AddSubmenu(LanguageSubmenu)
     self:AddDividerOption()

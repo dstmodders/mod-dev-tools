@@ -79,11 +79,6 @@ return {
             options = {
                 label = "Length",
                 name = "SeasonControlLengthSubmenu",
-                on_init_fn = function(self, devtools)
-                    self.console = devtools.player and devtools.player.console
-                    self.player = devtools.player
-                    self.world = devtools.world
-                end,
                 options = require("devtools/submenus/seasoncontrol/length"),
             },
         },

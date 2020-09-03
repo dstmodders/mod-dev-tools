@@ -91,9 +91,12 @@ local Events = Class(function(self, debug)
     self.debug = debug
     self.name = "Events"
 
-    -- event listeners
+    -- player
     self.activated_player = {}
     self.activated_player_classified = {}
+
+    -- world
+    self.activated_world = {}
 
     -- tests
     if _G.MOD_DEV_TOOLS_TEST then
@@ -108,79 +111,115 @@ local Events = Class(function(self, debug)
     self.debug:DebugInit("Debug (Events)")
 end)
 
---- General
--- @section general
+--- Player
+-- @section player
 
---- Activates player.
--- @tparam EntityScript player Player instance
-function Events:ActivatePlayer(player)
+--- Activates `ThePlayer`.
+function Events:ActivatePlayer()
     local fn_name = "ActivatePlayer"
     local name = "ThePlayer"
 
-    if not player
-        or not player.event_listeners
-        or Utils.Table.Count(player.event_listeners) == 0
+    if not ThePlayer
+        or not ThePlayer.event_listeners
+        or Utils.Table.Count(ThePlayer.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_player)
     then
         return false
     end
 
-    self.activated_player = Activate(self, name, player)
+    self.activated_player = Activate(self, name, ThePlayer)
 
     return true
 end
 
---- Deactivates player.
--- @tparam EntityScript player Player instance
-function Events:DeactivatePlayer(player)
+--- Deactivates `ThePlayer`.
+function Events:DeactivatePlayer()
     local fn_name = "DeactivatePlayer"
     local name = "ThePlayer"
 
-    if not player or CheckIfAlreadyDeactivated(self, fn_name, self.activated_player) then
+    if not ThePlayer or CheckIfAlreadyDeactivated(self, fn_name, self.activated_player) then
         return false
     end
 
-    self.activated_player = Deactivate(self, name, player, self.activated_player)
+    self.activated_player = Deactivate(self, name, ThePlayer, self.activated_player)
 
     return true
 end
 
---- Activate player classified.
--- @tparam EntityScript player Player instance
-function Events:ActivatePlayerClassified(player)
+--- Activate `ThePlayer.player_classified`.
+function Events:ActivatePlayerClassified()
     local fn_name = "ActivatePlayerClassified"
     local name = "ThePlayer.player_classified"
 
-    if not player
-        or not player.player_classified
-        or not player.player_classified.event_listeners
-        or Utils.Table.Count(player.player_classified.event_listeners) == 0
+    if not ThePlayer
+        or not ThePlayer.player_classified
+        or not ThePlayer.player_classified.event_listeners
+        or Utils.Table.Count(ThePlayer.player_classified.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_player_classified)
     then
         return false
     end
 
-    self.activated_player_classified = Activate(self, name, player.player_classified)
+    self.activated_player_classified = Activate(self, name, ThePlayer.player_classified)
 
     return true
 end
 
---- Deactivates player classified.
--- @tparam EntityScript player Player instance
-function Events:DeactivatePlayerClassified(player)
+--- Deactivates `ThePlayer.player_classified`.
+function Events:DeactivatePlayerClassified()
     local fn_name = "DeactivatePlayerClassified"
     local name = "ThePlayer.player_classified"
 
-    if not player or CheckIfAlreadyDeactivated(self, fn_name, self.activated_player_classified) then
+    if not ThePlayer
+        or CheckIfAlreadyDeactivated(self, fn_name, self.activated_player_classified)
+    then
         return false
     end
 
     self.activated_player_classified = Deactivate(
         self,
         name,
-        player.player_classified,
+        ThePlayer.player_classified,
         self.activated_player_classified
     )
+
+    return true
+end
+
+--- World
+-- @section
+
+--- Player
+-- @section player
+
+--- Activates `TheWorld`.
+function Events:ActivateWorld()
+    local fn_name = "ActivateWorld"
+    local name = "TheWorld"
+
+    if not TheWorld
+        or not TheWorld.event_listeners
+        or Utils.Table.Count(TheWorld.event_listeners) == 0
+        or CheckIfAlreadyActivated(self, fn_name, self.activated_world)
+    then
+        return false
+    end
+
+    self.activated_world = Activate(self, name, TheWorld)
+
+    return true
+end
+
+--- Deactivates `TheWorld`.
+function Events:DeactivateWorld()
+    local fn_name = "DeactivateWorld"
+    local name = "TheWorld"
+
+    if not TheWorld or CheckIfAlreadyDeactivated(self, fn_name, self.activated_world) then
+        return false
+    end
+
+    self.activated_world = Deactivate(self, name, TheWorld, self.activated_world)
 
     return true
 end

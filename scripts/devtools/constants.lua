@@ -27,6 +27,7 @@ MOD_DEV_TOOLS = {
     -- @tfield function IS_CAVE
     -- @tfield function IS_FOREST
     -- @tfield function IS_MASTER_SIM
+    -- @tfield function IS_NOT_MASTER_SIM
     -- @tfield function IS_PLAYER
     -- @tfield function IS_WORLD
     ON_ADD_TO_ROOT_FN = {
@@ -41,6 +42,9 @@ MOD_DEV_TOOLS = {
         end,
         IS_MASTER_SIM = function(self)
             return self.devtools.world and self.devtools.world:IsMasterSim()
+        end,
+        IS_NOT_MASTER_SIM = function(self)
+            return self.devtools.world and not self.devtools.world:IsMasterSim()
         end,
         IS_PLAYER = function(self)
             return self.devtools.player and true or false
