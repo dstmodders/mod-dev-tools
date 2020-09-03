@@ -39,7 +39,7 @@ local InventoryDevTools = Class(DevTools, function(self, playerdevtools, devtool
     Utils.AssertRequiredField(self.name .. ".ismastersim", playerdevtools.ismastersim)
     Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
 
-    local inventory = Utils.ChainGet(playerdevtools, "inst", "replica", "inventory")
+    local inventory = Utils.Chain.Get(playerdevtools, "inst", "replica", "inventory")
     Utils.AssertRequiredField(self.name .. ".inventory", inventory)
 
     -- general
@@ -96,7 +96,7 @@ function InventoryDevTools:IsEquippableLightSource(item) -- luacheck: only
         or item:HasTag(FUELTYPE.WORMLIGHT .. "_fueled")
         or item:HasTag("light")
         or item:HasTag("lighter")
-        or Utils.ChainGet(item, "prefab") == "nightstick"
+        or Utils.Chain.Get(item, "prefab") == "nightstick"
 end
 
 --- Gets an edible item from the inventory.
@@ -132,7 +132,7 @@ function InventoryDevTools:EquipActiveItem(the_net)
     end or SendRPCToServer
 
     if item:HasTag("_equippable") then
-        if Utils.ChainGet(item, "replica", "equippable", "EquipSlot", true) then
+        if Utils.Chain.Get(item, "replica", "equippable", "EquipSlot", true) then
             _SendRPCToServer(RPC.SwapEquipWithActiveItem)
         end
         _SendRPCToServer(RPC.EquipActiveItem)
