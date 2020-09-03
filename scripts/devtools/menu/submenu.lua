@@ -9,7 +9,7 @@
 -- @see submenus.CharacterRecipesSubmenu
 -- @see submenus.DebugSubmenu
 -- @see submenus.DumpSubmenu
--- @see submenus.LabelsSubmenu
+-- @see submenus.Labels
 -- @see submenus.LanguageSubmenu
 -- @see submenus.MapSubmenu
 -- @see submenus.PlayerBarsSubmenu

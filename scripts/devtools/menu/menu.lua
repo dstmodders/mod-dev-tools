@@ -10,7 +10,7 @@
 -- @see submenus.CharacterRecipesSubmenu
 -- @see submenus.DebugSubmenu
 -- @see submenus.DumpSubmenu
--- @see submenus.LabelsSubmenu
+-- @see submenus.Labels
 -- @see submenus.MapSubmenu
 -- @see submenus.PlayerBarsSubmenu
 -- @see submenus.PlayerVisionSubmenu
@@ -33,7 +33,7 @@ local TextMenu = require "devtools/menu/textmenu"
 local CharacterRecipesSubmenu = require "devtools/submenus/characterrecipessubmenu"
 local DebugSubmenu = require "devtools/submenus/debugsubmenu"
 local DumpSubmenu = require "devtools/submenus/dumpsubmenu"
-local LabelsSubmenu = require "devtools/submenus/labelssubmenu"
+local Labels = require "devtools/submenus/labels"
 local LanguageSubmenu = require "devtools/submenus/languagesubmenu"
 local MapSubmenu = require "devtools/submenus/mapsubmenu"
 local PlayerBarsSubmenu = require "devtools/submenus/playerbarssubmenu"
@@ -209,7 +209,7 @@ function Menu:AddPlayerSubmenus()
     end
 
     self:AddSubmenu(CharacterRecipesSubmenu)
-    self:AddSubmenu(LabelsSubmenu)
+    self:AddSubmenu(Labels)
     self:AddSubmenu(MapSubmenu)
     self:AddSubmenu(PlayerVisionSubmenu)
     self:AddDividerOption()
