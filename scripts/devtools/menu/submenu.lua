@@ -11,7 +11,7 @@
 -- @see submenus.DumpSubmenu
 -- @see submenus.Labels
 -- @see submenus.LanguageSubmenu
--- @see submenus.MapSubmenu
+-- @see submenus.Map
 -- @see submenus.PlayerBarsSubmenu
 -- @see submenus.PlayerVisionSubmenu
 -- @see submenus.SeasonControlSubmenu
