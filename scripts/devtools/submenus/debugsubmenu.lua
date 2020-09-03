@@ -30,11 +30,6 @@ local DebugSubmenu = Class(Submenu, function(self, devtools, root)
     Utils.Debug.AddMethods(self)
     Submenu._ctor(self, devtools, root, "Debug", "DebugSubmenu")
 
-    -- general
-    self.debug = devtools.debug
-    self.player = devtools.player
-    self.world = devtools.world
-
     -- options
     if self.debug and self.world and self.player then
         self:AddOptions()

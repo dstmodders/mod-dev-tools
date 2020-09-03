@@ -33,7 +33,7 @@ local LanguageSubmenu = Class(Submenu, function(self, devtools, root)
     self.loc = LOC
 
     -- options
-    if LANGUAGE and LOC then
+    if self.language and self.loc then
         self:AddOptions()
         self:AddToRoot()
     end

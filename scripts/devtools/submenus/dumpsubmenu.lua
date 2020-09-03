@@ -29,10 +29,6 @@ local Utils = require "devtools/utils"
 local DumpSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Dump", "DumpSubmenu")
 
-    -- general
-    self.player = devtools.player
-    self.world = devtools.world
-
     -- options
     self:AddOptions()
     self:AddToRoot()

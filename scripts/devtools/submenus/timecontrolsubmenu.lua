@@ -28,11 +28,6 @@ local Submenu = require "devtools/menu/submenu"
 local TimeControlSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Time Control", "TimeControlSubmenu", #root + 1)
 
-    -- general
-    self.console = devtools.player and devtools.player.console
-    self.player = devtools.player
-    self.world = devtools.world
-
     -- options
     if self.devtools
         and self.world

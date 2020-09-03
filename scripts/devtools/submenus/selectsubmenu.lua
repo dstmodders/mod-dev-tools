@@ -28,11 +28,6 @@ local Submenu = require "devtools/menu/submenu"
 local SelectSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Select", "SelectSubmenu", #root + 1)
 
-    -- general
-    self.inventory = devtools.player and devtools.player.inventory
-    self.player = devtools.player
-    self.world = devtools.world
-
     -- options
     if self.devtools and self.world and self.player and self.inventory and self.screen then
         self:AddOptions()

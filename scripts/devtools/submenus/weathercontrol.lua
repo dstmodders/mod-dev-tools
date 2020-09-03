@@ -26,11 +26,6 @@ end
 return {
     label = "Weather Control",
     name = "WeatherControlSubmenu",
-    on_init_fn = function(self, devtools)
-        self.console = devtools.player and devtools.player.console
-        self.player = devtools.player
-        self.world = devtools.world
-    end,
     on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_ADMIN,
     options = {
         {

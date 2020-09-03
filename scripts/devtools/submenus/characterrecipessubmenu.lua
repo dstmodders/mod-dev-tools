@@ -29,9 +29,6 @@ local Utils = require "devtools/utils"
 local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Character Recipes", "CharacterRecipesSubmenu")
 
-    -- general
-    self.crafting = devtools.player and devtools.player.crafting
-
     -- options
     if self.devtools and self.crafting and devtools.screen then
         local recipes = self.crafting:GetCharacterRecipes()

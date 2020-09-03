@@ -28,11 +28,6 @@ local Submenu = require "devtools/menu/submenu"
 local PlayerBarsSubmenu = Class(Submenu, function(self, devtools, root)
     Submenu._ctor(self, devtools, root, "Player Bars", "PlayerBarsSubmenu", #root + 1)
 
-    -- general
-    self.console = devtools.player and devtools.player.console
-    self.player = devtools.player
-    self.world = devtools.world
-
     -- options
     if self.world and self.player and self.player:IsAdmin() and self.console and self.screen then
         self:AddSelectedPlayerLabelPrefix(devtools, self.player)

@@ -19,9 +19,6 @@ require "devtools/constants"
 return {
     label = "Labels",
     name = "LabelsSubmenu",
-    on_init_fn = function(self, devtools)
-        self.labels = devtools.labels
-    end,
     on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_WORLD,
     options = {
         {

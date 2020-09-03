@@ -19,11 +19,6 @@ require "devtools/constants"
 return {
     label = "Map",
     name = "MapSubmenu",
-    on_init_fn = function(self, devtools)
-        self.map = devtools.player and devtools.player.map
-        self.player = devtools.player
-        self.world = devtools.world
-    end,
     on_add_to_root_fn = {
         MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_ADMIN,
         MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_MASTER_SIM,
