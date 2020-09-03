@@ -11,9 +11,11 @@
 -- @see submenus.DebugSubmenu
 -- @see submenus.DumpSubmenu
 -- @see submenus.Labels
+-- @see submenus.LanguageSubmenu
 -- @see submenus.Map
 -- @see submenus.PlayerBarsSubmenu
 -- @see submenus.PlayerVisionSubmenu
+-- @see submenus.SeasonControl
 -- @see submenus.SelectSubmenu
 -- @see submenus.TeleportSubmenu
 -- @see submenus.TimeControlSubmenu
@@ -38,7 +40,7 @@ local LanguageSubmenu = require "devtools/submenus/languagesubmenu"
 local Map = require "devtools/submenus/map"
 local PlayerBarsSubmenu = require "devtools/submenus/playerbarssubmenu"
 local PlayerVisionSubmenu = require "devtools/submenus/playervisionsubmenu"
-local SeasonControlSubmenu = require "devtools/submenus/seasoncontrolsubmenu"
+local SeasonControl = require "devtools/submenus/seasoncontrol"
 local SelectSubmenu = require "devtools/submenus/selectsubmenu"
 local TeleportSubmenu = require "devtools/submenus/teleportsubmenu"
 local TimeControlSubmenu = require "devtools/submenus/timecontrolsubmenu"
@@ -218,7 +220,7 @@ end
 --- Adds world submenus.
 -- @see AddMenu
 function Menu:AddWorldSubmenus()
-    self:AddSubmenu(SeasonControlSubmenu)
+    self:AddSubmenu(SeasonControl)
     self:AddSubmenu(TimeControlSubmenu)
     self:AddSubmenu(WeatherControlSubmenu)
     self:AddDividerOption()
