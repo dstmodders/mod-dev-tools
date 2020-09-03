@@ -235,8 +235,8 @@ function Labels:UpdateSelected()
         text = text .. "Prefab: " .. inst.entity:GetPrefabName() .. "\n"
 
         if inst.sg then
-            local sg_name = Utils.GetStateGraphName(inst)
-            local sg_state = Utils.GetStateGraphState(inst)
+            local sg_name = Utils.Entity.GetStateGraphName(inst)
+            local sg_state = Utils.Entity.GetStateGraphState(inst)
             if sg_name then
                 text = text
                     .. "StateGraph: "
@@ -246,9 +246,9 @@ function Labels:UpdateSelected()
         end
 
         if inst.AnimState then
-            local as_bank = Utils.GetAnimStateBank(inst)
-            local as_build = Utils.GetAnimStateBuild(inst)
-            local as_anim = Utils.GetAnimStateAnim(inst)
+            local as_bank = Utils.Entity.GetAnimStateBank(inst)
+            local as_build = Utils.Entity.GetAnimStateBuild(inst)
+            local as_anim = Utils.Entity.GetAnimStateAnim(inst)
             if as_bank then
                 text = text
                     .. "AnimState: "

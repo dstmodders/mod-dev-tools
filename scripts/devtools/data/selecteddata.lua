@@ -66,9 +66,9 @@ local function GetAnimState(self, entity)
         return false
     end
 
-    local bank = Utils.GetAnimStateBank(entity)
-    local build = Utils.GetAnimStateBuild(entity)
-    local anim = Utils.GetAnimStateAnim(entity)
+    local bank = Utils.Entity.GetAnimStateBank(entity)
+    local build = Utils.Entity.GetAnimStateBuild(entity)
+    local anim = Utils.Entity.GetAnimStateAnim(entity)
 
     return bank, build, anim
 end
@@ -77,7 +77,7 @@ local function GetStateGraph(self, entity)
     if not self or not entity or not entity.sg then
         return false
     end
-    return Utils.GetStateGraphName(entity), Utils.GetStateGraphState(entity)
+    return Utils.Entity.GetStateGraphName(entity), Utils.Entity.GetStateGraphState(entity)
 end
 
 --- General

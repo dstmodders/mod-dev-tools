@@ -323,7 +323,7 @@ end
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getanim(...)
-    return Utils.GetAnimStateAnim(...)
+    return Utils.Entity.GetAnimStateAnim(...)
 end
 
 --- Returns an entity animation state bank.
@@ -331,14 +331,14 @@ end
 -- @treturn string
 -- @usage d_getanimbank(ThePlayer)
 function d_getanimbank(...)
-    return Utils.GetAnimStateBank(...)
+    return Utils.Entity.GetAnimStateBank(...)
 end
 
 --- Returns an entity animation state build.
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getanimbuild(...)
-    return Utils.GetAnimStateBank(...)
+    return Utils.Entity.GetAnimStateBank(...)
 end
 
 --- Dump
@@ -441,14 +441,14 @@ end
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getsg(...)
-    return Utils.GetStateGraphName(...)
+    return Utils.Entity.GetStateGraphName(...)
 end
 
 --- Returns an entity state graph state.
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getsgstate(...)
-    return Utils.GetStateGraphState(...)
+    return Utils.Entity.GetStateGraphState(...)
 end
 
 --- Table
