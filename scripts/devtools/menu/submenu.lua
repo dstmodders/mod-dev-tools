@@ -253,6 +253,7 @@ function Submenu:GetOnAddToRootFn()
 end
 
 --- Sets on add to root function.
+-- @see MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN
 -- @see OnOnAddToRoot
 -- @tparam function fn
 function Submenu:SetOnAddToRootFn(fn)

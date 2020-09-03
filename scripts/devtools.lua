@@ -33,9 +33,11 @@
 ----
 require "class"
 require "consolecommands"
+require "devtools/constants"
 
 local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
+local Submenu = require "devtools/menu/submenu"
 local Utils = require "devtools/utils"
 local WorldDevTools = require "devtools/devtools/worlddevtools"
 
@@ -243,6 +245,139 @@ function DevTools:GetPlayerByUsername(username)
         end
     end
     return nil
+end
+
+--- Submenu
+-- @section submenu
+
+local function SetOnAddToRootFn(on_add_to_root_fn, submenu, root)
+    if type(on_add_to_root_fn) == "function" then
+        submenu:SetOnAddToRootFn(on_add_to_root_fn)
+    elseif type(on_add_to_root_fn) == "table" then
+        local result = true
+
+        for _, fn in pairs(on_add_to_root_fn) do
+            submenu:SetOnAddToRootFn(fn)
+
+            if type(fn) == "function" then
+                result = submenu:OnOnAddToRoot(root)
+            end
+
+            if result == false then
+                break
+            end
+        end
+
+        submenu:SetOnAddToRootFn(function()
+            return result
+        end)
+    else
+        submenu:SetOnAddToRootFn(nil)
+    end
+end
+
+--- Creates a submenu instance from data.
+-- @tparam table data
+-- @tparam table root
+-- @treturn menu.Submenu
+-- @usage local devtools = DevTools()
+-- local submenu = devtools:CreateSubmenuInstFromData({
+--     label = "Map",
+--     name = "MapSubmenu",
+--     on_init_fn = function(self, devtools)
+--         self.map = devtools.player and devtools.player.map
+--         self.player = devtools.player
+--         self.world = devtools.world
+--     end,
+--     on_add_to_root_fn = {
+--         MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_ADMIN,
+--         MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_MASTER_SIM,
+--     },
+--     options = {
+--         {
+--             type = MOD_DEV_TOOLS.OPTION.ACTION,
+--             options = {
+--                 label = "Reveal",
+--                 on_accept_fn = function(_, submenu)
+--                     submenu.map:Reveal()
+--                     submenu.screen:Close()
+--                 end,
+--             },
+--         },
+--         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
+--         {
+--             type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
+--             options = {
+--                 label = "Clearing",
+--                 get = {
+--                     src = function(_, submenu)
+--                         return submenu.world
+--                     end,
+--                     name = "IsMapClearing",
+--                 },
+--                 set = {
+--                     src = function(_, submenu)
+--                         return submenu.world
+--                     end,
+--                     name = "ToggleMapClearing",
+--                 },
+--             },
+--         },
+--         {
+--             type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
+--             options = {
+--                 label = "Fog of War",
+--                 get = {
+--                     src = function(_, submenu)
+--                         return submenu.world
+--                     end,
+--                     name = "IsMapFogOfWar",
+--                 },
+--                 set = {
+--                     src = function(_, submenu)
+--                         return submenu.world
+--                     end,
+--                     name = "ToggleMapFogOfWar",
+--                 },
+--             },
+--         },
+--     },
+-- })
+function DevTools:CreateSubmenuInstFromData(data, root)
+    local submenu = Submenu(self, root, data.label, data.name, data.menu_idx)
+
+    if type(data.on_init_fn) == "function" then
+        submenu:SetOnInitFn(data.on_init_fn)
+        submenu:OnInit()
+    end
+
+    if type(data.options) == "table" and #data.options > 0 then
+        for _, option in pairs(data.options) do
+            SetOnAddToRootFn(option.on_add_to_root_fn, submenu, root)
+
+            if option.type == MOD_DEV_TOOLS.OPTION.ACTION then
+                submenu:AddActionOption(option.options)
+            elseif option.type == MOD_DEV_TOOLS.OPTION.CHECKBOX then
+                submenu:AddCheckboxOption(option.options)
+            elseif option.type == MOD_DEV_TOOLS.OPTION.CHOICES then
+                submenu:AddChoicesOption(option.options)
+            elseif option.type == MOD_DEV_TOOLS.OPTION.DIVIDER then
+                submenu:AddDividerOption(option.options)
+            elseif option.type == MOD_DEV_TOOLS.OPTION.NUMERIC then
+                submenu:AddNumericOption(option.options)
+            elseif option.type == MOD_DEV_TOOLS.OPTION.SUBMENU then
+                self:CreateSubmenuInstFromData(option.options, submenu.options)
+            elseif option.type == MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX then
+                submenu:AddToggleCheckboxOption(option.options)
+            end
+        end
+    end
+
+    SetOnAddToRootFn(data.on_add_to_root_fn, submenu)
+
+    submenu:AddToRoot()
+
+    return submenu
 end
 
 --- Other

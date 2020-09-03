@@ -6,6 +6,7 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod menu.Menu
+-- @see menu.TextMenu
 -- @see submenus.CharacterRecipesSubmenu
 -- @see submenus.DebugSubmenu
 -- @see submenus.DumpSubmenu
@@ -17,7 +18,6 @@
 -- @see submenus.TeleportSubmenu
 -- @see submenus.TimeControlSubmenu
 -- @see submenus.WeatherControlSubmenu
--- @see menu.TextMenu
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -141,10 +141,16 @@ end
 -- @section menu
 
 --- Adds submenu.
--- @tparam menu.Submenu submenu Class submenu (not an instance)
+-- @tparam table|menu.Submenu submenu Data table or class (not an instance)
 function Menu:AddSubmenu(submenu)
+    if not self.devtools or not self.options then
+        return
+    end
+
     if submenu._ctor then
-        submenu(self.devtools, self.options)
+        return submenu(self.devtools, self.options)
+    elseif type(submenu) == "table" then
+        return self.devtools:CreateSubmenuInstFromData(submenu, self.options)
     end
 end
 
