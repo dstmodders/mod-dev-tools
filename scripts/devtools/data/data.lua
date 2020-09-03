@@ -44,7 +44,7 @@ function Data:PushLine(t, name, value) -- luacheck: only
     end
 
     if type(value) == "table" and #value > 0 then
-        value = Utils.StringTableSplit(value)
+        value = Utils.String.TableSplit(value)
     end
 
     table.insert(t, string.format("%s: %s", name, value))

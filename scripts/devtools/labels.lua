@@ -240,7 +240,7 @@ function Labels:UpdateSelected()
             if sg_name then
                 text = text
                     .. "StateGraph: "
-                    .. Utils.StringTableSplit({ sg_name, sg_state })
+                    .. Utils.String.TableSplit({ sg_name, sg_state })
                     .. "\n"
             end
         end
@@ -252,7 +252,7 @@ function Labels:UpdateSelected()
             if as_bank then
                 text = text
                     .. "AnimState: "
-                    .. Utils.StringTableSplit({ as_bank, as_build, as_anim })
+                    .. Utils.String.TableSplit({ as_bank, as_build, as_anim })
             end
         end
 
