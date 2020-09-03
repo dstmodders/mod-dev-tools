@@ -18,7 +18,7 @@
 -- @see submenus.SelectSubmenu
 -- @see submenus.TeleportSubmenu
 -- @see submenus.TimeControlSubmenu
--- @see submenus.WeatherControlSubmenu
+-- @see submenus.WeatherControl
 --
 -- @author Victor Popkov
 -- @copyright 2020
