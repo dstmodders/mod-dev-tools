@@ -208,7 +208,7 @@ function Debug:DebugTerm(name)
     self:DebugString("[life_cycle]", "Terminated", name)
 end
 
---- Prints an error strings.
+--- Prints the provided error strings.
 --
 -- Acts just like the `DebugString` but also prepends the "[error]" string.
 --

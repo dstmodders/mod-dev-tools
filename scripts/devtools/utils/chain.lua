@@ -1,5 +1,5 @@
 ----
--- Different chain mod utilities.
+-- Different debug mod utilities.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --

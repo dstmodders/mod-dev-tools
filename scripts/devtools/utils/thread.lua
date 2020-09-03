@@ -1,5 +1,5 @@
 ----
--- Different string mod utilities.
+-- Different thread mod utilities.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -13,9 +13,7 @@
 ----
 local Thread = {}
 
-local function DebugString(...)
-    return _G.ModDevToolsDebug and _G.ModDevToolsDebug:DebugString(...)
-end
+local Debug = require "devtools/utils/debug"
 
 --- Starts a new thread.
 --
@@ -33,7 +31,7 @@ function Thread.Start(id, fn, whl, init, term)
     end
 
     return StartThread(function()
-        DebugString("Thread started")
+        Debug.String("Thread started")
         if init then
             init()
         end
@@ -53,9 +51,9 @@ function Thread.Clear(thread)
     local task = scheduler:GetCurrentTask()
     if thread or task then
         if thread and not task then
-            DebugString("[" .. thread.id .. "]", "Thread cleared")
+            Debug.String("[" .. thread.id .. "]", "Thread cleared")
         else
-            DebugString("Thread cleared")
+            Debug.String("Thread cleared")
         end
         thread = thread ~= nil and thread or task
         KillThreadsWithID(thread.id)

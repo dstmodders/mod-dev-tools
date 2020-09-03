@@ -27,7 +27,7 @@ local Submenu = require "devtools/menu/submenu"
 -- @tparam Widget root
 -- @usage local debugsubmenu = DebugSubmenu(devtools, root)
 local DebugSubmenu = Class(Submenu, function(self, devtools, root)
-    Utils.AddDebugMethods(self)
+    Utils.Debug.AddMethods(self)
     Submenu._ctor(self, devtools, root, "Debug", "DebugSubmenu")
 
     -- general

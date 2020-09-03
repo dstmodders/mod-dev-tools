@@ -12,6 +12,7 @@
 --
 -- @module Utils
 -- @see Utils.Chain
+-- @see Utils.Debug
 -- @see Utils.Dump
 -- @see Utils.Entity
 -- @see Utils.Methods
@@ -28,6 +29,7 @@
 local Utils = {}
 
 Utils.Chain = require "devtools/utils/chain"
+Utils.Debug = require "devtools/utils/debug"
 Utils.Dump = require "devtools/utils/dump"
 Utils.Entity = require "devtools/utils/entity"
 Utils.Methods = require "devtools/utils/methods"
@@ -38,48 +40,6 @@ Utils.Thread = require "devtools/utils/thread"
 
 -- base (to store original functions after overrides)
 local BaseGetModInfo
-
---- Debugging
--- @section debugging
-
---- Adds debug methods to the destination class.
---
--- Checks the global environment if the `Debug` is available and adds the corresponding
--- methods from there. Otherwise, adds all the corresponding functions as empty ones.
---
--- @tparam table dest Destination class
-function Utils.AddDebugMethods(dest)
-    local methods = {
-        "DebugActivateEventListener",
-        "DebugDeactivateEventListener",
-        "DebugError",
-        "DebugErrorNotAdmin",
-        "DebugErrorNotInCave",
-        "DebugErrorNotInForest",
-        "DebugInit",
-        "DebugSelectedPlayerString",
-        "DebugSendRPCToServer",
-        "DebugString",
-        "DebugStringStart",
-        "DebugStringStop",
-        "DebugTerm",
-    }
-
-    if _G.ModDevToolsDebug then
-        for _, v in pairs(methods) do
-            dest[v] = function(_, ...)
-                if _G.ModDevToolsDebug and _G.ModDevToolsDebug[v] then
-                    return _G.ModDevToolsDebug[v](_G.ModDevToolsDebug, ...)
-                end
-            end
-        end
-    else
-        for _, v in pairs(methods) do
-            dest[v] = function()
-            end
-        end
-    end
-end
 
 --- General
 -- @section general

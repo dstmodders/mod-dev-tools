@@ -26,7 +26,7 @@ local _LABEL_UPDATE_THREAD_ID = "mod_dev_tools_label_update_thread"
 -- @tparam DevTools devtools
 -- @usage local labels = Labels(devtools)
 local Labels = Class(function(self, devtools)
-    Utils.AddDebugMethods(self)
+    Utils.Debug.AddMethods(self)
 
     -- general
     self.default_font = nil

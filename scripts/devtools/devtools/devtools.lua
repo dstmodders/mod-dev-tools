@@ -30,7 +30,7 @@ local Utils = require "devtools/utils"
 -- @tparam[opt] DevTools devtools
 -- @usage local devtools = DevTools()
 local DevTools = Class(function(self, name, devtools)
-    Utils.AddDebugMethods(self)
+    Utils.Debug.AddMethods(self)
 
     -- initialization
     self._init = {

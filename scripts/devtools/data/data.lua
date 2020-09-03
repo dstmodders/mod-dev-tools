@@ -24,7 +24,7 @@ local Utils = require "devtools/utils"
 -- @function _ctor
 -- @usage local data = Data()
 local Data = Class(function(self)
-    Utils.AddDebugMethods(self)
+    Utils.Debug.AddMethods(self)
 end)
 
 --- Line

@@ -399,7 +399,7 @@ end
 -- @tparam string modname
 -- @tparam boolean debug
 function DevTools:DoInit(modname, debug)
-    Utils.AddDebugMethods(self)
+    Utils.Debug.AddMethods(self)
 
     -- general
     self.debug = debug

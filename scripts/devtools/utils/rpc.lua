@@ -1,5 +1,5 @@
 ----
--- Different chain mod utilities.
+-- Different RPC mod utilities.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
@@ -15,9 +15,7 @@ local RPC = {}
 
 local _SendRPCToServer
 
-local function DebugString(...)
-    return _G.ModDevToolsDebug and _G.ModDevToolsDebug:DebugString(...)
-end
+local Debug = require "devtools/utils/debug"
 
 --- Checks if `SendRPCToServer()` is enabled.
 -- @treturn boolean
@@ -33,9 +31,9 @@ function RPC.DisableSendToServer()
     if not _SendRPCToServer then
         _SendRPCToServer = SendRPCToServer
         SendRPCToServer = function() end
-        DebugString("SendRPCToServer: disabled")
+        Debug.String("SendRPCToServer: disabled")
     else
-        DebugString("SendRPCToServer: already disabled")
+        Debug.String("SendRPCToServer: already disabled")
     end
 end
 
@@ -44,9 +42,9 @@ function RPC.EnableSendToServer()
     if _SendRPCToServer then
         SendRPCToServer = _SendRPCToServer
         _SendRPCToServer = nil
-        DebugString("SendRPCToServer: enabled")
+        Debug.String("SendRPCToServer: enabled")
     else
-        DebugString("SendRPCToServer: already enabled")
+        Debug.String("SendRPCToServer: already enabled")
     end
 end
 

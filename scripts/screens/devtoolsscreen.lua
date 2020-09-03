@@ -401,7 +401,7 @@ end
 --- Initializes.
 -- @tparam DevTools devtools
 function DevToolsScreen:DoInit(devtools)
-    Utils.AddDebugMethods(self)
+    Utils.Debug.AddMethods(self)
 
     -- general
     self.data_name = InGamePlay() and "world" or "front-end"

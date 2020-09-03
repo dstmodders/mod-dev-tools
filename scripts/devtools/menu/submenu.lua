@@ -49,7 +49,7 @@ local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 -- @tparam[opt] number menu_idx
 -- @usage local submenu = Submenu(devtools, root)
 local Submenu = Class(function(self, devtools, root, label, name, menu_idx)
-    Utils.AddDebugMethods(self)
+    Utils.Debug.AddMethods(self)
 
     -- general
     self.devtools = devtools
