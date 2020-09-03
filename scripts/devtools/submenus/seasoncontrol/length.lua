@@ -26,13 +26,6 @@ local _SEASONS = {
     { name = "Winter", value = "winter", default = TUNING.WINTER_LENGTH },
 }
 
-local function UpdateScreen(submenu)
-    if submenu.devtools:IsPaused() then
-        submenu.devtools:Unpause()
-    end
-    submenu:UpdateScreen("world")
-end
-
 for _, season in pairs(_SEASONS) do
     table.insert(Length, {
         type = MOD_DEV_TOOLS.OPTION.NUMERIC,
@@ -42,14 +35,14 @@ for _, season in pairs(_SEASONS) do
             max = 100,
             on_accept_fn = function(_, submenu)
                 submenu.console:SetSeasonLength(season.value, season.default)
-                UpdateScreen(submenu)
+                submenu:UpdateScreen("world", true)
             end,
             on_get_fn = function(_, submenu)
                 return submenu.world:GetState(season.value .. "length")
             end,
             on_set_fn = function(_, submenu, value)
                 submenu.console:SetSeasonLength(season.value, value)
-                UpdateScreen(submenu)
+                submenu:UpdateScreen("world", true)
             end,
         },
     })

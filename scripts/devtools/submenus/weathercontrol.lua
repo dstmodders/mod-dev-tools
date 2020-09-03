@@ -16,13 +16,6 @@
 ----
 require "devtools/constants"
 
-local function UpdateScreen(submenu)
-    if submenu.devtools:IsPaused() then
-        submenu.devtools:Unpause()
-    end
-    submenu:UpdateScreen("world")
-end
-
 return {
     label = "Weather Control",
     name = "WeatherControlSubmenu",
@@ -38,7 +31,7 @@ return {
                 on_set_fn = function(_, submenu, value)
                     if value ~= submenu.world:IsPrecipitation() then
                         submenu.console:ForcePrecipitation(value)
-                        UpdateScreen(submenu)
+                        submenu:UpdateScreen("world", true)
                     end
                 end,
             },
@@ -51,7 +44,7 @@ return {
                 label = "Send Lightning Strike",
                 on_accept_fn = function(_, submenu)
                     submenu.console:SendLightningStrike(TheInput:GetWorldPosition())
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },
@@ -62,7 +55,7 @@ return {
                 label = "Send Mini Earthquake",
                 on_accept_fn = function(_, submenu)
                     submenu.console:MiniQuake()
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },
@@ -85,7 +78,7 @@ return {
                 on_set_fn = function(_, submenu, value)
                     submenu.console:DeltaMoisture(math.floor(value)
                         - math.floor(submenu.world:GetStateMoisture()))
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },
@@ -102,7 +95,7 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:SetSnowLevel(value / 100)
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },
@@ -118,7 +111,7 @@ return {
                 on_set_fn = function(_, submenu, value)
                     submenu.console:DeltaWetness(math.floor(value)
                         - math.floor(submenu.world:GetStateWetness()))
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },

@@ -17,13 +17,6 @@
 ----
 require "devtools/constants"
 
-local function UpdateScreen(submenu)
-    if submenu.devtools:IsPaused() then
-        submenu.devtools:Unpause()
-    end
-    submenu:UpdateScreen("world")
-end
-
 return {
     label = "Season Control",
     name = "SeasonControlSubmenu",
@@ -37,7 +30,7 @@ return {
                     for _ = 1, submenu.world:GetStateRemainingDaysInSeason() do
                         submenu.console:PushWorldEvent("ms_advanceseason")
                     end
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },
@@ -49,7 +42,7 @@ return {
                     for _ = 1, submenu.world:GetStateRemainingDaysInSeason() do
                         submenu.console:PushWorldEvent("ms_retreatseason")
                     end
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },
@@ -69,7 +62,7 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:SetSeason(value)
-                    UpdateScreen(submenu)
+                    submenu:UpdateScreen("world", true)
                 end,
             },
         },

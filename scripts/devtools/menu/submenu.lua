@@ -122,8 +122,15 @@ end
 -- @see screens.DevToolsScreen.SwitchDataToRecipe
 -- @see screens.DevToolsScreen.SwitchDataToSelected
 -- @see screens.DevToolsScreen.SwitchDataToWorld
--- @tparam string data
-function Submenu:UpdateScreen(data)
+-- @tparam string data Data name
+-- @tparam boolean unpause Should the world be resumed if paused?
+function Submenu:UpdateScreen(data, unpause)
+    if unpause and self.devtools then
+        if self.devtools:IsPaused() then
+            self.devtools:Unpause()
+        end
+    end
+
     if self.screen then
         if data == "front-end" then
             self.screen:SwitchDataToFrontEnd()

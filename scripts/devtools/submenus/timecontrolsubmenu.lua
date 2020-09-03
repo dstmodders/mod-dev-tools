@@ -44,13 +44,6 @@ end)
 --- Helpers
 -- @section helpers
 
-local function UpdateScreen(self)
-    if self.devtools:IsPaused() then
-        self.devtools:Unpause()
-    end
-    self:UpdateScreen("world")
-end
-
 local function AddTimeScaleOption(self)
     self:AddNumericOption({
         label = "Time Scale",
@@ -81,7 +74,7 @@ local function AddPushWorldEventOption(self, label, event)
         label = label,
         on_accept_fn = function()
             self.console:PushWorldEvent(event)
-            UpdateScreen(self)
+            self:UpdateScreen("world", true)
         end,
     })
 end
