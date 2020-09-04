@@ -23,41 +23,6 @@ local _SEASONS = {
     { name = "Winter", value = "winter", default = TUNING.WINTER_LENGTH },
 }
 
-local function LengthSubmenu()
-    local options = {}
-
-    for _, season in pairs(_SEASONS) do
-        table.insert(options, {
-            type = MOD_DEV_TOOLS.OPTION.NUMERIC,
-            options = {
-                label = season.name,
-                min = 1,
-                max = 100,
-                on_accept_fn = function(_, submenu)
-                    submenu.console:SetSeasonLength(season.value, season.default)
-                    submenu:UpdateScreen("world", true)
-                end,
-                on_get_fn = function(_, submenu)
-                    return submenu.world:GetState(season.value .. "length")
-                end,
-                on_set_fn = function(_, submenu, value)
-                    submenu.console:SetSeasonLength(season.value, value)
-                    submenu:UpdateScreen("world", true)
-                end,
-            },
-        })
-    end
-
-    return {
-        type = MOD_DEV_TOOLS.OPTION.SUBMENU,
-        options = {
-            label = "Length",
-            name = "SeasonControlLengthSubmenu",
-            options = options,
-        },
-    }
-end
-
 return {
     label = "Season Control",
     name = "SeasonControlSubmenu",
@@ -108,6 +73,37 @@ return {
             },
         },
         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-        LengthSubmenu(),
+        {
+            type = MOD_DEV_TOOLS.OPTION.SUBMENU,
+            options = {
+                label = "Length",
+                name = "SeasonControlLengthSubmenu",
+                options = function()
+                    local t = {}
+                    for _, season in pairs(_SEASONS) do
+                        table.insert(t, {
+                            type = MOD_DEV_TOOLS.OPTION.NUMERIC,
+                            options = {
+                                label = season.name,
+                                min = 1,
+                                max = 100,
+                                on_accept_fn = function(_, submenu)
+                                    submenu.console:SetSeasonLength(season.value, season.default)
+                                    submenu:UpdateScreen("world", true)
+                                end,
+                                on_get_fn = function(_, submenu)
+                                    return submenu.world:GetState(season.value .. "length")
+                                end,
+                                on_set_fn = function(_, submenu, value)
+                                    submenu.console:SetSeasonLength(season.value, value)
+                                    submenu:UpdateScreen("world", true)
+                                end,
+                            },
+                        })
+                    end
+                    return t
+                end,
+            },
+        },
     },
 }

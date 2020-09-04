@@ -351,8 +351,14 @@ function DevTools:CreateSubmenuInstFromData(data, root)
         submenu:OnInit()
     end
 
-    if type(data.options) == "table" and #data.options > 0 then
-        for _, option in pairs(data.options) do
+    local options = data.options
+
+    if type(options) == "function" then
+        options = options(submenu)
+    end
+
+    if type(options) == "table" and #options > 0 then
+        for _, option in pairs(options) do
             SetOnAddToRootFn(option.on_add_to_root_fn, submenu, root)
 
             if option.type == MOD_DEV_TOOLS.OPTION.ACTION then

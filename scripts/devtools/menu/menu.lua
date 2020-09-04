@@ -11,7 +11,7 @@
 -- @see submenus.Debug
 -- @see submenus.DumpSubmenu
 -- @see submenus.Labels
--- @see submenus.LanguageSubmenu
+-- @see submenus.Language
 -- @see submenus.Map
 -- @see submenus.PlayerBarsSubmenu
 -- @see submenus.PlayerVision
@@ -36,7 +36,7 @@ local CharacterRecipesSubmenu = require "devtools/submenus/characterrecipessubme
 local Debug = require "devtools/submenus/debug"
 local DumpSubmenu = require "devtools/submenus/dumpsubmenu"
 local Labels = require "devtools/submenus/labels"
-local LanguageSubmenu = require "devtools/submenus/languagesubmenu"
+local Language = require "devtools/submenus/language"
 local Map = require "devtools/submenus/map"
 local PlayerBarsSubmenu = require "devtools/submenus/playerbarssubmenu"
 local PlayerVision = require "devtools/submenus/playervision"
@@ -231,7 +231,7 @@ end
 function Menu:AddGeneralSubmenus()
     self:AddSubmenu(Debug)
     self:AddSubmenu(DumpSubmenu)
-    self:AddSubmenu(LanguageSubmenu)
+    self:AddSubmenu(Language)
     self:AddDividerOption()
     self:AddGrabProfileOption()
 end
