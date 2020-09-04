@@ -56,6 +56,7 @@ local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
     -- general
     self.controller = nil
     self.inst = inst
+    self.is_fake_teleport = false
     self.is_move_button_down = false
     self.ismastersim = world.inst.ismastersim
     self.speech = nil
@@ -589,21 +590,66 @@ end
 --- Teleport
 -- @section teleport
 
+--- Checks fake teleport state.
+-- @treturn boolean
+function PlayerDevTools:IsFakeTeleport()
+    return self.is_fake_teleport
+end
+
+--- Sets fake teleport state.
+-- @tparam boolean is_fake_teleport
+function PlayerDevTools:SetIsFakeTeleport(is_fake_teleport)
+    self.is_fake_teleport = is_fake_teleport
+end
+
+--- Teleport a currently selected player.
+--
+-- Supports teleporting on the map as well.
+--
+-- @treturn boolean
 function PlayerDevTools:Teleport()
     local player = self:GetSelected()
-    if player then
-        local screen = TheFrontEnd:GetActiveScreen()
-        if screen.minimap then
-            local screen_pos = TheInput:GetScreenPosition()
-            local widget_pos = screen:ScreenPosToWidgetPos(screen_pos)
-            local world_pos = screen:WidgetPosToMapPos(widget_pos)
-            local x, y, _ = screen.minimap:MapPosToWorldPos(world_pos:Get())
-            player.Physics:Teleport(x, 0, y)
-        else
-            player.Physics:Teleport(TheInput:GetWorldPosition():Get())
-        end
+    if not player then
+        return false
     end
-    return true
+
+    local screen = TheFrontEnd:GetActiveScreen()
+    if screen.minimap then
+        local screen_pos = TheInput:GetScreenPosition()
+        local widget_pos = screen:ScreenPosToWidgetPos(screen_pos)
+        local world_pos = screen:WidgetPosToMapPos(widget_pos)
+        local x, y, _ = screen.minimap:MapPosToWorldPos(world_pos:Get())
+        if not self.is_fake_teleport then
+            if self.ismastersim and self:IsAdmin() then
+                player.Physics:Teleport(x, 0, y)
+                return true
+            elseif self:IsAdmin() then
+                Utils.ConsoleRemote(
+                    'player = LookupPlayerInstByUserID("%s") player.Physics:Teleport(%d, 0, %d)',
+                    { player.userid, x, y }
+                )
+                return true
+            end
+        else
+            player.Physics:Teleport(x, 0, y)
+            return true
+        end
+    elseif not self.is_fake_teleport and self.ismastersim and self:IsAdmin() then
+        player.Physics:Teleport(TheInput:GetWorldPosition():Get())
+        return true
+    elseif not self.is_fake_teleport and self:IsAdmin() then
+        local pos = TheInput:GetWorldPosition()
+        Utils.ConsoleRemote(
+            'player = LookupPlayerInstByUserID("%s") player.Physics:Teleport(%d, 0, %d)',
+            { player.userid, pos.x, pos.z }
+        )
+        return true
+    elseif self.is_fake_teleport then
+        player.Physics:Teleport(TheInput:GetWorldPosition():Get())
+        return true
+    end
+
+    return false
 end
 
 --- Lifecycle
