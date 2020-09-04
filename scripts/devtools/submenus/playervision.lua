@@ -4,9 +4,6 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @module submenus.PlayerVision
--- @see DevTools.CreateSubmenuInstFromData
--- @see menu.Menu
--- @see menu.Menu.AddSubmenu
 -- @see menu.Submenu
 --
 -- @author Victor Popkov
@@ -37,7 +34,7 @@ return {
                 label = "CCT",
                 choices = {
                     { name = "Default", value = tostring(MOD_DEV_TOOLS.CCT.DEFAULT) },
-                    { name = "Empty", value = {} },
+                    --{ name = "Empty", value = {} },
                     { name = "Beaver-Vision", value = MOD_DEV_TOOLS.CCT.BEAVER_VISION },
                     { name = "Ghost-Vision", value = MOD_DEV_TOOLS.CCT.GHOST_VISION },
                     { name = "Nightmare", value = MOD_DEV_TOOLS.CCT.NIGHTMARE },

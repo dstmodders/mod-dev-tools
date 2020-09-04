@@ -4,9 +4,6 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @module submenus.Debug
--- @see DevTools.CreateSubmenuInstFromData
--- @see menu.Menu
--- @see menu.Menu.AddSubmenu
 -- @see menu.Submenu
 --
 -- @author Victor Popkov
