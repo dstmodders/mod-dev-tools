@@ -253,7 +253,9 @@ function Menu:AddMenu()
         self:AddSelectSubmenu()
         self:AddSelectedPlayerSubmenus()
         self:AddPlayerSubmenus()
-        self:AddWorldSubmenus()
+        if playerdevtools:IsAdmin() then
+            self:AddWorldSubmenus()
+        end
     end
 
     self:AddGeneralSubmenus()
