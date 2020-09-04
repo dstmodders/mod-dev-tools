@@ -13,7 +13,7 @@
 -- @see submenus.LanguageSubmenu
 -- @see submenus.Map
 -- @see submenus.PlayerBarsSubmenu
--- @see submenus.PlayerVisionSubmenu
+-- @see submenus.PlayerVision
 -- @see submenus.SeasonControl
 -- @see submenus.SelectSubmenu
 -- @see submenus.TeleportSubmenu

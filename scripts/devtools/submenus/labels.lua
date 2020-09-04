@@ -16,47 +16,15 @@
 ----
 require "devtools/constants"
 
+local Toggle = require "devtools/submenus/option/toggle"
+
 return {
     label = "Labels",
     name = "LabelsSubmenu",
     on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_WORLD,
     options = {
-        {
-            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
-            options = {
-                label = "Selected",
-                get = {
-                    src = function(_, submenu)
-                        return submenu.labels
-                    end,
-                    name = "IsSelectedEnabled",
-                },
-                set = {
-                    src = function(_, submenu)
-                        return submenu.labels
-                    end,
-                    name = "ToggleSelectedEnabled",
-                },
-            },
-        },
-        {
-            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
-            options = {
-                label = "Username",
-                get = {
-                    src = function(_, submenu)
-                        return submenu.labels
-                    end,
-                    name = "IsUsernameEnabled",
-                },
-                set = {
-                    src = function(_, submenu)
-                        return submenu.labels
-                    end,
-                    name = "ToggleUsernameEnabled",
-                },
-            },
-        },
+        Toggle("labels", "Selected", "IsSelectedEnabled", "ToggleSelectedEnabled"),
+        Toggle("labels", "Username", "IsUsernameEnabled", "ToggleUsernameEnabled"),
         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
         {
             type = MOD_DEV_TOOLS.OPTION.CHOICES,

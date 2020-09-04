@@ -40,7 +40,7 @@ local _TOGGLE_ALL_REMOTES = {
     "RemoteUseItemFromInvTile",
 }
 
-local DebugOption = function(label, debug_keys, on_add_to_root_fn)
+local Debug = function(label, debug_keys, on_add_to_root_fn)
     if type(debug_keys) == "table" then
         return {
             type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
@@ -85,7 +85,7 @@ local DebugOption = function(label, debug_keys, on_add_to_root_fn)
     end
 end
 
-local DebugEventsOption = function(name, activate, deactivate, on_add_to_root_fn)
+local DebugEvents = function(name, activate, deactivate, on_add_to_root_fn)
     return {
         type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
         on_add_to_root_fn = on_add_to_root_fn,
@@ -140,13 +140,13 @@ return {
                 end,
             },
         },
-        DebugOption("Toggle All (Mouse Clicks)", _TOGGLE_ALL_MOUSE_CLICKS),
-        DebugOption(
+        Debug("Toggle All (Mouse Clicks)", _TOGGLE_ALL_MOUSE_CLICKS),
+        Debug(
             "Toggle All (Remotes)",
             _TOGGLE_ALL_REMOTES,
             MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_NOT_MASTER_SIM
         ),
-        DebugOption(
+        Debug(
             "Toggle All (SendRPCToServer)",
             "rpc",
             MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_NOT_MASTER_SIM
@@ -158,14 +158,14 @@ return {
                 label = "Events",
                 name = "DebugEventsSubmenu",
                 options = {
-                    DebugEventsOption("ThePlayer", "ActivatePlayer", "DeactivatePlayer"),
-                    DebugEventsOption(
+                    DebugEvents("ThePlayer", "ActivatePlayer", "DeactivatePlayer"),
+                    DebugEvents(
                         "ThePlayer.player_classified",
                         "ActivatePlayerClassified",
                         "DeactivatePlayerClassified"
                     ),
                     { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-                    DebugEventsOption("TheWorld", "ActivateWorld", "DeactivateWorld"),
+                    DebugEvents("TheWorld", "ActivateWorld", "DeactivateWorld"),
                 },
             },
         },
@@ -175,8 +175,8 @@ return {
                 label = "Mouse Clicks",
                 name = "DebugMouseClicksSubmenu",
                 options = {
-                    DebugOption("Left Mouse Button (LMB)", "lmb"),
-                    DebugOption("Right Mouse Button (RMB)", "rmb"),
+                    Debug("Left Mouse Button (LMB)", "lmb"),
+                    Debug("Right Mouse Button (RMB)", "rmb"),
                 },
             },
         },
@@ -187,23 +187,23 @@ return {
                 name = "DebugRemoteSubmenu",
                 on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_NOT_MASTER_SIM,
                 options = {
-                    DebugOption("Action Button", "RemoteActionButton"),
-                    DebugOption("Attack Button", "RemoteAttackButton"),
-                    DebugOption("Inspect Button", "RemoteInspectButton"),
+                    Debug("Action Button", "RemoteActionButton"),
+                    Debug("Attack Button", "RemoteAttackButton"),
+                    Debug("Inspect Button", "RemoteInspectButton"),
                     { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-                    DebugOption("Direct Walking", "RemoteDirectWalking"),
-                    DebugOption("Drag Walking", "RemoteDragWalking"),
-                    DebugOption("Predict Walking", "RemotePredictWalking"),
-                    DebugOption("Stop Walking", "RemoteStopWalking"),
+                    Debug("Direct Walking", "RemoteDirectWalking"),
+                    Debug("Drag Walking", "RemoteDragWalking"),
+                    Debug("Predict Walking", "RemotePredictWalking"),
+                    Debug("Stop Walking", "RemoteStopWalking"),
                     { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-                    DebugOption("Drop Item From Inventory Tile", "RemoteDropItemFromInvTile"),
-                    DebugOption("Inspect Item From Inventory Tile", "RemoteInspectItemFromInvTile"),
-                    DebugOption("Use Item From Inventory Tile", "RemoteUseItemFromInvTile"),
+                    Debug("Drop Item From Inventory Tile", "RemoteDropItemFromInvTile"),
+                    Debug("Inspect Item From Inventory Tile", "RemoteInspectItemFromInvTile"),
+                    Debug("Use Item From Inventory Tile", "RemoteUseItemFromInvTile"),
                     { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-                    DebugOption("Make Recipe At Point", "RemoteMakeRecipeAtPoint"),
-                    DebugOption("Make Recipe From Menu", "RemoteMakeRecipeFromMenu"),
+                    Debug("Make Recipe At Point", "RemoteMakeRecipeAtPoint"),
+                    Debug("Make Recipe From Menu", "RemoteMakeRecipeFromMenu"),
                     { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-                    DebugOption("Buffered Action", "RemoteBufferedAction"),
+                    Debug("Buffered Action", "RemoteBufferedAction"),
                 },
             },
         },

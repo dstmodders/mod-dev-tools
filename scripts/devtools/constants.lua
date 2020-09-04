@@ -20,6 +20,60 @@ MOD_DEV_TOOLS = {
     --- General
     -- @section general
 
+    --- Colour Cubes Tables.
+    -- @table MOD_DEV_TOOLS.CCT
+    -- @tfield table BEAVER_VISION
+    -- @tfield table DEFAULT
+    -- @tfield table EMPTY
+    -- @tfield table GHOST_VISION
+    -- @tfield table NIGHT_VISION
+    -- @tfield table NIGHTMARE
+    -- @todo Improve CCT to match in-game ones more closely (seasons, ruins, etc.)
+    CCT = {
+        DEFAULT = nil,
+        EMPTY = {},
+        BEAVER_VISION = {
+            day = "images/colour_cubes/beaver_vision_cc.tex",
+            dusk = "images/colour_cubes/beaver_vision_cc.tex",
+            full_moon = "images/colour_cubes/beaver_vision_cc.tex",
+            night = "images/colour_cubes/beaver_vision_cc.tex",
+            calm = "images/colour_cubes/ruins_dark_cc.tex",
+            dawn = "images/colour_cubes/ruins_dim_cc.tex",
+            warn = "images/colour_cubes/ruins_dim_cc.tex",
+            wild = "images/colour_cubes/ruins_light_cc.tex",
+        },
+        GHOST_VISION = {
+            day = "images/colour_cubes/ghost_cc.tex",
+            dusk = "images/colour_cubes/ghost_cc.tex",
+            full_moon = "images/colour_cubes/ghost_cc.tex",
+            night = "images/colour_cubes/ghost_cc.tex",
+            calm = "images/colour_cubes/ruins_dark_cc.tex",
+            dawn = "images/colour_cubes/ruins_dim_cc.tex",
+            warn = "images/colour_cubes/ruins_dim_cc.tex",
+            wild = "images/colour_cubes/ruins_light_cc.tex",
+        },
+        NIGHT_VISION = {
+            day = "images/colour_cubes/mole_vision_off_cc.tex",
+            dusk = "images/colour_cubes/mole_vision_on_cc.tex",
+            full_moon = "images/colour_cubes/mole_vision_off_cc.tex",
+            night = "images/colour_cubes/mole_vision_on_cc.tex",
+            calm = "images/colour_cubes/ruins_dark_cc.tex",
+            dawn = "images/colour_cubes/ruins_dim_cc.tex",
+            warn = "images/colour_cubes/ruins_dim_cc.tex",
+            wild = "images/colour_cubes/ruins_light_cc.tex",
+        },
+        NIGHTMARE = {
+            day = "images/colour_cubes/ruins_dark_cc.tex",
+            dusk = "images/colour_cubes/ruins_dark_cc.tex",
+            full_moon = "images/colour_cubes/ruins_dark_cc.tex",
+            night = "images/colour_cubes/ruins_dark_cc.tex",
+            calm = "images/colour_cubes/ruins_dark_cc.tex",
+            dawn = "images/colour_cubes/ruins_dim_cc.tex",
+            warn = "images/colour_cubes/ruins_dim_cc.tex",
+            wild = "images/colour_cubes/ruins_light_cc.tex",
+        },
+    },
+
     --- `menu.Submenu.SetOnAddToRootFn` constants.
     -- @see menu.Submenu.SetOnAddToRootFn
     -- @table MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN

@@ -14,7 +14,7 @@
 -- @see submenus.LanguageSubmenu
 -- @see submenus.Map
 -- @see submenus.PlayerBarsSubmenu
--- @see submenus.PlayerVisionSubmenu
+-- @see submenus.PlayerVision
 -- @see submenus.SeasonControl
 -- @see submenus.SelectSubmenu
 -- @see submenus.TeleportSubmenu
@@ -39,7 +39,7 @@ local Labels = require "devtools/submenus/labels"
 local LanguageSubmenu = require "devtools/submenus/languagesubmenu"
 local Map = require "devtools/submenus/map"
 local PlayerBarsSubmenu = require "devtools/submenus/playerbarssubmenu"
-local PlayerVisionSubmenu = require "devtools/submenus/playervisionsubmenu"
+local PlayerVision = require "devtools/submenus/playervision"
 local SeasonControl = require "devtools/submenus/seasoncontrol"
 local SelectSubmenu = require "devtools/submenus/selectsubmenu"
 local TeleportSubmenu = require "devtools/submenus/teleportsubmenu"
@@ -213,7 +213,7 @@ function Menu:AddPlayerSubmenus()
     self:AddSubmenu(CharacterRecipesSubmenu)
     self:AddSubmenu(Labels)
     self:AddSubmenu(Map)
-    self:AddSubmenu(PlayerVisionSubmenu)
+    self:AddSubmenu(PlayerVision)
     self:AddDividerOption()
 end
 

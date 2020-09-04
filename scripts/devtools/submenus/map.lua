@@ -16,6 +16,8 @@
 ----
 require "devtools/constants"
 
+local Toggle = require "devtools/submenus/option/toggle"
+
 return {
     label = "Map",
     name = "MapSubmenu",
@@ -35,41 +37,7 @@ return {
             },
         },
         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-        {
-            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
-            options = {
-                label = "Clearing",
-                get = {
-                    src = function(_, submenu)
-                        return submenu.world
-                    end,
-                    name = "IsMapClearing",
-                },
-                set = {
-                    src = function(_, submenu)
-                        return submenu.world
-                    end,
-                    name = "ToggleMapClearing",
-                },
-            },
-        },
-        {
-            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
-            options = {
-                label = "Fog of War",
-                get = {
-                    src = function(_, submenu)
-                        return submenu.world
-                    end,
-                    name = "IsMapFogOfWar",
-                },
-                set = {
-                    src = function(_, submenu)
-                        return submenu.world
-                    end,
-                    name = "ToggleMapFogOfWar",
-                },
-            },
-        },
+        Toggle("world", "Clearing", "IsMapClearing", "ToggleMapClearing"),
+        Toggle("world", "Fog of War", "IsMapFogOfWar", "ToggleMapFogOfWar"),
     },
 }
