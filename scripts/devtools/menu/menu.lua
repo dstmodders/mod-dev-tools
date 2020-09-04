@@ -18,7 +18,7 @@
 -- @see submenus.SeasonControl
 -- @see submenus.SelectSubmenu
 -- @see submenus.TeleportSubmenu
--- @see submenus.TimeControlSubmenu
+-- @see submenus.TimeControl
 -- @see submenus.WeatherControl
 --
 -- @author Victor Popkov
@@ -43,7 +43,7 @@ local PlayerVision = require "devtools/submenus/playervision"
 local SeasonControl = require "devtools/submenus/seasoncontrol"
 local SelectSubmenu = require "devtools/submenus/selectsubmenu"
 local TeleportSubmenu = require "devtools/submenus/teleportsubmenu"
-local TimeControlSubmenu = require "devtools/submenus/timecontrolsubmenu"
+local TimeControl = require "devtools/submenus/timecontrol"
 local WeatherControl = require "devtools/submenus/weathercontrol"
 
 -- options
@@ -221,7 +221,7 @@ end
 -- @see AddMenu
 function Menu:AddWorldSubmenus()
     self:AddSubmenu(SeasonControl)
-    self:AddSubmenu(TimeControlSubmenu)
+    self:AddSubmenu(TimeControl)
     self:AddSubmenu(WeatherControl)
     self:AddDividerOption()
 end

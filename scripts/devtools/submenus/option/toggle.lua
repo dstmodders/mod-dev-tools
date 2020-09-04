@@ -18,10 +18,12 @@ require "devtools/constants"
 -- @tparam string label Label name
 -- @tparam string get_name Get method name
 -- @tparam string set_fn Set method name
+-- @tparam function on_add_to_root_fn Function to check if an option can be added
 -- @usage local toggle = Toggle(field, label, get_name, set_fn)
-return function(field, label, get_name, set_name)
+return function(field, label, get_name, set_name, on_add_to_root_fn)
     return {
         type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
+        on_add_to_root_fn = on_add_to_root_fn,
         options = {
             label = label,
             get = {

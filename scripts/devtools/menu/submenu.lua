@@ -17,7 +17,7 @@
 -- @see submenus.SeasonControl
 -- @see submenus.SelectSubmenu
 -- @see submenus.TeleportSubmenu
--- @see submenus.TimeControlSubmenu
+-- @see submenus.TimeControl
 -- @see submenus.WeatherControl
 --
 -- @author Victor Popkov
