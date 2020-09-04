@@ -1,7 +1,7 @@
 name = "Dev Tools"
 version = "0.1.0"
 description = [[Version: ]] .. version .. "\n\n" ..
-    [[Simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]]
+    [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
