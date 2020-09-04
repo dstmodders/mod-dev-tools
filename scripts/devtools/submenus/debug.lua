@@ -8,8 +8,6 @@
 -- @see menu.Menu
 -- @see menu.Menu.AddSubmenu
 -- @see menu.Submenu
--- @see submenus.Debug.DebugEventsOption
--- @see submenus.Debug.DebugOption
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -18,8 +16,7 @@
 ----
 require "devtools/constants"
 
-local DebugEventsOption = require "devtools/submenus/debug/debugeventsoption"
-local DebugOption = require "devtools/submenus/debug/debugoption"
+local _TOGGLE_ALL_MOUSE_CLICKS = { "lmb", "rmb" }
 
 local _TOGGLE_ALL_EVENTS = {
     ["ThePlayer"] = { "ActivatePlayer", "DeactivatePlayer" },
@@ -43,7 +40,73 @@ local _TOGGLE_ALL_REMOTES = {
     "RemoteUseItemFromInvTile",
 }
 
-local _TOGGLE_ALL_MOUSE_CLICKS = { "lmb", "rmb" }
+local DebugOption = function(label, debug_keys, on_add_to_root_fn)
+    if type(debug_keys) == "table" then
+        return {
+            type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
+            on_add_to_root_fn = on_add_to_root_fn,
+            options = {
+                label = {
+                    name = label,
+                    left = true,
+                },
+                on_get_fn = function(_, submenu)
+                    for _, debug_key in pairs(debug_keys) do
+                        if not submenu.debug:IsDebug(debug_key) then
+                            return false
+                        end
+                    end
+                    return true
+                end,
+                on_set_fn = function(_, submenu, value)
+                    for _, debug_key in pairs(debug_keys) do
+                        submenu.debug:SetIsDebug(debug_key, value)
+                    end
+                end,
+            },
+        }
+    elseif type(debug_keys) == "string" then
+        return {
+            type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
+            on_add_to_root_fn = on_add_to_root_fn,
+            options = {
+                label = {
+                    name = label,
+                    left = true,
+                },
+                on_get_fn = function(_, submenu)
+                    return submenu.debug:IsDebug(debug_keys)
+                end,
+                on_set_fn = function(_, submenu, value)
+                    submenu.debug:SetIsDebug(debug_keys, value)
+                end,
+            },
+        }
+    end
+end
+
+local DebugEventsOption = function(name, activate, deactivate, on_add_to_root_fn)
+    return {
+        type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
+        on_add_to_root_fn = on_add_to_root_fn,
+        options = {
+            label = {
+                name = name,
+                left = true,
+            },
+            on_get_fn = function(_, submenu)
+                return submenu.debug:IsDebug(name)
+            end,
+            on_set_fn = function(_, submenu, value)
+                if value ~= submenu.debug:IsDebug(name) then
+                    submenu.debug:SetIsDebug(name, value)
+                    local events = submenu.debug:GetEvents()
+                    return value and events[activate](events) or events[deactivate](events)
+                end
+            end,
+        },
+    }
+end
 
 return {
     label = "Debug",
