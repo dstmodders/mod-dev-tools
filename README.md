@@ -19,7 +19,7 @@ was designed as an alternative to _debugkeys_.
 
 | Configuration                     | Default          | Description                                             |
 | --------------------------------- | ---------------- | ------------------------------------------------------- |
-| **Toggle menu key**               | _Rightbracket_   | Key used for toggling the in-game menu                  |
+| **Toggle menu key**               | _Right Bracket_  | Key used for toggling the in-game menu                  |
 | **Movement prediction key**       | _Disabled_       | Key used for toggling the movement prediction           |
 | **Pause key**                     | _P_              | Key used for pausing the game                           |
 | **God mode key**                  | _G_              | Key used for toggling god mode                          |
