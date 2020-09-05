@@ -36,10 +36,12 @@ local PlayerBarsSubmenu = Class(Submenu, function(self, devtools, root)
     end
 end)
 
---- Helpers
--- @section helpers
+--- General
+-- @section general
 
-local function AddFullOption(self, is_inst_in_wereness_form)
+--- Adds full option.
+-- @tparam[opt] boolean is_inst_in_wereness_form
+function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
     self:AddActionOption({
         label = "Full",
         on_accept_fn = function()
@@ -59,7 +61,14 @@ local function AddFullOption(self, is_inst_in_wereness_form)
     })
 end
 
-local function AddPlayerBarOption(self, label, getter, setter, min, max, step)
+--- Adds player bar option.
+-- @tparam table|string label
+-- @tparam string getter
+-- @tparam string setter
+-- @tparam[opt] number min
+-- @tparam[opt] number max
+-- @tparam[opt] number step
+function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, step)
     min = min ~= nil and min or 1
     max = max ~= nil and max or 100
     step = step ~= nil and step or 5
@@ -82,9 +91,6 @@ local function AddPlayerBarOption(self, label, getter, setter, min, max, step)
     })
 end
 
---- General
--- @section general
-
 --- Adds options.
 function PlayerBarsSubmenu:AddOptions()
     local player = self.player:GetSelected()
@@ -92,23 +98,23 @@ function PlayerBarsSubmenu:AddOptions()
         and player:HasTag("werehuman")
         and self.player:GetWerenessMode() ~= 0
 
-    AddFullOption(self, is_inst_in_wereness_form)
+    self:AddFullOption(is_inst_in_wereness_form)
 
     if self.player:IsOwner(player) or not self.player:IsReal(player) then
         self:AddDividerOption()
-        AddPlayerBarOption(self, "Health", "GetHealthPercent", "SetHealthPercent")
-        AddPlayerBarOption(self, "Hunger", "GetHungerPercent", "SetHungerPercent")
-        AddPlayerBarOption(self, "Sanity", "GetSanityPercent", "SetSanityPercent")
+        self:AddPlayerBarOption("Health", "GetHealthPercent", "SetHealthPercent")
+        self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
+        self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
 
         self:AddDividerOption()
-        AddPlayerBarOption(self, "Maximum Health", "GetMaxHealthPercent", "SetMaxHealthPercent", 25)
+        self:AddPlayerBarOption("Maximum Health", "GetMaxHealthPercent", "SetMaxHealthPercent", 25)
 
         self:AddDividerOption()
-        AddPlayerBarOption(self, "Moisture", "GetMoisturePercent", "SetMoisturePercent", 0)
-        AddPlayerBarOption(self, "Temperature", "GetTemperature", "SetTemperature", -20, 90)
+        self:AddPlayerBarOption("Moisture", "GetMoisturePercent", "SetMoisturePercent", 0)
+        self:AddPlayerBarOption("Temperature", "GetTemperature", "SetTemperature", -20, 90)
 
         if is_inst_in_wereness_form then
-            AddPlayerBarOption(self, "Wereness", "GetWerenessPercent", "SetWerenessPercent")
+            self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
         end
     end
 end

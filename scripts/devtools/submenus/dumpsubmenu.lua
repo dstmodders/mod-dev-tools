@@ -34,10 +34,14 @@ local DumpSubmenu = Class(Submenu, function(self, devtools, root)
     self:AddToRoot()
 end)
 
---- Helpers
--- @section helpers
+--- General
+-- @section general
 
-local function AddDumpOptions(self, name, object, options)
+--- Adds dump options.
+-- @tparam string name
+-- @tparam table options
+-- @tparam[opt] table object
+function DumpSubmenu:AddDumpOptions(name, options, object)
     object = object ~= nil and object or _G[name]
 
     local nr_of_components =#Utils.Dump.GetComponents(object)
@@ -99,11 +103,14 @@ local function AddDumpOptions(self, name, object, options)
     end
 end
 
-local function AddDumpSubmenu(self, name, object)
+--- Adds dump submenu.
+-- @tparam string name
+-- @tparam[opt] table object
+function DumpSubmenu:AddDumpSubmenu(name, object)
     object = object ~= nil and object or _G[name]
     if object then
         local _options = {}
-        AddDumpOptions(self, name, object, _options)
+        self:AddDumpOptions(name, _options, object)
         self:AddSubmenuOption({
             label = name,
             options = _options,
@@ -111,68 +118,65 @@ local function AddDumpSubmenu(self, name, object)
     end
 end
 
---- General
--- @section general
-
 --- Adds options.
 function DumpSubmenu:AddOptions()
     if self.player then
         local selected_entity = self.world:GetSelectedEntity()
         local player = self.player:GetPlayer()
         if player and selected_entity and player ~= selected_entity then
-            AddDumpSubmenu(self, "Selected Entity", selected_entity)
+            self:AddDumpSubmenu("Selected Entity", selected_entity)
             self:AddDividerOption()
         end
     end
 
     if self.world then
-        AddDumpSubmenu(self, "TheWorld")
-        AddDumpSubmenu(self, "TheWorld.Map", TheWorld.Map)
-        AddDumpSubmenu(self, "TheWorld.meta", TheWorld.meta)
-        AddDumpSubmenu(self, "TheWorld.net", TheWorld.net)
-        AddDumpSubmenu(self, "TheWorld.state", TheWorld.state)
-        AddDumpSubmenu(self, "TheWorld.topology", TheWorld.topology)
-        AddDumpSubmenu(self, "TheWorld.topology.ids", TheWorld.topology.ids)
+        self:AddDumpSubmenu("TheWorld")
+        self:AddDumpSubmenu("TheWorld.Map", TheWorld.Map)
+        self:AddDumpSubmenu("TheWorld.meta", TheWorld.meta)
+        self:AddDumpSubmenu("TheWorld.net", TheWorld.net)
+        self:AddDumpSubmenu("TheWorld.state", TheWorld.state)
+        self:AddDumpSubmenu("TheWorld.topology", TheWorld.topology)
+        self:AddDumpSubmenu("TheWorld.topology.ids", TheWorld.topology.ids)
         self:AddDividerOption()
     end
 
     if self.player then
-        AddDumpSubmenu(self, "ThePlayer", ThePlayer)
-        AddDumpSubmenu(self, "ThePlayer.AnimState", ThePlayer.AnimState)
-        AddDumpSubmenu(self, "ThePlayer.Physics", ThePlayer.Physics)
-        AddDumpSubmenu(self, "ThePlayer.player_classified", ThePlayer.player_classified)
-        AddDumpSubmenu(self, "ThePlayer.sg", ThePlayer.sg)
-        AddDumpSubmenu(self, "ThePlayer.Transform", ThePlayer.Transform)
+        self:AddDumpSubmenu("ThePlayer", ThePlayer)
+        self:AddDumpSubmenu("ThePlayer.AnimState", ThePlayer.AnimState)
+        self:AddDumpSubmenu("ThePlayer.Physics", ThePlayer.Physics)
+        self:AddDumpSubmenu("ThePlayer.player_classified", ThePlayer.player_classified)
+        self:AddDumpSubmenu("ThePlayer.sg", ThePlayer.sg)
+        self:AddDumpSubmenu("ThePlayer.Transform", ThePlayer.Transform)
         self:AddDividerOption()
     end
 
-    AddDumpSubmenu(self, "AccountManager")
-    AddDumpSubmenu(self, "AllRecipes")
-    AddDumpSubmenu(self, "Entity")
-    AddDumpSubmenu(self, "EntityScript")
-    AddDumpSubmenu(self, "KnownModIndex")
-    AddDumpSubmenu(self, "LOC")
-    AddDumpSubmenu(self, "Profile")
+    self:AddDumpSubmenu("AccountManager")
+    self:AddDumpSubmenu("AllRecipes")
+    self:AddDumpSubmenu("Entity")
+    self:AddDumpSubmenu("EntityScript")
+    self:AddDumpSubmenu("KnownModIndex")
+    self:AddDumpSubmenu("LOC")
+    self:AddDumpSubmenu("Profile")
 
     self:AddDividerOption()
-    AddDumpSubmenu(self, "TheCamera")
-    AddDumpSubmenu(self, "TheConfig")
-    AddDumpSubmenu(self, "TheCookbook")
-    AddDumpSubmenu(self, "TheFrontEnd")
-    AddDumpSubmenu(self, "TheGameService")
-    AddDumpSubmenu(self, "TheGlobalInstance")
-    AddDumpSubmenu(self, "TheInput")
-    AddDumpSubmenu(self, "TheInputProxy")
-    AddDumpSubmenu(self, "TheInventory")
-    AddDumpSubmenu(self, "TheMixer")
-    AddDumpSubmenu(self, "TheNet")
-    AddDumpSubmenu(self, "TheRecipeBook")
-    AddDumpSubmenu(self, "TheShard")
-    AddDumpSubmenu(self, "TheSim")
-    AddDumpSubmenu(self, "TheSystemService")
+    self:AddDumpSubmenu("TheCamera")
+    self:AddDumpSubmenu("TheConfig")
+    self:AddDumpSubmenu("TheCookbook")
+    self:AddDumpSubmenu("TheFrontEnd")
+    self:AddDumpSubmenu("TheGameService")
+    self:AddDumpSubmenu("TheGlobalInstance")
+    self:AddDumpSubmenu("TheInput")
+    self:AddDumpSubmenu("TheInputProxy")
+    self:AddDumpSubmenu("TheInventory")
+    self:AddDumpSubmenu("TheMixer")
+    self:AddDumpSubmenu("TheNet")
+    self:AddDumpSubmenu("TheRecipeBook")
+    self:AddDumpSubmenu("TheShard")
+    self:AddDumpSubmenu("TheSim")
+    self:AddDumpSubmenu("TheSystemService")
 
     self:AddDividerOption()
-    AddDumpSubmenu(self, "DevTools")
+    self:AddDumpSubmenu("DevTools")
 end
 
 return DumpSubmenu

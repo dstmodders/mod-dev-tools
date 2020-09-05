@@ -40,10 +40,13 @@ local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)
     end
 end)
 
---- Helpers
--- @section helpers
+--- General
+-- @section general
 
-local function AddRecipeOption(self, label, item)
+--- Adds recipe option.
+-- @tparam table|string label
+-- @tparam table item
+function CharacterRecipesSubmenu:AddRecipeOption(label, item)
     local recipe
     self:AddActionOption({
         label = label,
@@ -64,7 +67,11 @@ local function AddRecipeOption(self, label, item)
     })
 end
 
-local function AddRecipeSkinsOption(self, label, item, skins)
+--- Adds recipe with skins option.
+-- @tparam table|string label
+-- @tparam table item
+-- @tparam table skins
+function CharacterRecipesSubmenu:AddRecipeSkinsOption(label, item, skins)
     local skin_name, skin_idx, recipe
 
     local choices = {}
@@ -99,7 +106,10 @@ local function AddRecipeSkinsOption(self, label, item, skins)
     })
 end
 
-local function AddPlacerOption(self, label, placer)
+--- Adds placer option.
+-- @tparam table|string label
+-- @tparam table placer
+function CharacterRecipesSubmenu:AddPlacerOption(label, placer)
     local recipe
     self:AddActionOption({
         label = label,
@@ -112,9 +122,6 @@ local function AddPlacerOption(self, label, placer)
         end,
     })
 end
-
---- General
--- @section general
 
 --- Adds options.
 function CharacterRecipesSubmenu:AddOptions()
@@ -132,9 +139,9 @@ function CharacterRecipesSubmenu:AddOptions()
             item = items[i]
             skins = Profile and Profile:GetSkinsForPrefab(item)
             if skins and #skins > 1 then
-                AddRecipeSkinsOption(self, name, item, skins)
+                self:AddRecipeSkinsOption(name, item, skins)
             else
-                AddRecipeOption(self, name, item)
+                self:AddRecipeOption(name, item)
             end
         end
     end
@@ -146,7 +153,7 @@ function CharacterRecipesSubmenu:AddOptions()
         for i = 1, #names, 1 do
             name = names[i]
             placer = placers[i]
-            AddPlacerOption(self, name, placer)
+            self:AddPlacerOption(name, placer)
         end
     end
 end

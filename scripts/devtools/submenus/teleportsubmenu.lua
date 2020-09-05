@@ -36,10 +36,11 @@ local TeleportSubmenu = Class(Submenu, function(self, devtools, root)
     end
 end)
 
---- Helpers
--- @section helpers
+--- General
+-- @section general
 
-local function AddGatherPlayersOption(self)
+--- Adds gather players option.
+function TeleportSubmenu:AddGatherPlayersOption()
     self:AddActionOption({
         label = "Gather Players",
         on_accept_fn = function()
@@ -49,7 +50,10 @@ local function AddGatherPlayersOption(self)
     })
 end
 
-local function AddGoNextOption(self, label, prefab)
+--- Adds go next option.
+-- @tparam table|string label
+-- @tparam string prefab
+function TeleportSubmenu:AddGoNextOption(label, prefab)
     self:AddActionOption({
         label = label,
         on_accept_fn = function()
@@ -63,97 +67,98 @@ local function AddGoNextOption(self, label, prefab)
     })
 end
 
---- General
--- @section general
-
---- Adds options.
-function TeleportSubmenu:AddOptions()
-    AddGatherPlayersOption(self)
-
-    self:AddDividerOption()
+--- Adds teleport options.
+function TeleportSubmenu:AddTeleportOptions()
     if not self.world:IsCave() then
         local livingtree = IsSpecialEventActive(SPECIAL_EVENTS.HALLOWED_NIGHTS)
             and "livingtree_halloween"
             or "livingtree"
 
-        AddGoNextOption(self, "Antlion Nest", "antlion_spawner")
-        AddGoNextOption(self, "Beefalo", "beefalo")
-        AddGoNextOption(self, "Catcoon", "catcoon")
-        AddGoNextOption(self, "Cave Entrance", "cave_entrance")
-        AddGoNextOption(self, "Deer", "deer")
-        AddGoNextOption(self, "Desert Oasis", "oasislake")
-        AddGoNextOption(self, "Eyebone (Chester)", "chester_eyebone")
-        AddGoNextOption(self, "Glommer Statue", "statueglommer")
-        AddGoNextOption(self, "Gravestone", "gravestone")
-        AddGoNextOption(self, "Leaky Shack", "mermhouse")
-        AddGoNextOption(self, "Mandrake", "mandrake_planted")
-        AddGoNextOption(self, "Moon Stone", "moonbase")
-        AddGoNextOption(self, "Pig Head", "pighead")
-        AddGoNextOption(self, "Pig House", "pighouse")
-        AddGoNextOption(self, "Pig King", "pigking")
-        AddGoNextOption(self, "Pond", "pond")
-        AddGoNextOption(self, "Spawn Portal", "multiplayer_portal")
-        AddGoNextOption(self, "Spider Den", "spiderden")
-        AddGoNextOption(self, "Stagehand", "stagehand")
-        AddGoNextOption(self, "Totally Normal Tree", livingtree)
-        AddGoNextOption(self, "Touch Stone", "resurrectionstone")
-        AddGoNextOption(self, "Walrus Camp", "walrus_camp")
-        AddGoNextOption(self, "Worm Hole", "wormhole")
+        self:AddGoNextOption("Antlion Nest", "antlion_spawner")
+        self:AddGoNextOption("Beefalo", "beefalo")
+        self:AddGoNextOption("Catcoon", "catcoon")
+        self:AddGoNextOption("Cave Entrance", "cave_entrance")
+        self:AddGoNextOption("Deer", "deer")
+        self:AddGoNextOption("Desert Oasis", "oasislake")
+        self:AddGoNextOption("Eyebone (Chester)", "chester_eyebone")
+        self:AddGoNextOption("Glommer Statue", "statueglommer")
+        self:AddGoNextOption("Gravestone", "gravestone")
+        self:AddGoNextOption("Leaky Shack", "mermhouse")
+        self:AddGoNextOption("Mandrake", "mandrake_planted")
+        self:AddGoNextOption("Moon Stone", "moonbase")
+        self:AddGoNextOption("Pig Head", "pighead")
+        self:AddGoNextOption("Pig House", "pighouse")
+        self:AddGoNextOption("Pig King", "pigking")
+        self:AddGoNextOption("Pond", "pond")
+        self:AddGoNextOption("Spawn Portal", "multiplayer_portal")
+        self:AddGoNextOption("Spider Den", "spiderden")
+        self:AddGoNextOption("Stagehand", "stagehand")
+        self:AddGoNextOption("Totally Normal Tree", livingtree)
+        self:AddGoNextOption("Touch Stone", "resurrectionstone")
+        self:AddGoNextOption("Walrus Camp", "walrus_camp")
+        self:AddGoNextOption("Worm Hole", "wormhole")
 
         self:AddDividerOption()
-        AddGoNextOption(self, "Bearger", "bearger")
-        AddGoNextOption(self, "Deerclops", "deerclops")
-        AddGoNextOption(self, "Dragonfly", "dragonfly")
-        AddGoNextOption(self, "Gigantic Beehive", "beequeenhive")
-        AddGoNextOption(self, "Klaus Sack", "klaus_sack")
-        AddGoNextOption(self, "Malbatross", "malbatross")
+        self:AddGoNextOption("Bearger", "bearger")
+        self:AddGoNextOption("Deerclops", "deerclops")
+        self:AddGoNextOption("Dragonfly", "dragonfly")
+        self:AddGoNextOption("Gigantic Beehive", "beequeenhive")
+        self:AddGoNextOption("Klaus Sack", "klaus_sack")
+        self:AddGoNextOption("Malbatross", "malbatross")
 
         self:AddDividerOption()
-        AddGoNextOption(self, "Marble Sculpture (Bishop Body)", "sculpture_bishopbody")
-        AddGoNextOption(self, "Marble Sculpture (Knight Body)", "sculpture_knightbody")
-        AddGoNextOption(self, "Marble Sculpture (Rook Body)", "sculpture_rookbody")
-        AddGoNextOption(self, "Suspicious Marble (Bishop Head)", "sculpture_bishophead")
-        AddGoNextOption(self, "Suspicious Marble (Knight Head)", "sculpture_knighthead")
-        AddGoNextOption(self, "Suspicious Marble (Rook Nose)", "sculpture_rooknose")
+        self:AddGoNextOption("Marble Sculpture (Bishop Body)", "sculpture_bishopbody")
+        self:AddGoNextOption("Marble Sculpture (Knight Body)", "sculpture_knightbody")
+        self:AddGoNextOption("Marble Sculpture (Rook Body)", "sculpture_rookbody")
+        self:AddGoNextOption("Suspicious Marble (Bishop Head)", "sculpture_bishophead")
+        self:AddGoNextOption("Suspicious Marble (Knight Head)", "sculpture_knighthead")
+        self:AddGoNextOption("Suspicious Marble (Rook Nose)", "sculpture_rooknose")
 
         self:AddDividerOption()
-        AddGoNextOption(self, "Hot Spring", "hotspring")
-        AddGoNextOption(self, "Inviting Formation (Base)", "moon_altar_rock_glass")
-        AddGoNextOption(self, "Inviting Formation (Idol)", "moon_altar_rock_idol")
-        AddGoNextOption(self, "Inviting Formation (Orb)", "moon_altar_rock_seed")
-        AddGoNextOption(self, "Stone Fruit Bush", "rock_avocado_bush")
+        self:AddGoNextOption("Hot Spring", "hotspring")
+        self:AddGoNextOption("Inviting Formation (Base)", "moon_altar_rock_glass")
+        self:AddGoNextOption("Inviting Formation (Idol)", "moon_altar_rock_idol")
+        self:AddGoNextOption("Inviting Formation (Orb)", "moon_altar_rock_seed")
+        self:AddGoNextOption("Stone Fruit Bush", "rock_avocado_bush")
     else
         local statues = {
             "ruins_statue_mage",
             "ruins_statue_head",
         }
 
-        AddGoNextOption(self, "Ancient Pseudoscience Station (Broken)", "ancient_altar_broken")
-        AddGoNextOption(self, "Ancient Pseudoscience Station", "ancient_altar")
-        AddGoNextOption(self, "Ancient Statue", statues)
-        AddGoNextOption(self, "Bat Cave", "batcave")
-        AddGoNextOption(self, "Big Tentacle", "tentacle_pillar")
-        AddGoNextOption(self, "Broken Clockworks", "chessjunk_ruinsrespawner_inst")
-        AddGoNextOption(self, "Cave Exit", "cave_exit")
-        AddGoNextOption(self, "Cave Hole", "cave_hole")
-        AddGoNextOption(self, "Gravestone", "gravestone")
-        AddGoNextOption(self, "Light Flower", "flower_cave_triple")
-        AddGoNextOption(self, "Ornate Chest", "pandoraschest")
-        AddGoNextOption(self, "Pond (Cave)", "pond_cave")
-        AddGoNextOption(self, "Pond", "pond")
-        AddGoNextOption(self, "Rock Lobster", "rocky")
-        AddGoNextOption(self, "Slurper", "slurper")
-        AddGoNextOption(self, "Slurtle Mound", "slurtlehole")
-        AddGoNextOption(self, "Spider Den", "spiderden")
-        AddGoNextOption(self, "Splumonkey Pod", "monkeybarrel")
-        AddGoNextOption(self, "Star-sky (Hutch)", "hutch_fishbowl")
-        AddGoNextOption(self, "Touch Stone", "resurrectionstone")
+        self:AddGoNextOption("Ancient Pseudoscience Station (Broken)", "ancient_altar_broken")
+        self:AddGoNextOption("Ancient Pseudoscience Station", "ancient_altar")
+        self:AddGoNextOption("Ancient Statue", statues)
+        self:AddGoNextOption("Bat Cave", "batcave")
+        self:AddGoNextOption("Big Tentacle", "tentacle_pillar")
+        self:AddGoNextOption("Broken Clockworks", "chessjunk_ruinsrespawner_inst")
+        self:AddGoNextOption("Cave Exit", "cave_exit")
+        self:AddGoNextOption("Cave Hole", "cave_hole")
+        self:AddGoNextOption("Gravestone", "gravestone")
+        self:AddGoNextOption("Light Flower", "flower_cave_triple")
+        self:AddGoNextOption("Ornate Chest", "pandoraschest")
+        self:AddGoNextOption("Pond (Cave)", "pond_cave")
+        self:AddGoNextOption("Pond", "pond")
+        self:AddGoNextOption("Rock Lobster", "rocky")
+        self:AddGoNextOption("Slurper", "slurper")
+        self:AddGoNextOption("Slurtle Mound", "slurtlehole")
+        self:AddGoNextOption("Spider Den", "spiderden")
+        self:AddGoNextOption("Splumonkey Pod", "monkeybarrel")
+        self:AddGoNextOption("Star-sky (Hutch)", "hutch_fishbowl")
+        self:AddGoNextOption("Touch Stone", "resurrectionstone")
 
         self:AddDividerOption()
-        AddGoNextOption(self, "Ancient Gateway", "atrium_gate")
-        AddGoNextOption(self, "Ancient Guardian", "minotaur")
-        AddGoNextOption(self, "Toadstool Cap", "toadstool_cap")
+        self:AddGoNextOption("Ancient Gateway", "atrium_gate")
+        self:AddGoNextOption("Ancient Guardian", "minotaur")
+        self:AddGoNextOption("Toadstool Cap", "toadstool_cap")
     end
+end
+
+--- Adds options.
+function TeleportSubmenu:AddOptions()
+    self:AddGatherPlayersOption()
+    self:AddDividerOption()
+    self:AddTeleportOptions()
 end
 
 return TeleportSubmenu

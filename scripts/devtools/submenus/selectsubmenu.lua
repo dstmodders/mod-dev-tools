@@ -35,10 +35,14 @@ local SelectSubmenu = Class(Submenu, function(self, devtools, root)
     end
 end)
 
---- Helpers
--- @section helpers
+--- General
+-- @section general
 
-local function AppendSelected(self, label, entity, except)
+--- Appends selected prefix.
+-- @tparam table|string label Label
+-- @tparam EntityScript entity Entity to match the selected one
+-- @tparam EntityScript except Entity to ignore prefix addition
+function SelectSubmenu:AppendSelected(label, entity, except)
     local selected = self.world:GetSelectedEntity()
     if entity and selected then
         if entity.GUID == selected.GUID then
@@ -64,10 +68,11 @@ end
 --- Select
 -- @section select
 
-local function AddSelectPlayerOptions(self)
+--- Adds select player options.
+function SelectSubmenu:AddSelectPlayerOptions()
     for _, v in pairs(self.devtools:GetAllPlayers()) do
         self:AddActionOption({
-            label = AppendSelected(self, v:GetDisplayName(), v, self.player:GetSelected()),
+            label = self:AppendSelected(v:GetDisplayName(), v, self.player:GetSelected()),
             on_accept_fn = function()
                 self.player:Select(v)
                 self:UpdateScreen("selected")
@@ -76,9 +81,10 @@ local function AddSelectPlayerOptions(self)
     end
 end
 
-local function AddSelectEntityUnderMouseOptions(self)
+--- Adds select entity under mouse option.
+function SelectSubmenu:AddSelectEntityUnderMouseOption()
     self:AddActionOption({
-        label = AppendSelected(self, "Entity Under Mouse", self.world:GetSelectedEntity(), {
+        label = self:AppendSelected("Entity Under Mouse", self.world:GetSelectedEntity(), {
             self.player:GetSelected(),
             self.world:GetWorld(),
             self.world:GetWorldNet(),
@@ -93,11 +99,12 @@ local function AddSelectEntityUnderMouseOptions(self)
     })
 end
 
-local function AddSelectEquippedItem(self, slot)
+--- Adds select equipped item option.
+-- @tparam number slot
+function SelectSubmenu:AddSelectEquippedItem(slot)
     if self.inventory:HasEquippedItem(slot) then
         self:AddActionOption({
-            label = AppendSelected(
-                self,
+            label = self:AppendSelected(
                 string.format("Equipped Item (%s)", slot:gsub("^%l", string.upper)),
                 self.inventory:GetEquippedItem(slot)
             ),
@@ -109,9 +116,10 @@ local function AddSelectEquippedItem(self, slot)
     end
 end
 
-local function AddSelectWorldOptions(self)
+--- Adds select `TheWorld` option.
+function SelectSubmenu:AddSelectWorldOptions()
     self:AddActionOption({
-        label = AppendSelected(self, "TheWorld", self.world:GetWorld()),
+        label = self:AppendSelected("TheWorld", self.world:GetWorld()),
         on_accept_fn = function()
             self.world:Select()
             self:UpdateScreen("selected")
@@ -119,9 +127,10 @@ local function AddSelectWorldOptions(self)
     })
 end
 
-local function AddSelectWorldNetOptions(self)
+--- Adds select `TheWorld.net` option.
+function SelectSubmenu:AddSelectWorldNetOptions()
     self:AddActionOption({
-        label = AppendSelected(self, "TheWorld.net", self.world:GetWorldNet()),
+        label = self:AppendSelected("TheWorld.net", self.world:GetWorldNet()),
         on_accept_fn = function()
             self.world:SelectNet()
             self:UpdateScreen("selected")
@@ -129,22 +138,19 @@ local function AddSelectWorldNetOptions(self)
     })
 end
 
---- General
--- @section general
-
 --- Adds options.
 function SelectSubmenu:AddOptions()
-    AddSelectPlayerOptions(self)
+    self:AddSelectPlayerOptions()
 
     self:AddDividerOption()
-    AddSelectEntityUnderMouseOptions(self)
-    AddSelectEquippedItem(self, EQUIPSLOTS.BODY)
-    AddSelectEquippedItem(self, EQUIPSLOTS.HANDS)
-    AddSelectEquippedItem(self, EQUIPSLOTS.HEAD)
+    self:AddSelectEntityUnderMouseOption()
+    self:AddSelectEquippedItem(EQUIPSLOTS.BODY)
+    self:AddSelectEquippedItem(EQUIPSLOTS.HANDS)
+    self:AddSelectEquippedItem(EQUIPSLOTS.HEAD)
 
     self:AddDividerOption()
-    AddSelectWorldOptions(self)
-    AddSelectWorldNetOptions(self)
+    self:AddSelectWorldOptions()
+    self:AddSelectWorldNetOptions()
 end
 
 return SelectSubmenu
