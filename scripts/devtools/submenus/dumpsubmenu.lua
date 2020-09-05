@@ -105,9 +105,8 @@ end
 
 --- Adds dump submenu.
 -- @tparam string name
--- @tparam[opt] table object
+-- @tparam table object
 function DumpSubmenu:AddDumpSubmenu(name, object)
-    object = object ~= nil and object or _G[name]
     if object then
         local _options = {}
         self:AddDumpOptions(name, _options, object)
@@ -130,7 +129,7 @@ function DumpSubmenu:AddOptions()
     end
 
     if self.world then
-        self:AddDumpSubmenu("TheWorld")
+        self:AddDumpSubmenu("TheWorld", TheWorld)
         self:AddDumpSubmenu("TheWorld.Map", TheWorld.Map)
         self:AddDumpSubmenu("TheWorld.meta", TheWorld.meta)
         self:AddDumpSubmenu("TheWorld.net", TheWorld.net)
@@ -150,33 +149,33 @@ function DumpSubmenu:AddOptions()
         self:AddDividerOption()
     end
 
-    self:AddDumpSubmenu("AccountManager")
-    self:AddDumpSubmenu("AllRecipes")
-    self:AddDumpSubmenu("Entity")
-    self:AddDumpSubmenu("EntityScript")
-    self:AddDumpSubmenu("KnownModIndex")
-    self:AddDumpSubmenu("LOC")
-    self:AddDumpSubmenu("Profile")
+    self:AddDumpSubmenu("AccountManager", AccountManager)
+    self:AddDumpSubmenu("AllRecipes", AllRecipes)
+    self:AddDumpSubmenu("Entity", Entity)
+    self:AddDumpSubmenu("EntityScript", EntityScript)
+    self:AddDumpSubmenu("KnownModIndex", KnownModIndex)
+    self:AddDumpSubmenu("LOC", LOC)
+    self:AddDumpSubmenu("Profile", Profile)
 
     self:AddDividerOption()
-    self:AddDumpSubmenu("TheCamera")
-    self:AddDumpSubmenu("TheConfig")
-    self:AddDumpSubmenu("TheCookbook")
-    self:AddDumpSubmenu("TheFrontEnd")
-    self:AddDumpSubmenu("TheGameService")
-    self:AddDumpSubmenu("TheGlobalInstance")
-    self:AddDumpSubmenu("TheInput")
-    self:AddDumpSubmenu("TheInputProxy")
-    self:AddDumpSubmenu("TheInventory")
-    self:AddDumpSubmenu("TheMixer")
-    self:AddDumpSubmenu("TheNet")
-    self:AddDumpSubmenu("TheRecipeBook")
-    self:AddDumpSubmenu("TheShard")
-    self:AddDumpSubmenu("TheSim")
-    self:AddDumpSubmenu("TheSystemService")
+    self:AddDumpSubmenu("TheCamera", TheCamera)
+    self:AddDumpSubmenu("TheConfig", TheConfig)
+    self:AddDumpSubmenu("TheCookbook", TheCookbook)
+    self:AddDumpSubmenu("TheFrontEnd", TheFrontEnd)
+    self:AddDumpSubmenu("TheGameService", TheGameService)
+    self:AddDumpSubmenu("TheGlobalInstance", TheGlobalInstance)
+    self:AddDumpSubmenu("TheInput", TheInput)
+    self:AddDumpSubmenu("TheInputProxy", TheInputProxy)
+    self:AddDumpSubmenu("TheInventory", TheInventory)
+    self:AddDumpSubmenu("TheMixer", TheMixer)
+    self:AddDumpSubmenu("TheNet", TheNet)
+    self:AddDumpSubmenu("TheRecipeBook", TheRecipeBook)
+    self:AddDumpSubmenu("TheShard", TheShard)
+    self:AddDumpSubmenu("TheSim", TheSim)
+    self:AddDumpSubmenu("TheSystemService", TheSystemService)
 
     self:AddDividerOption()
-    self:AddDumpSubmenu("DevTools")
+    self:AddDumpSubmenu("DevTools", DevTools)
 end
 
 return DumpSubmenu
