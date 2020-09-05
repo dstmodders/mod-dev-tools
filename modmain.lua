@@ -328,6 +328,10 @@ AddComponentPostInit("weather", WeatherPostInit)
 -- @section prefabs
 
 env.AddPlayerPostInit(function(inst)
+    if not inst.Label then
+        inst.entity:AddLabel()
+    end
+
     inst:ListenForEvent("changearea", function()
         if devtools and devtools.labels then
             devtools.labels:AddUsername(inst)
