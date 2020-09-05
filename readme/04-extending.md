@@ -331,11 +331,13 @@ AddClassPostConstruct("screens/devtoolsscreen", function(devtoolsscreen)
         self.menu_text:Update()
 
         local menu = self.menu_text:GetMenu()
-        if root_idx and previous_idx and menu:GetMenu():AtRoot() then
-            menu:GetMenu().index = root_idx
-            menu:GetMenu():Accept()
-            menu:GetMenu().index = previous_idx
+        if root_idx and previous_idx and menu:AtRoot() then
+            menu.index = root_idx
+            menu:Accept()
+            menu.index = previous_idx
         end
+
+        return self.menu_text
     end
 end)
 ```
