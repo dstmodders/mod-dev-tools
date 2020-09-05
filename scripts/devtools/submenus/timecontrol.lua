@@ -57,7 +57,10 @@ return {
                 end,
             },
         },
-        { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
+        {
+            type = MOD_DEV_TOOLS.OPTION.DIVIDER,
+            on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.ONE_PLAYER,
+        },
         {
             type = MOD_DEV_TOOLS.OPTION.ACTION,
             options = {
