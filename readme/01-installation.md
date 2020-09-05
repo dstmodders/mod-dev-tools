@@ -3,7 +3,7 @@
 ## Steam Workshop
 
 The easiest way to install this mod is by subscribing to it using the Steam
-Workshop: [https://steamcommunity.com/app/322330/workshop/][]
+Workshop: [https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640][]
 
 This way the mod can be automatically updated upon a new version release by
 using the in-game **Mods** submenu.
@@ -48,9 +48,9 @@ $ make install
 ```
 
 [cmake]: https://cmake.org/
-[https://steamcommunity.com/app/322330/workshop/]: https://steamcommunity.com/app/322330/workshop/
+[https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
 [makefile]: https://en.wikipedia.org/wiki/Makefile
 [nmake]: https://msdn.microsoft.com/en-us/library/dd9y37ha.aspx
 [releases]: https://github.com/victorpopkov/dst-mod-dev-tools/releases
-[steam workshop]: https://steamcommunity.com/app/322330/workshop/
+[steam workshop]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
 [steam]: https://store.steampowered.com/
