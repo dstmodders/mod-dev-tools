@@ -26,6 +26,7 @@ help:
 
 citest:
 	@busted .; \
+		luacov-console .; \
 		cp luacov.report.out luacov.report.out.bak \
 			&& luacov -r lcov > /dev/null 2>&1 \
 			&& cp luacov.report.out lcov.info \
