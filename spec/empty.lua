@@ -1,4 +1,6 @@
-Empty = function()
-end
+require "class"
+
+local Empty = Class(function()
+end)
 
 return Empty
