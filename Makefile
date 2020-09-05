@@ -67,11 +67,11 @@ install:
 		--exclude 'luacov*' \
 		--exclude 'Makefile' \
 		--exclude 'modicon.png' \
-		--exclude 'preview.gif' \
+		--exclude 'preview.*' \
 		--exclude 'README.md' \
 		--exclude 'readme/' \
 		--exclude 'spec/' \
-		--exclude 'workshop/' \
+		--exclude 'workshop*' \
 		. \
 		"${DST_MODS}/dst-mod-dev-tools/"
 
