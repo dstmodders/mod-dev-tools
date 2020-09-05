@@ -172,9 +172,9 @@ configuration_options = {
     AddConfig("God mode key", "key_god_mode", key_list, "KEY_G", "Key used for toggling god mode"),
     AddConfig("Teleport key", "key_teleport", key_list, "KEY_T", "Key used for (fake) teleporting on mouse position"),
     AddConfig("Select entity key", "key_select_entity", key_list, "KEY_Z", "Key used for selecting an entity under mouse"),
-    AddConfig("Increase time scale key", "key_time_scale_increase", key_list, false, "Key used to speed up the time scale.\nHold down the Shift key to scale up to the maximum"),
-    AddConfig("Decrease time scale key", "key_time_scale_decrease", key_list, false, "Key used to slow down the time scale.\nHold down the Shift key to scale down to the minimum"),
-    AddConfig("Default time scale key", "key_time_scale_default", key_list, false, "Key used to restore the default time scale"),
+    AddConfig("Increase time scale key", "key_time_scale_increase", key_list, "KEY_PAGEUP", "Key used to speed up the time scale.\nHold down the Shift key to scale up to the maximum"),
+    AddConfig("Decrease time scale key", "key_time_scale_decrease", key_list, "KEY_PAGEDOWN", "Key used to slow down the time scale.\nHold down the Shift key to scale down to the minimum"),
+    AddConfig("Default time scale key", "key_time_scale_default", key_list, "KEY_HOME", "Key used to restore the default time scale"),
     AddConfig("Reset combination", "reset_combination", reset_combinations, "ctrl_r", "Key combination used for reloading all mods.\nWill restart the game/server to the latest savepoint"),
 
     AddSection("General"),
@@ -185,7 +185,7 @@ configuration_options = {
     AddConfig("Default labels font", "default_labels_font", labels_font_list, "BODYTEXTFONT", "Which labels font should be used by default?"),
     AddConfig("Default labels font size", "default_labels_font_size", labels_font_size_list, 18, "Which labels font size should be used by default?"),
     AddConfig("Default selected labels", "default_selected_labels", boolean, true, "Should the selected labels be enabled by default?"),
-    AddConfig("Default username labels", "default_username_labels", boolean, false, "Should the username labels be enabled by default?"),
+    AddConfig("Default username labels", "default_username_labels", boolean, true, "Should the username labels be enabled by default?"),
     AddConfig("Default username labels mode", "default_username_labels_mode", username_labels_modes, "default", "Which username labels mode should be used by default?"),
 
     AddSection("Player vision"),
