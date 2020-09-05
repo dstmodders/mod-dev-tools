@@ -67,17 +67,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: viktorpopkov/dst-mod:alpine
+      image: viktorpopkov/dst-mod:debian
     steps:
       - name: Check out
         uses: actions/checkout@v2
       - name: Set a job-wide environment variables
-        shell: sh
         run: |
           echo "::set-env name=BRANCH_NAME::${GITHUB_REF##*/}"
           echo '::set-env name=GITHUB_JOB_NAME::test'
       - name: Test
-        shell: sh
         run: |
           # test
           make citest > busted.out || true
@@ -115,13 +113,11 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Prepare success Slack notification
         if: success()
-        shell: sh
         run: echo "::set-env name=SLACK_CUSTOM_PAYLOAD::${SLACK_CUSTOM_PAYLOAD}"
         env:
           SLACK_CUSTOM_PAYLOAD: '{"channel":"dst-mod-dev-tools","attachments":[{"color":"#2eb886","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has passed {{ TESTS }} tests. Coverage: {{ COVERAGE }}","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has passed *{{ TESTS }}* tests. Coverage: *{{ COVERAGE }}*"}}]}]}'
       - name: Prepare failure Slack notification
         if: failure()
-        shell: sh
         run: echo "::set-env name=SLACK_CUSTOM_PAYLOAD::${SLACK_CUSTOM_PAYLOAD}"
         env:
           SLACK_CUSTOM_PAYLOAD: '{"channel":"dst-mod-dev-tools","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed {{ TESTS_FAILURES }}/{{ TESTS }} tests","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed *{{ TESTS_FAILURES }}/{{ TESTS }}* tests"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Total*:\n{{ TESTS }}"},{"type":"mrkdwn","text":"*Successes*:\n{{ TESTS_SUCCESSES }}"},{"type":"mrkdwn","text":"*Failures*:\n{{ TESTS_FAILURES }}"},{"type":"mrkdwn","text":"*Errors*:\n{{ TESTS_ERRORS }}"}]}]}]}'
