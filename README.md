@@ -25,16 +25,16 @@ was designed as an alternative to _debugkeys_.
 | **God mode key**                  | _G_              | Key used for toggling god mode                          |
 | **Teleport key**                  | _T_              | Key used for (fake) teleporting on mouse position       |
 | **Select entity key**             | _Z_              | Key used for selecting an entity under mouse            |
-| **Increase time scale key**       | _Disabled_       | Key used to speed up the time scale                     |
-| **Decrease time scale key**       | _Disabled_       | Key used to slow down the time scale                    |
-| **Default time scale key**        | _Disabled_       | Key used to restore the default time scale              |
+| **Increase time scale key**       | _Page Up_        | Key used to speed up the time scale                     |
+| **Decrease time scale key**       | _Page Down_      | Key used to slow down the time scale                    |
+| **Default time scale key**        | _Home_           | Key used to restore the default time scale              |
 | **Reset combination**             | _Ctrl + R_       | Key combination used for reloading all mods             |
 | **Default god mode**              | _Yes_            | Should the god mode be enabled by default?              |
 | **Default free crafting mode**    | _Yes_            | Should the free crafting mode be enabled by default?    |
 | **Default labels font**           | _Stint Ultra..._ | Which labels font should be used by default?            |
 | **Default labels font size**      | _18_             | Which labels font size should be used by default?       |
 | **Default selected labels**       | _Yes_            | Should the selected labels be enabled by default?       |
-| **Default username labels**       | _No_             | Should the username labels be enabled by default?       |
+| **Default username labels**       | _Yes_            | Should the username labels be enabled by default?       |
 | **Default username labels mode**  | _Default_        | Which username labels mode should be used by default?   |
 | **Default forced HUD visibility** | _Yes_            | Should the forced HUD visibility be enabled by default? |
 | **Default forced unfading**       | _Yes_            | Should the forced unfading be enabled by default?       |
