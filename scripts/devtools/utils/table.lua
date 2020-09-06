@@ -9,7 +9,7 @@
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
--- @release 0.1.0
+-- @release 0.2.0-alpha
 ----
 local Table = {}
 
