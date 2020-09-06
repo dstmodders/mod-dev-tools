@@ -18,7 +18,6 @@ local Toggle = require "devtools/submenus/option/toggle"
 return {
     label = "Player Vision",
     name = "PlayerVisionSubmenu",
-    on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_ADMIN,
     options = {
         Toggle(
             "vision",
