@@ -1,12 +1,16 @@
 name = "Dev Tools"
 version = "0.2.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
-    [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]]
+    [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
+    [[v]] .. version .. [[:]] .. "\n" ..
+    [[- Changed mod loading priority to be higher than the default]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
 
-priority = 0
+-- We need to load our mod with a higher priority than other, so we use a non-default value (0). The
+-- "2220506640" part is the workshop ID of this mod, so other mods had enough "space for manoeuvre".
+priority = 1.02220506640
 
 icon = "modicon.tex"
 icon_atlas = "modicon.xml"
