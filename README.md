@@ -39,6 +39,7 @@ was designed as an alternative to _debugkeys_.
 | **Default forced HUD visibility** | _Yes_            | Should the forced HUD visibility be enabled by default? |
 | **Default forced unfading**       | _Yes_            | Should the forced unfading be enabled by default?       |
 | **Disable mod warning**           | _Yes_            | Should the mod warning be disabled?                     |
+| **Hide changelog**                | _Yes_            | Should the changelog in the mod description be hidden?  |
 | **Debug**                         | _No_             | Should the debug mode be enabled?                       |
 
 ## Documentation

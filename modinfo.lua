@@ -3,6 +3,7 @@ version = "0.2.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
+    [[- Added support for the hide changelog configuration]] .. "\n" ..
     [[- Changed mod loading priority to be higher than the default]] .. "\n" ..
     [[- Enabled player vision submenu on non-admin servers]]
 author = "Demonblink"
@@ -199,5 +200,6 @@ configuration_options = {
 
     AddSection("Other"),
     AddConfig("Disable mod warning", "default_mod_warning", boolean, true, "Should the mod warning be disabled?"),
+    AddConfig("Hide changelog", "hide_changelog", boolean, true, "Should the changelog in the mod description be hidden?"),
     AddConfig("Debug", "debug", boolean, false, "Should the debug mode be enabled?"),
 }
