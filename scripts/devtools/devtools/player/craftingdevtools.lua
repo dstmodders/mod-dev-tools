@@ -169,7 +169,7 @@ function CraftingDevTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
 
     for _, v in pairs(recipes) do
         recipe = GetValidRecipe(v)
-        if recipe.name then
+        if recipe and recipe.name then
             table.insert(result, Utils.Constant.GetStringName(recipe.name))
         end
     end
@@ -193,7 +193,7 @@ function CraftingDevTools:GetPlacersForRecipes(recipes) -- luacheck: only
 
     for _, v in pairs(recipes) do
         recipe = GetValidRecipe(v)
-        if recipe.placer then
+        if recipe and recipe.placer then
             table.insert(result, v)
         end
     end
@@ -217,7 +217,7 @@ function CraftingDevTools:GetNonPlacersForRecipes(recipes) -- luacheck: only
 
     for _, v in pairs(recipes) do
         recipe = GetValidRecipe(v)
-        if not recipe.placer then
+        if recipe and not recipe.placer then
             table.insert(result, v)
         end
     end
@@ -255,7 +255,7 @@ function CraftingDevTools:CanCraftItem(name)
 
     local recipe = GetValidRecipe(name)
     local inventory = self.inventory:GetInventory()
-    if inventory then
+    if inventory and recipe then
         for _, ingredient in pairs(recipe.ingredients) do
             if not inventory:Has(ingredient.type, ingredient.amount) then
                 return false

@@ -5,7 +5,8 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added support for the hide changelog configuration]] .. "\n" ..
     [[- Changed mod loading priority to be higher than the default]] .. "\n" ..
-    [[- Enabled player vision submenu on non-admin servers]]
+    [[- Enabled player vision submenu on non-admin servers]] .. "\n" ..
+    [[- Fixed issue with crashing when disabling a recipe tab]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
