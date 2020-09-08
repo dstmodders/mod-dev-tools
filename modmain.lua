@@ -79,6 +79,7 @@ local devtools
 devtools = require("devtools")(modname, debug)
 
 _G.DevTools = devtools
+_G.DevToolsAPI = devtools:GetAPI()
 
 local DevToolsScreen -- not an instance
 

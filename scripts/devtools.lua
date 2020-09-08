@@ -35,6 +35,7 @@ require "class"
 require "consolecommands"
 require "devtools/constants"
 
+local API = require "devtools/api"
 local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
 local Submenu = require "devtools/menu/submenu"
@@ -147,6 +148,27 @@ function DevTools:Reset()
     end
 
     return true
+end
+
+--- API
+-- @section api
+
+--- Gets API.
+-- @treturn API
+function DevTools:GetAPI()
+    return self.api
+end
+
+--- Gets submenu data.
+-- @treturn table
+function DevTools:GetSubmenusData()
+    return self.submenus_data
+end
+
+--- Adds submenu data.
+-- @tparam table data
+function DevTools:AddSubmenusData(data)
+    table.insert(self.submenus_data, data)
 end
 
 --- Pausing
@@ -408,6 +430,7 @@ function DevTools:DoInit(modname, debug)
     Utils.Debug.AddMethods(self)
 
     -- general
+    self.api = API(self)
     self.debug = debug
     self.inst = nil
     self.is_in_character_select = false
@@ -417,6 +440,7 @@ function DevTools:DoInit(modname, debug)
     self.name = "DevTools"
     self.player = nil
     self.screen = nil -- set in DevToolsScreen:DoInit()
+    self.submenus_data = {}
     self.world = nil
 end
 

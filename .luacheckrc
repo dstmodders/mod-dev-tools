@@ -99,6 +99,7 @@ files["scripts/**/*.lua"] = {
     -- project (general)
     "Debug",
     "DevTools",
+    "DevToolsAPI",
     "MOD_DEV_TOOLS",
 
     -- project (console)

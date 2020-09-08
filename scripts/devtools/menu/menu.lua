@@ -226,6 +226,17 @@ function Menu:AddWorldSubmenus()
     self:AddDividerOption()
 end
 
+--- Adds mods submenus.
+function Menu:AddModsSubmenus()
+    local submenus = self.devtools:GetSubmenusData()
+    if #submenus > 0 then
+        for _, submenu in pairs(submenus) do
+            self:AddSubmenu(submenu)
+        end
+        self:AddDividerOption()
+    end
+end
+
 --- Adds general submenus.
 -- @see AddMenu
 function Menu:AddGeneralSubmenus()
@@ -258,6 +269,7 @@ function Menu:AddMenu()
         end
     end
 
+    self:AddModsSubmenus()
     self:AddGeneralSubmenus()
 end
 

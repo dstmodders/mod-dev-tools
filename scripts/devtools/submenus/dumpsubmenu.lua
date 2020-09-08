@@ -176,6 +176,7 @@ function DumpSubmenu:AddOptions()
 
     self:AddDividerOption()
     self:AddDumpSubmenu("DevTools", DevTools)
+    self:AddDumpSubmenu("DevToolsAPI", DevToolsAPI)
 end
 
 return DumpSubmenu
