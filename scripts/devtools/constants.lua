@@ -16,11 +16,21 @@
 -- @see MOD_DEV_TOOLS.OPTION
 -- @table MOD_DEV_TOOLS
 -- @tfield table API
+-- @tfield table CCT
+-- @tfield table ON_ADD_TO_ROOT_FN
+-- @tfield table OPTION
 MOD_DEV_TOOLS = {
     --- General
     -- @section general
 
-    --- Colour Cubes Tables.
+    --- API constants.
+    -- @table MOD_DEV_TOOLS.API
+    -- @tfield number VERSION
+    API = {
+        VERSION = 0.1,
+    },
+
+    --- CCT (Colour Cubes Tables) constants.
     -- @table MOD_DEV_TOOLS.CCT
     -- @tfield table BEAVER_VISION
     -- @tfield table DEFAULT
@@ -74,6 +84,9 @@ MOD_DEV_TOOLS = {
         },
     },
 
+    --- Submenu
+    -- @section submenu
+
     --- `menu.Submenu.SetOnAddToRootFn` constants.
     -- @see menu.Submenu.SetOnAddToRootFn
     -- @table MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN
@@ -84,6 +97,7 @@ MOD_DEV_TOOLS = {
     -- @tfield function IS_NOT_MASTER_SIM
     -- @tfield function IS_PLAYER
     -- @tfield function IS_WORLD
+    -- @tfield function ONE_PLAYER
     ON_ADD_TO_ROOT_FN = {
         IS_ADMIN = function(self)
             return self.devtools.player and self.devtools.player:IsAdmin()

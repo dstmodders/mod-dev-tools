@@ -18,6 +18,9 @@ local Events = require "devtools/debug/events"
 local Globals = require "devtools/debug/globals"
 local PlayerController = require "devtools/debug/playercontroller"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam string modname Mod name

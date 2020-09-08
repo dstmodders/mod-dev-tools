@@ -35,8 +35,8 @@ local Chain = {}
 --
 -- It also supports net variables and tables acting as functions.
 --
--- @usage Utils.Chain..Get(TheWorld, "net", "components", "shardstate", "GetMasterSessionId") -- (function) 0x564445367790
--- @usage Utils.Chain..Get(TheWorld, "net", "components", "shardstate", "GetMasterSessionId", true) -- (string) D000000000000000
+-- @usage Utils.Chain.Get(TheWorld, "net", "components", "shardstate", "GetMasterSessionId") -- (function) 0x564445367790
+-- @usage Utils.Chain.Get(TheWorld, "net", "components", "shardstate", "GetMasterSessionId", true) -- (string) D000000000000000
 -- @tparam table src
 -- @tparam string|boolean ...
 -- @treturn function|userdata|table
@@ -94,7 +94,7 @@ end
 --        and true
 --        or false
 --
--- @usage Utils.Chain..Validate(TheWorld, "net", "components", "shardstate", "GetMasterSessionId") -- (boolean) true
+-- @usage Utils.Chain.Validate(TheWorld, "net", "components", "shardstate", "GetMasterSessionId") -- (boolean) true
 -- @tparam table src
 -- @tparam string|boolean ...
 -- @treturn boolean
