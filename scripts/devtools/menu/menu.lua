@@ -230,10 +230,15 @@ end
 function Menu:AddModsSubmenus()
     local submenus = self.devtools:GetSubmenusData()
     if #submenus > 0 then
+        local before = #self.options
+
         for _, submenu in pairs(submenus) do
             self:AddSubmenu(submenu)
         end
-        self:AddDividerOption()
+
+        if before ~= #self.options then
+            self:AddDividerOption()
+        end
     end
 end
 
