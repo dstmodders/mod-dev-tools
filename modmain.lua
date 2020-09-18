@@ -359,9 +359,9 @@ local function IsMasterSim()
     return false
 end
 
-local _KEY_MENU_TOGGLE = GetKeyFromConfig("key_menu_toggle")
-if _KEY_MENU_TOGGLE then
-    TheInput:AddKeyUpHandler(_KEY_MENU_TOGGLE, function()
+local _KEY_TOGGLE_TOOLS = GetKeyFromConfig("key_toggle_tools")
+if _KEY_TOGGLE_TOOLS then
+    TheInput:AddKeyUpHandler(_KEY_TOGGLE_TOOLS, function()
         if DevToolsScreen and DevToolsScreen:CanToggle() then
             DevToolsScreen:Toggle()
         end

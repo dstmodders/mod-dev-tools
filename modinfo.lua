@@ -4,7 +4,8 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added support for the sidebar data switching]] .. "\n" ..
-    [[- Added support for the switch data key configuration]]
+    [[- Added support for the switch data key configuration]] .. "\n" ..
+    [[- Change some configurations]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
@@ -171,7 +172,7 @@ local username_labels_modes = {
 
 configuration_options = {
     AddSection("Keybinds"),
-    AddConfig("Toggle menu key", "key_menu_toggle", key_list, "KEY_RIGHTBRACKET", "Key used for toggling the in-game menu"),
+    AddConfig("Toggle tools key", "key_toggle_tools", key_list, "KEY_RIGHTBRACKET", "Key used for toggling the tools"),
     AddConfig("Switch data key", "key_switch_data", key_list, "KEY_TAB", "Key used for switching sidebar data"),
     AddConfig("Movement prediction key", "key_movement_prediction", key_list, false, "Key used for toggling the movement prediction"),
     AddConfig("Pause key", "key_pause", key_list, "KEY_P", "Key used for pausing the game"),
