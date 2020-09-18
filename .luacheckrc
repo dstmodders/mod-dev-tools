@@ -207,6 +207,7 @@ files["scripts/**/*.lua"] = {
     "KEY_LEFT",
     "KEY_RIGHT",
     "KEY_SHIFT",
+    "KEY_TAB",
     "KEY_UP",
     "LANGUAGE",
     "LOC",

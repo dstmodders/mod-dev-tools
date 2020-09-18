@@ -355,6 +355,16 @@ function DevToolsScreen:OnRawKey(key, down)
 
             self:UpdateData()
             self:UpdateChildren(true)
+        elseif key == KEY_TAB then
+            if InGamePlay() then
+                self.data_name = Utils.Table.NextValue({
+                    "front-end",
+                    "selected",
+                    "world",
+                }, self.data_name)
+                self:UpdateData()
+                self:UpdateChildren(true)
+            end
         else
             return false
         end
