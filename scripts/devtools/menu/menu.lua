@@ -34,6 +34,7 @@ local TextMenu = require "devtools/menu/textmenu"
 -- submenus
 local CharacterRecipesSubmenu = require "devtools/submenus/characterrecipessubmenu"
 local Debug = require "devtools/submenus/debug"
+local DevTools = require "devtools/submenus/devtools"
 local DumpSubmenu = require "devtools/submenus/dumpsubmenu"
 local Labels = require "devtools/submenus/labels"
 local Language = require "devtools/submenus/language"
@@ -228,18 +229,14 @@ end
 
 --- Adds mods submenus.
 function Menu:AddModsSubmenus()
+    self:AddSubmenu(DevTools)
     local submenus = self.devtools:GetSubmenusData()
     if #submenus > 0 then
-        local before = #self.options
-
         for _, submenu in pairs(submenus) do
             self:AddSubmenu(submenu)
         end
-
-        if before ~= #self.options then
-            self:AddDividerOption()
-        end
     end
+    self:AddDividerOption()
 end
 
 --- Adds general submenus.

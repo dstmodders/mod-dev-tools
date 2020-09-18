@@ -452,7 +452,11 @@ function DevTools:DoInit(modname, debug)
 
     -- config
     self.config = {
+        font = BODYTEXTFONT,
+        font_size = 16,
         key_switch_data = KEY_TAB,
+        lines = 30,
+        width = 1280,
     }
 end
 

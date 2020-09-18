@@ -3,6 +3,7 @@ version = "0.3.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
+    [[- Added new "Dev Tools" submenu]] .. "\n" ..
     [[- Added support for the sidebar data switching]] .. "\n" ..
     [[- Added support for the switch data key configuration]] .. "\n" ..
     [[- Change some configurations]] .. "\n" ..
