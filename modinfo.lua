@@ -5,7 +5,8 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added support for the sidebar data switching]] .. "\n" ..
     [[- Added support for the switch data key configuration]] .. "\n" ..
-    [[- Change some configurations]]
+    [[- Change some configurations]] .. "\n" ..
+    [[- Fixed issue with d_gettags console command]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
