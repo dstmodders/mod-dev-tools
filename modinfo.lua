@@ -133,8 +133,8 @@ local key_list = CreateKeyList()
 local labels_font_size_list = CreateNumbersBetweenList(6, 32)
 
 local boolean = {
-    { description = "Yes", data = true },
-    { description = "No", data = false },
+    { description = "Enabled", data = true },
+    { description = "Disabled", data = false },
 }
 
 local labels_font_list = {
@@ -184,22 +184,22 @@ configuration_options = {
     AddConfig("Reset combination", "reset_combination", reset_combinations, "ctrl_r", "Key combination used for reloading all mods.\nWill restart the game/server to the latest savepoint"),
 
     AddSection("General"),
-    AddConfig("Default god mode", "default_god_mode", boolean, true, "Should the god mode be enabled by default?"),
-    AddConfig("Default free crafting mode", "default_free_crafting", boolean, true, "Should the free crafting mode be enabled by default?"),
+    AddConfig("Default god mode", "default_god_mode", boolean, true, "When enabled, enables god mode by default.\nCan be changed inside in-game menu"),
+    AddConfig("Default free crafting mode", "default_free_crafting", boolean, true, "When enabled, enables crafting mode by default.\nCan be changed inside in-game menu"),
 
     AddSection("Labels"),
-    AddConfig("Default labels font", "default_labels_font", labels_font_list, "BODYTEXTFONT", "Which labels font should be used by default?"),
-    AddConfig("Default labels font size", "default_labels_font_size", labels_font_size_list, 18, "Which labels font size should be used by default?"),
-    AddConfig("Default selected labels", "default_selected_labels", boolean, true, "Should the selected labels be enabled by default?"),
-    AddConfig("Default username labels", "default_username_labels", boolean, true, "Should the username labels be enabled by default?"),
-    AddConfig("Default username labels mode", "default_username_labels_mode", username_labels_modes, "default", "Which username labels mode should be used by default?"),
+    AddConfig("Default labels font", "default_labels_font", labels_font_list, "BODYTEXTFONT", "Which labels font should be used by default?\nCan be changed inside in-game menu"),
+    AddConfig("Default labels font size", "default_labels_font_size", labels_font_size_list, 18, "Which labels font size should be used by default?\nCan be changed inside in-game menu"),
+    AddConfig("Default selected labels", "default_selected_labels", boolean, true, "When enabled, show selected labels by default.\nCan be changed inside in-game menu"),
+    AddConfig("Default username labels", "default_username_labels", boolean, true, "When enabled, shows username labels by default.\nCan be changed inside in-game menu"),
+    AddConfig("Default username labels mode", "default_username_labels_mode", username_labels_modes, "default", "Which username labels mode should be used by default?\nCan be changed inside in-game menu"),
 
     AddSection("Player vision"),
-    AddConfig("Default forced HUD visibility", "default_forced_hud_visibility", boolean, true, "Should the forced HUD visibility be enabled by default?"),
-    AddConfig("Default forced unfading", "default_forced_unfading", boolean, true, "Should the forced unfading be enabled by default?"),
+    AddConfig("Default forced HUD visibility", "default_forced_hud_visibility", boolean, true, 'When enabled, forces HUD visibility when "playerhuddirty" event occurs.\nCan be changed inside in-game menu'),
+    AddConfig("Default forced unfading", "default_forced_unfading", boolean, true, 'When enabled, forces unfading when "playerfadedirty" event occurs.\nCan be changed inside in-game menu'),
 
     AddSection("Other"),
-    AddConfig("Disable mod warning", "default_mod_warning", boolean, true, "Should the mod warning be disabled?"),
-    AddConfig("Hide changelog", "hide_changelog", boolean, true, "Should the changelog in the mod description be hidden?"),
-    AddConfig("Debug", "debug", boolean, false, "Should the debug mode be enabled?"),
+    AddConfig("Disable mod warning", "default_mod_warning", boolean, true, "When enabled, disables the mod warning when starting the game"),
+    AddConfig("Hide changelog", "hide_changelog", boolean, true, "When enabled, hides the changelog in the mod description.\nMods should be reloaded to take effect"),
+    AddConfig("Debug", "debug", boolean, false, "When enabled, displays debug data in the console.\nUsed mainly for development"),
 }
