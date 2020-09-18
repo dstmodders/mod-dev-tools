@@ -82,6 +82,13 @@ function DevTools:CanPressKeyInGamePlay()
         and not playerdevtools:IsHUDWritableScreenActive()
 end
 
+--- Gets config.
+-- @tparam[opt] string name Config name
+-- @treturn any
+function DevTools:GetConfig(name)
+    return name and self.config[name] or self.config
+end
+
 --- Checks if it's a dedicated server game.
 -- @treturn boolean
 function DevTools:IsDedicated() -- luacheck: only
@@ -442,6 +449,11 @@ function DevTools:DoInit(modname, debug)
     self.screen = nil -- set in DevToolsScreen:DoInit()
     self.submenus_data = {}
     self.world = nil
+
+    -- config
+    self.config = {
+        key_switch_data = KEY_TAB,
+    }
 end
 
 --- Initializes when the world is initialized.

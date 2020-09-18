@@ -81,6 +81,9 @@ devtools = require("devtools")(modname, debug)
 _G.DevTools = devtools
 _G.DevToolsAPI = devtools:GetAPI()
 
+-- config
+devtools.config.key_switch_data = GetKeyFromConfig("key_switch_data")
+
 local DevToolsScreen -- not an instance
 
 DevToolsScreen = require "screens/devtoolsscreen"

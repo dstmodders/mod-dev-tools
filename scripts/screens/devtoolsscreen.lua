@@ -355,7 +355,7 @@ function DevToolsScreen:OnRawKey(key, down)
 
             self:UpdateData()
             self:UpdateChildren(true)
-        elseif key == KEY_TAB then
+        elseif key == self.key_switch_data then
             if InGamePlay() then
                 self.data_name = Utils.Table.NextValue({
                     "front-end",
@@ -418,6 +418,7 @@ function DevToolsScreen:DoInit(devtools)
     self.data_text = nil
     self.devtools = devtools
     self.is_selected_entity_data_visible = true
+    self.key_switch_data = self.devtools:GetConfig("key_switch_data")
     self.menu_text = nil
     self.name = _SCREEN_NAME
 
