@@ -313,7 +313,7 @@ end
 -- @tparam boolean is_all
 -- @treturn table
 function d_gettags(...)
-    return Utils.GetTags(...)
+    return Utils.Entity.GetTags(...)
 end
 
 --- AnimState
