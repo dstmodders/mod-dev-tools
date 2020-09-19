@@ -87,7 +87,7 @@ return {
                 min = 10,
                 max = 50,
                 on_accept_fn = function(_, submenu)
-                    submenu.devtools.config.lines = 30
+                    submenu.devtools.config.lines = 26
                     submenu.devtools.screen:UpdateFromConfig()
                 end,
                 on_get_fn = function(_, submenu)

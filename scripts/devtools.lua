@@ -455,7 +455,7 @@ function DevTools:DoInit(modname, debug)
         font = BODYTEXTFONT,
         font_size = 16,
         key_switch_data = KEY_TAB,
-        lines = 30,
+        lines = 26,
         width = 1280,
     }
 end
