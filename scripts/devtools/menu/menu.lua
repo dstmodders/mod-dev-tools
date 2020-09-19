@@ -256,7 +256,7 @@ end
 -- @see AddSelectSubmenu
 -- @see AddWorldSubmenus
 function Menu:AddMenu()
-    self.menu = TextMenu(self.title)
+    self.menu = TextMenu(self.screen, self.title)
 
     local devtools = self.devtools
     local playerdevtools = devtools.player

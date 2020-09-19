@@ -15,10 +15,12 @@ require "class"
 
 --- Constructor.
 -- @function _ctor
+-- @tparam screen.DevToolsScreen screen
 -- @tparam[opt] string name
 -- @usage local textmenu = TextMenu()
-local TextMenu = Class(function(self, name)
+local TextMenu = Class(function(self, screen, name)
     self.index = 1
+    self.screen = screen
     self.stack_idx = {}
     self.stack_names = {}
     self.stack_options = {}
@@ -241,8 +243,9 @@ function TextMenu:__tostring()
 
     t = {}
     divider_size = 54
-    scroll_size = 18
-    scroll_half = math.abs(scroll_size / 2)
+    scroll_size = math.floor(self.screen.lines - 4)
+    scroll_size = scroll_size % 2 == 0 and scroll_size or scroll_size - 1
+    scroll_half = scroll_size / 2
     scroll_top = 1
     scroll_bottom = scroll_size + 1
 
