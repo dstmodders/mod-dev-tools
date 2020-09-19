@@ -36,6 +36,7 @@ require "consolecommands"
 require "devtools/constants"
 
 local API = require "devtools/api"
+local Data = require "devtools/data"
 local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
 local Submenu = require "devtools/menu/submenu"
@@ -438,6 +439,7 @@ function DevTools:DoInit(modname, debug)
 
     -- general
     self.api = API(self)
+    self.data = Data(modname)
     self.debug = debug
     self.inst = nil
     self.is_in_character_select = false
@@ -451,12 +453,17 @@ function DevTools:DoInit(modname, debug)
     self.world = nil
 
     -- config
+    local config
+
+    config = self.data:GeneralGet("config")
+    config = config or {}
+
     self.config = {
-        font = BODYTEXTFONT,
-        font_size = 16,
+        font = config.font or BODYTEXTFONT,
+        font_size = config.font_size or 16,
         key_switch_data = KEY_TAB,
-        lines = 26,
-        width = 1280,
+        lines = config.lines or 26,
+        width = config.width or 1280,
     }
 end
 

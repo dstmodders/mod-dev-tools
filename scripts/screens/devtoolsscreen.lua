@@ -219,6 +219,10 @@ function DevToolsScreen:UpdateFromConfig()
     self.data:SetRegionSize(self.width / 2, self.lines * self.font_size)
     self.data:SetFont(self.font)
     self.data:SetSize(self.font_size)
+
+    -- save
+    self.devtools.data:GeneralSet("config", self.devtools.config)
+    self.devtools.data:Save()
 end
 
 --- Updates.
