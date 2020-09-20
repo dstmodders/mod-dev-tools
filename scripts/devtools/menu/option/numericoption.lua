@@ -6,8 +6,8 @@
 --    local numericoption = NumericOption({
 --        name = "your_option", -- optional
 --        label = "Your option",
---        min = 1,
---        max = 100,
+--        min = 1, -- or function: function(self, submenu) end
+--        max = 100, -- or function: function(self, submenu) end
 --        step = 5,
 --        on_accept_fn = function(self, submenu, textmenu)
 --            print("Your option is accepted")
