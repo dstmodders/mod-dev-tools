@@ -3,9 +3,9 @@ version = "0.4.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
+    [[- Added locale text scale in the front-end data sidebar]] .. "\n" ..
     [[- Added new "Dev Tools" submenu]] .. "\n" ..
-    [[- Added support for ignoring the locale text scale in tools]] .. "\n" ..
-    [[- Added text scale in the front-end data sidebar]]
+    [[- Added support for ignoring the locale text scale in tools]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""

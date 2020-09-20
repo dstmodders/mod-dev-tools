@@ -72,7 +72,7 @@ function FrontEndData:PushFrontEndData()
     end
 
     self:PushFrontEndLine("HUD Scale", Utils.String.ValueFloat(self.front_end:GetHUDScale()))
-    self:PushFrontEndLine("Text Scale", Utils.String.ValueFloat(LOC.GetTextScale()))
+    self:PushFrontEndLine("Locale Text Scale", Utils.String.ValueFloat(LOC.GetTextScale()))
 end
 
 --- Screen
