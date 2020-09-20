@@ -3,11 +3,7 @@ version = "0.4.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
-    [[- Added support for the sidebar data switching]] .. "\n" ..
-    [[- Added support for the switch data key configuration]] .. "\n" ..
-    [[- Changed some configurations]] .. "\n" ..
-    [[- Fixed issue with d_gettags console command]] .. "\n" ..
-    [[- Improved overlay sizing and centring]]
+    [[- Added new "Dev Tools" submenu]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
