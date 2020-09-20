@@ -5,8 +5,9 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added support for the sidebar data switching]] .. "\n" ..
     [[- Added support for the switch data key configuration]] .. "\n" ..
-    [[- Change some configurations]] .. "\n" ..
-    [[- Fixed issue with d_gettags console command]]
+    [[- Changed some configurations]] .. "\n" ..
+    [[- Fixed issue with d_gettags console command]] .. "\n" ..
+    [[- Improved overlay sizing and centring]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
