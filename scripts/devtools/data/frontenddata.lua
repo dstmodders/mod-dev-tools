@@ -71,7 +71,7 @@ function FrontEndData:PushFrontEndData()
     end
 
     self:PushFrontEndLine("HUD Scale", self.front_end:GetHUDScale())
-    self:PushFrontEndLine("Text Scale", LOC.GetTextScale())
+    --self:PushFrontEndLine("Text Scale", LOC.GetTextScale())
 end
 
 --- Screen
