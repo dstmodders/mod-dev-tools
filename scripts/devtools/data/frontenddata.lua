@@ -16,6 +16,7 @@
 require "class"
 
 local Data = require "devtools/data/data"
+local Utils = require "devtools/utils"
 
 --- Constructor.
 -- @function _ctor
@@ -70,8 +71,8 @@ function FrontEndData:PushFrontEndData()
         self:PushFrontEndLine("Mouse Position (X, Y)", string.format("%d, %d", pos.x, pos.y))
     end
 
-    self:PushFrontEndLine("HUD Scale", self.front_end:GetHUDScale())
-    --self:PushFrontEndLine("Text Scale", LOC.GetTextScale())
+    self:PushFrontEndLine("HUD Scale", Utils.String.ValueFloat(self.front_end:GetHUDScale()))
+    self:PushFrontEndLine("Text Scale", Utils.String.ValueFloat(LOC.GetTextScale()))
 end
 
 --- Screen
