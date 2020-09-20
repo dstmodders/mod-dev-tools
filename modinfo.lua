@@ -175,7 +175,7 @@ local username_labels_modes = {
 configuration_options = {
     AddSection("Keybinds"),
     AddConfig("Toggle tools key", "key_toggle_tools", key_list, "KEY_RIGHTBRACKET", "Key used for toggling the tools"),
-    AddConfig("Switch data key", "key_switch_data", key_list, "KEY_TAB", "Key used for switching sidebar data"),
+    AddConfig("Switch data key", "key_switch_data", key_list, "KEY_X", "Key used for switching sidebar data"),
     AddConfig("Movement prediction key", "key_movement_prediction", key_list, false, "Key used for toggling the movement prediction"),
     AddConfig("Pause key", "key_pause", key_list, "KEY_P", "Key used for pausing the game"),
     AddConfig("God mode key", "key_god_mode", key_list, "KEY_G", "Key used for toggling god mode"),
