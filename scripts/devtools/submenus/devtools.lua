@@ -26,6 +26,20 @@ return {
                 name = "FontDevToolsSubmenu",
                 options = {
                     {
+                        type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
+                        options = {
+                            label = "Toggle Locale Text Scale",
+                            on_get_fn = function(_, submenu)
+                                return submenu.devtools:GetConfig("locale_text_scale")
+                            end,
+                            on_set_fn = function(_, submenu, value)
+                                submenu.devtools:SetConfig("locale_text_scale", value)
+                                submenu.devtools.screen:UpdateFromConfig()
+                            end,
+                        },
+                    },
+                    { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
+                    {
                         type = MOD_DEV_TOOLS.OPTION.CHOICES,
                         options = {
                             label = "Family",
