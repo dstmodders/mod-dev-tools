@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+### Added
+
+- New "Dev Tools" submenu
+- Support for ignoring the locale text scale in tools
+- Text scale in the front-end data sidebar
+
 ## [0.3.0][] - 2020-09-20
 
 ### Added
