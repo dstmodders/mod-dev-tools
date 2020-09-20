@@ -15,10 +15,12 @@ require "class"
 
 --- Constructor.
 -- @function _ctor
+-- @tparam screen.DevToolsScreen screen
 -- @tparam[opt] string name
 -- @usage local textmenu = TextMenu()
-local TextMenu = Class(function(self, name)
+local TextMenu = Class(function(self, screen, name)
     self.index = 1
+    self.screen = screen
     self.stack_idx = {}
     self.stack_names = {}
     self.stack_options = {}
@@ -178,11 +180,47 @@ end
 --- Other
 -- @section other
 
-local function Divider(size, symbol)
-    size = size == nil and 50 or size
-    symbol = symbol == nil and "-" or symbol
+local function Repeat(times, symbol)
+    symbol = symbol ~= nil and symbol or "-"
+    local str = ""
+    for _ = 1, times do
+        str = str .. symbol
+    end
+    return str
+end
+
+local function Divider(self, symbol)
+    symbol = symbol ~= nil and symbol or "-"
+
+    local sizes = {
+        [UIFONT] = 40,
+        [TITLEFONT] = 40,
+        [BUTTONFONT] = 40,
+        [TALKINGFONT] = 40,
+
+        [CHATFONT] = 61,
+        [CHATFONT_OUTLINE] = 57,
+
+        [HEADERFONT] = 52,
+
+        [TALKINGFONT_WORMWOOD] = 52,
+        [TALKINGFONT_HERMIT] = 52,
+
+        [DIALOGFONT] = 60,
+
+        [CODEFONT] = 46,
+
+        [NEWFONT] = 49,
+        [NEWFONT_SMALL] = 49,
+        [NEWFONT_OUTLINE] = 49,
+        [NEWFONT_OUTLINE_SMALL] = 49,
+
+        [BODYTEXTFONT] = 52,
+        [SMALLNUMBERFONT] = 52,
+    }
 
     local str = ""
+    local size = sizes[self.screen.font] or 52
     for _ = 1, size do
         str = str .. symbol
     end
@@ -190,43 +228,143 @@ local function Divider(size, symbol)
     return str
 end
 
-local function DividerScroll(value, size, symbol)
-    size = size == nil and 50 or size
-    symbol = symbol == nil and "_" or symbol
+local function DividerScroll(self, value, symbol)
+    symbol = symbol ~= nil and symbol or "_"
+
+    local sizes = {
+        [UIFONT] = 45,
+        [TITLEFONT] = 42,
+        [BUTTONFONT] = 45,
+        [TALKINGFONT] = 45,
+
+        [CHATFONT] = 43,
+        [CHATFONT_OUTLINE] = 40,
+
+        [HEADERFONT] = 47,
+
+        [TALKINGFONT_WORMWOOD] = 40,
+        [TALKINGFONT_HERMIT] = 47,
+
+        [DIALOGFONT] = 48,
+
+        [CODEFONT] = 46,
+
+        [NEWFONT] = 38,
+        [NEWFONT_SMALL] = 38,
+        [NEWFONT_OUTLINE] = 40,
+        [NEWFONT_OUTLINE_SMALL] = 40,
+
+        [BODYTEXTFONT] = 50,
+        [SMALLNUMBERFONT] = 53,
+    }
 
     local str
-    local half = math.abs(size / 2)
+    local size = sizes[self.screen.font] or 50
+    local half = math.ceil(size / 2)
 
-    str = Divider(half - 2, symbol)
+    local offsets = {
+        [UIFONT] = 2,
+        [TITLEFONT] = 3,
+        [BUTTONFONT] = 2,
+        [TALKINGFONT] = 3,
+
+        [CHATFONT] = 3,
+        [CHATFONT_OUTLINE] = 0,
+
+        [HEADERFONT] = 3,
+
+        [TALKINGFONT_WORMWOOD] = 3,
+        [TALKINGFONT_HERMIT] = 3,
+
+        [CODEFONT] = 2,
+
+        [NEWFONT] = 2,
+        [NEWFONT_SMALL] = 2,
+        [NEWFONT_OUTLINE] = 3,
+        [NEWFONT_OUTLINE_SMALL] = 2,
+
+        [BODYTEXTFONT] = 2,
+        [SMALLNUMBERFONT] = 3,
+    }
+
+    local offset = offsets[self.screen.font] or 2
+
+    str = Repeat(half - 2, symbol)
     str = str .. " " .. value .. " "
-    str = str .. Divider(half - (value > 9 and 3 or 2), symbol)
+    str = str .. Repeat(half - (value > 9 and offset + 1 or offset), symbol)
 
     return str
 end
 
-local function Spacing(size)
-    size = size == nil and 9 or size
-    return Divider(size, " ")
+local function Spacing(self)
+    local sizes = {
+        [UIFONT] = 7,
+        [TITLEFONT] = 7,
+        [BUTTONFONT] = 7,
+        [TALKINGFONT] = 7,
+
+        [CHATFONT] = 7,
+        [CHATFONT_OUTLINE] = 7,
+
+        [HEADERFONT] = 11,
+
+        [TALKINGFONT_WORMWOOD] = 9,
+        [TALKINGFONT_HERMIT] = 7,
+
+        [DIALOGFONT] = 11,
+
+        [CODEFONT] = 6,
+
+        [NEWFONT] = 8,
+        [NEWFONT_SMALL] = 8,
+        [NEWFONT_OUTLINE] = 8,
+        [NEWFONT_OUTLINE_SMALL] = 8,
+
+        [BODYTEXTFONT] = 9,
+        [SMALLNUMBERFONT] = 9,
+    }
+
+    return Repeat(sizes[self.screen.font] or 9, " ")
 end
 
-local function Cursor(size)
-    size = size == nil and 6 or size - 3
+local function Cursor(self)
+    local sizes = {
+        [UIFONT] = 5,
+        [TITLEFONT] = 5,
+        [BUTTONFONT] = 5,
+        [TALKINGFONT] = 5,
 
-    local str
+        [CHATFONT] = 4,
+        [CHATFONT_OUTLINE] = 4,
 
-    str = Divider(size, " ")
-    str = str .. "> "
+        [HEADERFONT] = 8,
 
-    return str
+        [TALKINGFONT_WORMWOOD] = 7,
+        [TALKINGFONT_HERMIT] = 5,
+
+        [DIALOGFONT] = 8,
+
+        [CODEFONT] = 4,
+
+        [NEWFONT] = 6,
+        [NEWFONT_SMALL] = 6,
+        [NEWFONT_OUTLINE] = 6,
+        [NEWFONT_OUTLINE_SMALL] = 6,
+
+        [BODYTEXTFONT] = 6,
+        [SMALLNUMBERFONT] = 6,
+    }
+
+    return Repeat(sizes[self.screen.font] or 6, " ") .. "> "
 end
 
-local function TableInsertOption(self, t, divider_size, key, option)
+local function TableInsertOption(self, t, key, option)
     local pre
 
     if option.is_divider then
-        option:SetLabel(Divider(divider_size))
+        option:SetLabel(Divider(self))
     else
-        pre = key == self.index and Cursor() or Spacing()
+        pre = key == self.index and Cursor(self) or Spacing(self)
     end
 
     table.insert(t, pre)
@@ -237,12 +375,12 @@ end
 --- __tostring
 -- @treturn string
 function TextMenu:__tostring()
-    local t, divider_size, scroll_size, scroll_half, scroll_top, scroll_bottom
+    local t, scroll_size, scroll_half, scroll_top, scroll_bottom
 
     t = {}
-    divider_size = 54
-    scroll_size = 18
-    scroll_half = math.abs(scroll_size / 2)
+    scroll_size = math.floor(self.screen.lines - 4)
+    scroll_size = scroll_size % 2 == 0 and scroll_size or scroll_size - 1
+    scroll_half = scroll_size / 2
     scroll_top = 1
     scroll_bottom = scroll_size + 1
 
@@ -268,12 +406,12 @@ function TextMenu:__tostring()
             end
 
             if k >= scroll_top and k <= scroll_bottom then
-                TableInsertOption(self, t, divider_size, k, v)
+                TableInsertOption(self, t, k, v)
             end
         end
 
         if scroll_hidden > 0 and #options > scroll_size then
-            table.insert(t, DividerScroll(scroll_hidden, divider_size - 2))
+            table.insert(t, DividerScroll(self, scroll_hidden))
             table.insert(t, "\n")
         end
     end

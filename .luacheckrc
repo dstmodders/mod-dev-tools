@@ -157,6 +157,7 @@ files["scripts/**/*.lua"] = {
     "Profile",
     "RPC",
     "RunInSandboxSafe",
+    "SavePersistentString",
     "SetDebugEntity",
     "SetPause",
     "shallowcopy",
@@ -187,6 +188,7 @@ files["scripts/**/*.lua"] = {
     "ANCHOR_RIGHT",
     "ANCHOR_TOP",
     "BODYTEXTFONT",
+    "BRANCH",
     "BUILDMODE",
     "BUTTONFONT",
     "CHATFONT",
@@ -196,6 +198,7 @@ files["scripts/**/*.lua"] = {
     "CONTROL_SECONDARY",
     "DEGREES",
     "DIALOGFONT",
+    "ENCODE_SAVES",
     "EQUIPSLOTS",
     "FRAMES",
     "FUELTYPE",
@@ -226,6 +229,7 @@ files["scripts/**/*.lua"] = {
     "TITLEFONT",
     "TUNING",
     "UIFONT",
+    "USER_HISTORY_EXPIRY_TIME",
     "WHITE",
 
     -- threads
