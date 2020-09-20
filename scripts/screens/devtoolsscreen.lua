@@ -40,6 +40,7 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     -- general
     self.font = devtools:GetConfig("font")
     self.font_size = devtools:GetConfig("font_size")
+    self.locale_text_scale = devtools:GetConfig("locale_text_scale")
     self.size_height = devtools:GetConfig("size_height")
     self.size_width = devtools:GetConfig("size_width")
 
@@ -54,7 +55,12 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.overlay:SetTint(0, 0, 0, .75)
 
     -- menu
-    self.menu = self:AddChild(Text(self.font, self.font_size, ""))
+    self.menu = self:AddChild(Text(
+        self.font,
+        self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()),
+        ""
+    ))
+
     self.menu:SetHAlign(ANCHOR_LEFT)
     self.menu:SetHAnchor(ANCHOR_MIDDLE)
     self.menu:SetVAlign(ANCHOR_TOP)
@@ -64,7 +70,12 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.menu:SetScaleMode(SCALEMODE_PROPORTIONAL)
 
     -- data
-    self.data = self:AddChild(Text(self.font, self.font_size, ""))
+    self.data = self:AddChild(Text(
+        self.font,
+        self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()),
+        ""
+    ))
+
     self.data:SetHAlign(ANCHOR_RIGHT)
     self.data:SetHAnchor(ANCHOR_MIDDLE)
     self.data:SetVAlign(ANCHOR_TOP)
@@ -209,18 +220,19 @@ end
 function DevToolsScreen:UpdateFromConfig()
     self.font = self.devtools:GetConfig("font")
     self.font_size = self.devtools:GetConfig("font_size")
+    self.locale_text_scale = self.devtools:GetConfig("locale_text_scale")
     self.size_height = self.devtools:GetConfig("size_height")
     self.size_width = self.devtools:GetConfig("size_width")
 
     -- menu
     self.menu:SetRegionSize(self.size_width / 2, self.size_height * self.font_size)
     self.menu:SetFont(self.font)
-    self.menu:SetSize(self.font_size)
+    self.menu:SetSize(self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()))
 
     -- data
     self.data:SetRegionSize(self.size_width / 2, self.size_height * self.font_size)
     self.data:SetFont(self.font)
-    self.data:SetSize(self.font_size)
+    self.data:SetSize(self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()))
 
     -- save
     self.devtools.data:GeneralSet("config", self.devtools.config)

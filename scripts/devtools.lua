@@ -472,6 +472,7 @@ function DevTools:DoInit(modname, debug)
         font = config.font or BODYTEXTFONT,
         font_size = config.font_size or 16,
         key_switch_data = KEY_TAB,
+        locale_text_scale = config.locale_text_scale or false,
         size_height = config.size_height or 26,
         size_width = config.size_width or 1280,
     }
