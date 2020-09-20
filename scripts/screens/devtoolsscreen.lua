@@ -15,7 +15,7 @@
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
--- @release 0.3.0-alpha
+-- @release 0.3.0
 ----
 local Image = require "widgets/image"
 local Menu = require "devtools/menu/menu"
