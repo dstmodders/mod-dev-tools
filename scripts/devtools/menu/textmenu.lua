@@ -378,7 +378,7 @@ function TextMenu:__tostring()
     local t, scroll_size, scroll_half, scroll_top, scroll_bottom
 
     t = {}
-    scroll_size = math.floor(self.screen.lines - 4)
+    scroll_size = math.floor(self.screen.size_height - 4)
     scroll_size = scroll_size % 2 == 0 and scroll_size or scroll_size - 1
     scroll_half = scroll_size / 2
     scroll_top = 1

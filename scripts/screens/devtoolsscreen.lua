@@ -40,10 +40,10 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     -- general
     self.font = devtools:GetConfig("font")
     self.font_size = devtools:GetConfig("font_size")
-    self.lines = devtools:GetConfig("lines")
-    self.width = devtools:GetConfig("width")
+    self.size_height = devtools:GetConfig("size_height")
+    self.size_width = devtools:GetConfig("size_width")
 
-    -- widgets
+    -- overlay
     self.overlay = self:AddChild(Image("images/global.xml", "square.tex"))
     self.overlay:SetVRegPoint(ANCHOR_MIDDLE)
     self.overlay:SetHRegPoint(ANCHOR_MIDDLE)
@@ -53,22 +53,24 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.overlay:SetScaleMode(SCALEMODE_FILLSCREEN)
     self.overlay:SetTint(0, 0, 0, .75)
 
+    -- menu
     self.menu = self:AddChild(Text(self.font, self.font_size, ""))
     self.menu:SetHAlign(ANCHOR_LEFT)
     self.menu:SetHAnchor(ANCHOR_MIDDLE)
     self.menu:SetVAlign(ANCHOR_TOP)
     self.menu:SetVAnchor(ANCHOR_MIDDLE)
     self.menu:SetPosition(0, 0, 0)
-    self.menu:SetRegionSize(self.width / 2 , self.lines * self.font_size)
+    self.menu:SetRegionSize(self.size_width / 2 , self.size_height * self.font_size)
     self.menu:SetScaleMode(SCALEMODE_PROPORTIONAL)
 
+    -- data
     self.data = self:AddChild(Text(self.font, self.font_size, ""))
     self.data:SetHAlign(ANCHOR_RIGHT)
     self.data:SetHAnchor(ANCHOR_MIDDLE)
     self.data:SetVAlign(ANCHOR_TOP)
     self.data:SetVAnchor(ANCHOR_MIDDLE)
     self.data:SetPosition(0, 0, 0)
-    self.data:SetRegionSize(self.width / 2, self.lines * self.font_size)
+    self.data:SetRegionSize(self.size_width / 2, self.size_height * self.font_size)
     self.data:SetScaleMode(SCALEMODE_PROPORTIONAL)
 
     -- self
@@ -207,16 +209,16 @@ end
 function DevToolsScreen:UpdateFromConfig()
     self.font = self.devtools:GetConfig("font")
     self.font_size = self.devtools:GetConfig("font_size")
-    self.lines = self.devtools:GetConfig("lines")
-    self.width = self.devtools:GetConfig("width")
+    self.size_height = self.devtools:GetConfig("size_height")
+    self.size_width = self.devtools:GetConfig("size_width")
 
     -- menu
-    self.menu:SetRegionSize(self.width / 2, self.lines * self.font_size)
+    self.menu:SetRegionSize(self.size_width / 2, self.size_height * self.font_size)
     self.menu:SetFont(self.font)
     self.menu:SetSize(self.font_size)
 
     -- data
-    self.data:SetRegionSize(self.width / 2, self.lines * self.font_size)
+    self.data:SetRegionSize(self.size_width / 2, self.size_height * self.font_size)
     self.data:SetFont(self.font)
     self.data:SetSize(self.font_size)
 

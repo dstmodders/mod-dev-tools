@@ -28,7 +28,7 @@ return {
                     {
                         type = MOD_DEV_TOOLS.OPTION.CHOICES,
                         options = {
-                            label = "Font",
+                            label = "Family",
                             choices = {
                                 { name = "Belisa Plumilla Manual (50)", value = UIFONT },
                                 { name = "Belisa Plumilla Manual (100)", value = TITLEFONT },
@@ -55,18 +55,16 @@ return {
                                 { name = "Stint Ultra Condensed (Small)", value = SMALLNUMBERFONT },
                             },
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools.config.font = BODYTEXTFONT
+                                submenu.devtools:SetConfig("font", BODYTEXTFONT)
                                 submenu.devtools.screen:UpdateFromConfig()
                             end,
                             on_get_fn = function(_, submenu)
-                                local font = submenu.devtools.config.font
+                                local font = submenu.devtools:GetConfig("font")
                                 return font and font or BODYTEXTFONT
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools.config.font = value
-                                if submenu.devtools.screen then
-                                    submenu.devtools.screen:UpdateFromConfig()
-                                end
+                                submenu.devtools:SetConfig("font", value)
+                                submenu.devtools.screen:UpdateFromConfig()
                             end,
                         },
                     },
@@ -77,17 +75,15 @@ return {
                             min = 8,
                             max = 24,
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools.config.font_size = 16
+                                submenu.devtools:SetConfig("font_size", 16)
                                 submenu.devtools.screen:UpdateFromConfig()
                             end,
                             on_get_fn = function(_, submenu)
-                                return submenu.devtools.config.font_size
+                                return submenu.devtools:GetConfig("font_size")
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools.config.font_size = value
-                                if submenu.devtools.screen then
-                                    submenu.devtools.screen:UpdateFromConfig()
-                                end
+                                submenu.devtools:SetConfig("font_size", value)
+                                submenu.devtools.screen:UpdateFromConfig()
                             end,
                         },
                     },
@@ -103,7 +99,7 @@ return {
                     {
                         type = MOD_DEV_TOOLS.OPTION.NUMERIC,
                         options = {
-                            label = "Height (Lines)",
+                            label = "Height",
                             min = 10,
                             max = function(_, submenu)
                                 return math.floor(screen_height
@@ -111,39 +107,35 @@ return {
                                     / 2)
                             end,
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools.config.lines = 26
+                                submenu.devtools:SetConfig("size_height", 26)
                                 submenu.devtools.screen:UpdateFromConfig()
                             end,
                             on_get_fn = function(_, submenu)
-                                return submenu.devtools.config.lines
+                                return submenu.devtools:GetConfig("size_height")
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools.config.lines = value
-                                if submenu.devtools.screen then
-                                    submenu.devtools.screen:UpdateFromConfig()
-                                end
+                                submenu.devtools:SetConfig("size_height", value)
+                                submenu.devtools.screen:UpdateFromConfig()
                             end,
                         },
                     },
                     {
                         type = MOD_DEV_TOOLS.OPTION.NUMERIC,
                         options = {
-                            label = "Width (Pixels)",
+                            label = "Width",
                             min = 640,
                             max = screen_width,
                             step = 10,
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools.config.width = 1280
+                                submenu.devtools:SetConfig("size_width", 1280)
                                 submenu.devtools.screen:UpdateFromConfig()
                             end,
                             on_get_fn = function(_, submenu)
-                                return submenu.devtools.config.width
+                                return submenu.devtools:GetConfig("size_width")
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools.config.width = value
-                                if submenu.devtools.screen then
-                                    submenu.devtools.screen:UpdateFromConfig()
-                                end
+                                submenu.devtools:SetConfig("size_width", value)
+                                submenu.devtools.screen:UpdateFromConfig()
                             end,
                         },
                     },

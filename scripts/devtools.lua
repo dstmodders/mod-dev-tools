@@ -87,7 +87,17 @@ end
 -- @tparam[opt] string name Config name
 -- @treturn any
 function DevTools:GetConfig(name)
-    return name and self.config[name] or self.config
+    if type(self.config[name]) ~= "nil" then
+        return self.config[name]
+    end
+    return self.config
+end
+
+--- Sets config.
+-- @tparam string name Config name
+-- @tparam any value Config value
+function DevTools:SetConfig(name, value)
+    self.config[name] = value
 end
 
 --- Checks if it's a dedicated server game.
@@ -462,8 +472,8 @@ function DevTools:DoInit(modname, debug)
         font = config.font or BODYTEXTFONT,
         font_size = config.font_size or 16,
         key_switch_data = KEY_TAB,
-        lines = config.lines or 26,
-        width = config.width or 1280,
+        size_height = config.size_height or 26,
+        size_width = config.size_width or 1280,
     }
 end
 
