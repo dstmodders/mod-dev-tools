@@ -12,6 +12,8 @@
 --
 --    DevTools.player.crafting
 --
+-- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+--
 -- @classmod devtools.player.CraftingDevTools
 -- @see DevTools
 -- @see devtools.DevTools

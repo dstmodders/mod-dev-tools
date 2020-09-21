@@ -14,6 +14,8 @@
 --
 --    DevTools.player.console
 --
+-- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+--
 -- @classmod devtools.player.ConsoleDevTools
 -- @see DevTools
 -- @see devtools.DevTools

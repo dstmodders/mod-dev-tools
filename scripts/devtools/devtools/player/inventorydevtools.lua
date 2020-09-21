@@ -11,6 +11,8 @@
 --
 --    DevTools.player.inventory
 --
+-- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+--
 -- @classmod devtools.player.InventoryDevTools
 -- @see DevTools
 -- @see devtools.DevTools

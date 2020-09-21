@@ -12,6 +12,8 @@
 --
 --    DevTools.world.savedata
 --
+-- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+--
 -- @classmod devtools.world.SaveDataDevTools
 -- @see DevTools
 -- @see devtools.DevTools

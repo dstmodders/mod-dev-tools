@@ -21,6 +21,8 @@
 --
 --    DevTools.player
 --
+-- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+--
 -- @classmod DevTools
 -- @see devtools.PlayerDevTools
 -- @see devtools.WorldDevTools
