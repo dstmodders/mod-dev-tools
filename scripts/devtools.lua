@@ -481,7 +481,7 @@ function DevTools:DoInit(modname, debug)
     -- config
     self.config:SetDefault("font", BODYTEXTFONT)
     self.config:SetDefault("font_size", 16)
-    self.config:SetDefault("key_switch_data", KEY_TAB)
+    self.config:SetDefault("key_switch_data", KEY_X)
     self.config:SetDefault("locale_text_scale", false)
     self.config:SetDefault("size_height", 26)
     self.config:SetDefault("size_width", 1280)
