@@ -36,6 +36,7 @@ require "consolecommands"
 require "devtools/constants"
 
 local API = require "devtools/api"
+local Config = require "devtools/config"
 local Data = require "devtools/data"
 local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
@@ -87,17 +88,24 @@ end
 -- @tparam[opt] string name Config name
 -- @treturn any
 function DevTools:GetConfig(name)
-    if type(self.config[name]) ~= "nil" then
-        return self.config[name]
+    if name ~= nil then
+        return self.config:GetValue(name)
     end
-    return self.config
+    return self.config:GetValues()
 end
 
 --- Sets config.
 -- @tparam string name Config name
 -- @tparam any value Config value
 function DevTools:SetConfig(name, value)
-    self.config[name] = value
+    self.config:SetValue(name, value)
+end
+
+--- Resets config.
+-- @tparam string name Config name
+-- @treturn boolean
+function DevTools:ResetConfig(name)
+    self.config:ResetValue(name)
 end
 
 --- Checks if it's a dedicated server game.
@@ -447,9 +455,13 @@ end
 function DevTools:DoInit(modname, debug)
     Utils.Debug.AddMethods(self)
 
+    -- data
+    local data = Data(modname)
+
     -- general
     self.api = API(self)
-    self.data = Data(modname)
+    self.config = Config(data)
+    self.data = data
     self.debug = debug
     self.inst = nil
     self.is_in_character_select = false
@@ -463,19 +475,12 @@ function DevTools:DoInit(modname, debug)
     self.world = nil
 
     -- config
-    local config
-
-    config = self.data:GeneralGet("config")
-    config = config or {}
-
-    self.config = {
-        font = config.font or BODYTEXTFONT,
-        font_size = config.font_size or 16,
-        key_switch_data = KEY_TAB,
-        locale_text_scale = config.locale_text_scale or false,
-        size_height = config.size_height or 26,
-        size_width = config.size_width or 1280,
-    }
+    self.config:SetDefault("font", BODYTEXTFONT)
+    self.config:SetDefault("font_size", 16)
+    self.config:SetDefault("key_switch_data", KEY_TAB)
+    self.config:SetDefault("locale_text_scale", false)
+    self.config:SetDefault("size_height", 26)
+    self.config:SetDefault("size_width", 1280)
 end
 
 --- Initializes when the world is initialized.

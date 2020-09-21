@@ -15,6 +15,16 @@ require "devtools/constants"
 
 local screen_width, screen_height = TheSim:GetScreenSize()
 
+local function OnAcceptConfig(submenu, name)
+    submenu.devtools:ResetConfig(name)
+    submenu.devtools.screen:UpdateFromConfig()
+end
+
+local function OnSetConfig(submenu, name, value)
+    submenu.devtools:SetConfig(name, value)
+    submenu.devtools.screen:UpdateFromConfig()
+end
+
 return {
     label = "Dev Tools",
     name = "DevToolsSubmenu",
@@ -29,12 +39,14 @@ return {
                         type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
                         options = {
                             label = "Toggle Locale Text Scale",
+                            on_accept_fn = function(_, submenu)
+                                OnAcceptConfig(submenu, "locale_text_scale")
+                            end,
                             on_get_fn = function(_, submenu)
                                 return submenu.devtools:GetConfig("locale_text_scale")
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools:SetConfig("locale_text_scale", value)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnSetConfig(submenu, "locale_text_scale", value)
                             end,
                         },
                     },
@@ -69,16 +81,14 @@ return {
                                 { name = "Stint Ultra Condensed (Small)", value = SMALLNUMBERFONT },
                             },
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools:SetConfig("font", BODYTEXTFONT)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnAcceptConfig(submenu, "font")
                             end,
                             on_get_fn = function(_, submenu)
                                 local font = submenu.devtools:GetConfig("font")
                                 return font and font or BODYTEXTFONT
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools:SetConfig("font", value)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnSetConfig(submenu, "font", value)
                             end,
                         },
                     },
@@ -89,15 +99,13 @@ return {
                             min = 8,
                             max = 24,
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools:SetConfig("font_size", 16)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnAcceptConfig(submenu, "font_size")
                             end,
                             on_get_fn = function(_, submenu)
                                 return submenu.devtools:GetConfig("font_size")
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools:SetConfig("font_size", value)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnSetConfig(submenu, "font_size", value)
                             end,
                         },
                     },
@@ -117,19 +125,17 @@ return {
                             min = 10,
                             max = function(_, submenu)
                                 return math.floor(screen_height
-                                    / submenu.devtools.config.font_size
+                                    / submenu.devtools:GetConfig("font_size")
                                     / 2)
                             end,
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools:SetConfig("size_height", 26)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnAcceptConfig(submenu, "size_height")
                             end,
                             on_get_fn = function(_, submenu)
                                 return submenu.devtools:GetConfig("size_height")
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools:SetConfig("size_height", value)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnSetConfig(submenu, "size_height", value)
                             end,
                         },
                     },
@@ -141,15 +147,13 @@ return {
                             max = screen_width,
                             step = 10,
                             on_accept_fn = function(_, submenu)
-                                submenu.devtools:SetConfig("size_width", 1280)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnAcceptConfig(submenu, "size_width")
                             end,
                             on_get_fn = function(_, submenu)
                                 return submenu.devtools:GetConfig("size_width")
                             end,
                             on_set_fn = function(_, submenu, value)
-                                submenu.devtools:SetConfig("size_width", value)
-                                submenu.devtools.screen:UpdateFromConfig()
+                                OnSetConfig(submenu, "size_width", value)
                             end,
                         },
                     },
