@@ -20,48 +20,41 @@ local Utils = require "devtools/utils"
 
 --- Constructor.
 -- @function _ctor
+-- @tparam screens.DevToolsScreen screen
 -- @tparam devtools.WorldDevTools worlddevtools
--- @usage local worlddata = WorldData(worlddevtools)
-local WorldData = Class(Data, function(self, worlddevtools)
-    Data._ctor(self)
+-- @usage local worlddata = WorldData(screen, worlddevtools)
+local WorldData = Class(Data, function(self, screen, worlddevtools)
+    Data._ctor(self, screen)
 
     -- general
-    self.save_data_lines_stack = {}
     self.savedatadevtools = worlddevtools and worlddevtools.savedata
-    self.world_lines_stack = {}
     self.worlddevtools = worlddevtools
 
-    -- update
+    -- self
     self:Update()
 end)
 
 --- General
 -- @section general
 
---- Clears lines stack.
-function WorldData:Clear()
-    self.world_lines_stack = {}
-    self.save_data_lines_stack = {}
-end
-
 --- Updates lines stack.
 function WorldData:Update()
-    self:Clear()
+    Data.Update(self)
+
+    self:PushTitleLine("World " .. (not self.worlddevtools:IsCave() and "(Forest)" or "(Cave)"))
+    self:PushEmptyLine()
     self:PushWorldData()
+
     if self.savedatadevtools then
+        self:PushEmptyLine()
+        self:PushTitleLine("Save Data")
+        self:PushEmptyLine()
         self:PushSaveData()
     end
 end
 
 --- World
 -- @section world
-
---- Pushes world line.
--- @tparam string name
--- @tparam string value
-function WorldData:PushWorldLine(name, value)
-    self:PushLine(self.world_lines_stack, name, value)
-end
 
 --- Pushes world moisture line.
 function WorldData:PushWorldMoistureLine()
@@ -87,7 +80,7 @@ function WorldData:PushWorldMoistureLine()
             and Utils.String.TableSplit({ moisture_floor, moisture_string, moisture_ceil })
             or Utils.String.TableSplit({ moisture_string, moisture_ceil })
 
-        self:PushWorldLine("Moisture", value)
+        self:PushLine("Moisture", value)
     end
 end
 
@@ -100,9 +93,9 @@ function WorldData:PushWorldPhaseLine()
         if next_phase then
             local seconds = worlddevtools:GetTimeUntilPhase(next_phase)
             if seconds ~= nil then
-                self:PushWorldLine("Phase", { phase, Utils.String.ValueClock(seconds, true) })
+                self:PushLine("Phase", { phase, Utils.String.ValueClock(seconds, true) })
             else
-                self:PushWorldLine("Phase", phase)
+                self:PushLine("Phase", phase)
             end
         end
     end
@@ -115,7 +108,7 @@ function WorldData:PushWorldPrecipitationLines()
     local precipitation_rate = worlddevtools:GetStatePrecipitationRate()
     if precipitation_rate and precipitation_rate > 0 then
         local peakprecipitationrate = worlddevtools:GetPeakPrecipitationRate()
-        self:PushWorldLine("Precipitation Rate", peakprecipitationrate ~= nil
+        self:PushLine("Precipitation Rate", peakprecipitationrate ~= nil
             and { precipitation_rate, peakprecipitationrate }
             or Utils.String.ValueFloat(precipitation_rate))
     end
@@ -127,17 +120,17 @@ function WorldData:PushWorldPrecipitationLines()
     if precipitation_starts and precipitation_ends then
         local label = is_snowing and "Snow" or "Rain"
         if not worlddevtools:IsPrecipitation() then
-            self:PushWorldLine(
+            self:PushLine(
                 label .. " Starts",
                 "~" .. Utils.String.ValueClock(precipitation_starts)
             )
         else
-            self:PushWorldLine(label .. " Ends", "~" .. Utils.String.ValueClock(precipitation_ends))
+            self:PushLine(label .. " Ends", "~" .. Utils.String.ValueClock(precipitation_ends))
         end
     end
 
     if is_snowing then
-        self:PushWorldLine(
+        self:PushLine(
             "Snow Level",
             Utils.String.ValuePercent(worlddevtools:GetStateSnowLevel() * 100)
         )
@@ -148,7 +141,7 @@ end
 function WorldData:PushWorldTemperatureLine()
     local temperature = self.worlddevtools:GetStateTemperature()
     if temperature ~= nil then
-        self:PushWorldLine("Temperature", Utils.String.ValueScale(temperature))
+        self:PushLine("Temperature", Utils.String.ValueScale(temperature))
     end
 end
 
@@ -165,7 +158,7 @@ function WorldData:PushWorldWetnessLine()
         elseif wetness_rate and wetness_rate < 0 then
             value = string.format("%s (-%0.2f)", value, math.abs(wetness_rate))
         end
-        self:PushWorldLine("Wetness", value)
+        self:PushLine("Wetness", value)
     end
 end
 
@@ -173,10 +166,8 @@ end
 function WorldData:PushWorldData()
     Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
 
-    local worlddevtools = self.worlddevtools
-
-    self:PushWorldLine("Seed", worlddevtools:GetSeed())
-    self:PushWorldLine("Season", worlddevtools:GetStateSeason())
+    self:PushLine("Seed", self.worlddevtools:GetSeed())
+    self:PushLine("Season", self.worlddevtools:GetStateSeason())
     self:PushWorldPhaseLine()
     self:PushWorldTemperatureLine()
     self:PushWorldMoistureLine()
@@ -185,20 +176,13 @@ function WorldData:PushWorldData()
 
     -- Commented out intentionally. Maybe will be uncommented later.
     --local savedatadevtools = self.savedatadevtools
-    --if savedatadevtools and not worlddevtools:IsCave() then
-    --    self:PushWorldLine("Walrus Camps", savedatadevtools:GetNrOfWalrusCamps())
+    --if savedatadevtools and not self.worlddevtools:IsCave() then
+    --    self:PushLine("Walrus Camps", savedatadevtools:GetNrOfWalrusCamps())
     --end
 end
 
---- Save data
+--- Save Data
 -- @section save-data
-
---- Pushes save data line.
--- @tparam string name
--- @tparam string value
-function WorldData:PushSaveDataLine(name, value)
-    self:PushLine(self.save_data_lines_stack, name, value)
-end
 
 --- Pushes `deerclopsspawner` line.
 function WorldData:PushDeerclopsSpawnerLine()
@@ -218,7 +202,7 @@ function WorldData:PushDeerclopsSpawnerLine()
         end
     end
 
-    self:PushSaveDataLine("Deerclops", value)
+    self:PushLine("Deerclops", value)
 end
 
 --- Pushes `beargerspawner` line.
@@ -245,7 +229,7 @@ function WorldData:PushBeargerSpawnerLine()
         end
     end
 
-    self:PushSaveDataLine("Bearger", value or "error")
+    self:PushLine("Bearger", value or "error")
 end
 
 --- Pushes `malbatrossspawner` line.
@@ -275,7 +259,7 @@ function WorldData:PushMalbatrossSpawnerLine()
         end
     end
 
-    self:PushSaveDataLine("Malbatross", value or "error")
+    self:PushLine("Malbatross", value or "error")
 end
 
 --- Pushes `deerherdspawner` line.
@@ -298,7 +282,7 @@ function WorldData:PushDeersSpawnerLine()
         end
     end
 
-    self:PushSaveDataLine("Deers", value or "error")
+    self:PushLine("Deers", value or "error")
 end
 
 --- Pushes `klaussackspawner` line.
@@ -321,7 +305,7 @@ function WorldData:PushKlausSackSpawnerLine()
         end
     end
 
-    self:PushSaveDataLine("Klaus Sack", value or "error")
+    self:PushLine("Klaus Sack", value or "error")
 end
 
 --- Pushes `hounded` line.
@@ -342,7 +326,7 @@ function WorldData:PushHoundedLine()
         end
     end
 
-    self:PushSaveDataLine(
+    self:PushLine(
         (self.worlddevtools:IsCave() and "Worms" or "Hounds") .. " Attack",
         value or "error"
     )
@@ -366,7 +350,7 @@ function WorldData:PushChessUnlocksLine()
         end
     end
 
-    self:PushSaveDataLine("Chess Unlocks", value or "error")
+    self:PushLine("Chess Unlocks", value or "error")
 end
 
 --- Pushes save data.
@@ -374,8 +358,8 @@ function WorldData:PushSaveData()
     Utils.AssertRequiredField("WorldData.savedatadevtools", self.savedatadevtools)
     Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
 
-    self:PushSaveDataLine("Seed", self.savedatadevtools:GetSeed())
-    self:PushSaveDataLine("Save Version", self.savedatadevtools:GetVersion())
+    self:PushLine("Seed", self.savedatadevtools:GetSeed())
+    self:PushLine("Save Version", self.savedatadevtools:GetVersion())
 
     -- Commented out intentionally. Maybe will be uncommented later.
     --if self.savedatadevtools:GetMapPersistData() then
@@ -389,34 +373,6 @@ function WorldData:PushSaveData()
     --    self:PushHoundedLine()
     --    self:PushChessUnlocksLine()
     --end
-end
-
---- Other
--- @section other
-
---- __tostring
--- @treturn string
-function WorldData:__tostring()
-    if #self.world_lines_stack == 0 then
-        return
-    end
-
-    local t = {}
-
-    self:TableInsertTitle(
-        t,
-        "World " .. (not self.worlddevtools:IsCave() and "(Forest)" or "(Cave)")
-    )
-
-    self:TableInsertData(t, self.world_lines_stack)
-    table.insert(t, "\n")
-
-    if #self.save_data_lines_stack > 0 then
-        self:TableInsertTitle(t, "Save Data")
-        self:TableInsertData(t, self.save_data_lines_stack)
-    end
-
-    return table.concat(t)
 end
 
 return WorldData

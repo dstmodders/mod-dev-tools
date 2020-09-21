@@ -22,24 +22,49 @@ local Utils = require "devtools/utils"
 
 --- Constructor.
 -- @function _ctor
--- @usage local data = Data()
-local Data = Class(function(self)
+-- @usage local data = Data(screen)
+local Data = Class(function(self, screen)
     Utils.Debug.AddMethods(self)
+
+    -- general
+    self.screen = screen
+    self.stack = {}
 end)
+
+--- General
+-- @section general
+
+--- Clears stack.
+function Data:Clear()
+    self.stack = {}
+end
+
+--- Updates stack.
+function Data:Update()
+    self:Clear()
+end
 
 --- Line
 -- @section line
 
---- Pushes line into table.
--- @tparam table t
+--- Pushes title line into stack.
+function Data:PushEmptyLine()
+    table.insert(self.stack, "")
+end
+
+--- Pushes title line into stack.
+-- @tparam string title
+function Data:PushTitleLine(title)
+    if type(title) == "string" then
+        table.insert(self.stack, string.format("***** %s *****", string.upper(title)))
+    end
+end
+
+--- Pushes line into stack.
 -- @tparam string name
 -- @tparam table|string value
-function Data:PushLine(t, name, value) -- luacheck: only
-    if type(t) ~= "table"
-        or type(name) ~= "string"
-        or string.len(name) == 0
-        or value == nil
-    then
+function Data:PushLine(name, value) -- luacheck: only
+    if type(name) ~= "string" or string.len(name) == 0 or value == nil then
         return
     end
 
@@ -47,29 +72,27 @@ function Data:PushLine(t, name, value) -- luacheck: only
         value = Utils.String.TableSplit(value)
     end
 
-    table.insert(t, string.format("%s: %s", name, value))
+    table.insert(self.stack, string.format("%s: %s", name, value))
 end
 
 --- Other
 -- @section other
 
---- Inserts title strings into table.
--- @tparam table t
--- @tparam string title
-function Data:TableInsertTitle(t, title) -- luacheck: only
-    table.insert(t, "***** ")
-    table.insert(t, string.upper(title))
-    table.insert(t, " *****\n\n")
-end
+--- __tostring
+-- @treturn string
+function Data:__tostring()
+    if #self.stack == 0 then
+        return
+    end
 
---- Inserts data strings into table.
--- @tparam table t
--- @tparam table lines_stack
-function Data:TableInsertData(t, lines_stack) -- luacheck: only
-    for _, v in pairs(lines_stack) do
-        table.insert(t, tostring(v))
+    local t = {}
+
+    for _, line in pairs(self.stack) do
+        table.insert(t, tostring(line))
         table.insert(t, "\n")
     end
+
+    return table.concat(t)
 end
 
 return Data

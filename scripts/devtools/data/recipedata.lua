@@ -20,19 +20,16 @@ local Utils = require "devtools/utils"
 
 --- Constructor.
 -- @function _ctor
+-- @tparam screens.DevToolsScreen screen
 -- @tparam DevTools devtools
--- @tparam devtools.player.InventoryDevTools inventorydevtools
--- @tparam table recipe
--- @usage local recipedata = RecipeData(devtools, inventorydevtools, recipe)
-local RecipeData = Class(Data, function(self, devtools, inventorydevtools, recipe)
-    Data._ctor(self)
+-- @usage local recipedata = RecipeData(screen, devtools)
+local RecipeData = Class(Data, function(self, screen, devtools)
+    Data._ctor(self, screen)
 
     -- general
     self.devtools = devtools
-    self.ingredients_lines_stack = {}
-    self.inventorydevtools = inventorydevtools
-    self.recipe = recipe
-    self.recipe_lines_stack = {}
+    self.inventorydevtools = devtools.player.inventory
+    self.recipe = devtools.player.crafting:GetSelectedRecipe()
 
     -- self
     self:Update()
@@ -41,70 +38,21 @@ end)
 --- General
 -- @section general
 
---- Clears lines stack.
-function RecipeData:Clear()
-    self.ingredients_lines_stack = {}
-    self.recipe_lines_stack = {}
-end
-
 --- Updates lines stack.
 function RecipeData:Update()
-    self:Clear()
+    Data.Update(self)
+
+    self:PushTitleLine("Recipe")
+    self:PushEmptyLine()
     self:PushRecipeData()
-    self:PushIngredientsData()
-end
 
---- Recipe
--- @section recipe
-
---- Pushes recipe line.
--- @tparam string name
--- @tparam string value
-function RecipeData:PushRecipeLine(name, value)
-    self:PushLine(self.recipe_lines_stack, name, value)
-end
-
---- Pushes recipe data.
-function RecipeData:PushRecipeData()
-    Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
-    Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
-
-    local recipe = self.recipe
-
-    self:PushRecipeLine("RPC ID", recipe.rpc_id)
-
-    if recipe.nounlock ~= nil and type(recipe.nounlock) == "boolean" then
-        self:PushRecipeLine("Unlockable", tostring(not recipe.nounlock and "yes" or "no"))
+    if self.recipe.ingredients then
+        self:PushEmptyLine()
+        self:PushTitleLine("Ingredients")
+        self:PushEmptyLine()
+        self:PushIngredientsData()
     end
-
-    self:PushRecipeLine("Name", recipe.name)
-
-    if recipe.product then
-        if recipe.numtogive and recipe.numtogive > 1 then
-            self:PushRecipeLine("Product", { recipe.product, recipe.numtogive })
-        else
-            self:PushRecipeLine("Product", recipe.product)
-        end
-    end
-
-    self:PushRecipeLine("Placer", recipe.placer)
-    self:PushRecipeLine("Builder Tag", recipe.builder_tag)
-
-    if recipe.build_mode then
-        local mode = "NONE"
-        if recipe.build_mode == BUILDMODE.LAND then
-            mode = "LAND"
-        elseif recipe.build_mode == BUILDMODE.WATER then
-            mode = "WATER"
-        end
-        self:PushRecipeLine("Build Mode", mode)
-    end
-
-    self:PushRecipeLine("Build Distance", recipe.build_distance)
 end
-
---- Ingredients
--- @section ingredients
 
 --- Pushes ingredient line.
 -- @tparam string type
@@ -115,14 +63,53 @@ function RecipeData:PushIngredientLine(type, amount)
 
     if inventory then
         local state = inventory:Has(type, amount)
-        table.insert(self.ingredients_lines_stack, string.format(
+        table.insert(self.stack, string.format(
             "x%d %s",
             amount,
             Utils.String.TableSplit({ name, state and "yes" or "no" })
         ))
     else
-        table.insert(self.ingredients_lines_stack, string.format("x%d %s", amount, name))
+        table.insert(self.stack, string.format("x%d %s", amount, name))
     end
+end
+
+--- Pushes recipe data.
+function RecipeData:PushRecipeData()
+    Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
+    Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
+
+    local recipe = self.recipe
+
+    self:PushLine("RPC ID", recipe.rpc_id)
+
+    if recipe.nounlock ~= nil and type(recipe.nounlock) == "boolean" then
+        self:PushLine("Unlockable", tostring(not recipe.nounlock and "yes" or "no"))
+    end
+
+    self:PushLine("Name", recipe.name)
+
+    if recipe.product then
+        if recipe.numtogive and recipe.numtogive > 1 then
+            self:PushLine("Product", { recipe.product, recipe.numtogive })
+        else
+            self:PushLine("Product", recipe.product)
+        end
+    end
+
+    self:PushLine("Placer", recipe.placer)
+    self:PushLine("Builder Tag", recipe.builder_tag)
+
+    if recipe.build_mode then
+        local mode = "NONE"
+        if recipe.build_mode == BUILDMODE.LAND then
+            mode = "LAND"
+        elseif recipe.build_mode == BUILDMODE.WATER then
+            mode = "WATER"
+        end
+        self:PushLine("Build Mode", mode)
+    end
+
+    self:PushLine("Build Distance", recipe.build_distance)
 end
 
 --- Pushes ingredients data.
@@ -131,35 +118,9 @@ function RecipeData:PushIngredientsData()
     Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
     Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
 
-    if self.recipe.ingredients then
-        for _, ingredient in pairs(self.recipe.ingredients) do
-            self:PushIngredientLine(ingredient.type, ingredient.amount)
-        end
+    for _, ingredient in pairs(self.recipe.ingredients) do
+        self:PushIngredientLine(ingredient.type, ingredient.amount)
     end
-end
-
---- Other
--- @section other
-
---- __tostring
--- @treturn string
-function RecipeData:__tostring()
-    if #self.recipe_lines_stack == 0 then
-        return
-    end
-
-    local t = {}
-
-    self:TableInsertTitle(t, "Recipe")
-    self:TableInsertData(t, self.recipe_lines_stack)
-    table.insert(t, "\n")
-
-    if #self.ingredients_lines_stack > 0 then
-        self:TableInsertTitle(t, "Ingredients")
-        self:TableInsertData(t, self.ingredients_lines_stack)
-    end
-
-    return table.concat(t)
 end
 
 return RecipeData

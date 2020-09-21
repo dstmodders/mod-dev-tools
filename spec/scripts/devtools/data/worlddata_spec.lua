@@ -31,8 +31,8 @@ describe("WorldData", function()
         worlddevtools = MockWorldDevTools()
 
         WorldData = require "devtools/data/worlddata"
-        worlddata = WorldData(worlddevtools)
-        worlddata.world_lines_stack = {}
+        worlddata = WorldData(nil, worlddevtools)
+        worlddata.stack = {}
     end)
 
     insulate("should be initialized with the default values", function()
@@ -41,54 +41,44 @@ describe("WorldData", function()
         end)
 
         local function AssertDefaults(self)
+            -- data
+            assert.is_nil(self.screen)
+            assert.is_table(self.stack)
+
             -- general
-            assert.is_table(self.save_data_lines_stack)
             assert.is_nil(self.savedatadevtools)
             assert.is_equal(worlddevtools, self.worlddevtools)
-            assert.is_table(self.world_lines_stack)
         end
 
         it("by using the constructor", function()
-            worlddata = WorldData(worlddevtools)
+            worlddata = WorldData(nil, worlddevtools)
             AssertDefaults(worlddata)
         end)
     end)
 
     describe("world", function()
-        describe("PushWorldLine", function()
-            before_each(function()
-                worlddata.world_lines_stack = {}
-            end)
-
-            it("should push the world line", function()
-                assert.is_equal(0, #worlddata.world_lines_stack)
-                worlddata:PushWorldLine("name", "value")
-                assert.is_equal(1, #worlddata.world_lines_stack)
-            end)
-        end)
-
         describe("PushWorldMoistureLine", function()
             before_each(function()
-                worlddata.world_lines_stack = {}
+                worlddata.stack = {}
             end)
 
             describe("when one of the required values is missing", function()
                 it("shouldn't push the corresponding line to the world lines stack", function()
                     worlddata.worlddevtools.GetStateMoisture = ReturnValueFn(nil)
                     worlddata:PushWorldMoistureLine()
-                    assert.is_nil(worlddata.world_lines_stack[1])
+                    assert.is_nil(worlddata.stack[1])
 
                     worlddata.worlddevtools.GetStateMoistureCeil = ReturnValueFn(nil)
                     worlddata:PushWorldMoistureLine()
-                    assert.is_nil(worlddata.world_lines_stack[1])
+                    assert.is_nil(worlddata.stack[1])
 
                     worlddata.worlddevtools.GetMoistureFloor = ReturnValueFn(nil)
                     worlddata:PushWorldMoistureLine()
-                    assert.is_nil(worlddata.world_lines_stack[1])
+                    assert.is_nil(worlddata.stack[1])
 
                     worlddata.worlddevtools.GetMoistureRate = ReturnValueFn(nil)
                     worlddata:PushWorldMoistureLine()
-                    assert.is_nil(worlddata.world_lines_stack[1])
+                    assert.is_nil(worlddata.stack[1])
                 end)
             end)
 
@@ -102,7 +92,7 @@ describe("WorldData", function()
                     worlddata:PushWorldMoistureLine()
                     assert.is_equal(
                         "Moisture: 250.00 | 500.00 (-1.50) | 750.00",
-                        worlddata.world_lines_stack[1]
+                        worlddata.stack[1]
                     )
                 end)
             end)
@@ -117,7 +107,7 @@ describe("WorldData", function()
                     worlddata:PushWorldMoistureLine()
                     assert.is_equal(
                         "Moisture: 250.00 | 500.00 (+1.50) | 750.00",
-                        worlddata.world_lines_stack[1]
+                        worlddata.stack[1]
                     )
                 end)
             end)
@@ -132,7 +122,7 @@ describe("WorldData", function()
                     worlddata:PushWorldMoistureLine()
                     assert.is_equal(
                         "Moisture: 250.00 | 500.00 (-1.50) | 750.00",
-                        worlddata.world_lines_stack[1]
+                        worlddata.stack[1]
                     )
                 end)
             end)
@@ -145,28 +135,25 @@ describe("WorldData", function()
 
                 it("should push the world line", function()
                     worlddata:PushWorldMoistureLine()
-                    assert.is_equal(
-                        "Moisture: 500.00 (-1.50) | 750.00",
-                        worlddata.world_lines_stack[1]
-                    )
+                    assert.is_equal("Moisture: 500.00 (-1.50) | 750.00", worlddata.stack[1])
                 end)
             end)
         end)
 
         describe("PushWorldMoistureLine", function()
             before_each(function()
-                worlddata.world_lines_stack = {}
+                worlddata.stack = {}
             end)
 
             describe("when one of the required values is missing", function()
                 it("shouldn't push the corresponding line to the world lines stack", function()
                     worlddata.worlddevtools.GetPhase = ReturnValueFn(nil)
                     worlddata:PushWorldPhaseLine()
-                    assert.is_nil(worlddata.world_lines_stack[1])
+                    assert.is_nil(worlddata.stack[1])
 
                     worlddata.worlddevtools.GetNextPhase = ReturnValueFn(nil)
                     worlddata:PushWorldPhaseLine()
-                    assert.is_nil(worlddata.world_lines_stack[1])
+                    assert.is_nil(worlddata.stack[1])
                 end)
             end)
 
@@ -183,7 +170,7 @@ describe("WorldData", function()
 
                     it("should push the world line", function()
                         worlddata:PushWorldPhaseLine()
-                        assert.is_equal("Phase: day | 01:00", worlddata.world_lines_stack[1])
+                        assert.is_equal("Phase: day | 01:00", worlddata.stack[1])
                     end)
                 end
             )
@@ -199,14 +186,14 @@ describe("WorldData", function()
 
                 it("should push the world line", function()
                     worlddata:PushWorldPhaseLine()
-                    assert.is_equal("Phase: day", worlddata.world_lines_stack[1])
+                    assert.is_equal("Phase: day", worlddata.stack[1])
                 end)
             end)
         end)
 
         describe("PushWorldPrecipitationLines", function()
             before_each(function()
-                worlddata.world_lines_stack = {}
+                worlddata.stack = {}
             end)
 
             describe("when the precipitation rate is available", function()
@@ -226,10 +213,7 @@ describe("WorldData", function()
 
                     it("should push the world line", function()
                         worlddata:PushWorldPrecipitationLines()
-                        assert.is_equal(
-                            "Precipitation Rate: 1.50 | 2.00",
-                            worlddata.world_lines_stack[1]
-                        )
+                        assert.is_equal("Precipitation Rate: 1.50 | 2.00", worlddata.stack[1])
                     end)
                 end)
 
@@ -241,7 +225,7 @@ describe("WorldData", function()
 
                     it("should push the world line", function()
                         worlddata:PushWorldPrecipitationLines()
-                        assert.is_equal("Precipitation Rate: 1.50", worlddata.world_lines_stack[1])
+                        assert.is_equal("Precipitation Rate: 1.50", worlddata.stack[1])
                     end)
                 end)
             end)
@@ -254,7 +238,7 @@ describe("WorldData", function()
 
                 it("shouldn't push the world line", function()
                     worlddata:PushWorldPrecipitationLines()
-                    assert.is_equal(1, #worlddata.world_lines_stack)
+                    assert.is_equal(1, #worlddata.stack)
                 end)
             end)
 
@@ -266,7 +250,7 @@ describe("WorldData", function()
 
                 it("shouldn't push the world line", function()
                     worlddata:PushWorldPrecipitationLines()
-                    assert.is_equal(1, #worlddata.world_lines_stack)
+                    assert.is_equal(1, #worlddata.stack)
                 end)
             end)
 
@@ -291,7 +275,7 @@ describe("WorldData", function()
 
                         it("should push the world line", function()
                             worlddata:PushWorldPrecipitationLines()
-                            assert.is_equal("Snow Ends: ~00:01:30", worlddata.world_lines_stack[2])
+                            assert.is_equal("Snow Ends: ~00:01:30", worlddata.stack[2])
                         end)
                     end)
 
@@ -303,7 +287,7 @@ describe("WorldData", function()
 
                         it("should push the world line", function()
                             worlddata:PushWorldPrecipitationLines()
-                            assert.is_equal("Rain Ends: ~00:01:30", worlddata.world_lines_stack[2])
+                            assert.is_equal("Rain Ends: ~00:01:30", worlddata.stack[2])
                         end)
                     end)
                 end)
@@ -322,10 +306,7 @@ describe("WorldData", function()
 
                         it("should push the world line", function()
                             worlddata:PushWorldPrecipitationLines()
-                            assert.is_equal(
-                                "Snow Starts: ~00:00:30",
-                                worlddata.world_lines_stack[2]
-                            )
+                            assert.is_equal("Snow Starts: ~00:00:30", worlddata.stack[2])
                         end)
                     end)
 
@@ -337,10 +318,7 @@ describe("WorldData", function()
 
                         it("should push the world line", function()
                             worlddata:PushWorldPrecipitationLines()
-                            assert.is_equal(
-                                "Rain Starts: ~00:00:30",
-                                worlddata.world_lines_stack[2]
-                            )
+                            assert.is_equal("Rain Starts: ~00:00:30", worlddata.stack[2])
                         end)
                     end)
                 end)
@@ -355,7 +333,7 @@ describe("WorldData", function()
 
                 it("should push the world line", function()
                     worlddata:PushWorldPrecipitationLines()
-                    assert.is_equal("Snow Level: 50.00%", worlddata.world_lines_stack[3])
+                    assert.is_equal("Snow Level: 50.00%", worlddata.stack[3])
                 end)
             end)
 
@@ -367,7 +345,7 @@ describe("WorldData", function()
 
                 it("should push the world line", function()
                     worlddata:PushWorldPrecipitationLines()
-                    assert.is_nil(worlddata.world_lines_stack[3])
+                    assert.is_nil(worlddata.stack[3])
                 end)
             end)
         end)
@@ -375,14 +353,7 @@ describe("WorldData", function()
 
     describe("save data", function()
         before_each(function()
-            worlddata.save_data_lines_stack = {}
-        end)
-
-        describe("PushSaveDataLine", function()
-            it("should push the save data line", function()
-                worlddata:PushSaveDataLine("name", "value")
-                assert.is_equal(1, #worlddata.save_data_lines_stack)
-            end)
+            worlddata.stack = {}
         end)
 
         describe("PushDeerclopsSpawnerLine", function()
@@ -395,7 +366,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushDeerclopsSpawnerLine()
-                    assert.is_equal("Deerclops: unavailable", worlddata.save_data_lines_stack[1])
+                    assert.is_equal("Deerclops: unavailable", worlddata.stack[1])
                 end)
             end)
 
@@ -411,10 +382,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushDeerclopsSpawnerLine()
-                        assert.is_equal(
-                            "Deerclops: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Deerclops: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -432,10 +400,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushDeerclopsSpawnerLine()
-                            assert.is_equal(
-                                "Deerclops: warning",
-                                worlddata.save_data_lines_stack[1]
-                            )
+                            assert.is_equal("Deerclops: warning", worlddata.stack[1])
                         end)
                     end)
 
@@ -464,10 +429,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushDeerclopsSpawnerLine()
-                                assert.is_equal(
-                                    "Deerclops: yes",
-                                    worlddata.save_data_lines_stack[1]
-                                )
+                                assert.is_equal("Deerclops: yes", worlddata.stack[1])
                             end)
                         end)
 
@@ -485,7 +447,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushDeerclopsSpawnerLine()
-                                assert.is_equal("Deerclops: no", worlddata.save_data_lines_stack[1])
+                                assert.is_equal("Deerclops: no", worlddata.stack[1])
                             end)
                         end)
                     end)
@@ -503,7 +465,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushBeargerSpawnerLine()
-                    assert.is_equal("Bearger: unavailable", worlddata.save_data_lines_stack[1])
+                    assert.is_equal("Bearger: unavailable", worlddata.stack[1])
                 end)
             end)
 
@@ -519,7 +481,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushBeargerSpawnerLine()
-                        assert.is_equal("Bearger: unavailable", worlddata.save_data_lines_stack[1])
+                        assert.is_equal("Bearger: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -534,7 +496,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushBeargerSpawnerLine()
-                        assert.is_equal("Bearger: unavailable", worlddata.save_data_lines_stack[1])
+                        assert.is_equal("Bearger: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -552,7 +514,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushBeargerSpawnerLine()
-                            assert.is_equal("Bearger: warning", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Bearger: warning", worlddata.stack[1])
                         end)
                     end)
 
@@ -582,10 +544,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushBeargerSpawnerLine()
-                                assert.is_equal(
-                                    "Bearger: killed | day 10",
-                                    worlddata.save_data_lines_stack[1]
-                                )
+                                assert.is_equal("Bearger: killed | day 10", worlddata.stack[1])
                             end)
                         end)
 
@@ -603,7 +562,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushBeargerSpawnerLine()
-                                assert.is_equal("Bearger: yes", worlddata.save_data_lines_stack[1])
+                                assert.is_equal("Bearger: yes", worlddata.stack[1])
                             end)
                         end)
 
@@ -621,7 +580,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushBeargerSpawnerLine()
-                                assert.is_equal("Bearger: no", worlddata.save_data_lines_stack[1])
+                                assert.is_equal("Bearger: no", worlddata.stack[1])
                             end)
                         end)
                     end)
@@ -639,7 +598,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushBeargerSpawnerLine()
-                            assert.is_equal("Bearger: error", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Bearger: error", worlddata.stack[1])
                         end)
                     end)
 
@@ -656,7 +615,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushBeargerSpawnerLine()
-                            assert.is_equal("Bearger: error", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Bearger: error", worlddata.stack[1])
                         end)
                     end)
                 end)
@@ -673,7 +632,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushMalbatrossSpawnerLine()
-                    assert.is_equal("Malbatross: unavailable", worlddata.save_data_lines_stack[1])
+                    assert.is_equal("Malbatross: unavailable", worlddata.stack[1])
                 end)
             end)
 
@@ -689,10 +648,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushMalbatrossSpawnerLine()
-                        assert.is_equal(
-                            "Malbatross: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Malbatross: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -707,10 +663,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushMalbatrossSpawnerLine()
-                        assert.is_equal(
-                            "Malbatross: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Malbatross: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -728,7 +681,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushMalbatrossSpawnerLine()
-                            assert.is_equal("Malbatross: yes", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Malbatross: yes", worlddata.stack[1])
                         end)
                     end)
 
@@ -758,10 +711,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushMalbatrossSpawnerLine()
-                                assert.is_equal(
-                                    "Malbatross: waiting",
-                                    worlddata.save_data_lines_stack[1]
-                                )
+                                assert.is_equal("Malbatross: waiting", worlddata.stack[1])
                             end)
                         end)
 
@@ -781,10 +731,7 @@ describe("WorldData", function()
 
                                 it("should push the save data line", function()
                                     worlddata:PushMalbatrossSpawnerLine()
-                                    assert.is_equal(
-                                        "Malbatross: 00:00:30",
-                                        worlddata.save_data_lines_stack[1]
-                                    )
+                                    assert.is_equal("Malbatross: 00:00:30", worlddata.stack[1])
                                 end)
                             end)
                         end)
@@ -802,10 +749,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushMalbatrossSpawnerLine()
-                                assert.is_equal(
-                                    "Malbatross: error",
-                                    worlddata.save_data_lines_stack[1]
-                                )
+                                assert.is_equal("Malbatross: error", worlddata.stack[1])
                             end)
                         end)
 
@@ -822,10 +766,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushMalbatrossSpawnerLine()
-                                assert.is_equal(
-                                    "Malbatross: error",
-                                    worlddata.save_data_lines_stack[1]
-                                )
+                                assert.is_equal("Malbatross: error", worlddata.stack[1])
                             end)
                         end)
                     end)
@@ -843,7 +784,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushDeersSpawnerLine()
-                    assert.is_equal("Deers: unavailable", worlddata.save_data_lines_stack[1])
+                    assert.is_equal("Deers: unavailable", worlddata.stack[1])
                 end)
             end)
 
@@ -859,7 +800,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushDeersSpawnerLine()
-                        assert.is_equal("Deers: unavailable", worlddata.save_data_lines_stack[1])
+                        assert.is_equal("Deers: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -874,7 +815,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushDeersSpawnerLine()
-                        assert.is_equal("Deers: unavailable", worlddata.save_data_lines_stack[1])
+                        assert.is_equal("Deers: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -892,7 +833,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushDeersSpawnerLine()
-                            assert.is_equal("Deers: waiting", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Deers: waiting", worlddata.stack[1])
                         end)
                     end)
 
@@ -909,7 +850,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushDeersSpawnerLine()
-                            assert.is_equal("Deers: 00:00:30", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Deers: 00:00:30", worlddata.stack[1])
                         end)
                     end)
 
@@ -928,7 +869,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushDeersSpawnerLine()
-                                assert.is_equal("Deers: error", worlddata.save_data_lines_stack[1])
+                                assert.is_equal("Deers: error", worlddata.stack[1])
                             end)
                         end)
 
@@ -946,7 +887,7 @@ describe("WorldData", function()
 
                             it("should push the save data line", function()
                                 worlddata:PushDeersSpawnerLine()
-                                assert.is_equal("Deers: 3", worlddata.save_data_lines_stack[1])
+                                assert.is_equal("Deers: 3", worlddata.stack[1])
                             end)
                         end)
                     end)
@@ -964,7 +905,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushKlausSackSpawnerLine()
-                    assert.is_equal("Klaus Sack: unavailable", worlddata.save_data_lines_stack[1])
+                    assert.is_equal("Klaus Sack: unavailable", worlddata.stack[1])
                 end)
             end)
 
@@ -980,10 +921,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushKlausSackSpawnerLine()
-                        assert.is_equal(
-                            "Klaus Sack: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Klaus Sack: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -998,10 +936,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushKlausSackSpawnerLine()
-                        assert.is_equal(
-                            "Klaus Sack: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Klaus Sack: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -1019,10 +954,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushKlausSackSpawnerLine()
-                            assert.is_equal(
-                                "Klaus Sack: 00:00:30",
-                                worlddata.save_data_lines_stack[1]
-                            )
+                            assert.is_equal("Klaus Sack: 00:00:30", worlddata.stack[1])
                         end)
                     end)
 
@@ -1039,7 +971,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushKlausSackSpawnerLine()
-                            assert.is_equal("Klaus Sack: no", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Klaus Sack: no", worlddata.stack[1])
                         end)
                     end)
 
@@ -1056,7 +988,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushKlausSackSpawnerLine()
-                            assert.is_equal("Klaus Sack: no", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Klaus Sack: no", worlddata.stack[1])
                         end)
                     end)
 
@@ -1073,7 +1005,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushKlausSackSpawnerLine()
-                            assert.is_equal("Klaus Sack: yes", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Klaus Sack: yes", worlddata.stack[1])
                         end)
                     end)
 
@@ -1090,7 +1022,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushKlausSackSpawnerLine()
-                            assert.is_equal("Klaus Sack: error", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Klaus Sack: error", worlddata.stack[1])
                         end)
                     end)
                 end)
@@ -1107,10 +1039,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushHoundedLine()
-                    assert.is_equal(
-                        "Hounds Attack: unavailable",
-                        worlddata.save_data_lines_stack[1]
-                    )
+                    assert.is_equal("Hounds Attack: unavailable", worlddata.stack[1])
                 end)
             end)
 
@@ -1126,10 +1055,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushHoundedLine()
-                        assert.is_equal(
-                            "Hounds Attack: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Hounds Attack: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -1144,10 +1070,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushHoundedLine()
-                        assert.is_equal(
-                            "Hounds Attack: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Hounds Attack: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -1165,10 +1088,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushHoundedLine()
-                            assert.is_equal(
-                                "Hounds Attack: 00:00:30",
-                                worlddata.save_data_lines_stack[1]
-                            )
+                            assert.is_equal("Hounds Attack: 00:00:30", worlddata.stack[1])
                         end)
                     end)
 
@@ -1185,7 +1105,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushHoundedLine()
-                            assert.is_equal("Hounds Attack: no", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Hounds Attack: no", worlddata.stack[1])
                         end)
                     end)
 
@@ -1202,7 +1122,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushHoundedLine()
-                            assert.is_equal("Hounds Attack: no", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Hounds Attack: no", worlddata.stack[1])
                         end)
                     end)
 
@@ -1219,10 +1139,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushHoundedLine()
-                            assert.is_equal(
-                                "Hounds Attack: error",
-                                worlddata.save_data_lines_stack[1]
-                            )
+                            assert.is_equal("Hounds Attack: error", worlddata.stack[1])
                         end)
                     end)
                 end)
@@ -1238,7 +1155,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushHoundedLine()
-                    assert.is_equal("Worms Attack: unavailable", worlddata.save_data_lines_stack[1])
+                    assert.is_equal("Worms Attack: unavailable", worlddata.stack[1])
                 end)
             end)
         end)
@@ -1253,10 +1170,7 @@ describe("WorldData", function()
 
                 it("should push the save data line", function()
                     worlddata:PushChessUnlocksLine()
-                    assert.is_equal(
-                        "Chess Unlocks: unavailable",
-                        worlddata.save_data_lines_stack[1]
-                    )
+                    assert.is_equal("Chess Unlocks: unavailable", worlddata.stack[1])
                 end)
             end)
 
@@ -1272,10 +1186,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushChessUnlocksLine()
-                        assert.is_equal(
-                            "Chess Unlocks: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Chess Unlocks: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -1290,10 +1201,7 @@ describe("WorldData", function()
 
                     it("should push the save data line", function()
                         worlddata:PushChessUnlocksLine()
-                        assert.is_equal(
-                            "Chess Unlocks: unavailable",
-                            worlddata.save_data_lines_stack[1]
-                        )
+                        assert.is_equal("Chess Unlocks: unavailable", worlddata.stack[1])
                     end)
                 end)
 
@@ -1311,7 +1219,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushChessUnlocksLine()
-                            assert.is_equal("Chess Unlocks: no", worlddata.save_data_lines_stack[1])
+                            assert.is_equal("Chess Unlocks: no", worlddata.stack[1])
                         end)
                     end)
 
@@ -1328,10 +1236,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushChessUnlocksLine()
-                            assert.is_equal(
-                                "Chess Unlocks: pawn",
-                                worlddata.save_data_lines_stack[1]
-                            )
+                            assert.is_equal("Chess Unlocks: pawn", worlddata.stack[1])
                         end)
                     end)
 
@@ -1348,10 +1253,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushChessUnlocksLine()
-                            assert.is_equal(
-                                "Chess Unlocks: bishop, pawn, rook",
-                                worlddata.save_data_lines_stack[1]
-                            )
+                            assert.is_equal("Chess Unlocks: bishop, pawn, rook", worlddata.stack[1])
                         end)
                     end)
 
@@ -1368,10 +1270,7 @@ describe("WorldData", function()
 
                         it("should push the save data line", function()
                             worlddata:PushChessUnlocksLine()
-                            assert.is_equal(
-                                "Chess Unlocks: error",
-                                worlddata.save_data_lines_stack[1]
-                            )
+                            assert.is_equal("Chess Unlocks: error", worlddata.stack[1])
                         end)
                     end)
                 end)

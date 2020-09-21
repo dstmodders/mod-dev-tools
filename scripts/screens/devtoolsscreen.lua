@@ -285,25 +285,19 @@ end
 
 --- Updates recipe data.
 function DevToolsScreen:UpdateRecipeData()
-    self.data_text = RecipeData(
-        self.devtools,
-        self.devtools.player.inventory,
-        self.devtools.player.crafting:GetSelectedRecipe()
-    )
+    self.data_text = RecipeData(self, self.devtools)
 end
 
 --- Updates front-end data.
 function DevToolsScreen:UpdateFrontEndData()
-    self.data_text = FrontEndData(self.screen)
+    self.data_text = FrontEndData(self)
 end
 
 --- Updates selected data.
 function DevToolsScreen:UpdateSelectedData()
     self.data_text = SelectedData(
+        self,
         self.devtools,
-        self.devtools.world,
-        self.devtools.player,
-        self.devtools.player.crafting,
         self.devtools.player:GetSelected(),
         self.is_selected_entity_data_visible
     )
@@ -311,7 +305,7 @@ end
 
 --- Updates world data.
 function DevToolsScreen:UpdateWorldData()
-    self.data_text = WorldData(self.devtools.world)
+    self.data_text = WorldData(self, self.devtools.world)
 end
 
 --- Updates data.
@@ -351,7 +345,7 @@ end
 -- @tparam boolean down
 -- @treturn boolean
 function DevToolsScreen:OnRawKey(key, down)
-    if DevToolsScreen._base.OnRawKey(self, key, down) then
+    if Screen.OnRawKey(self, key, down) then
         return true
     end
 
@@ -441,7 +435,7 @@ end
 function DevToolsScreen:OnBecomeActive()
     Utils.AssertRequiredField("DevToolsScreen.devtools", self.devtools)
 
-    DevToolsScreen._base.OnBecomeActive(self)
+    Screen.OnBecomeActive(self)
 
     self:UpdateMenu()
     self:UpdateData()

@@ -21,41 +21,22 @@ local Utils = require "devtools/utils"
 
 --- Constructor.
 -- @function _ctor
+-- @tparam screens.DevToolsScreen screen
 -- @tparam DevTools devtools
--- @tparam devtools.WorldDevTools worlddevtools
--- @tparam devtools.PlayerDevTools playerdevtools
--- @tparam devtools.player.CraftingDevTools craftingdevtools
 -- @tparam EntityScript player
 -- @tparam boolean is_entity_visible
--- @usage local selecteddata = SelectedData(
---     devtools,
---     worlddevtools,
---     playerdevtools,
---     craftingdevtools,
---     player,
---     is_entity_visible
--- )
-local SelectedData = Class(Data, function(
-    self,
-    devtools,
-    worlddevtools,
-    playerdevtools,
-    craftingdevtools,
-    player,
-    is_entity_visible
-)
-    Data._ctor(self)
+-- @usage local selecteddata = SelectedData(screen, devtools, player, is_entity_visible)
+local SelectedData = Class(Data, function(self, screen, devtools, player, is_entity_visible)
+    Data._ctor(self, screen)
 
     -- general
-    self.craftingdevtools = craftingdevtools
+    self.craftingdevtools = devtools.player.crafting
     self.devtools = devtools
-    self.entity = worlddevtools:GetSelectedEntity()
-    self.entity_lines_stack = {}
+    self.entity = devtools.world:GetSelectedEntity()
     self.is_entity_visible = is_entity_visible
     self.player = player
-    self.player_lines_stack = {}
-    self.playerdevtools = playerdevtools
-    self.worlddevtools = worlddevtools
+    self.playerdevtools = devtools.player
+    self.worlddevtools = devtools.world
 
     -- self
     self:Update()
@@ -83,29 +64,21 @@ end
 --- General
 -- @section general
 
---- Clears lines stack.
-function SelectedData:Clear()
-    self.player_lines_stack = {}
-end
-
 --- Updates lines stack.
 function SelectedData:Update()
-    self:Clear()
+    Data.Update(self)
+
+    local is_synced = self.devtools.ismastersim or self.playerdevtools:IsSelectedInSync()
+    self:PushTitleLine("Selected Player " .. (is_synced and "(Client/Server)" or "(Client)"))
+    self:PushEmptyLine()
     self:PushPlayerData()
 
     if self.entity and self.player.GUID ~= self.entity.GUID then
+        self:PushEmptyLine()
+        self:PushTitleLine("Selected Entity")
+        self:PushEmptyLine()
         self:PushEntityData()
     end
-end
-
---- Player
--- @section player
-
---- Pushes player line.
--- @tparam string name
--- @tparam string value
-function SelectedData:PushPlayerLine(name, value)
-    self:PushLine(self.player_lines_stack, name, value)
 end
 
 --- Pushes player data.
@@ -120,18 +93,18 @@ function SelectedData:PushPlayerData()
     local player = self.player
     local playerdevtools = self.playerdevtools
 
-    self:PushPlayerLine("GUID", player.GUID)
-    self:PushPlayerLine("Prefab", player.entity:GetPrefabName())
-    self:PushPlayerLine("Display Name", player:GetDisplayName())
+    self:PushLine("GUID", player.GUID)
+    self:PushLine("Prefab", player.entity:GetPrefabName())
+    self:PushLine("Display Name", player:GetDisplayName())
 
     local state_name, state = GetStateGraph(self, player)
     if state_name ~= false then
-        self:PushPlayerLine("StateGraph", { state_name, state })
+        self:PushLine("StateGraph", { state_name, state })
     end
 
     local bank, build, anim = GetAnimState(self, player)
     if bank ~= false then
-        self:PushPlayerLine("AnimState", { bank, build, anim })
+        self:PushLine("AnimState", { bank, build, anim })
     end
 
     if playerdevtools:IsOwner(player) or playerdevtools:IsReal(player) == false then
@@ -141,24 +114,24 @@ function SelectedData:PushPlayerData()
                 playerdevtools:GetMaxHealthPercent(player) or 0
             )
 
-            self:PushPlayerLine("Health / Maximum", { health, health_max })
+            self:PushLine("Health / Maximum", { health, health_max })
 
-            self:PushPlayerLine(
+            self:PushLine(
                 "Hunger",
                 Utils.String.ValuePercent(playerdevtools:GetHungerPercent(player))
             )
 
-            self:PushPlayerLine(
+            self:PushLine(
                 "Sanity",
                 Utils.String.ValuePercent(playerdevtools:GetSanityPercent(player))
             )
 
-            self:PushPlayerLine(
+            self:PushLine(
                 "Moisture",
                 Utils.String.ValuePercent(playerdevtools:GetMoisturePercent(player))
             )
 
-            self:PushPlayerLine(
+            self:PushLine(
                 "Temperature",
                 Utils.String.ValueScale(playerdevtools:GetTemperature(player))
             )
@@ -168,21 +141,14 @@ function SelectedData:PushPlayerData()
     if devtools.ismastersim or playerdevtools:IsAdmin() then
         local is_god_mode = playerdevtools:IsGodMode(player)
         if is_god_mode ~= nil then
-            self:PushPlayerLine("God Mode", (is_god_mode and "enabled" or "disabled"))
+            self:PushLine("God Mode", (is_god_mode and "enabled" or "disabled"))
         end
 
         local is_free_crafting = craftingdevtools:IsFreeCrafting(player)
         if is_free_crafting ~= nil then
-            self:PushPlayerLine("Free Crafting", is_free_crafting and "enabled" or "disabled")
+            self:PushLine("Free Crafting", is_free_crafting and "enabled" or "disabled")
         end
     end
-end
-
---- Entity
--- @section entity
-
-local function PushEntityLine(self, name, value)
-    self:PushLine(self.entity_lines_stack, name, value)
 end
 
 --- Pushes entity data.
@@ -196,60 +162,34 @@ function SelectedData:PushEntityData()
         return
     end
 
-    PushEntityLine(self, "GUID", entity.GUID)
-    PushEntityLine(self, "Prefab", entity.entity:GetPrefabName())
+    self:PushLine("GUID", entity.GUID)
+    self:PushLine("Prefab", entity.entity:GetPrefabName())
 
     name = entity:GetDisplayName()
     if name and name ~= "MISSING NAME" then
-        PushEntityLine(self, "Display Name", entity:GetDisplayName())
+        self:PushLine("Display Name", entity:GetDisplayName())
     end
 
     local state_name, state = GetStateGraph(self, entity)
     if state_name ~= false then
-        PushEntityLine(self, "StateGraph", { state_name, state })
+        self:PushLine("StateGraph", { state_name, state })
     end
 
     local bank, build, anim = GetAnimState(self, entity)
     if bank ~= false then
-        PushEntityLine(self, "AnimState", { bank, build, anim })
+        self:PushLine("AnimState", { bank, build, anim })
     end
 
     physics = entity.Physics
     if physics then
-        PushEntityLine(
-            self,
+        self:PushLine(
             "Collision Group / Mask",
             { physics:GetCollisionGroup(), physics:GetCollisionMask() }
         )
 
-        PushEntityLine(self, "Radius", tostring(physics:GetRadius()))
-        PushEntityLine(self, "Mass", tostring(physics:GetMass()))
+        self:PushLine("Radius", tostring(physics:GetRadius()))
+        self:PushLine("Mass", tostring(physics:GetMass()))
     end
-end
-
---- Other
--- @section other
-
---- __tostring
--- @treturn string
-function SelectedData:__tostring()
-    if #self.player_lines_stack == 0 then
-        return
-    end
-
-    local t = {}
-    local is_synced = self.devtools.ismastersim or self.playerdevtools:IsSelectedInSync()
-
-    self:TableInsertTitle(t, "Selected Player " .. (is_synced and "(Client/Server)" or "(Client)"))
-    self:TableInsertData(t, self.player_lines_stack)
-    table.insert(t, "\n")
-
-    if self.is_entity_visible and #self.entity_lines_stack > 0 then
-        self:TableInsertTitle(t, "Selected Entity")
-        self:TableInsertData(t, self.entity_lines_stack)
-    end
-
-    return table.concat(t)
 end
 
 return SelectedData
