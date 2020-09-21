@@ -417,6 +417,8 @@ function DevTools:CreateSubmenuInstFromData(data, root)
                 submenu:AddChoicesOption(option.options)
             elseif option.type == MOD_DEV_TOOLS.OPTION.DIVIDER then
                 submenu:AddDividerOption(option.options)
+            elseif option.type == MOD_DEV_TOOLS.OPTION.FONT then
+                submenu:AddFontOption(option.options)
             elseif option.type == MOD_DEV_TOOLS.OPTION.NUMERIC then
                 submenu:AddNumericOption(option.options)
             elseif option.type == MOD_DEV_TOOLS.OPTION.SUBMENU then

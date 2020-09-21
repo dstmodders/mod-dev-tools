@@ -45,28 +45,8 @@ return {
         },
         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
         {
-            type = MOD_DEV_TOOLS.OPTION.CHOICES,
+            type = MOD_DEV_TOOLS.OPTION.FONT,
             options = {
-                label = "Font",
-                choices = {
-                    { name = "Belisa Plumilla Manual (50)", value = UIFONT },
-                    { name = "Belisa Plumilla Manual (100)", value = TITLEFONT },
-                    { name = "Belisa Plumilla Manual (Button)", value = BUTTONFONT },
-                    { name = "Belisa Plumilla Manual (Talking)", value = TALKINGFONT },
-                    { name = "Bellefair", value = CHATFONT },
-                    { name = "Bellefair Outline", value = CHATFONT_OUTLINE },
-                    { name = "Hammerhead", value = HEADERFONT },
-                    { name = "Henny Penny (Wormwood)", value = TALKINGFONT_WORMWOOD },
-                    { name = "Mountains of Christmas (Hermit)", value = TALKINGFONT_HERMIT },
-                    { name = "Open Sans", value = DIALOGFONT },
-                    { name = "PT Mono", value = CODEFONT },
-                    { name = "Spirequal Light", value = NEWFONT },
-                    { name = "Spirequal Light (Small)", value = NEWFONT_SMALL },
-                    { name = "Spirequal Light Outline", value = NEWFONT_OUTLINE },
-                    { name = "Spirequal Light Outline (Small)", value = NEWFONT_OUTLINE_SMALL },
-                    { name = "Stint Ultra Condensed", value = BODYTEXTFONT },
-                    { name = "Stint Ultra Condensed (Small)", value = SMALLNUMBERFONT },
-                },
                 on_accept_fn = function(_, submenu)
                     submenu.labels:SetFont(submenu.labels:GetDefaultFont())
                 end,

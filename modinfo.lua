@@ -5,6 +5,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added locale text scale in the front-end data sidebar]] .. "\n" ..
     [[- Added new "Dev Tools" submenu]] .. "\n" ..
+    [[- Added new font option]] .. "\n" ..
     [[- Added support for ignoring the locale text scale in tools]]
 author = "Demonblink"
 api_version = 10

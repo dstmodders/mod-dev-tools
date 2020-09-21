@@ -139,6 +139,7 @@ MOD_DEV_TOOLS = {
     -- @tfield number CHECKBOX
     -- @tfield number CHOICES
     -- @tfield number DIVIDER
+    -- @tfield number FONT
     -- @tfield number NUMERIC
     -- @tfield number SUBMENU
     -- @tfield number TOGGLE_CHECKBOX
@@ -147,8 +148,9 @@ MOD_DEV_TOOLS = {
         CHECKBOX = 2,
         CHOICES = 3,
         DIVIDER = 4,
-        NUMERIC = 5,
-        SUBMENU = 6,
-        TOGGLE_CHECKBOX = 7,
+        FONT = 5,
+        NUMERIC = 6,
+        SUBMENU = 7,
+        TOGGLE_CHECKBOX = 8,
     },
 }

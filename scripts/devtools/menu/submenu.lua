@@ -29,10 +29,11 @@ require "class"
 
 local Utils = require "devtools/utils"
 
+local ActionOption = require "devtools/menu/option/actionoption"
 local CheckboxOption = require "devtools/menu/option/checkboxoption"
 local ChoicesOption = require "devtools/menu/option/choicesoption"
 local DividerOption = require "devtools/menu/option/divideroption"
-local ActionOption = require "devtools/menu/option/actionoption"
+local FontOption = require "devtools/menu/option/fontoption"
 local NumericOption = require "devtools/menu/option/numericoption"
 local SubmenuOption = require "devtools/menu/option/submenuoption"
 local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
@@ -207,6 +208,15 @@ end
 function Submenu:AddDividerOption(root)
     root = root ~= nil and root or self.options
     self:AddToRoot(root, DividerOption(self))
+end
+
+--- Adds font option.
+-- @see menu.option.FontOption
+-- @tparam table options
+-- @tparam[opt] table root
+function Submenu:AddFontOption(options, root)
+    root = root ~= nil and root or self.options
+    self:AddToRoot(root, FontOption(options, self))
 end
 
 --- Adds numeric toggle option.
