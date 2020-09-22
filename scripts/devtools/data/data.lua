@@ -27,7 +27,7 @@ local Data = Class(function(self, screen)
     Utils.Debug.AddMethods(self)
 
     -- general
-    self.index = screen.data_index
+    self.index = screen and screen.data_index
     self.screen = screen
     self.stack = {}
 end)
