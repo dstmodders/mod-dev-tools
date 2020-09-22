@@ -19,6 +19,7 @@
 -- @tfield table CCT
 -- @tfield table ON_ADD_TO_ROOT_FN
 -- @tfield table OPTION
+-- @tfield table SELECT
 MOD_DEV_TOOLS = {
     --- General
     -- @section general
@@ -82,6 +83,15 @@ MOD_DEV_TOOLS = {
             warn = "images/colour_cubes/ruins_dim_cc.tex",
             wild = "images/colour_cubes/ruins_light_cc.tex",
         },
+    },
+
+    --- Select constants.
+    -- @table MOD_DEV_TOOLS.SELECT
+    -- @tfield number MENU
+    -- @tfield number DATA
+    SELECT = {
+        MENU = 1,
+        DATA = 2,
     },
 
     --- Submenu

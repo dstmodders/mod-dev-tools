@@ -27,12 +27,29 @@ local Data = Class(function(self, screen)
     Utils.Debug.AddMethods(self)
 
     -- general
+    self.index = screen.data_index
     self.screen = screen
     self.stack = {}
 end)
 
 --- General
 -- @section general
+
+--- Moves current cursor up.
+function Data:Up()
+    if #self.stack > 0 and self.index > 1 then
+        self.index = self.index - 1
+    end
+    return self.index
+end
+
+--- Moves current cursor down.
+function Data:Down()
+    if #self.stack > 0 and self.index < #self.stack - self.screen.size_height + 3 then
+        self.index = self.index + 1
+    end
+    return self.index
+end
 
 --- Clears stack.
 function Data:Clear()
@@ -49,7 +66,7 @@ end
 
 --- Pushes title line into stack.
 function Data:PushEmptyLine()
-    table.insert(self.stack, "")
+    table.insert(self.stack, " ")
 end
 
 --- Pushes title line into stack.
@@ -87,9 +104,13 @@ function Data:__tostring()
 
     local t = {}
 
+    local i = 0
     for _, line in pairs(self.stack) do
-        table.insert(t, tostring(line))
-        table.insert(t, "\n")
+        i = i + 1
+        if i >= self.index then
+            table.insert(t, tostring(line))
+            table.insert(t, "\n")
+        end
     end
 
     return table.concat(t)

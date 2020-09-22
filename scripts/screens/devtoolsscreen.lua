@@ -38,9 +38,11 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     Screen._ctor(self, _SCREEN_NAME)
 
     -- general
+    self.data_index = 1
     self.font = devtools:GetConfig("font")
     self.font_size = devtools:GetConfig("font_size")
     self.locale_text_scale = devtools:GetConfig("locale_text_scale")
+    self.selected = MOD_DEV_TOOLS.SELECT.MENU
     self.size_height = devtools:GetConfig("size_height")
     self.size_width = devtools:GetConfig("size_width")
 
@@ -251,12 +253,22 @@ end
 --- Updates children.
 -- @tparam boolean silent
 function DevToolsScreen:UpdateChildren(silent)
+    local selected = "[SELECTED]"
+    local unselected = string.format(
+        "[PRESS %s TO SELECT]",
+        string.upper(STRINGS.UI.CONTROLSSCREEN.INPUTS[1][KEY_TAB])
+    )
+
     if self.menu_text ~= nil then
-        self.menu:SetString(tostring(self.menu_text))
+        self.menu:SetString((self.selected == MOD_DEV_TOOLS.SELECT.MENU and selected or unselected)
+            .. "\n\n"
+            .. tostring(self.menu_text))
     end
 
     if self.data_text ~= nil then
-        self.data:SetString(tostring(self.data_text))
+        self.data:SetString((self.selected == MOD_DEV_TOOLS.SELECT.DATA and selected or unselected)
+            .. "\n\n"
+            .. tostring(self.data_text))
     end
 
     if silent ~= true then
@@ -368,7 +380,7 @@ function DevToolsScreen:OnRawKey(key, down)
             end
 
             self:UpdateChildren(true)
-        elseif key == KEY_ENTER then
+        elseif key == KEY_ENTER and self.selected == MOD_DEV_TOOLS.SELECT.MENU then
             if InGamePlay() then
                 if menu:AtRoot() and option_name == "LearnedBuilderRecipesSubmenu" then
                     self:SwitchDataToRecipe()
@@ -402,26 +414,46 @@ function DevToolsScreen:OnRawKey(key, down)
                 self:UpdateData()
                 self:UpdateChildren(true)
             end
+        elseif key == KEY_TAB then
+            self.selected = Utils.Table.NextValue({
+                MOD_DEV_TOOLS.SELECT.MENU,
+                MOD_DEV_TOOLS.SELECT.DATA,
+            }, self.selected)
+            self:UpdateChildren(true)
         else
             return false
         end
     else
-        if key == KEY_UP then
-            menu:Up()
-            self:UpdateChildren(true)
-        elseif key == KEY_DOWN then
-            menu:Down()
-            self:UpdateChildren(true)
-        elseif key == KEY_LEFT then
-            menu:Left()
-            self:UpdateData()
-            self:UpdateChildren(true)
-        elseif key == KEY_RIGHT then
-            menu:Right()
-            self:UpdateData()
-            self:UpdateChildren(true)
-        else
-            return false
+        if self.selected == MOD_DEV_TOOLS.SELECT.DATA then
+            if key == KEY_UP then
+                self.data_index = self.data_text:Up()
+                self:UpdateData()
+                self:UpdateChildren(true)
+            elseif key == KEY_DOWN then
+                self.data_index = self.data_text:Down()
+                self:UpdateData()
+                self:UpdateChildren(true)
+            else
+                return false
+            end
+        elseif self.selected == MOD_DEV_TOOLS.SELECT.MENU then
+            if key == KEY_UP then
+                menu:Up()
+                self:UpdateChildren(true)
+            elseif key == KEY_DOWN then
+                menu:Down()
+                self:UpdateChildren(true)
+            elseif key == KEY_LEFT then
+                menu:Left()
+                self:UpdateData()
+                self:UpdateChildren(true)
+            elseif key == KEY_RIGHT then
+                menu:Right()
+                self:UpdateData()
+                self:UpdateChildren(true)
+            else
+                return false
+            end
         end
     end
 

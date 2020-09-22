@@ -63,15 +63,13 @@ local Menu = Class(function(self, screen, devtools)
     self.menu = nil
     self.options = {}
     self.screen = screen
+    self.title = "Front-End Developer Tools"
 
-    local title = "Front-End Developer Tools"
     if self.devtools:IsInCharacterSelect() then
-        title = "Character Selection Developer Tools"
+        self.title = "Character Selection Developer Tools"
     elseif InGamePlay() then
-        title = "In-Game Developer Tools"
+        self.title = "In-Game Developer Tools"
     end
-
-    self.title = title
 end)
 
 --- General
