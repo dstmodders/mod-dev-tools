@@ -95,6 +95,74 @@ end
 --- Other
 -- @section other
 
+local function DividerScroll(self, value, symbol)
+    symbol = symbol ~= nil and symbol or "_"
+
+    local sizes = {
+        [UIFONT] = 45,
+        [TITLEFONT] = 42,
+        [BUTTONFONT] = 45,
+        [TALKINGFONT] = 45,
+
+        [CHATFONT] = 43,
+        [CHATFONT_OUTLINE] = 40,
+
+        [HEADERFONT] = 47,
+
+        [TALKINGFONT_WORMWOOD] = 40,
+        [TALKINGFONT_HERMIT] = 47,
+
+        [DIALOGFONT] = 48,
+
+        [CODEFONT] = 46,
+
+        [NEWFONT] = 38,
+        [NEWFONT_SMALL] = 38,
+        [NEWFONT_OUTLINE] = 40,
+        [NEWFONT_OUTLINE_SMALL] = 40,
+
+        [BODYTEXTFONT] = 50,
+        [SMALLNUMBERFONT] = 53,
+    }
+
+    local str
+    local size = sizes[self.screen.font] or 50
+    local half = math.ceil(size / 2)
+
+    local offsets = {
+        [UIFONT] = 2,
+        [TITLEFONT] = 3,
+        [BUTTONFONT] = 2,
+        [TALKINGFONT] = 3,
+
+        [CHATFONT] = 3,
+        [CHATFONT_OUTLINE] = 0,
+
+        [HEADERFONT] = 3,
+
+        [TALKINGFONT_WORMWOOD] = 3,
+        [TALKINGFONT_HERMIT] = 3,
+
+        [CODEFONT] = 2,
+
+        [NEWFONT] = 2,
+        [NEWFONT_SMALL] = 2,
+        [NEWFONT_OUTLINE] = 3,
+        [NEWFONT_OUTLINE_SMALL] = 2,
+
+        [BODYTEXTFONT] = 2,
+        [SMALLNUMBERFONT] = 3,
+    }
+
+    local offset = offsets[self.screen.font] or 2
+
+    str = string.rep(symbol, half - 2)
+    str = str .. " " .. value .. " "
+    str = str .. string.rep(symbol, half - (value > 9 and offset + 1 or offset))
+
+    return str
+end
+
 --- __tostring
 -- @treturn string
 function Data:__tostring()
@@ -102,15 +170,18 @@ function Data:__tostring()
         return
     end
 
-    local t = {}
+    local t, scroll_size, scroll_hidden
 
-    local i = 0
-    for _, line in pairs(self.stack) do
-        i = i + 1
-        if i >= self.index then
-            table.insert(t, tostring(line))
-            table.insert(t, "\n")
-        end
+    t = {}
+    scroll_size = math.floor(self.screen.size_height - 3)
+    scroll_hidden = #self.stack - self.index - scroll_size
+
+    for i = self.index, #self.stack do
+        table.insert(t, tostring(self.stack[i]) .. "\n")
+    end
+
+    if scroll_hidden > 0 then
+        t[scroll_size + 1] = DividerScroll(self, scroll_hidden + 1) .. "\n"
     end
 
     return table.concat(t)

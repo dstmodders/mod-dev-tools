@@ -180,15 +180,6 @@ end
 --- Other
 -- @section other
 
-local function Repeat(times, symbol)
-    symbol = symbol ~= nil and symbol or "-"
-    local str = ""
-    for _ = 1, times do
-        str = str .. symbol
-    end
-    return str
-end
-
 local function Divider(self, symbol)
     symbol = symbol ~= nil and symbol or "-"
 
@@ -289,9 +280,9 @@ local function DividerScroll(self, value, symbol)
 
     local offset = offsets[self.screen.font] or 2
 
-    str = Repeat(half - 2, symbol)
+    str = string.rep(symbol, half - 2)
     str = str .. " " .. value .. " "
-    str = str .. Repeat(half - (value > 9 and offset + 1 or offset), symbol)
+    str = str .. string.rep(symbol, half - (value > 9 and offset + 1 or offset))
 
     return str
 end
@@ -324,7 +315,7 @@ local function Spacing(self)
         [SMALLNUMBERFONT] = 9,
     }
 
-    return Repeat(sizes[self.screen.font] or 9, " ")
+    return string.rep(" ", sizes[self.screen.font] or 9)
 end
 
 local function Cursor(self)
@@ -355,7 +346,7 @@ local function Cursor(self)
         [SMALLNUMBERFONT] = 6,
     }
 
-    return Repeat(sizes[self.screen.font] or 6, " ") .. "> "
+    return string.rep(" ", sizes[self.screen.font] or 6) .. "> "
 end
 
 local function TableInsertOption(self, t, key, option)
