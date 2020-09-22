@@ -36,7 +36,10 @@ end)
 -- @section general
 
 --- Moves current cursor up.
-function Data:Up()
+-- @tparam[opt] number idx
+-- @treturn number
+function Data:Up(idx)
+    self.index = idx ~= nil and idx or self.index
     if #self.stack > 0 and self.index > 1 then
         self.index = self.index - 1
     end
@@ -44,7 +47,10 @@ function Data:Up()
 end
 
 --- Moves current cursor down.
-function Data:Down()
+-- @tparam[opt] number idx
+-- @treturn number
+function Data:Down(idx)
+    self.index = idx ~= nil and idx or self.index
     if #self.stack > 0 and self.index < #self.stack - self.screen.size_height + 3 then
         self.index = self.index + 1
     end
@@ -61,41 +67,11 @@ function Data:Update()
     self:Clear()
 end
 
---- Line
--- @section line
-
---- Pushes title line into stack.
-function Data:PushEmptyLine()
-    table.insert(self.stack, " ")
-end
-
---- Pushes title line into stack.
--- @tparam string title
-function Data:PushTitleLine(title)
-    if type(title) == "string" then
-        table.insert(self.stack, string.format("***** %s *****", string.upper(title)))
-    end
-end
-
---- Pushes line into stack.
--- @tparam string name
--- @tparam table|string value
-function Data:PushLine(name, value) -- luacheck: only
-    if type(name) ~= "string" or string.len(name) == 0 or value == nil then
-        return
-    end
-
-    if type(value) == "table" and #value > 0 then
-        value = Utils.String.TableSplit(value)
-    end
-
-    table.insert(self.stack, string.format("%s: %s", name, value))
-end
-
---- Other
--- @section other
-
-local function DividerScroll(self, value, symbol)
+--- Returns divider scroll string.
+-- @tparam number value
+-- @tparam string symbol
+-- @treturn string
+function Data:DividerScroll(value, symbol)
     symbol = symbol ~= nil and symbol or "_"
 
     local sizes = {
@@ -163,6 +139,40 @@ local function DividerScroll(self, value, symbol)
     return str
 end
 
+--- Line
+-- @section line
+
+--- Pushes title line into stack.
+function Data:PushEmptyLine()
+    table.insert(self.stack, " ")
+end
+
+--- Pushes title line into stack.
+-- @tparam string title
+function Data:PushTitleLine(title)
+    if type(title) == "string" then
+        table.insert(self.stack, string.format("***** %s *****", string.upper(title)))
+    end
+end
+
+--- Pushes line into stack.
+-- @tparam string name
+-- @tparam table|string value
+function Data:PushLine(name, value) -- luacheck: only
+    if type(name) ~= "string" or string.len(name) == 0 or value == nil then
+        return
+    end
+
+    if type(value) == "table" and #value > 0 then
+        value = Utils.String.TableSplit(value)
+    end
+
+    table.insert(self.stack, string.format("%s: %s", name, value))
+end
+
+--- Other
+-- @section other
+
 --- __tostring
 -- @treturn string
 function Data:__tostring()
@@ -181,7 +191,7 @@ function Data:__tostring()
     end
 
     if scroll_hidden > 0 then
-        t[scroll_size + 1] = DividerScroll(self, scroll_hidden + 1) .. "\n"
+        t[scroll_size + 1] = self:DividerScroll(scroll_hidden + 1) .. "\n"
     end
 
     return table.concat(t)

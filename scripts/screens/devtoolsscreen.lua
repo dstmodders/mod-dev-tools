@@ -426,11 +426,11 @@ function DevToolsScreen:OnRawKey(key, down)
     else
         if self.selected == MOD_DEV_TOOLS.SELECT.DATA then
             if key == KEY_UP then
-                self.data_index = self.data_text:Up()
+                self.data_index = self.data_text:Up(self.data_index)
                 self:UpdateData()
                 self:UpdateChildren(true)
             elseif key == KEY_DOWN then
-                self.data_index = self.data_text:Down()
+                self.data_index = self.data_text:Down(self.data_index)
                 self:UpdateData()
                 self:UpdateChildren(true)
             else
