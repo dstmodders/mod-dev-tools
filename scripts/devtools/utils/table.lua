@@ -153,7 +153,7 @@ end
 --
 -- @tparam table t Table
 -- @tparam string value Value
--- @treturn string
+-- @treturn boolean|string
 function Table.NextValue(t, value)
     if type(t) ~= "table" then
         return false
@@ -162,6 +162,27 @@ function Table.NextValue(t, value)
     for k, v in pairs(t) do
         if v == value then
             return k < #t and t[k + 1] or t[1]
+        end
+    end
+end
+
+--- Gets the previous table value.
+--
+-- When the next value doesn't exist it returns the last one.
+--
+-- **NB!** Currently supports only "ipaired" tables.
+--
+-- @tparam table t Table
+-- @tparam string value Value
+-- @treturn boolean|string
+function Table.PrevValue(t, value)
+    if type(t) ~= "table" then
+        return false
+    end
+
+    for k, v in pairs(t) do
+        if v == value then
+            return k > 1 and t[k - 1] or t[#t]
         end
     end
 end

@@ -43,6 +43,7 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.font_size = devtools:GetConfig("font_size")
     self.locale_text_scale = devtools:GetConfig("locale_text_scale")
     self.selected = MOD_DEV_TOOLS.SELECT.MENU
+    self.sidebars_gameplay = { "front-end", "selected", "world" }
     self.size_height = devtools:GetConfig("size_height")
     self.size_width = devtools:GetConfig("size_width")
 
@@ -366,7 +367,7 @@ function DevToolsScreen:OnRawKey(key, down)
     local option_name = option and option:GetName()
 
     if not down then
-        if key == KEY_ESCAPE then
+        if self.selected == MOD_DEV_TOOLS.SELECT.MENU and key == KEY_ESCAPE then
             if not menu:Cancel() then
                 self:Close()
             end
@@ -406,11 +407,7 @@ function DevToolsScreen:OnRawKey(key, down)
             self:UpdateChildren(true)
         elseif key == self.key_switch_data then
             if InGamePlay() then
-                self.data_name = Utils.Table.NextValue({
-                    "front-end",
-                    "selected",
-                    "world",
-                }, self.data_name)
+                self.data_name = Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
                 self:UpdateData()
                 self:UpdateChildren(true)
             end
@@ -433,6 +430,18 @@ function DevToolsScreen:OnRawKey(key, down)
                 self.data_index = self.data_text:Down(self.data_index)
                 self:UpdateData()
                 self:UpdateChildren(true)
+            elseif key == KEY_LEFT then
+                if InGamePlay() then
+                    self.data_name = Utils.Table.PrevValue(self.sidebars_gameplay, self.data_name)
+                    self:UpdateData()
+                    self:UpdateChildren(true)
+                end
+            elseif key == KEY_RIGHT then
+                if InGamePlay() then
+                    self.data_name = Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
+                    self:UpdateData()
+                    self:UpdateChildren(true)
+                end
             else
                 return false
             end
