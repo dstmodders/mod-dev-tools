@@ -136,7 +136,7 @@ function Data:DividerScroll(value, symbol)
     str = str .. " " .. value .. " "
     str = str .. string.rep(symbol, half - (value > 9 and offset + 1 or offset))
 
-    return str
+    return str .. "\n"
 end
 
 --- Line
@@ -183,7 +183,7 @@ function Data:__tostring()
     local t, scroll_size, scroll_hidden
 
     t = {}
-    scroll_size = math.floor(self.screen.size_height - 3)
+    scroll_size = self.screen.size_height - 3
     scroll_hidden = #self.stack - self.index - scroll_size
 
     for i = self.index, #self.stack do
@@ -191,7 +191,7 @@ function Data:__tostring()
     end
 
     if scroll_hidden > 0 then
-        t[scroll_size + 1] = self:DividerScroll(scroll_hidden + 1) .. "\n"
+        t[scroll_size + 1] = self:DividerScroll(scroll_hidden + 1)
     end
 
     return table.concat(t)
