@@ -20,7 +20,8 @@ was designed as an alternative to _debugkeys_.
 | Configuration                     | Default          | Description                                              |
 | --------------------------------- | ---------------- | -------------------------------------------------------- |
 | **Toggle tools key**              | _Right Bracket_  | Key used for toggling the tools                          |
-| **Switch data key**               | _X_              | Key used for switching sidebar data                      |
+| **Switch data key**               | _X_              | Key used for switching data sidebar                      |
+| **Select key**                    | _Tab_            | Key used for selecting between menu and data sidebar     |
 | **Movement prediction key**       | _Disabled_       | Key used for toggling the movement prediction            |
 | **Pause key**                     | _P_              | Key used for pausing the game                            |
 | **God mode key**                  | _G_              | Key used for toggling god mode                           |
