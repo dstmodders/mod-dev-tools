@@ -353,6 +353,22 @@ end
 --- Input
 -- @section input
 
+--- Triggers when control key is pressed.
+-- @tparam number control
+-- @tparam boolean down
+function DevToolsScreen:OnControl(control, down)
+    Screen.OnControl(self, control, down)
+    if control == CONTROL_SCROLLBACK and down then
+        self.data_index = self.data_text:Up(self.data_index)
+        self:UpdateData()
+        self:UpdateChildren(true)
+    elseif control == CONTROL_SCROLLFWD and down then
+        self.data_index = self.data_text:Down(self.data_index)
+        self:UpdateData()
+        self:UpdateChildren(true)
+    end
+end
+
 --- Triggers when raw key is pressed.
 -- @tparam number key
 -- @tparam boolean down

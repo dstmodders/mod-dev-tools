@@ -195,6 +195,8 @@ files["scripts/**/*.lua"] = {
     "CHATFONT_OUTLINE",
     "CODEFONT",
     "CONTROL_PRIMARY",
+    "CONTROL_SCROLLBACK",
+    "CONTROL_SCROLLFWD",
     "CONTROL_SECONDARY",
     "DEGREES",
     "DIALOGFONT",

@@ -4,6 +4,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added support for selecting either menu or data sidebar]] .. "\n" ..
+    [[- Added support for the mouse scroll in data sidebar]] .. "\n" ..
     [[- Fixed issue with the switch data key configuration]]
 author = "Demonblink"
 api_version = 10
