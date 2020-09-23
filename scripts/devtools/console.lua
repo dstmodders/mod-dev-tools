@@ -10,7 +10,7 @@
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
--- @release 0.5.0
+-- @release 0.6.0-alpha
 ----
 local Console = {}
 

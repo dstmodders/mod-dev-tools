@@ -1,5 +1,5 @@
 name = "Dev Tools"
-version = "0.5.0"
+version = "0.6.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
