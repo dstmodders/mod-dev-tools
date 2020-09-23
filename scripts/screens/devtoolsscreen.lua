@@ -7,6 +7,7 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod screens.DevToolsScreen
+-- @see data.FrontEndData
 -- @see data.RecipeData
 -- @see data.SelectedData
 -- @see data.SelectedTagsData
@@ -187,6 +188,8 @@ end
 --- Resets data index.
 function DevToolsScreen:ResetDataIndex()
     self.data_index = 1
+    self:UpdateData()
+    self:UpdateChildren(true)
 end
 
 --- Switches data to front-end.
@@ -228,12 +231,11 @@ end
 -- @tparam[opt] number dir
 function DevToolsScreen:SwitchData(dir)
     dir = dir ~= nil and dir or 1
+    self.data_index = 1
     self.data_name = dir > 0
         and Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
         or Utils.Table.PrevValue(self.sidebars_gameplay, self.data_name)
     self:ResetDataIndex()
-    self:UpdateData()
-    self:UpdateChildren(true)
 end
 
 --- Update

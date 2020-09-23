@@ -24,7 +24,7 @@ local Utils = require "devtools/utils"
 -- @tparam DevTools devtools
 -- @tparam devtools.WorldDevTools worlddevtools
 -- @tparam EntityScript player
--- @usage local selectedtagsdata = SelectedTagsData(self, devtools, worlddevtools, player)
+-- @usage local selectedtagsdata = SelectedTagsData(self, screen, devtools, worlddevtools, player)
 local SelectedTagsData = Class(Data, function(self, screen, devtools, worlddevtools, player)
     Data._ctor(self, screen)
 

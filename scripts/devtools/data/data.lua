@@ -7,8 +7,10 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod data.Data
+-- @see data.FrontEndData
 -- @see data.RecipeData
 -- @see data.SelectedData
+-- @see data.SelectedTagsData
 -- @see data.WorldData
 --
 -- @author Victor Popkov

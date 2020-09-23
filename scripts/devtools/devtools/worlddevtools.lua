@@ -210,8 +210,6 @@ function WorldDevTools:SelectEntityUnderMouse()
         local screen = self.devtools.screen
         if screen then
             screen:ResetDataIndex()
-            screen:UpdateData()
-            screen:UpdateChildren(true)
         end
 
         return true
@@ -224,8 +222,6 @@ function WorldDevTools:SelectEntityUnderMouse()
     local screen = self.devtools.screen
     if screen then
         screen:ResetDataIndex()
-        screen:UpdateData()
-        screen:UpdateChildren(true)
     end
 
     return false

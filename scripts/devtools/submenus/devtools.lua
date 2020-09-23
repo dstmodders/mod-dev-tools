@@ -17,11 +17,13 @@ local screen_width, screen_height = TheSim:GetScreenSize()
 
 local function OnAcceptConfig(submenu, name)
     submenu.devtools:ResetConfig(name)
+    submenu.devtools.screen:ResetDataIndex()
     submenu.devtools.screen:UpdateFromConfig()
 end
 
 local function OnSetConfig(submenu, name, value)
     submenu.devtools:SetConfig(name, value)
+    submenu.devtools.screen:ResetDataIndex()
     submenu.devtools.screen:UpdateFromConfig()
 end
 
