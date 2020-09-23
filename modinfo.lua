@@ -5,6 +5,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added support for selecting either menu or data sidebar]] .. "\n" ..
     [[- Added support for the mouse scroll in data sidebar]] .. "\n" ..
+    [[- Added support for the select key configuration]] .. "\n" ..
     [[- Fixed issue with the switch data key configuration]]
 author = "Demonblink"
 api_version = 10
@@ -173,7 +174,8 @@ local username_labels_modes = {
 configuration_options = {
     AddSection("Keybinds"),
     AddConfig("Toggle tools key", "key_toggle_tools", key_list, "KEY_RIGHTBRACKET", "Key used for toggling the tools"),
-    AddConfig("Switch data key", "key_switch_data", key_list, "KEY_X", "Key used for switching sidebar data"),
+    AddConfig("Switch data key", "key_switch_data", key_list, "KEY_X", "Key used for switching data sidebar"),
+    AddConfig("Select key", "key_select", key_list, "KEY_TAB", "Key used for selecting between menu and data sidebar"),
     AddConfig("Movement prediction key", "key_movement_prediction", key_list, false, "Key used for toggling the movement prediction"),
     AddConfig("Pause key", "key_pause", key_list, "KEY_P", "Key used for pausing the game"),
     AddConfig("God mode key", "key_god_mode", key_list, "KEY_G", "Key used for toggling god mode"),

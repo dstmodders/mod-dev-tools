@@ -82,6 +82,7 @@ _G.DevTools = devtools
 _G.DevToolsAPI = devtools:GetAPI()
 
 -- config
+devtools:SetConfig("key_select", GetKeyFromConfig("key_select"))
 devtools:SetConfig("key_switch_data", GetKeyFromConfig("key_switch_data"))
 
 local DevToolsScreen -- not an instance

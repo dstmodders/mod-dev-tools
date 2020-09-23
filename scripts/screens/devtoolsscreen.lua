@@ -41,6 +41,7 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.data_index = 1
     self.font = devtools:GetConfig("font")
     self.font_size = devtools:GetConfig("font_size")
+    self.key_select = devtools:GetConfig("key_select")
     self.locale_text_scale = devtools:GetConfig("locale_text_scale")
     self.selected = MOD_DEV_TOOLS.SELECT.MENU
     self.sidebars_gameplay = { "front-end", "selected", "world" }
@@ -257,7 +258,7 @@ function DevToolsScreen:UpdateChildren(silent)
     local selected = "[SELECTED]"
     local unselected = string.format(
         "[PRESS %s TO SELECT]",
-        string.upper(STRINGS.UI.CONTROLSSCREEN.INPUTS[1][KEY_TAB])
+        string.upper(STRINGS.UI.CONTROLSSCREEN.INPUTS[1][self.devtools:GetConfig("key_select")])
     )
 
     if self.menu_text ~= nil then
@@ -431,7 +432,7 @@ function DevToolsScreen:OnRawKey(key, down)
                 self:UpdateData()
                 self:UpdateChildren(true)
             end
-        elseif key == KEY_TAB then
+        elseif key == self.key_select then
             self.selected = Utils.Table.NextValue({
                 MOD_DEV_TOOLS.SELECT.MENU,
                 MOD_DEV_TOOLS.SELECT.DATA,
