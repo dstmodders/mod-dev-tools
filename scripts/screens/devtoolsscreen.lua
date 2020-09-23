@@ -217,6 +217,18 @@ function DevToolsScreen:SwitchDataToNil()
     self.data_text = nil
 end
 
+--- Switches data.
+-- @tparam[opt] number dir
+function DevToolsScreen:SwitchData(dir)
+    dir = dir ~= nil and dir or 1
+    self.data_index = 1
+    self.data_name = dir > 0
+        and Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
+        or Utils.Table.PrevValue(self.sidebars_gameplay, self.data_name)
+    self:UpdateData()
+    self:UpdateChildren(true)
+end
+
 --- Update
 -- @section update
 
@@ -428,9 +440,7 @@ function DevToolsScreen:OnRawKey(key, down)
             self:UpdateChildren(true)
         elseif key == self.key_switch_data then
             if InGamePlay() then
-                self.data_name = Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
-                self:UpdateData()
-                self:UpdateChildren(true)
+                self:SwitchData()
             end
         elseif key == self.key_select then
             self.selected = Utils.Table.NextValue({
@@ -453,15 +463,11 @@ function DevToolsScreen:OnRawKey(key, down)
                 self:UpdateChildren(true)
             elseif key == KEY_LEFT then
                 if InGamePlay() then
-                    self.data_name = Utils.Table.PrevValue(self.sidebars_gameplay, self.data_name)
-                    self:UpdateData()
-                    self:UpdateChildren(true)
+                    self:SwitchData(-1)
                 end
             elseif key == KEY_RIGHT then
                 if InGamePlay() then
-                    self.data_name = Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
-                    self:UpdateData()
-                    self:UpdateChildren(true)
+                    self:SwitchData()
                 end
             else
                 return false

@@ -3,11 +3,7 @@ version = "0.6.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
     [[An extendable mod, that simplifies the most common tasks for both developers and testers as an alternative to debugkeys.]] .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
-    [[- Added support for selecting either menu or data sidebar]] .. "\n" ..
-    [[- Added support for the mouse scroll in data sidebar]] .. "\n" ..
-    [[- Added support for the select key configuration]] .. "\n" ..
-    [[- Fixed issue with the switch data key configuration]] .. "\n" ..
-    [[- Improved data sidebar update when selecting entity]]
+    [[- Fixed issue with data sidebar scrolling position while switching]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
