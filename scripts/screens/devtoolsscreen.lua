@@ -367,20 +367,24 @@ function DevToolsScreen:OnRawKey(key, down)
     local option_name = option and option:GetName()
 
     if not down then
-        if self.selected == MOD_DEV_TOOLS.SELECT.MENU and key == KEY_ESCAPE then
-            if not menu:Cancel() then
+        if key == KEY_ESCAPE then
+            if self.selected == MOD_DEV_TOOLS.SELECT.DATA then
                 self:Close()
-            end
-
-            if menu:AtRoot() then
-                if InGamePlay() then
-                    self:SwitchDataToWorld()
-                else
-                    self:SwitchDataToNil()
+            elseif self.selected == MOD_DEV_TOOLS.SELECT.MENU then
+                if not menu:Cancel() then
+                    self:Close()
                 end
-            end
 
-            self:UpdateChildren(true)
+                if menu:AtRoot() then
+                    if InGamePlay() then
+                        self:SwitchDataToWorld()
+                    else
+                        self:SwitchDataToNil()
+                    end
+                end
+
+                self:UpdateChildren(true)
+            end
         elseif key == KEY_ENTER and self.selected == MOD_DEV_TOOLS.SELECT.MENU then
             if InGamePlay() then
                 if menu:AtRoot() and option_name == "LearnedBuilderRecipesSubmenu" then
