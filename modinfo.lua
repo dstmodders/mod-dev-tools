@@ -6,7 +6,8 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[- Added support for selecting either menu or data sidebar]] .. "\n" ..
     [[- Added support for the mouse scroll in data sidebar]] .. "\n" ..
     [[- Added support for the select key configuration]] .. "\n" ..
-    [[- Fixed issue with the switch data key configuration]]
+    [[- Fixed issue with the switch data key configuration]] .. "\n" ..
+    [[- Improved data sidebar update when selecting entity]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""

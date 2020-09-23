@@ -206,12 +206,25 @@ function WorldDevTools:SelectEntityUnderMouse()
         SetDebugEntity(entity)
         self.devtools.labels:AddSelected(entity)
         self:DebugString("Selected", entity:GetDisplayName())
+
+        local screen = self.devtools.screen
+        if screen then
+            screen:UpdateData()
+            screen:UpdateChildren(true)
+        end
+
         return true
     end
 
     SetDebugEntity(nil)
     self.devtools.labels:RemoveSelected()
     self:DebugString("Unselected")
+
+    local screen = self.devtools.screen
+    if screen then
+        screen:UpdateData()
+        screen:UpdateChildren(true)
+    end
 
     return false
 end

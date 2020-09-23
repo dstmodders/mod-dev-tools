@@ -261,13 +261,13 @@ function DevToolsScreen:UpdateChildren(silent)
         string.upper(STRINGS.UI.CONTROLSSCREEN.INPUTS[1][self.devtools:GetConfig("key_select")])
     )
 
-    if self.menu_text ~= nil then
+    if self.menu_text ~= nil and self.menu then
         self.menu:SetString((self.selected == MOD_DEV_TOOLS.SELECT.MENU and selected or unselected)
             .. "\n\n"
             .. tostring(self.menu_text))
     end
 
-    if self.data_text ~= nil then
+    if self.data_text ~= nil and self.data then
         self.data:SetString((self.selected == MOD_DEV_TOOLS.SELECT.DATA and selected or unselected)
             .. "\n\n"
             .. tostring(self.data_text))
