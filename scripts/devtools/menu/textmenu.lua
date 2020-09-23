@@ -19,6 +19,7 @@ require "class"
 -- @tparam[opt] string name
 -- @usage local textmenu = TextMenu()
 local TextMenu = Class(function(self, screen, name)
+    -- general
     self.index = 1
     self.screen = screen
     self.stack_idx = {}
@@ -179,7 +180,7 @@ function TextMenu:DividerScroll(value, symbol)
     str = str .. " " .. value .. " "
     str = str .. string.rep(symbol, half - (value > 9 and offset + 1 or offset))
 
-    return str
+    return str .. "\n"
 end
 
 --- Returns spacing string.
@@ -248,22 +249,26 @@ function TextMenu:Cursor()
     return string.rep(" ", sizes[self.screen.font] or 6) .. "> "
 end
 
---- Inserts an option into a table.
--- @tparam table t
+--- Returns title string.
+-- @tparam[opt] string title
+-- @treturn string
+function TextMenu:Title(title)
+    title = title ~= nil and title or self.title
+    return "***** " .. string.upper(title) .. " *****\n\n"
+end
+
+--- Returns option string.
 -- @tparam number key
 -- @tparam menu.option.Option option
-function TextMenu:TableInsertOption(t, key, option)
-    local pre
-
+-- @treturn string
+function TextMenu:Option(key, option)
+    local pre = ""
     if option.is_divider then
         option:SetLabel(self:Divider())
     else
         pre = key == self.index and self:Cursor() or self:Spacing()
     end
-
-    table.insert(t, pre)
-    table.insert(t, tostring(option))
-    table.insert(t, "\n")
+    return pre .. tostring(option) .. "\n"
 end
 
 --- Navigation
@@ -381,45 +386,41 @@ end
 --- __tostring
 -- @treturn string
 function TextMenu:__tostring()
-    local t, scroll_size, scroll_half, scroll_top, scroll_bottom
+    local t = {}
 
-    t = {}
-    scroll_size = math.floor(self.screen.size_height - 6)
-    scroll_size = scroll_size % 2 == 0 and scroll_size or scroll_size - 1
-    scroll_half = scroll_size / 2
-    scroll_top = 1
-    scroll_bottom = scroll_size + 1
+    table.insert(t, self:Title())
 
-    table.insert(t, "***** ")
-    table.insert(t, string.upper(self.title))
-    table.insert(t, " *****\n\n")
+    if #self.stack_options == 0 then
+        return table.concat(t)
+    end
 
-    if #self.stack_options > 0 then
-        local options = self.stack_options[#self.stack_options]
-        local scroll_hidden = #options - scroll_size - 1
+    local scroll_size = self.screen.size_height - 3
+    local scroll_half = math.floor(scroll_size / 2)
+    local scroll_top = scroll_half + self.index - scroll_size - 1
+    local options = self.stack_options[#self.stack_options]
+    local scroll_hidden = #options - scroll_size + 1
 
-        for k, v in pairs(options) do
-            if self.index > scroll_half then
-                scroll_top = scroll_half + (self.index - scroll_size)
-                scroll_bottom = self.index + scroll_half
-                scroll_hidden = #options - self.index - scroll_half
-            end
+    if self.index > scroll_half then
+        scroll_hidden = #options - scroll_half - self.index + 1
+    end
 
-            if self.index > #options - scroll_half then
-                scroll_top = #options - scroll_size
-                scroll_bottom = #options
-                scroll_hidden = 0
-            end
+    if self.index == scroll_half then
+        scroll_hidden = #options - scroll_half - self.index
+    end
 
-            if k >= scroll_top and k <= scroll_bottom then
-                self:TableInsertOption(t, k, v)
-            end
+    if self.index > #options - scroll_half then
+        scroll_top = #options - scroll_size
+        scroll_hidden = 0
+    end
+
+    for k, option in pairs(options) do
+        if k - 2 >= scroll_top then
+            table.insert(t, self:Option(k, option))
         end
+    end
 
-        if scroll_hidden > 0 and #options > scroll_size then
-            table.insert(t, self:DividerScroll(scroll_hidden))
-            table.insert(t, "\n")
-        end
+    if scroll_hidden > 0 then
+        t[scroll_size] = self:DividerScroll(scroll_hidden + 1)
     end
 
     return table.concat(t)
