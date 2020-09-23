@@ -159,7 +159,7 @@ end
 -- @tparam string name
 -- @tparam table|string value
 function Data:PushLine(name, value) -- luacheck: only
-    if type(name) ~= "string" or string.len(name) == 0 or value == nil then
+    if value == nil then
         return
     end
 
@@ -167,7 +167,9 @@ function Data:PushLine(name, value) -- luacheck: only
         value = Utils.String.TableSplit(value)
     end
 
-    table.insert(self.stack, string.format("%s: %s", name, value))
+    table.insert(self.stack, (name and string.len(name) > 0)
+        and string.format("%s: %s", name, value)
+        or value)
 end
 
 --- Other

@@ -9,6 +9,7 @@
 -- @classmod screens.DevToolsScreen
 -- @see data.RecipeData
 -- @see data.SelectedData
+-- @see data.SelectedTagsData
 -- @see data.WorldData
 -- @see menu.Menu
 --
@@ -26,6 +27,7 @@ local Utils = require "devtools/utils"
 local FrontEndData = require "devtools/data/frontenddata"
 local RecipeData = require "devtools/data/recipedata"
 local SelectedData = require "devtools/data/selecteddata"
+local SelectedTagsData = require "devtools/data/selectedtagsdata"
 local WorldData = require "devtools/data/worlddata"
 
 local _SCREEN_NAME = "ModDevToolsScreen"
@@ -44,7 +46,7 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.key_select = devtools:GetConfig("key_select")
     self.locale_text_scale = devtools:GetConfig("locale_text_scale")
     self.selected = MOD_DEV_TOOLS.SELECT.MENU
-    self.sidebars_gameplay = { "front-end", "selected", "world" }
+    self.sidebars_gameplay = { "front-end", "selected", "selected-tags", "world" }
     self.size_height = devtools:GetConfig("size_height")
     self.size_width = devtools:GetConfig("size_width")
 
@@ -182,6 +184,11 @@ end
 --- Data
 -- @section data
 
+--- Resets data index.
+function DevToolsScreen:ResetDataIndex()
+    self.data_index = 1
+end
+
 --- Switches data to front-end.
 -- @see menu.Submenu.UpdateScreen
 function DevToolsScreen:SwitchDataToFrontEnd()
@@ -221,10 +228,10 @@ end
 -- @tparam[opt] number dir
 function DevToolsScreen:SwitchData(dir)
     dir = dir ~= nil and dir or 1
-    self.data_index = 1
     self.data_name = dir > 0
         and Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
         or Utils.Table.PrevValue(self.sidebars_gameplay, self.data_name)
+    self:ResetDataIndex()
     self:UpdateData()
     self:UpdateChildren(true)
 end
@@ -329,6 +336,16 @@ function DevToolsScreen:UpdateSelectedData()
     )
 end
 
+--- Updates selected tags data.
+function DevToolsScreen:UpdateSelectedTagsData()
+    self.data_text = SelectedTagsData(
+        self,
+        self.devtools,
+        self.devtools.world,
+        self.devtools.player:GetSelected()
+    )
+end
+
 --- Updates world data.
 function DevToolsScreen:UpdateWorldData()
     self.data_text = WorldData(self, self.devtools.world)
@@ -356,6 +373,8 @@ function DevToolsScreen:UpdateData()
         and playerdevtools:GetSelected()
     then
         self:UpdateSelectedData()
+    elseif self.data_name == "selected-tags" and worlddevtools and playerdevtools then
+        self:UpdateSelectedTagsData()
     elseif self.data_name == "world" and worlddevtools then
         self:UpdateWorldData()
     end

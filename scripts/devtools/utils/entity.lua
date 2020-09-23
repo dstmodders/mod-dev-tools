@@ -93,9 +93,13 @@ end
 -- @tparam boolean is_all
 -- @treturn table
 function Entity.GetTags(entity, is_all)
-    -- TODO: Find a better way of getting the entity tag instead of using RegEx...
     is_all = is_all == true
 
+    if not entity or not entity.GetDebugString then
+        return
+    end
+
+    -- TODO: Find a better way of getting the entity tag instead of using RegEx...
     local debug = entity:GetDebugString()
     local tags = string.match(debug, "Tags: (.-)\n")
 
