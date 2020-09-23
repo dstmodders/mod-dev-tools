@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+### Added
+
+- Support for selecting either menu or data sidebar
+- Support for the mouse scroll in data sidebar
+- Support for the select key configuration
+
+### Changed
+
+- Improved data sidebar update when selecting entity
+
+### Fixed
+
+- Issue with the switch data key configuration
+
 ## [0.4.1][] - 2020-09-21
 
 ### Fixed
