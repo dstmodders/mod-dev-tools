@@ -209,7 +209,7 @@ function WorldDevTools:SelectEntityUnderMouse()
 
         local screen = self.devtools.screen
         if screen then
-            screen:ResetDataIndex()
+            screen:ResetDataSidebarIdx()
         end
 
         return true
@@ -221,7 +221,7 @@ function WorldDevTools:SelectEntityUnderMouse()
 
     local screen = self.devtools.screen
     if screen then
-        screen:ResetDataIndex()
+        screen:ResetDataSidebarIdx()
     end
 
     return false

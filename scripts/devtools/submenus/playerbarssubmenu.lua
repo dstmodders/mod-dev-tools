@@ -56,7 +56,7 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
                 self.console:SetWerenessPercent(100)
             end
 
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
     })
 end
@@ -79,14 +79,14 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
         max = max,
         step = step,
         on_cursor_fn = function()
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
         on_get_fn = function()
             return math.floor(self.player[getter](self.player))
         end,
         on_set_fn = function(_, _, value)
             self.console[setter](self.console, value)
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
     })
 end

@@ -108,24 +108,23 @@ function Submenu:AddSelectedPlayerLabelPrefix(devtools, playerdevtools)
     end
 end
 
+--- Gets screen data sidebar.
+-- @see MOD_DEV_TOOLS.DATA_SIDEBAR
+-- @treturn number
+function Submenu:GetScreenDataSidebar()
+    return self.screen:GetDataSidebar()
+end
+
 --- Updates screen.
 --
--- Switches data based on the provided data string and updates the screen:
+-- Switches data based on the provided `MOD_DEV_TOOLS.DATA_SIDEBAR` constant.
 --
--- - "front-end"
--- - "recipe"
--- - "selected"
--- - "world"
---
+-- @see MOD_DEV_TOOLS.DATA_SIDEBAR
 -- @see screens.DevToolsScreen
--- @see screens.DevToolsScreen.SwitchDataToFrontEnd
--- @see screens.DevToolsScreen.SwitchDataToNil
--- @see screens.DevToolsScreen.SwitchDataToRecipe
--- @see screens.DevToolsScreen.SwitchDataToSelected
--- @see screens.DevToolsScreen.SwitchDataToWorld
--- @tparam string data Data name
+-- @see screens.DevToolsScreen.ChangeDataSidebar
+-- @tparam number data_sidebar Data sidebar constant (`MOD_DEV_TOOLS.DATA_SIDEBAR`)
 -- @tparam boolean unpause Should the world be resumed if paused?
-function Submenu:UpdateScreen(data, unpause)
+function Submenu:UpdateScreen(data_sidebar, unpause)
     if unpause and self.devtools then
         if self.devtools:IsPaused() then
             self.devtools:Unpause()
@@ -133,18 +132,7 @@ function Submenu:UpdateScreen(data, unpause)
     end
 
     if self.screen then
-        if data == "front-end" then
-            self.screen:SwitchDataToFrontEnd()
-        elseif data == "recipe" then
-            self.screen:SwitchDataToRecipe()
-        elseif data == "selected" then
-            self.screen:SwitchDataToSelected()
-        elseif data == "world" then
-            self.screen:SwitchDataToWorld()
-        else
-            self.screen:SwitchDataToNil()
-        end
-
+        self.screen:ChangeDataSidebar(data_sidebar)
         if self.menu_idx then
             self.screen:UpdateMenu(self.menu_idx)
         end

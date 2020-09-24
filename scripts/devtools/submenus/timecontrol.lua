@@ -67,7 +67,7 @@ return {
                 label = "Next Day",
                 on_accept_fn = function(_, submenu)
                     submenu.console:PushWorldEvent("ms_nextcycle")
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -77,7 +77,7 @@ return {
                 label = "Next Phase",
                 on_accept_fn = function(_, submenu)
                     submenu.console:PushWorldEvent("ms_nextphase")
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },

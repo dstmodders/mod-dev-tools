@@ -33,7 +33,7 @@ return {
                     for _ = 1, submenu.world:GetStateRemainingDaysInSeason() do
                         submenu.console:PushWorldEvent("ms_advanceseason")
                     end
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -45,7 +45,7 @@ return {
                     for _ = 1, submenu.world:GetStateRemainingDaysInSeason() do
                         submenu.console:PushWorldEvent("ms_retreatseason")
                     end
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -65,7 +65,7 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:SetSeason(value)
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -86,14 +86,14 @@ return {
                                 max = 100,
                                 on_accept_fn = function(_, submenu)
                                     submenu.console:SetSeasonLength(season.value, season.default)
-                                    submenu:UpdateScreen("world", true)
+                                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                                 end,
                                 on_get_fn = function(_, submenu)
                                     return submenu.world:GetState(season.value .. "length")
                                 end,
                                 on_set_fn = function(_, submenu, value)
                                     submenu.console:SetSeasonLength(season.value, value)
-                                    submenu:UpdateScreen("world", true)
+                                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                                 end,
                             },
                         })

@@ -45,7 +45,7 @@ function TeleportSubmenu:AddGatherPlayersOption()
         label = "Gather Players",
         on_accept_fn = function()
             self.console:GatherPlayers()
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
     })
 end
@@ -62,7 +62,7 @@ function TeleportSubmenu:AddGoNextOption(label, prefab)
                 gonext = prefab[math.random(#prefab)]
             end
             self.console:GoNext(label, gonext)
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
     })
 end

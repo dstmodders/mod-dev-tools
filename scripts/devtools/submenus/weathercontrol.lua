@@ -28,7 +28,7 @@ return {
                 on_set_fn = function(_, submenu, value)
                     if value ~= submenu.world:IsPrecipitation() then
                         submenu.console:ForcePrecipitation(value)
-                        submenu:UpdateScreen("world", true)
+                        submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                     end
                 end,
             },
@@ -41,7 +41,7 @@ return {
                 label = "Send Lightning Strike",
                 on_accept_fn = function(_, submenu)
                     submenu.console:SendLightningStrike(TheInput:GetWorldPosition())
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -52,7 +52,7 @@ return {
                 label = "Send Mini Earthquake",
                 on_accept_fn = function(_, submenu)
                     submenu.console:MiniQuake()
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -75,7 +75,7 @@ return {
                 on_set_fn = function(_, submenu, value)
                     submenu.console:DeltaMoisture(math.floor(value)
                         - math.floor(submenu.world:GetStateMoisture()))
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -92,7 +92,7 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:SetSnowLevel(value / 100)
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },
@@ -108,7 +108,7 @@ return {
                 on_set_fn = function(_, submenu, value)
                     submenu.console:DeltaWetness(math.floor(value)
                         - math.floor(submenu.world:GetStateWetness()))
-                    submenu:UpdateScreen("world", true)
+                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
                 end,
             },
         },

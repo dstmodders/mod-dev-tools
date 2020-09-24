@@ -41,13 +41,9 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     Screen._ctor(self, _SCREEN_NAME)
 
     -- general
-    self.data_index = 1
     self.font = devtools:GetConfig("font")
     self.font_size = devtools:GetConfig("font_size")
-    self.key_select = devtools:GetConfig("key_select")
     self.locale_text_scale = devtools:GetConfig("locale_text_scale")
-    self.selected = MOD_DEV_TOOLS.SELECT.MENU
-    self.sidebars_gameplay = { "front-end", "selected", "selected-tags", "world" }
     self.size_height = devtools:GetConfig("size_height")
     self.size_width = devtools:GetConfig("size_width")
 
@@ -185,57 +181,40 @@ end
 --- Data
 -- @section data
 
---- Resets data index.
-function DevToolsScreen:ResetDataIndex()
-    self.data_index = 1
-    self:UpdateData()
+--- Gets data sidebar.
+-- @see MOD_DEV_TOOLS.DATA_SIDEBAR
+-- @treturn number
+function DevToolsScreen:GetDataSidebar()
+    return self.data_sidebar
+end
+
+--- Resets data sidebar index.
+function DevToolsScreen:ResetDataSidebarIdx()
+    self.data_sidebar_idx = 1
+    self:UpdateDataSidebar()
     self:UpdateChildren(true)
 end
 
---- Switches data to front-end.
+--- Changes data sidebar.
 -- @see menu.Submenu.UpdateScreen
-function DevToolsScreen:SwitchDataToFrontEnd()
-    self.data_name = "front-end"
-    self:UpdateData()
-end
-
---- Switches data to recipe.
--- @see menu.Submenu.UpdateScreen
-function DevToolsScreen:SwitchDataToRecipe()
-    self.data_name = "recipe"
-    self:UpdateData()
-end
-
---- Switches data to selected.
--- @see menu.Submenu.UpdateScreen
-function DevToolsScreen:SwitchDataToSelected()
-    self.data_name = "selected"
-    self:UpdateData()
-end
-
---- Switches data to world.
--- @see menu.Submenu.UpdateScreen
-function DevToolsScreen:SwitchDataToWorld()
-    self.data_name = "world"
-    self:UpdateData()
-end
-
---- Switches data to nil.
--- @see menu.Submenu.UpdateScreen
-function DevToolsScreen:SwitchDataToNil()
-    self.data_name = nil
-    self.data_text = nil
+function DevToolsScreen:ChangeDataSidebar(data_sidebar)
+    self.data_sidebar = data_sidebar
+    if data_sidebar ~= nil then
+        self:UpdateDataSidebar()
+    else
+        self.data_text = nil
+    end
 end
 
 --- Switches data.
 -- @tparam[opt] number dir
 function DevToolsScreen:SwitchData(dir)
     dir = dir ~= nil and dir or 1
-    self.data_index = 1
-    self.data_name = dir > 0
-        and Utils.Table.NextValue(self.sidebars_gameplay, self.data_name)
-        or Utils.Table.PrevValue(self.sidebars_gameplay, self.data_name)
-    self:ResetDataIndex()
+    self.data_sidebar_idx = 1
+    self.data_sidebar = dir > 0
+        and Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
+        or Utils.Table.PrevValue(self.in_game_play_data_sidebars, self.data_sidebar)
+    self:ResetDataSidebarIdx()
 end
 
 --- Update
@@ -263,7 +242,7 @@ end
 --- Updates.
 function DevToolsScreen:Update()
     if self:IsOpen() and self.devtools and not self.devtools:IsPaused() then
-        self:UpdateData()
+        self:UpdateDataSidebar()
         self:UpdateChildren(true)
     end
 end
@@ -355,29 +334,28 @@ end
 
 --- Updates data.
 -- @treturn data.RecipeData|data.SelectedData|data.WorldData
-function DevToolsScreen:UpdateData()
+function DevToolsScreen:UpdateDataSidebar()
     local devtools = self.devtools
     local playerdevtools = devtools.player
     local worlddevtools = devtools.world
 
-    if self.data_name == "front-end" then
+    if self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END then
         self:UpdateFrontEndData()
-    elseif self.data_name == "recipe"
-        and playerdevtools
-        and playerdevtools.crafting
-        and playerdevtools.crafting:GetSelectedRecipe()
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE
+        and Utils.Chain.Get(playerdevtools, "crafting")
     then
         self:UpdateRecipeData()
-    elseif self.data_name == "selected"
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED
         and worlddevtools
-        and playerdevtools
-        and playerdevtools.crafting
-        and playerdevtools:GetSelected()
+        and Utils.Chain.Get(playerdevtools, "crafting")
     then
         self:UpdateSelectedData()
-    elseif self.data_name == "selected-tags" and worlddevtools and playerdevtools then
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS
+        and worlddevtools
+        and playerdevtools
+    then
         self:UpdateSelectedTagsData()
-    elseif self.data_name == "world" and worlddevtools then
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD and worlddevtools then
         self:UpdateWorldData()
     end
 
@@ -393,12 +371,12 @@ end
 function DevToolsScreen:OnControl(control, down)
     Screen.OnControl(self, control, down)
     if control == CONTROL_SCROLLBACK and down then
-        self.data_index = self.data_text:Up(self.data_index)
-        self:UpdateData()
+        self.data_sidebar_idx = self.data_text:Up(self.data_sidebar_idx)
+        self:UpdateDataSidebar()
         self:UpdateChildren(true)
     elseif control == CONTROL_SCROLLFWD and down then
-        self.data_index = self.data_text:Down(self.data_index)
-        self:UpdateData()
+        self.data_sidebar_idx = self.data_text:Down(self.data_sidebar_idx)
+        self:UpdateDataSidebar()
         self:UpdateChildren(true)
     end
 end
@@ -427,9 +405,9 @@ function DevToolsScreen:OnRawKey(key, down)
 
                 if menu:AtRoot() then
                     if InGamePlay() then
-                        self:SwitchDataToWorld()
+                        self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
                     else
-                        self:SwitchDataToNil()
+                        self:ChangeDataSidebar(nil)
                     end
                 end
 
@@ -438,26 +416,26 @@ function DevToolsScreen:OnRawKey(key, down)
         elseif key == KEY_ENTER and self.selected == MOD_DEV_TOOLS.SELECT.MENU then
             if InGamePlay() then
                 if menu:AtRoot() and option_name == "LearnedBuilderRecipesSubmenu" then
-                    self:SwitchDataToRecipe()
+                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
                 elseif menu:AtRoot() and option_name == "SelectSubmenu" then
                     self.is_selected_entity_data_visible = true
-                    self:SwitchDataToSelected()
+                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
                 elseif menu:AtRoot()
                     and (option_name == "PlayerBarsSubmenu"
                     or option_name == "TeleportSubmenu")
                 then
                     self.is_selected_entity_data_visible = false
-                    self:SwitchDataToSelected()
+                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
                 else
-                    self:SwitchDataToWorld()
+                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
                 end
             else
-                self:SwitchDataToNil()
+                self:ChangeDataSidebar(nil)
             end
 
             menu:Accept()
 
-            self:UpdateData()
+            self:UpdateDataSidebar()
             self:UpdateChildren(true)
         elseif key == self.key_switch_data then
             if InGamePlay() then
@@ -475,12 +453,12 @@ function DevToolsScreen:OnRawKey(key, down)
     else
         if self.selected == MOD_DEV_TOOLS.SELECT.DATA then
             if key == KEY_UP then
-                self.data_index = self.data_text:Up(self.data_index)
-                self:UpdateData()
+                self.data_sidebar_idx = self.data_text:Up(self.data_sidebar_idx)
+                self:UpdateDataSidebar()
                 self:UpdateChildren(true)
             elseif key == KEY_DOWN then
-                self.data_index = self.data_text:Down(self.data_index)
-                self:UpdateData()
+                self.data_sidebar_idx = self.data_text:Down(self.data_sidebar_idx)
+                self:UpdateDataSidebar()
                 self:UpdateChildren(true)
             elseif key == KEY_LEFT then
                 if InGamePlay() then
@@ -502,11 +480,11 @@ function DevToolsScreen:OnRawKey(key, down)
                 self:UpdateChildren(true)
             elseif key == KEY_LEFT then
                 menu:Left()
-                self:UpdateData()
+                self:UpdateDataSidebar()
                 self:UpdateChildren(true)
             elseif key == KEY_RIGHT then
                 menu:Right()
-                self:UpdateData()
+                self:UpdateDataSidebar()
                 self:UpdateChildren(true)
             else
                 return false
@@ -527,7 +505,7 @@ function DevToolsScreen:OnBecomeActive()
     Screen.OnBecomeActive(self)
 
     self:UpdateMenu()
-    self:UpdateData()
+    self:UpdateDataSidebar()
     self:UpdateChildren()
 end
 
@@ -540,13 +518,28 @@ function DevToolsScreen:DoInit(devtools)
     Utils.Debug.AddMethods(self)
 
     -- general
-    self.data_name = InGamePlay() and "world" or "front-end"
     self.data_text = nil
     self.devtools = devtools
     self.is_selected_entity_data_visible = true
+    self.key_select = devtools:GetConfig("key_select")
     self.key_switch_data = self.devtools:GetConfig("key_switch_data")
     self.menu_text = nil
     self.name = _SCREEN_NAME
+    self.selected = MOD_DEV_TOOLS.SELECT.MENU
+
+    -- data sidebar
+    self.data_sidebar_idx = 1
+
+    self.data_sidebar = InGamePlay()
+        and MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD
+        or MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END
+
+    self.in_game_play_data_sidebars = {
+        MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END,
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS,
+        MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD,
+    }
 
     -- devtools
     if devtools then

@@ -55,13 +55,13 @@ function CharacterRecipesSubmenu:AddRecipeOption(label, item)
             if recipe then
                 self.crafting:MakeRecipeFromMenu(recipe)
             end
-            self:UpdateScreen("recipe")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
         end,
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
                 self.crafting:SetSelectedRecipe(recipe)
-                self:UpdateScreen("recipe")
+                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
             end
         end,
     })
@@ -88,13 +88,13 @@ function CharacterRecipesSubmenu:AddRecipeSkinsOption(label, item, skins)
         label = label,
         choices = choices,
         on_accept_fn = function()
-            self:UpdateScreen("recipe")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
         end,
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
                 self.crafting:SetSelectedRecipe(recipe)
-                self:UpdateScreen("recipe")
+                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
             end
         end,
         on_set_fn = function(_, _, value)

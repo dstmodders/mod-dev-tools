@@ -75,7 +75,7 @@ function SelectSubmenu:AddSelectPlayerOptions()
             label = self:AppendSelected(v:GetDisplayName(), v, self.player:GetSelected()),
             on_accept_fn = function()
                 self.player:Select(v)
-                self:UpdateScreen("selected")
+                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
             end,
         })
     end
@@ -94,7 +94,7 @@ function SelectSubmenu:AddSelectEntityUnderMouseOption()
         }),
         on_accept_fn = function()
             self.world:SelectEntityUnderMouse()
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
     })
 end
@@ -110,7 +110,7 @@ function SelectSubmenu:AddSelectEquippedItem(slot)
             ),
             on_accept_fn = function()
                 self.inventory:SelectEquippedItem(slot)
-                self:UpdateScreen("selected")
+                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
             end,
         })
     end
@@ -122,7 +122,7 @@ function SelectSubmenu:AddSelectWorldOptions()
         label = self:AppendSelected("TheWorld", self.world:GetWorld()),
         on_accept_fn = function()
             self.world:Select()
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
     })
 end
@@ -133,7 +133,7 @@ function SelectSubmenu:AddSelectWorldNetOptions()
         label = self:AppendSelected("TheWorld.net", self.world:GetWorldNet()),
         on_accept_fn = function()
             self.world:SelectNet()
-            self:UpdateScreen("selected")
+            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
         end,
     })
 end
