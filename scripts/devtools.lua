@@ -394,7 +394,7 @@ end
 --     },
 -- })
 function DevTools:CreateSubmenuInstFromData(data, root)
-    local submenu = Submenu(self, root, data.label, data.name, data.menu_idx)
+    local submenu = Submenu(self, root, data.label, data.name, data.data_sidebar, data.menu_idx)
 
     if type(data.on_init_fn) == "function" then
         submenu:SetOnInitFn(data.on_init_fn)

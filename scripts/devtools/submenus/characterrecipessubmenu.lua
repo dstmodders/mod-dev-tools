@@ -27,7 +27,14 @@ local Utils = require "devtools/utils"
 -- @tparam Widget root
 -- @usage local characterrecipessubmenu = CharacterRecipesSubmenu(devtools, root)
 local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)
-    Submenu._ctor(self, devtools, root, "Character Recipes", "CharacterRecipesSubmenu")
+    Submenu._ctor(
+        self,
+        devtools,
+        root,
+        "Character Recipes",
+        "CharacterRecipesSubmenu",
+        MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE
+    )
 
     -- options
     if self.devtools and self.crafting and devtools.screen then
@@ -55,13 +62,13 @@ function CharacterRecipesSubmenu:AddRecipeOption(label, item)
             if recipe then
                 self.crafting:MakeRecipeFromMenu(recipe)
             end
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
+            self:UpdateScreen()
         end,
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
                 self.crafting:SetSelectedRecipe(recipe)
-                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
+                self:UpdateScreen()
             end
         end,
     })
@@ -88,13 +95,13 @@ function CharacterRecipesSubmenu:AddRecipeSkinsOption(label, item, skins)
         label = label,
         choices = choices,
         on_accept_fn = function()
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
+            self:UpdateScreen()
         end,
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
                 self.crafting:SetSelectedRecipe(recipe)
-                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
+                self:UpdateScreen()
             end
         end,
         on_set_fn = function(_, _, value)

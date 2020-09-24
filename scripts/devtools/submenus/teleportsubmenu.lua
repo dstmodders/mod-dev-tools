@@ -26,7 +26,15 @@ local Submenu = require "devtools/menu/submenu"
 -- @tparam Widget root
 -- @usage local teleportsubmenu = TeleportSubmenu(devtools, root)
 local TeleportSubmenu = Class(Submenu, function(self, devtools, root)
-    Submenu._ctor(self, devtools, root, "Teleport", "TeleportSubmenu", #root + 1)
+    Submenu._ctor(
+        self,
+        devtools,
+        root,
+        "Teleport",
+        "TeleportSubmenu",
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
+        #root + 1
+    )
 
     -- options
     if self.world and self.player and self.console and self.screen and self.player:IsAdmin() then
@@ -45,7 +53,7 @@ function TeleportSubmenu:AddGatherPlayersOption()
         label = "Gather Players",
         on_accept_fn = function()
             self.console:GatherPlayers()
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
     })
 end
@@ -62,7 +70,7 @@ function TeleportSubmenu:AddGoNextOption(label, prefab)
                 gonext = prefab[math.random(#prefab)]
             end
             self.console:GoNext(label, gonext)
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
     })
 end

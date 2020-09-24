@@ -26,7 +26,15 @@ local Submenu = require "devtools/menu/submenu"
 -- @tparam Widget root
 -- @usage local selectsubmenu = SelectSubmenu(devtools, root)
 local SelectSubmenu = Class(Submenu, function(self, devtools, root)
-    Submenu._ctor(self, devtools, root, "Select", "SelectSubmenu", #root + 1)
+    Submenu._ctor(
+        self,
+        devtools,
+        root,
+        "Select",
+        "SelectSubmenu",
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
+        #root + 1
+    )
 
     -- options
     if self.devtools and self.world and self.player and self.inventory and self.screen then
@@ -75,7 +83,7 @@ function SelectSubmenu:AddSelectPlayerOptions()
             label = self:AppendSelected(v:GetDisplayName(), v, self.player:GetSelected()),
             on_accept_fn = function()
                 self.player:Select(v)
-                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+                self:UpdateScreen()
             end,
         })
     end
@@ -94,7 +102,7 @@ function SelectSubmenu:AddSelectEntityUnderMouseOption()
         }),
         on_accept_fn = function()
             self.world:SelectEntityUnderMouse()
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
     })
 end
@@ -110,7 +118,7 @@ function SelectSubmenu:AddSelectEquippedItem(slot)
             ),
             on_accept_fn = function()
                 self.inventory:SelectEquippedItem(slot)
-                self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+                self:UpdateScreen()
             end,
         })
     end
@@ -122,7 +130,7 @@ function SelectSubmenu:AddSelectWorldOptions()
         label = self:AppendSelected("TheWorld", self.world:GetWorld()),
         on_accept_fn = function()
             self.world:Select()
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
     })
 end
@@ -133,7 +141,7 @@ function SelectSubmenu:AddSelectWorldNetOptions()
         label = self:AppendSelected("TheWorld.net", self.world:GetWorldNet()),
         on_accept_fn = function()
             self.world:SelectNet()
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
     })
 end

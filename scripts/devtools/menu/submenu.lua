@@ -47,12 +47,14 @@ local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 -- @tparam Widget root
 -- @tparam string label
 -- @tparam string name
+-- @tparam[opt] number data_sidebar
 -- @tparam[opt] number menu_idx
--- @usage local submenu = Submenu(devtools, root)
-local Submenu = Class(function(self, devtools, root, label, name, menu_idx)
+-- @usage local submenu = Submenu(devtools, root, "Label", "Name")
+local Submenu = Class(function(self, devtools, root, label, name, data_sidebar, menu_idx)
     Utils.Debug.AddMethods(self)
 
     -- general
+    self.data_sidebar = data_sidebar
     self.label = label
     self.menu_idx = menu_idx
     self.name = name
@@ -108,6 +110,13 @@ function Submenu:AddSelectedPlayerLabelPrefix(devtools, playerdevtools)
     end
 end
 
+--- Gets data sidebar.
+-- @see MOD_DEV_TOOLS.DATA_SIDEBAR
+-- @treturn number
+function Submenu:GetDataSidebar()
+    return self.data_sidebar
+end
+
 --- Gets screen data sidebar.
 -- @see MOD_DEV_TOOLS.DATA_SIDEBAR
 -- @treturn number
@@ -122,9 +131,11 @@ end
 -- @see MOD_DEV_TOOLS.DATA_SIDEBAR
 -- @see screens.DevToolsScreen
 -- @see screens.DevToolsScreen.ChangeDataSidebar
--- @tparam number data_sidebar Data sidebar constant (`MOD_DEV_TOOLS.DATA_SIDEBAR`)
--- @tparam boolean unpause Should the world be resumed if paused?
+-- @tparam[opt] number data_sidebar Data sidebar constant (`MOD_DEV_TOOLS.DATA_SIDEBAR`)
+-- @tparam[opt] boolean unpause Should the world be resumed if paused?
 function Submenu:UpdateScreen(data_sidebar, unpause)
+    data_sidebar = data_sidebar ~= nil and data_sidebar or self.data_sidebar
+
     if unpause and self.devtools then
         if self.devtools:IsPaused() then
             self.devtools:Unpause()

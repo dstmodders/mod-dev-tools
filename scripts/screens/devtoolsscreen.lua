@@ -392,7 +392,6 @@ function DevToolsScreen:OnRawKey(key, down)
 
     local menu = self.menu_text:GetMenu()
     local option = menu and menu:GetOption()
-    local option_name = option and option:GetName()
 
     if not down then
         if key == KEY_ESCAPE then
@@ -415,9 +414,8 @@ function DevToolsScreen:OnRawKey(key, down)
             end
         elseif key == KEY_ENTER and self.selected == MOD_DEV_TOOLS.SELECT.MENU then
             if InGamePlay() then
-                if menu:AtRoot() and option_name == "LearnedBuilderRecipesSubmenu" then
-                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE)
-                elseif menu:AtRoot() and option_name == "SelectSubmenu" then
+                local option_name = option and option:GetName()
+                if menu:AtRoot() and option_name == "SelectSubmenu" then
                     self.is_selected_entity_data_visible = true
                     self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
                 elseif menu:AtRoot()

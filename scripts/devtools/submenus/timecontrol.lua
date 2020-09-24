@@ -18,6 +18,7 @@ local Toggle = require "devtools/submenus/option/toggle"
 return {
     label = "Time Control",
     name = "TimeControlSubmenu",
+    data_sidebar = MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD,
     on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_ADMIN,
     options = {
         Toggle(
@@ -67,7 +68,7 @@ return {
                 label = "Next Day",
                 on_accept_fn = function(_, submenu)
                     submenu.console:PushWorldEvent("ms_nextcycle")
-                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
+                    submenu:UpdateScreen(nil, true)
                 end,
             },
         },
@@ -77,7 +78,7 @@ return {
                 label = "Next Phase",
                 on_accept_fn = function(_, submenu)
                     submenu.console:PushWorldEvent("ms_nextphase")
-                    submenu:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD, true)
+                    submenu:UpdateScreen(nil, true)
                 end,
             },
         },

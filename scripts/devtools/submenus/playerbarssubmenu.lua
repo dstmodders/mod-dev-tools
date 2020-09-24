@@ -26,7 +26,15 @@ local Submenu = require "devtools/menu/submenu"
 -- @tparam Widget root
 -- @usage local playerbarssubmenu = PlayerBarsSubmenu(devtools, root)
 local PlayerBarsSubmenu = Class(Submenu, function(self, devtools, root)
-    Submenu._ctor(self, devtools, root, "Player Bars", "PlayerBarsSubmenu", #root + 1)
+    Submenu._ctor(
+        self,
+        devtools,
+        root,
+        "Player Bars",
+        "PlayerBarsSubmenu",
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
+        #root + 1
+    )
 
     -- options
     if self.world and self.player and self.player:IsAdmin() and self.console and self.screen then
@@ -56,7 +64,7 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
                 self.console:SetWerenessPercent(100)
             end
 
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
     })
 end
@@ -79,14 +87,14 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
         max = max,
         step = step,
         on_cursor_fn = function()
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
         on_get_fn = function()
             return math.floor(self.player[getter](self.player))
         end,
         on_set_fn = function(_, _, value)
             self.console[setter](self.console, value)
-            self:UpdateScreen(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+            self:UpdateScreen()
         end,
     })
 end
