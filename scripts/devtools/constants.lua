@@ -12,11 +12,10 @@
 ----
 
 --- Mod constants.
--- @see MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN
--- @see MOD_DEV_TOOLS.OPTION
 -- @table MOD_DEV_TOOLS
 -- @tfield table API
 -- @tfield table CCT
+-- @tfield table DATA_SIDEBAR
 -- @tfield table ON_ADD_TO_ROOT_FN
 -- @tfield table OPTION
 -- @tfield table SELECT
@@ -83,6 +82,21 @@ MOD_DEV_TOOLS = {
             warn = "images/colour_cubes/ruins_dim_cc.tex",
             wild = "images/colour_cubes/ruins_light_cc.tex",
         },
+    },
+
+    --- Data sidebar constants.
+    -- @table MOD_DEV_TOOLS.DATA_SIDEBAR
+    -- @tfield number FRONT_END
+    -- @tfield number RECIPE
+    -- @tfield number SELECTED
+    -- @tfield number SELECTED_TAGS
+    -- @tfield number WORLD
+    DATA_SIDEBAR = {
+        FRONT_END = 1,
+        RECIPE = 2,
+        SELECTED = 3,
+        SELECTED_TAGS = 4,
+        WORLD = 5,
     },
 
     --- Select constants.
