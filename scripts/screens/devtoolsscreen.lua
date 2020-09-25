@@ -213,11 +213,13 @@ end
 -- @tparam[opt] number dir
 function DevToolsScreen:SwitchData(dir)
     dir = dir ~= nil and dir or 1
-    self.data_sidebar_idx = 1
-    self.data_sidebar = dir > 0
-        and Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
-        or Utils.Table.PrevValue(self.in_game_play_data_sidebars, self.data_sidebar)
-    self:ResetDataSidebarIdx()
+    if InGamePlay() then
+        self.data_sidebar_idx = 1
+        self.data_sidebar = dir > 0
+            and Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
+            or Utils.Table.PrevValue(self.in_game_play_data_sidebars, self.data_sidebar)
+        self:ResetDataSidebarIdx()
+    end
 end
 
 --- Update
@@ -439,9 +441,7 @@ function DevToolsScreen:OnRawKey(key, down)
             self:UpdateDataSidebar()
             self:UpdateChildren(true)
         elseif key == self.key_switch_data then
-            if InGamePlay() then
-                self:SwitchData()
-            end
+            self:SwitchData()
         elseif key == self.key_select then
             self.selected = Utils.Table.NextValue({
                 MOD_DEV_TOOLS.SELECT.MENU,
@@ -462,13 +462,9 @@ function DevToolsScreen:OnRawKey(key, down)
                 self:UpdateDataSidebar()
                 self:UpdateChildren(true)
             elseif key == KEY_LEFT then
-                if InGamePlay() then
-                    self:SwitchData(-1)
-                end
+                self:SwitchData(-1)
             elseif key == KEY_RIGHT then
-                if InGamePlay() then
-                    self:SwitchData()
-                end
+                self:SwitchData()
             else
                 return false
             end
