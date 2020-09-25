@@ -21,6 +21,9 @@ local Utils = require "devtools/utils"
 -- threads
 local _LABEL_UPDATE_THREAD_ID = "mod_dev_tools_label_update_thread"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam DevTools devtools

@@ -37,6 +37,9 @@ require "class"
 
 local Option = require "devtools/menu/option/option"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam table options

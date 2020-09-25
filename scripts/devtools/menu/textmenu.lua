@@ -13,6 +13,9 @@
 ----
 require "class"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam screen.DevToolsScreen screen

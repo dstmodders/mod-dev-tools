@@ -37,6 +37,14 @@ local Utils = require "devtools/utils"
 -- threads
 local _PRECIPITATION_THREAD_ID = "mod_dev_tools_precipitation_thread"
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam EntityScript inst
+-- @tparam DevTools devtools
+-- @usage local worlddevtools = WorldDevTools(TheWorld, devtools)
 local WorldDevTools = Class(DevTools, function(self, inst, devtools)
     DevTools._ctor(self, "WorldDevTools", devtools)
 

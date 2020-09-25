@@ -22,6 +22,9 @@ require "class"
 
 local Utils = require "devtools/utils"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @usage local data = Data(screen)

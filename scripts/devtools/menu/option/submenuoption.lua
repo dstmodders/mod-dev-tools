@@ -33,6 +33,9 @@ local DividerOption = require "devtools/menu/option/divideroption"
 local ActionOption = require "devtools/menu/option/actionoption"
 local Option = require "devtools/menu/option/option"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam table options

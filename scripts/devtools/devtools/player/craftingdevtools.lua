@@ -29,6 +29,9 @@ require "class"
 local DevTools = require "devtools/devtools/devtools"
 local Utils = require "devtools/utils"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam devtools.PlayerDevTools playerdevtools

@@ -26,6 +26,9 @@ require "class"
 
 local Utils = require "devtools/utils"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam[opt] string name

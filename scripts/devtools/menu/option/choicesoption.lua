@@ -86,8 +86,8 @@ local function GetRightKeyValue(self, key)
     return value
 end
 
---- Class
--- @section class
+--- Lifecycle
+-- @section lifecycle
 
 --- Constructor.
 -- @function _ctor

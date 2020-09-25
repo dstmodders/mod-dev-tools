@@ -52,6 +52,15 @@ local VisionPlayerDevTools = require "devtools/devtools/player/visiondevtools"
 -- event listeners
 local OnWereModeDirty
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam EntityScript inst
+-- @tparam devtools.WorldDevTools world
+-- @tparam DevTools devtools
+-- @usage local playerdevtools = PlayerDevTools(ThePlayer, world, devtools)
 local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
     DevTools._ctor(self, "PlayerDevTools", devtools)
 

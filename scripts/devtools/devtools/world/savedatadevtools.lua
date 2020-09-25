@@ -32,6 +32,14 @@ local DevTools = require "devtools/devtools/devtools"
 -- general
 local _SAVEDATA
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam devtools.WorldDevTools worlddevtools
+-- @tparam DevTools devtools
+-- @usage local savedatadevtools = SaveDataDevTools(worlddevtools, devtools)
 local SaveDataDevTools = Class(DevTools, function(self, worlddevtools, devtools)
     DevTools._ctor(self, "SaveDataDevTools", devtools)
 

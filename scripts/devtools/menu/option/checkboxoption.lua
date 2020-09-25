@@ -38,8 +38,8 @@ require "class"
 
 local Option = require "devtools/menu/option/option"
 
---- Class
--- @section class
+--- Lifecycle
+-- @section lifecycle
 
 --- Constructor.
 -- @function _ctor

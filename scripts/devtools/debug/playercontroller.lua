@@ -16,6 +16,9 @@
 ----
 require "class"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam Debug debug

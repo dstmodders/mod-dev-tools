@@ -33,6 +33,9 @@ local Utils = require "devtools/utils"
 
 local _ConsoleRemote = Utils.ConsoleRemote
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam devtools.PlayerDevTools playerdevtools

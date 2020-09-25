@@ -46,6 +46,14 @@ local Submenu = require "devtools/menu/submenu"
 local Utils = require "devtools/utils"
 local WorldDevTools = require "devtools/devtools/worlddevtools"
 
+--- Lifecycle
+-- @section lifecycle
+
+--- Constructor.
+-- @function _ctor
+-- @tparam string modname
+-- @tparam Debug debug
+-- @usage local devtools = DevTools(modname, debug)
 local DevTools = Class(function(self, modname, debug)
     self:DoInit(modname, debug)
 end)

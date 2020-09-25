@@ -17,6 +17,9 @@ require "devtools/constants"
 
 local Utils = require "devtools/utils"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam DevTools devtools
@@ -35,7 +38,7 @@ end)
 -- @section general
 
 --- Adds submenu.
--- @tparam string submenu
+-- @tparam string|table submenu Require string or data table
 function API:AddSubmenu(submenu)
     if type(submenu) == "string" then
         self.devtools:AddSubmenusData(require(submenu))

@@ -79,8 +79,8 @@ local function Deactivate(self, name, entity, activated)
     return {}
 end
 
---- Class
--- @section class
+--- Lifecycle
+-- @section lifecycle
 
 --- Constructor.
 -- @function _ctor

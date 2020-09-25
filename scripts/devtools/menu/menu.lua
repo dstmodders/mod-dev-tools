@@ -52,6 +52,9 @@ local DividerOption = require "devtools/menu/option/divideroption"
 local ActionOption = require "devtools/menu/option/actionoption"
 local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam screen.DevToolsScreen screen

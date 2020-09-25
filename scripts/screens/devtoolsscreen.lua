@@ -33,6 +33,9 @@ local WorldData = require "devtools/data/worlddata"
 
 local _SCREEN_NAME = "ModDevToolsScreen"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam DevTools devtools

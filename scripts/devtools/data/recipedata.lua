@@ -18,6 +18,9 @@ require "class"
 local Data = require "devtools/data/data"
 local Utils = require "devtools/utils"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam screens.DevToolsScreen screen

@@ -17,6 +17,9 @@ require "devtools/constants"
 
 local Utils = require "devtools/utils"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam[opt] Data data

@@ -51,8 +51,8 @@ local function OptionType(field, name, _type, is_optional)
     ))
 end
 
---- Class
--- @section class
+--- Lifecycle
+-- @section lifecycle
 
 --- Constructor.
 -- @function _ctor

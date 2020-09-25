@@ -39,6 +39,9 @@ require "class"
 
 local CheckboxOption = require "devtools/menu/option/checkboxoption"
 
+--- Lifecycle
+-- @section lifecycle
+
 --- Constructor.
 -- @function _ctor
 -- @tparam table options
