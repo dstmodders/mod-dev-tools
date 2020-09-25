@@ -192,7 +192,7 @@ function DevToolsScreen:GetDataSidebar()
 end
 
 --- Resets data sidebar index.
-function DevToolsScreen:ResetDataSidebarIdx()
+function DevToolsScreen:ResetDataSidebarIndex()
     self.data_sidebar_idx = 1
     self:UpdateDataSidebar()
     self:UpdateChildren(true)
@@ -218,7 +218,7 @@ function DevToolsScreen:SwitchData(dir)
         self.data_sidebar = dir > 0
             and Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
             or Utils.Table.PrevValue(self.in_game_play_data_sidebars, self.data_sidebar)
-        self:ResetDataSidebarIdx()
+        self:ResetDataSidebarIndex()
     end
 end
 
