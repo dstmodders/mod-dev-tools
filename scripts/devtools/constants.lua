@@ -27,7 +27,7 @@ MOD_DEV_TOOLS = {
     -- @table MOD_DEV_TOOLS.API
     -- @tfield number VERSION
     API = {
-        VERSION = 0.11,
+        VERSION = 0.12,
     },
 
     --- CCT (Colour Cubes Tables) constants.
