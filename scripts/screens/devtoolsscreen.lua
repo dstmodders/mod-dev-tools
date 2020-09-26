@@ -200,6 +200,7 @@ end
 
 --- Changes data sidebar.
 -- @see menu.Submenu.UpdateScreen
+-- @tparam[opt] number data_sidebar Constant `MOD_DEV_TOOLS.DATA_SIDEBAR`
 function DevToolsScreen:ChangeDataSidebar(data_sidebar)
     self.data_sidebar = data_sidebar
     if data_sidebar ~= nil then
@@ -370,6 +371,70 @@ end
 --- Input
 -- @section input
 
+--- Triggers when accept raw key is pressed.
+-- @see OnRawKey
+function DevToolsScreen:OnAccept()
+    local menu = self.menu_text:GetMenu()
+    local option = menu and menu:GetOption()
+
+    if InGamePlay() then
+        local option_name = option and option:GetName()
+        if menu:AtRoot() and option_name == "SelectSubmenu" then
+            self.is_selected_entity_data_visible = true
+            self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+        elseif menu:AtRoot()
+            and (option_name == "PlayerBarsSubmenu"
+            or option_name == "TeleportSubmenu")
+        then
+            self.is_selected_entity_data_visible = false
+            self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
+        else
+            self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
+        end
+    else
+        self:ChangeDataSidebar(nil)
+    end
+
+    menu:Accept()
+
+    self:UpdateDataSidebar()
+    self:UpdateChildren(true)
+end
+
+--- Triggers when escape raw key is pressed.
+-- @see OnRawKey
+function DevToolsScreen:OnEscape()
+    if self.selected == MOD_DEV_TOOLS.SELECT.DATA then
+        self:Close()
+    elseif self.selected == MOD_DEV_TOOLS.SELECT.MENU then
+        local menu = self.menu_text:GetMenu()
+
+        if not menu:Cancel() then
+            self:Close()
+        end
+
+        if menu:AtRoot() then
+            if InGamePlay() then
+                self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
+            else
+                self:ChangeDataSidebar(nil)
+            end
+        end
+
+        self:UpdateChildren(true)
+    end
+end
+
+--- Triggers when select raw key is pressed.
+-- @see OnRawKey
+function DevToolsScreen:OnSelect()
+    self.selected = Utils.Table.NextValue({
+        MOD_DEV_TOOLS.SELECT.MENU,
+        MOD_DEV_TOOLS.SELECT.DATA,
+    }, self.selected)
+    self:UpdateChildren(true)
+end
+
 --- Triggers when control key is pressed.
 -- @tparam number control
 -- @tparam boolean down
@@ -387,6 +452,9 @@ function DevToolsScreen:OnControl(control, down)
 end
 
 --- Triggers when raw key is pressed.
+-- @see OnAccept
+-- @see OnEscape
+-- @see OnSelect
 -- @tparam number key
 -- @tparam boolean down
 -- @treturn boolean
@@ -395,59 +463,15 @@ function DevToolsScreen:OnRawKey(key, down)
         return true
     end
 
-    local menu = self.menu_text:GetMenu()
-    local option = menu and menu:GetOption()
-
     if not down then
         if key == KEY_ESCAPE then
-            if self.selected == MOD_DEV_TOOLS.SELECT.DATA then
-                self:Close()
-            elseif self.selected == MOD_DEV_TOOLS.SELECT.MENU then
-                if not menu:Cancel() then
-                    self:Close()
-                end
-
-                if menu:AtRoot() then
-                    if InGamePlay() then
-                        self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
-                    else
-                        self:ChangeDataSidebar(nil)
-                    end
-                end
-
-                self:UpdateChildren(true)
-            end
+            self:OnEscape()
         elseif key == KEY_ENTER and self.selected == MOD_DEV_TOOLS.SELECT.MENU then
-            if InGamePlay() then
-                local option_name = option and option:GetName()
-                if menu:AtRoot() and option_name == "SelectSubmenu" then
-                    self.is_selected_entity_data_visible = true
-                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
-                elseif menu:AtRoot()
-                    and (option_name == "PlayerBarsSubmenu"
-                    or option_name == "TeleportSubmenu")
-                then
-                    self.is_selected_entity_data_visible = false
-                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
-                else
-                    self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
-                end
-            else
-                self:ChangeDataSidebar(nil)
-            end
-
-            menu:Accept()
-
-            self:UpdateDataSidebar()
-            self:UpdateChildren(true)
+            self:OnAccept()
         elseif key == self.key_switch_data then
             self:SwitchData()
         elseif key == self.key_select then
-            self.selected = Utils.Table.NextValue({
-                MOD_DEV_TOOLS.SELECT.MENU,
-                MOD_DEV_TOOLS.SELECT.DATA,
-            }, self.selected)
-            self:UpdateChildren(true)
+            self:OnSelect()
         else
             return false
         end
@@ -469,6 +493,7 @@ function DevToolsScreen:OnRawKey(key, down)
                 return false
             end
         elseif self.selected == MOD_DEV_TOOLS.SELECT.MENU then
+            local menu = self.menu_text:GetMenu()
             if key == KEY_UP then
                 menu:Up()
                 self:UpdateChildren(true)
