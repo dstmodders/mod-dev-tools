@@ -47,7 +47,7 @@ local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 -- @tparam Widget root
 -- @tparam string label
 -- @tparam string name
--- @tparam[opt] number data_sidebar
+-- @tparam[opt] number|table data_sidebar
 -- @tparam[opt] number menu_idx
 -- @usage local submenu = Submenu(devtools, root, "Label", "Name")
 local Submenu = Class(function(self, devtools, root, label, name, data_sidebar, menu_idx)
@@ -131,10 +131,24 @@ end
 -- @see MOD_DEV_TOOLS.DATA_SIDEBAR
 -- @see screens.DevToolsScreen
 -- @see screens.DevToolsScreen.ChangeDataSidebar
--- @tparam[opt] number data_sidebar Data sidebar constant (`MOD_DEV_TOOLS.DATA_SIDEBAR`)
+-- @tparam[opt] number|table data_sidebar Data sidebar constant(s) (`MOD_DEV_TOOLS.DATA_SIDEBAR`)
 -- @tparam[opt] boolean unpause Should the world be resumed if paused?
 function Submenu:UpdateScreen(data_sidebar, unpause)
     data_sidebar = data_sidebar ~= nil and data_sidebar or self.data_sidebar
+
+    if type(data_sidebar) == "table" then
+        local screen_data_sidebar = self:GetScreenDataSidebar()
+        local is_screen_data_sidebar = false
+
+        for _, v in pairs(data_sidebar) do
+            if v == screen_data_sidebar then
+                is_screen_data_sidebar = true
+                break
+            end
+        end
+
+        data_sidebar = not is_screen_data_sidebar and data_sidebar[1] or screen_data_sidebar
+    end
 
     if unpause and self.devtools then
         if self.devtools:IsPaused() then

@@ -32,8 +32,7 @@ local PlayerBarsSubmenu = Class(Submenu, function(self, devtools, root)
         root,
         "Player Bars",
         "PlayerBarsSubmenu",
-        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
-        #root + 1
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED
     )
 
     -- options

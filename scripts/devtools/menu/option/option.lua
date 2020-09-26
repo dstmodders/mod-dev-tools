@@ -76,6 +76,7 @@ local Option = Class(function(self, options, submenu)
     end
 
     -- options
+    self.data_sidebar = options.data_sidebar or (submenu and submenu.data_sidebar)
     self.label = options.label
     self.name = options.name
     self.submenu = submenu
@@ -139,6 +140,10 @@ end
 --- Triggers when focused.
 -- @tparam menu.TextMenu textmenu
 function Option:OnCursor(textmenu)
+    if self.data_sidebar then
+        self.submenu:UpdateScreen(self.data_sidebar)
+    end
+
     if type(self.on_cursor_fn) == "function" or type(self.on_accept_fn) == "table" then
         self.on_cursor_fn(self, self.submenu, textmenu)
     end

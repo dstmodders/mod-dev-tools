@@ -375,27 +375,17 @@ end
 -- @see OnRawKey
 function DevToolsScreen:OnAccept()
     local menu = self.menu_text:GetMenu()
-    local option = menu and menu:GetOption()
 
-    if InGamePlay() then
-        local option_name = option and option:GetName()
-        if menu:AtRoot() and option_name == "SelectSubmenu" then
-            self.is_selected_entity_data_visible = true
-            self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
-        elseif menu:AtRoot()
-            and (option_name == "PlayerBarsSubmenu"
-            or option_name == "TeleportSubmenu")
-        then
-            self.is_selected_entity_data_visible = false
-            self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED)
-        else
-            self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
-        end
-    else
-        self:ChangeDataSidebar(nil)
+    if menu:AtRoot() then
+        self.data_sidebar_root = self.data_sidebar
+        self:ChangeDataSidebar(self.data_sidebar)
     end
 
     menu:Accept()
+
+    if menu:AtRoot() then
+        self:ChangeDataSidebar(self.data_sidebar_root)
+    end
 
     self:UpdateDataSidebar()
     self:UpdateChildren(true)
@@ -414,11 +404,7 @@ function DevToolsScreen:OnEscape()
         end
 
         if menu:AtRoot() then
-            if InGamePlay() then
-                self:ChangeDataSidebar(MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD)
-            else
-                self:ChangeDataSidebar(nil)
-            end
+            self:ChangeDataSidebar(self.data_sidebar_root)
         end
 
         self:UpdateChildren(true)
@@ -550,8 +536,6 @@ function DevToolsScreen:DoInit(devtools)
     self.selected = MOD_DEV_TOOLS.SELECT.MENU
 
     -- data sidebar
-    self.data_sidebar_idx = 1
-
     self.data_sidebar = InGamePlay()
         and MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD
         or MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END
@@ -562,6 +546,9 @@ function DevToolsScreen:DoInit(devtools)
         MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS,
         MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD,
     }
+
+    self.data_sidebar_idx = 1
+    self.data_sidebar_root = self.data_sidebar
 
     -- devtools
     if devtools then

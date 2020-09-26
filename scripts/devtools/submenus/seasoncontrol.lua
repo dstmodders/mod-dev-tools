@@ -76,6 +76,7 @@ return {
             options = {
                 label = "Length",
                 name = "SeasonControlLengthSubmenu",
+                data_sidebar = MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD,
                 options = function()
                     local t = {}
                     for _, season in pairs(_SEASONS) do

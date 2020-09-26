@@ -32,8 +32,10 @@ local SelectSubmenu = Class(Submenu, function(self, devtools, root)
         root,
         "Select",
         "SelectSubmenu",
-        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
-        #root + 1
+        {
+            MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
+            MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS,
+        }
     )
 
     -- options

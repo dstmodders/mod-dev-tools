@@ -61,6 +61,7 @@ function SubmenuOption:OnAccept(textmenu)
     table.insert(options, DividerOption())
     table.insert(options, ActionOption({
         label = "Back",
+        data_sidebar = self.data_sidebar,
         on_accept_fn = function()
             textmenu:Pop()
         end,

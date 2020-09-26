@@ -32,8 +32,7 @@ local TeleportSubmenu = Class(Submenu, function(self, devtools, root)
         root,
         "Teleport",
         "TeleportSubmenu",
-        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
-        #root + 1
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED
     )
 
     -- options
