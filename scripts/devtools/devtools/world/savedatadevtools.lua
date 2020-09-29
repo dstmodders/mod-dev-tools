@@ -22,7 +22,7 @@
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
--- @release 0.6.0-alpha
+-- @release 0.6.0
 ----
 require "class"
 require "consolecommands"
