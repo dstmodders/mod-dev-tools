@@ -285,8 +285,12 @@ function DevToolsScreen:UpdateChildren(silent)
             )
         end
 
+        local number = (total_sidebar_data and sidebar_data_idx)
+            and string.format(" [%d/%d]", sidebar_data_idx, total_sidebar_data)
+            or ""
+
         self.data:SetString((self.selected == MOD_DEV_TOOLS.SELECT.DATA and selected or unselected)
-            .. string.format(" [%d/%d]", sidebar_data_idx, total_sidebar_data)
+            .. number
             .. "\n\n"
             .. tostring(self.data_text))
     end
