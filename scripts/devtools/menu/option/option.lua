@@ -140,12 +140,12 @@ end
 --- Triggers when focused.
 -- @tparam menu.TextMenu textmenu
 function Option:OnCursor(textmenu)
-    if self.data_sidebar then
-        self.submenu:UpdateScreen(self.data_sidebar)
-    end
-
     if type(self.on_cursor_fn) == "function" or type(self.on_accept_fn) == "table" then
         self.on_cursor_fn(self, self.submenu, textmenu)
+    end
+
+    if self.data_sidebar then
+        self.submenu:UpdateScreen(self.data_sidebar)
     end
 end
 
