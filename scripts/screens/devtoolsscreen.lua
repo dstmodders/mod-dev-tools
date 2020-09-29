@@ -274,7 +274,19 @@ function DevToolsScreen:UpdateChildren(silent)
     end
 
     if self.data_text ~= nil and self.data then
+        local total_sidebar_data = 1
+        local sidebar_data_idx = 1
+
+        if InGamePlay() then
+            total_sidebar_data = #self.in_game_play_data_sidebars
+            sidebar_data_idx = Utils.Table.KeyByValue(
+                self.in_game_play_data_sidebars,
+                self.data_sidebar
+            )
+        end
+
         self.data:SetString((self.selected == MOD_DEV_TOOLS.SELECT.DATA and selected or unselected)
+            .. string.format(" [%d/%d]", sidebar_data_idx, total_sidebar_data)
             .. "\n\n"
             .. tostring(self.data_text))
     end
