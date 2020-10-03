@@ -15,7 +15,7 @@
 -- @author Rafael Lizarralde ([@rezecib](https://github.com/rezecib))
 -- @copyright 2020
 -- @license MIT
--- @release 0.6.0
+-- @release 0.7.0-alpha
 local DebugUpvalue = {}
 
 local function GetUpvalue(fn, name)
