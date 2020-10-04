@@ -23,9 +23,8 @@ local function PrintDumpValues(table, title, name, prepend)
         or string.format('Dumping %s...', title)))
 
     if #table > 0 then
-        table = Table.SortAlphabetically(table)
         for _, v in pairs(table) do
-            print(prepend .. v)
+            print(prepend .. type(v) == "string" and v)
         end
     else
         print(prepend .. "No " .. title)
@@ -39,8 +38,9 @@ end
 -- @see GetFunctions
 -- @see GetReplicas
 -- @tparam EntityScript entity
+-- @tparam[opt] boolean is_sorted
 -- @treturn table
-function Dump.GetComponents(entity)
+function Dump.GetComponents(entity, is_sorted)
     local result = {}
     if type(entity) == "table" or type(entity) == "userdata" then
         if type(entity.components) == "table" then
@@ -49,7 +49,7 @@ function Dump.GetComponents(entity)
             end
         end
     end
-    return result
+    return is_sorted and Table.SortAlphabetically(result) or result
 end
 
 --- Dumps all entity components.
@@ -63,7 +63,7 @@ end
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
 function Dump.Components(entity, name, prepend)
-    PrintDumpValues(Dump.GetComponents(entity), "Components", name, prepend)
+    PrintDumpValues(Dump.GetComponents(entity, true), "Components", name, prepend)
 end
 
 --- Returns a table on all entity event listeners.
@@ -73,8 +73,9 @@ end
 -- @see GetFunctions
 -- @see GetReplicas
 -- @tparam EntityScript entity
+-- @tparam[opt] boolean is_sorted
 -- @treturn table
-function Dump.GetEventListeners(entity)
+function Dump.GetEventListeners(entity, is_sorted)
     local result = {}
     if type(entity) == "table" or type(entity) == "userdata" then
         if type(entity.event_listeners) == "table" then
@@ -83,7 +84,7 @@ function Dump.GetEventListeners(entity)
             end
         end
     end
-    return result
+    return is_sorted and Table.SortAlphabetically(result) or result
 end
 
 --- Dumps all entity event listeners.
@@ -97,7 +98,7 @@ end
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
 function Dump.EventListeners(entity, name, prepend)
-    PrintDumpValues(Dump.GetEventListeners(entity), "Event Listeners", name, prepend)
+    PrintDumpValues(Dump.GetEventListeners(entity, true), "Event Listeners", name, prepend)
 end
 
 --- Returns a table on all entity fields.
@@ -107,17 +108,18 @@ end
 -- @see GetFunctions
 -- @see GetReplicas
 -- @tparam EntityScript entity
+-- @tparam[opt] boolean is_sorted
 -- @treturn table
-function Dump.GetFields(entity)
+function Dump.GetFields(entity, is_sorted)
     local result = {}
     if type(entity) == "table" then
         for k, v in pairs(entity) do
-            if type(v) ~= "function" then
+            if entity and type(v) ~= "function" then
                 table.insert(result, k)
             end
         end
     end
-    return result
+    return is_sorted and Table.SortAlphabetically(result) or result
 end
 
 --- Dumps all entity fields.
@@ -131,7 +133,7 @@ end
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
 function Dump.Fields(entity, name, prepend)
-    PrintDumpValues(Dump.GetFields(entity), "Fields", name, prepend)
+    PrintDumpValues(Dump.GetFields(entity, true), "Fields", name, prepend)
 end
 
 --- Returns a table on all entity functions.
@@ -141,12 +143,13 @@ end
 -- @see GetFields
 -- @see GetReplicas
 -- @tparam EntityScript entity
+-- @tparam[opt] boolean is_sorted
 -- @treturn table
-function Dump.GetFunctions(entity)
+function Dump.GetFunctions(entity, is_sorted)
     local result = {}
     local metatable = getmetatable(entity)
 
-    if metatable and metatable["__index"] then
+    if metatable and type(metatable["__index"]) == "table" then
         for k, _ in pairs(metatable["__index"]) do
             table.insert(result, k)
         end
@@ -160,7 +163,7 @@ function Dump.GetFunctions(entity)
         end
     end
 
-    return result
+    return is_sorted and Table.SortAlphabetically(result) or result
 end
 
 --- Dumps all entity functions.
@@ -174,7 +177,7 @@ end
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
 function Dump.Functions(entity, name, prepend)
-    PrintDumpValues(Dump.GetFunctions(entity), "Functions", name, prepend)
+    PrintDumpValues(Dump.GetFunctions(entity, true), "Functions", name, prepend)
 end
 
 --- Returns a table on all entity replicas.
@@ -184,15 +187,16 @@ end
 -- @see GetFields
 -- @see GetFunctions
 -- @tparam EntityScript entity
+-- @tparam[opt] boolean is_sorted
 -- @treturn table
-function Dump.GetReplicas(entity)
+function Dump.GetReplicas(entity, is_sorted)
     local result = {}
     if entity.replica and type(entity.replica._) == "table" then
         for k, _ in pairs(entity.replica._) do
             table.insert(result, k)
         end
     end
-    return result
+    return is_sorted and Table.SortAlphabetically(result) or result
 end
 
 --- Dumps all entity replicas.
@@ -206,7 +210,7 @@ end
 -- @tparam[opt] string prepend The prepend string on each line
 -- @treturn table
 function Dump.Replicas(entity, name, prepend)
-    PrintDumpValues(Dump.GetReplicas(entity), "Replicas", name, prepend)
+    PrintDumpValues(Dump.GetReplicas(entity, true), "Replicas", name, prepend)
 end
 
 return Dump
