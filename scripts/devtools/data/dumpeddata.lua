@@ -43,15 +43,16 @@ function DumpedData:Update()
     Data.Update(self)
 
     local dumped = self.screen:GetDumped()
+    local total = type(dumped.values) == "table" and #dumped.values or 0
     self.name = dumped.name
     self.values = dumped.values
 
     if type(self.name) == "string" and string.len(self.name) > 0 then
-        self:PushTitleLine(self.values == 0
+        self:PushTitleLine(total == 0
             and string.format("Dumped %s", self.name, #self.values)
             or string.format("Dumped %s [%d]", self.name, #self.values))
     else
-        self:PushTitleLine(self.values == 0
+        self:PushTitleLine(total == 0
             and "Dumped"
             or string.format("Dumped [%d]", #self.values))
     end
