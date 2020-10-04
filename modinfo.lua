@@ -6,11 +6,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[as an alternative to debugkeys.]] .. "\n\n" ..
 
     [[v]] .. version .. [[:]] .. "\n" ..
-    [[- Added support for "data_sidebar" in submenu data tables]] .. "\n" ..
-    [[- Added support for the data sidebars number]] .. "\n" ..
-    [[- Added support for the selected entity tags data sidebar]] .. "\n" ..
-    [[- Fixed issue with data sidebar scrolling position while switching]] .. "\n" ..
-    [[- Refactored data sidebars]]
+    [[- Changed dump submenu]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""

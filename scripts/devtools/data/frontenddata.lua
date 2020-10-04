@@ -24,7 +24,7 @@ local Utils = require "devtools/utils"
 --- Constructor.
 -- @function _ctor
 -- @tparam screens.DevToolsScreen screen
--- @usage local screendata = ScreenData(screen)
+-- @usage local frontenddata = FrontEndData(screen)
 local FrontEndData = Class(Data, function(self, screen)
     Data._ctor(self, screen)
 

@@ -37,7 +37,7 @@ local _TOGGLE_ALL_REMOTES = {
     "RemoteUseItemFromInvTile",
 }
 
-local Debug = function(label, debug_keys, on_add_to_root_fn)
+local function Debug(label, debug_keys, on_add_to_root_fn)
     if type(debug_keys) == "table" then
         return {
             type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
@@ -82,7 +82,7 @@ local Debug = function(label, debug_keys, on_add_to_root_fn)
     end
 end
 
-local DebugEvents = function(name, activate, deactivate, on_add_to_root_fn)
+local function DebugEvents(name, activate, deactivate, on_add_to_root_fn)
     return {
         type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
         on_add_to_root_fn = on_add_to_root_fn,
