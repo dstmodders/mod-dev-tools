@@ -187,14 +187,19 @@ function Data:__tostring()
         return
     end
 
-    local t, scroll_size, scroll_hidden
+    local t, line, scroll_size, scroll_hidden
 
     t = {}
     scroll_size = self.screen.size_height - 3
     scroll_hidden = #self.stack - self.index - scroll_size
 
-    for i = self.index, #self.stack do
-        table.insert(t, tostring(self.stack[i]) .. "\n")
+    for i = self.index, self.index + scroll_size do
+        line = self.stack[i]
+        if line then
+            table.insert(t, tostring(line) .. "\n")
+        else
+            table.insert(t, "\n")
+        end
     end
 
     if scroll_hidden > 0 then
