@@ -58,14 +58,14 @@ end)
 -- @tparam menu.TextMenu textmenu
 function SubmenuOption:OnAccept(textmenu)
     local options = shallowcopy(self.options)
-    table.insert(options, DividerOption())
+    table.insert(options, DividerOption(self.submenu))
     table.insert(options, ActionOption({
         label = "Back",
         data_sidebar = self.data_sidebar,
         on_accept_fn = function()
             textmenu:Pop()
         end,
-    }))
+    }, self.submenu))
     textmenu:PushOptions(options, self.name)
     Option.OnAccept(self, textmenu)
 end
