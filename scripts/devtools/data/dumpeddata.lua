@@ -46,7 +46,7 @@ function DumpedData:Update()
     self.name = dumped.name
     self.values = dumped.values
 
-    if type(self.name) == "string" then
+    if type(self.name) == "string" and string.len(self.name) > 0 then
         self:PushTitleLine(self.values == 0
             and string.format("Dumped %s", self.name, #self.values)
             or string.format("Dumped %s [%d]", self.name, #self.values))
