@@ -25,6 +25,7 @@ local Screen = require "widgets/screen"
 local Text = require "widgets/text"
 local Utils = require "devtools/utils"
 
+local DumpedData = require "devtools/data/dumpeddata"
 local FrontEndData = require "devtools/data/frontenddata"
 local RecipeData = require "devtools/data/recipedata"
 local SelectedData = require "devtools/data/selecteddata"
@@ -99,6 +100,19 @@ end)
 
 --- General
 -- @section general
+
+--- Gets dumped.
+-- @treturn table
+function DevToolsScreen:GetDumped()
+    return self.dumped
+end
+
+--- Sets dumped.
+-- @tparam table dumped
+function DevToolsScreen:SetDumped(dumped)
+    self.dumped = dumped
+    self:ResetDataSidebarIndex()
+end
 
 --- Checks if screen can be toggled.
 -- @treturn boolean
@@ -319,14 +333,19 @@ function DevToolsScreen:UpdateMenu(root_idx)
     return self.menu_text
 end
 
---- Updates recipe data.
-function DevToolsScreen:UpdateRecipeData()
-    self.data_text = RecipeData(self, self.devtools)
+--- Updates dumped data.
+function DevToolsScreen:UpdateDumpedData()
+    self.data_text = DumpedData(self)
 end
 
 --- Updates front-end data.
 function DevToolsScreen:UpdateFrontEndData()
     self.data_text = FrontEndData(self)
+end
+
+--- Updates recipe data.
+function DevToolsScreen:UpdateRecipeData()
+    self.data_text = RecipeData(self, self.devtools)
 end
 
 --- Updates selected data.
@@ -361,7 +380,9 @@ function DevToolsScreen:UpdateDataSidebar()
     local playerdevtools = devtools.player
     local worlddevtools = devtools.world
 
-    if self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END then
+    if self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.DUMPED then
+        self:UpdateDumpedData()
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END then
         self:UpdateFrontEndData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE
         and Utils.Chain.Get(playerdevtools, "crafting")
@@ -565,6 +586,12 @@ function DevToolsScreen:DoInit(devtools)
 
     self.data_sidebar_idx = 1
     self.data_sidebar_root = self.data_sidebar
+
+    -- dumped
+    self.dumped = {
+        name = "",
+        values = {},
+    }
 
     -- devtools
     if devtools then

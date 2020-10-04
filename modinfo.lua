@@ -6,6 +6,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[as an alternative to debugkeys.]] .. "\n\n" ..
 
     [[v]] .. version .. [[:]] .. "\n" ..
+    [[- Added support for the dumped data sidebar]] .. "\n" ..
     [[- Changed dump submenu]]
 author = "Demonblink"
 api_version = 10

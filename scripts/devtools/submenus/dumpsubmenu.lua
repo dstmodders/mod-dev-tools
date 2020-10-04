@@ -27,7 +27,7 @@ local Utils = require "devtools/utils"
 -- @tparam Widget root
 -- @usage local dumpsubmenu = DumpSubmenu(devtools, root)
 local DumpSubmenu = Class(Submenu, function(self, devtools, root)
-    Submenu._ctor(self, devtools, root, "Dump", "DumpSubmenu")
+    Submenu._ctor(self, devtools, root, "Dump", "DumpSubmenu", MOD_DEV_TOOLS.DATA_SIDEBAR.DUMPED)
 
     -- options
     self:AddOptions()
@@ -46,7 +46,7 @@ function DumpSubmenu:AddFieldOption(name, values, root)
         self:AddActionOption({
             label = name,
             on_accept_fn = function()
-                --self.screen:SetDumped({ name = "Fields (" .. name .. ")", values = values })
+                self.screen:SetDumped({ name = "Fields (" .. name .. ")", values = values })
                 print(string.format("Dumping fields (%s)...", string.lower(name)))
                 for _, field in pairs(values) do
                     print(field)
@@ -92,7 +92,7 @@ function DumpSubmenu:AddFieldsSubmenu(name, object, root)
     self:AddActionOption({
         label = "All",
         on_accept_fn = function()
-            --self.screen:SetDumped({ name = "Fields", values = fields })
+            self.screen:SetDumped({ name = "Fields", values = fields })
             Utils.Dump.Fields(object)
         end,
     }, options)
@@ -146,7 +146,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
             label = "Components",
             on_accept_fn = function()
                 Utils.Dump.Components(object, name)
-                --self.screen:SetDumped({ name = "Components", values = components })
+                self.screen:SetDumped({ name = "Components", values = components })
             end,
         }, options)
     end
@@ -156,7 +156,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
             label = "Event Listeners",
             on_accept_fn = function()
                 Utils.Dump.EventListeners(object, name)
-                --self.screen:SetDumped({ name = "Event Listeners", values = event_listeners })
+                self.screen:SetDumped({ name = "Event Listeners", values = event_listeners })
             end,
         }, options)
     end
@@ -166,7 +166,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
             label = "Functions", -- those are "Methods" logically, but it's Lua, so who cares
             on_accept_fn = function()
                 Utils.Dump.Functions(object, name)
-                --self.screen:SetDumped({ name = "Functions", values = functions })
+                self.screen:SetDumped({ name = "Functions", values = functions })
             end,
         }, options)
     end
@@ -184,7 +184,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
             label = "dumptable", -- those are "Methods" logically, but it's Lua, so who cares
             on_accept_fn = function()
                 dumptable(object)
-                --self.screen:SetDumped({ name = "Table", values = { "[CHECK CONSOLE FOR DATA]" } })
+                self.screen:SetDumped({ name = "Table", values = { "[CHECK CONSOLE FOR DATA]" } })
             end,
         }, options)
     end

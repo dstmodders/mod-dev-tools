@@ -86,17 +86,19 @@ MOD_DEV_TOOLS = {
 
     --- Data sidebar constants.
     -- @table MOD_DEV_TOOLS.DATA_SIDEBAR
+    -- @tfield number DUMPED
     -- @tfield number FRONT_END
     -- @tfield number RECIPE
     -- @tfield number SELECTED
     -- @tfield number SELECTED_TAGS
     -- @tfield number WORLD
     DATA_SIDEBAR = {
-        FRONT_END = 1,
-        RECIPE = 2,
-        SELECTED = 3,
-        SELECTED_TAGS = 4,
-        WORLD = 5,
+        DUMPED = 1,
+        FRONT_END = 2,
+        RECIPE = 3,
+        SELECTED = 4,
+        SELECTED_TAGS = 5,
+        WORLD = 6,
     },
 
     --- Select constants.
