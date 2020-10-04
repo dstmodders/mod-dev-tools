@@ -196,7 +196,7 @@ function Table.SortAlphabetically(t)
     end
 
     table.sort(t, function(a, b)
-        return a:lower() < b:lower()
+        return tostring(a):lower() < tostring(b):lower()
     end)
 
     return t
