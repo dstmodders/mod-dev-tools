@@ -59,4 +59,11 @@ function Utils.ConsoleRemote(cmd, data)
     TheNet:SendRemoteExecute(fn_str, x, z)
 end
 
+--- Checks if value is an integer.
+-- @tparam number value
+-- @treturn boolean
+function Utils.IsInteger(value)
+    return value == math.floor(value)
+end
+
 return Utils

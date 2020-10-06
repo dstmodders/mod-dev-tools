@@ -92,6 +92,22 @@ function Table.HasValue(t, value)
     return false
 end
 
+--- Gets table keys.
+-- @tparam table t Table
+-- @treturn table
+function Table.Keys(t)
+    if type(t) ~= "table" then
+        return false
+    end
+
+    local result = {}
+    for k in pairs(t) do
+        table.insert(result, k)
+    end
+
+    return result
+end
+
 --- Gets the table key based on the value.
 -- @tparam table t Table
 -- @param value Value to look for
@@ -189,7 +205,7 @@ end
 
 --- Sorts the table elements alphabetically.
 -- @tparam table t Table
--- @treturn number
+-- @treturn table
 function Table.SortAlphabetically(t)
     if type(t) ~= "table" then
         return false
@@ -200,6 +216,22 @@ function Table.SortAlphabetically(t)
     end)
 
     return t
+end
+
+--- Gets table values.
+-- @tparam table t Table
+-- @treturn table
+function Table.Values(t)
+    if type(t) ~= "table" then
+        return false
+    end
+
+    local result = {}
+    for _, v in pairs(t) do
+        table.insert(result, v)
+    end
+
+    return result
 end
 
 return Table

@@ -1,7 +1,7 @@
 ----
 -- Selected entity tags data.
 --
--- Includes selected entity tags data sidebar to show player tags.
+-- Includes selected entity tags in data sidebar.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --

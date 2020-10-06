@@ -1,7 +1,7 @@
 ----
 -- World data.
 --
--- Includes world data functionality which aim is to display some world and save data info.
+-- Includes world data in data sidebar which aim is to display some world and save data info.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --

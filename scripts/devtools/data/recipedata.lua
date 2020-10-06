@@ -1,7 +1,7 @@
 ----
 -- Recipe data.
 --
--- Includes recipe data functionality which aim is to display some info about a recipe.
+-- Includes recipe data in data sidebar.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --

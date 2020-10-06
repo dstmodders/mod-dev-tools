@@ -1,7 +1,7 @@
 ----
--- Screen data.
+-- Front-end data.
 --
--- Includes screen data functionality which aim is to display some screen related data.
+-- Includes front-end data in data sidebar.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --

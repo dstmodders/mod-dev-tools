@@ -92,6 +92,7 @@ MOD_DEV_TOOLS = {
     -- @tfield number SELECTED
     -- @tfield number SELECTED_TAGS
     -- @tfield number WORLD
+    -- @tfield number WORLD_STATE
     DATA_SIDEBAR = {
         DUMPED = 1,
         FRONT_END = 2,
@@ -99,6 +100,7 @@ MOD_DEV_TOOLS = {
         SELECTED = 4,
         SELECTED_TAGS = 5,
         WORLD = 6,
+        WORLD_STATE = 7,
     },
 
     --- Select constants.

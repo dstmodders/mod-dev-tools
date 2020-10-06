@@ -1,7 +1,7 @@
 ----
 -- Dumped data.
 --
--- Includes dumped data functionality which show show different dump lines in the "Dump" submenu.
+-- Includes dumped data in data sidebar.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --

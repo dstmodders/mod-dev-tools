@@ -31,6 +31,7 @@ local RecipeData = require "devtools/data/recipedata"
 local SelectedData = require "devtools/data/selecteddata"
 local SelectedTagsData = require "devtools/data/selectedtagsdata"
 local WorldData = require "devtools/data/worlddata"
+local WorldStateData = require "devtools/data/worldstatedata"
 
 local _SCREEN_NAME = "ModDevToolsScreen"
 
@@ -373,6 +374,11 @@ function DevToolsScreen:UpdateWorldData()
     self.data_text = WorldData(self, self.devtools.world)
 end
 
+--- Updates world state data.
+function DevToolsScreen:UpdateWorldStateData()
+    self.data_text = WorldStateData(self, self.devtools.world:GetWorld())
+end
+
 --- Updates data.
 -- @treturn data.RecipeData|data.SelectedData|data.WorldData
 function DevToolsScreen:UpdateDataSidebar()
@@ -400,6 +406,8 @@ function DevToolsScreen:UpdateDataSidebar()
         self:UpdateSelectedTagsData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD and worlddevtools then
         self:UpdateWorldData()
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD_STATE and worlddevtools then
+        self:UpdateWorldStateData()
     end
 
     return self.data_text
@@ -582,6 +590,7 @@ function DevToolsScreen:DoInit(devtools)
         MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
         MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS,
         MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD,
+        MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD_STATE,
     }
 
     self.data_sidebar_idx = 1

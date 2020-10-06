@@ -1,8 +1,7 @@
 ----
 -- Selected data.
 --
--- Includes selected data functionality which aim is to display some info about both the selected
--- player and the selected entity.
+-- Includes selected player and entity in data sidebar.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
