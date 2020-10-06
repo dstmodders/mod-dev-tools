@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+### Added
+
+- Support for the dumped data sidebar
+- Support for the world state data sidebar
+
+### Changed
+
+- Dump submenu
+- Refactored modinfo
+
+### Fixed
+
+- Issue with menu update when selecting player
+
 ## [0.6.0][] - 2020-09-29
 
 ### Added
