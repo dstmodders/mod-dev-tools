@@ -86,6 +86,7 @@ function SelectSubmenu:AddSelectPlayerOptions()
             on_accept_fn = function()
                 self.player:Select(v)
                 self:UpdateScreen()
+                self:UpdateScreenMenu()
             end,
         })
     end

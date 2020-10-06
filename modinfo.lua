@@ -8,6 +8,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[v]] .. version .. [[:]] .. "\n" ..
     [[- Added support for the dumped data sidebar]] .. "\n" ..
     [[- Changed dump submenu]] .. "\n" ..
+    [[- Fixed issue with menu update when selecting player]] .. "\n" ..
     [[- Refactored modinfo]]
 author = "Demonblink"
 api_version = 10

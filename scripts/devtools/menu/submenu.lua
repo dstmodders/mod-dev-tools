@@ -48,15 +48,14 @@ local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 -- @tparam string label
 -- @tparam string name
 -- @tparam[opt] number|table data_sidebar
--- @tparam[opt] number menu_idx
 -- @usage local submenu = Submenu(devtools, root, "Label", "Name")
-local Submenu = Class(function(self, devtools, root, label, name, data_sidebar, menu_idx)
+local Submenu = Class(function(self, devtools, root, label, name, data_sidebar)
     Utils.Debug.AddMethods(self)
 
     -- general
     self.data_sidebar = data_sidebar
     self.label = label
-    self.menu_idx = menu_idx
+    self.menu_idx = #root + 1
     self.name = name
     self.options = {}
     self.root = root
@@ -158,9 +157,21 @@ function Submenu:UpdateScreen(data_sidebar, unpause)
 
     if self.screen then
         self.screen:ChangeDataSidebar(data_sidebar)
-        if self.menu_idx then
-            self.screen:UpdateMenu(self.menu_idx)
-        end
+    end
+end
+
+--- Updates screen menu.
+--
+-- Switches data based on the provided `MOD_DEV_TOOLS.DATA_SIDEBAR` constant.
+--
+-- @see MOD_DEV_TOOLS.DATA_SIDEBAR
+-- @see screens.DevToolsScreen
+-- @see screens.DevToolsScreen.UpdateMenu
+-- @tparam number idx Menu index
+function Submenu:UpdateScreenMenu(idx)
+    idx = idx ~= nil and idx or self.menu_idx
+    if self.screen then
+        self.screen:UpdateMenu(idx)
     end
 end
 
@@ -338,7 +349,7 @@ end
 -- end
 function Submenu:OnInit()
     if type(self.on_init_fn) == "function" then
-        self:on_init_fn(self.devtools, self.root, self.label, self.name, self.menu_idx)
+        self:on_init_fn(self.devtools, self.root, self.label, self.name)
     end
 end
 
