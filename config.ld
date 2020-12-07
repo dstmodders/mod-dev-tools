@@ -5,8 +5,14 @@ full_description = "Mod for the game [Don\'t Starve Together](https://www.klei.c
     [[- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)]] .. "\n" ..
     [[- **Steam Workshop:** [https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)]]
 
+file = {
+    "./scripts/",
+    exclude = {
+        "./scripts/devtools/sdk/",
+    },
+}
+
 dir = "doc"
-file = "./scripts/"
 format = "markdown"
 readme = "readme"
 sort_modules = true
