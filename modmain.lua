@@ -33,6 +33,27 @@ local KEY_SHIFT = _G.KEY_SHIFT
 local TheInput = _G.TheInput
 local TheSim = _G.TheSim
 
+--- SDK
+-- @section sdk
+
+local SDK
+
+SDK = require "devtools/sdk/sdk/sdk"
+SDK.Load(env, "scripts/devtools/sdk", {
+    "Config",
+    "Console",
+    "Constant",
+    "Debug",
+    "DebugUpvalue",
+    "Dump",
+    "Entity",
+    "Input",
+    "ModMain",
+    "Player",
+    "Thread",
+    "World",
+})
+
 --- Debugging
 -- @section debugging
 
