@@ -1,9 +1,10 @@
 return {
-  _all = {
-    coverage = true,
-  },
-  default = {
-    verbose = true,
-    helper = "spec/helper",
-  }
+    _all = {
+        coverage = true,
+    },
+    default = {
+        ["exclude-tags"] = "sdk",
+        helper = "spec/helper",
+        verbose = true,
+    },
 }
