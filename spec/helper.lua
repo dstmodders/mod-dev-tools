@@ -3,6 +3,24 @@
 --
 
 local preloads = {
+    ["sdk/config"] = "scripts/devtools/sdk/sdk/config",
+    ["sdk/console"] = "scripts/devtools/sdk/sdk/console",
+    ["sdk/constant"] = "scripts/devtools/sdk/sdk/constant",
+    ["sdk/debug"] = "scripts/devtools/sdk/sdk/debug",
+    ["sdk/debugupvalue"] = "scripts/devtools/sdk/sdk/debugupvalue",
+    ["sdk/dump"] = "scripts/devtools/sdk/sdk/dump",
+    ["sdk/entity"] = "scripts/devtools/sdk/sdk/entity",
+    ["sdk/input"] = "scripts/devtools/sdk/sdk/input",
+    ["sdk/modmain"] = "scripts/devtools/sdk/sdk/modmain",
+    ["sdk/player"] = "scripts/devtools/sdk/sdk/player",
+    ["sdk/rpc"] = "scripts/devtools/sdk/sdk/rpc",
+    ["sdk/thread"] = "scripts/devtools/sdk/sdk/thread",
+    ["sdk/utils"] = "scripts/devtools/sdk/sdk/utils",
+    ["sdk/utils/chain"] = "scripts/devtools/sdk/sdk/utils/chain",
+    ["sdk/utils/methods"] = "scripts/devtools/sdk/sdk/utils/methods",
+    ["sdk/utils/string"] = "scripts/devtools/sdk/sdk/utils/string",
+    ["sdk/utils/table"] = "scripts/devtools/sdk/sdk/utils/table",
+    ["sdk/world"] = "scripts/devtools/sdk/sdk/world",
     ["widgets/uianim"] = "spec/empty",
     class = "spec/class",
     consolecommands = "spec/empty",
@@ -15,6 +33,37 @@ for k, v in pairs(preloads) do
         return require(v)
     end
 end
+
+--
+-- SDK
+--
+
+_G.MODS_ROOT = "./"
+
+function softresolvefilepath(filepath)
+    return _G.MODS_ROOT .. filepath
+end
+
+local SDK
+
+SDK = require "devtools/sdk/sdk/sdk"
+SDK.Load({
+    modname = "dst-mod-dev-tools",
+    AddPrefabPostInit = function() end
+}, "scripts/devtools/sdk", {
+    "Config",
+    "Console",
+    "Constant",
+    "Debug",
+    "DebugUpvalue",
+    "Dump",
+    "Entity",
+    "Input",
+    "ModMain",
+    "Player",
+    "Thread",
+    "World",
+})
 
 --
 -- General

@@ -274,6 +274,7 @@ files["spec/**/*.lua"] = {
         "ClassRegistry",
         "package",
         "rawget",
+        "softresolvefilepath",
         "table",
 
         -- project
