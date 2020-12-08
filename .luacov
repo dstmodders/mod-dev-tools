@@ -1,0 +1,4 @@
+exclude = {
+    "scripts/devtools/sdk",
+    "scripts/devtools/sdk%/.+$",
+}
