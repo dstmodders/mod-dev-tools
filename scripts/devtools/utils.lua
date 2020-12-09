@@ -14,7 +14,6 @@
 -- @see Utils.Debug
 -- @see Utils.Modmain
 -- @see Utils.RPC
--- @see Utils.String
 -- @see Utils.Table
 -- @see Utils.Thread
 --
@@ -28,7 +27,6 @@ local Utils = {}
 Utils.Debug = require "devtools/utils/debug"
 Utils.Modmain = require "devtools/utils/modmain"
 Utils.RPC = require "devtools/utils/rpc"
-Utils.String = require "devtools/utils/string"
 Utils.Table = require "devtools/utils/table"
 Utils.Thread = require "devtools/utils/thread"
 

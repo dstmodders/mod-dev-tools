@@ -16,7 +16,7 @@
 require "class"
 
 local Data = require "devtools/data/data"
-local Utils = require "devtools/utils"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
 -- @section lifecycle
@@ -62,8 +62,8 @@ function FrontEndData:PushFrontEndData()
         self:PushLine("Mouse Position (X, Y)", string.format("%d, %d", pos.x, pos.y))
     end
 
-    self:PushLine("HUD Scale", Utils.String.ValueFloat(self.front_end:GetHUDScale()))
-    self:PushLine("Locale Text Scale", Utils.String.ValueFloat(LOC.GetTextScale()))
+    self:PushLine("HUD Scale", SDK.Utils.String.ValueFloat(self.front_end:GetHUDScale()))
+    self:PushLine("Locale Text Scale", SDK.Utils.String.ValueFloat(LOC.GetTextScale()))
 end
 
 --- Pushes screen data.

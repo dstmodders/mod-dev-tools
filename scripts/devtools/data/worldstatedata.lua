@@ -16,6 +16,7 @@
 require "class"
 
 local Data = require "devtools/data/data"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 --- Lifecycle
@@ -64,7 +65,7 @@ function WorldStateData:PushWorldStateData()
             if type(state) == "number" and Utils.IsInteger(state) then
                 self:PushLine(v, tostring(state))
             elseif type(state) == "number" and not Utils.IsInteger(state) then
-                self:PushLine(v, Utils.String.ValueFloat(state))
+                self:PushLine(v, SDK.Utils.String.ValueFloat(state))
             else
                 self:PushLine(v, tostring(state))
             end

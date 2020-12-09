@@ -70,7 +70,7 @@ function RecipeData:PushIngredientLine(type, amount)
         table.insert(self.stack, string.format(
             "x%d %s",
             amount,
-            Utils.String.TableSplit({ name, state and "yes" or "no" })
+            SDK.Utils.String.TableSplit({ name, state and "yes" or "no" })
         ))
     else
         table.insert(self.stack, string.format("x%d %s", amount, name))

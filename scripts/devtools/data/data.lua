@@ -20,6 +20,7 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 --- Lifecycle
@@ -169,7 +170,7 @@ function Data:PushLine(name, value) -- luacheck: only
     end
 
     if type(value) == "table" and #value > 0 then
-        value = Utils.String.TableSplit(value)
+        value = SDK.Utils.String.TableSplit(value)
     end
 
     table.insert(self.stack, (name and string.len(name) > 0)

@@ -112,8 +112,11 @@ function SelectedData:PushPlayerData()
 
     if playerdevtools:IsOwner(player) or playerdevtools:IsReal(player) == false then
         if devtools.inst == player or (devtools.ismastersim or playerdevtools:IsAdmin()) then
-            local health = Utils.String.ValuePercent(playerdevtools:GetHealthPercent(player) or 0)
-            local health_max = Utils.String.ValuePercent(
+            local health = SDK.Utils.String.ValuePercent(
+                playerdevtools:GetHealthPercent(player) or 0
+            )
+
+            local health_max = SDK.Utils.String.ValuePercent(
                 playerdevtools:GetMaxHealthPercent(player) or 0
             )
 
@@ -121,22 +124,22 @@ function SelectedData:PushPlayerData()
 
             self:PushLine(
                 "Hunger",
-                Utils.String.ValuePercent(playerdevtools:GetHungerPercent(player))
+                SDK.Utils.String.ValuePercent(playerdevtools:GetHungerPercent(player))
             )
 
             self:PushLine(
                 "Sanity",
-                Utils.String.ValuePercent(playerdevtools:GetSanityPercent(player))
+                SDK.Utils.String.ValuePercent(playerdevtools:GetSanityPercent(player))
             )
 
             self:PushLine(
                 "Moisture",
-                Utils.String.ValuePercent(playerdevtools:GetMoisturePercent(player))
+                SDK.Utils.String.ValuePercent(playerdevtools:GetMoisturePercent(player))
             )
 
             self:PushLine(
                 "Temperature",
-                Utils.String.ValueScale(playerdevtools:GetTemperature(player))
+                SDK.Utils.String.ValueScale(playerdevtools:GetTemperature(player))
             )
         end
     end
