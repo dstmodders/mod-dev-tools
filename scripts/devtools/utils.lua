@@ -12,7 +12,6 @@
 --
 -- @module Utils
 -- @see Utils.Debug
--- @see Utils.Dump
 -- @see Utils.Entity
 -- @see Utils.Methods
 -- @see Utils.Modmain
@@ -29,7 +28,6 @@
 local Utils = {}
 
 Utils.Debug = require "devtools/utils/debug"
-Utils.Dump = require "devtools/utils/dump"
 Utils.Entity = require "devtools/utils/entity"
 Utils.Methods = require "devtools/utils/methods"
 Utils.Modmain = require "devtools/utils/modmain"

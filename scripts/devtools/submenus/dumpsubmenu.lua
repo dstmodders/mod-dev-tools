@@ -15,8 +15,8 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Submenu = require "devtools/menu/submenu"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -61,7 +61,7 @@ end
 -- @tparam table object
 -- @tparam[opt] table root
 function DumpSubmenu:AddFieldsSubmenu(name, object, root)
-    local fields = Utils.Dump.GetFields(object, true)
+    local fields = SDK.Dump.GetFields(object, true)
 
     local options = {}
     local booleans = {}
@@ -93,7 +93,7 @@ function DumpSubmenu:AddFieldsSubmenu(name, object, root)
         label = "All",
         on_accept_fn = function()
             self.screen:SetDumped({ name = "Fields", values = fields })
-            Utils.Dump.Fields(object)
+            SDK.Dump.Fields(object)
         end,
     }, options)
 
@@ -124,10 +124,10 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
         return
     end
 
-    local components = Utils.Dump.GetComponents(object, true)
-    local event_listeners = Utils.Dump.GetEventListeners(object, true)
-    local fields = Utils.Dump.GetFields(object, true)
-    local functions = Utils.Dump.GetFunctions(object, true)
+    local components = SDK.Dump.GetComponents(object, true)
+    local event_listeners = SDK.Dump.GetEventListeners(object, true)
+    local fields = SDK.Dump.GetFields(object, true)
+    local functions = SDK.Dump.GetFunctions(object, true)
 
     if #fields > 0 then
         self:AddFieldsSubmenu("Fields", object, options)
@@ -145,7 +145,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
         self:AddActionOption({
             label = "Components",
             on_accept_fn = function()
-                Utils.Dump.Components(object, name)
+                SDK.Dump.Components(object, name)
                 self.screen:SetDumped({ name = "Components", values = components })
             end,
         }, options)
@@ -155,7 +155,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
         self:AddActionOption({
             label = "Event Listeners",
             on_accept_fn = function()
-                Utils.Dump.EventListeners(object, name)
+                SDK.Dump.EventListeners(object, name)
                 self.screen:SetDumped({ name = "Event Listeners", values = event_listeners })
             end,
         }, options)
@@ -165,7 +165,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
         self:AddActionOption({
             label = "Functions", -- those are "Methods" logically, but it's Lua, so who cares
             on_accept_fn = function()
-                Utils.Dump.Functions(object, name)
+                SDK.Dump.Functions(object, name)
                 self.screen:SetDumped({ name = "Functions", values = functions })
             end,
         }, options)
@@ -300,7 +300,7 @@ end
 -- @tparam table object
 -- @tparam[opt] table root
 function DumpSubmenu:AddFirstLevelSubmenu(name, object, root)
-    local fields = Utils.Dump.GetFields(object, true)
+    local fields = SDK.Dump.GetFields(object, true)
 
     local options = {}
     local tables = {}

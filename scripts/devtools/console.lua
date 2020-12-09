@@ -14,6 +14,7 @@
 ----
 local Console = {}
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 local _EMOTE_THREAD
@@ -351,7 +352,7 @@ end
 -- @treturn table
 -- @usage d_dumpcomponents(ThePlayer)
 function d_dumpcomponents(...)
-    return Utils.Dump.Components(...)
+    return SDK.Dump.Components(...)
 end
 
 --- Dumps all entity event listeners.
@@ -361,7 +362,7 @@ end
 -- @treturn table
 -- @usage d_dumpeventlisteners(ThePlayer)
 function d_dumpeventlisteners(...)
-    return Utils.Dump.EventListeners(...)
+    return SDK.Dump.EventListeners(...)
 end
 
 --- Dumps all entity fields.
@@ -371,7 +372,7 @@ end
 -- @treturn table
 -- @usage d_dumpfields(ThePlayer)
 function d_dumpfields(...)
-    return Utils.Dump.Fields(...)
+    return SDK.Dump.Fields(...)
 end
 
 --- Dumps all entity functions.
@@ -381,7 +382,7 @@ end
 -- @treturn table
 -- @usage d_dumpfunctions(ThePlayer)
 function d_dumpfunctions(...)
-    return Utils.Dump.Functions(...)
+    return SDK.Dump.Functions(...)
 end
 
 --- Dumps all entity replicas.
@@ -391,7 +392,7 @@ end
 -- @treturn table
 -- @usage d_dumpreplicas(ThePlayer)
 function d_dumpreplicas(...)
-    return Utils.Dump.Replicas(...)
+    return SDK.Dump.Replicas(...)
 end
 
 --- Returns a table on all entity components.
@@ -399,7 +400,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getcomponents(ThePlayer))
 function d_getcomponents(...)
-    return Utils.Dump.GetComponents(...)
+    return SDK.Dump.GetComponents(...)
 end
 
 --- Returns a table on all entity event listeners.
@@ -407,7 +408,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_geteventlisteners(ThePlayer))
 function d_geteventlisteners(...)
-    return Utils.Dump.GetEventListeners(...)
+    return SDK.Dump.GetEventListeners(...)
 end
 
 --- Returns a table on all entity fields.
@@ -415,7 +416,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getfields(ThePlayer))
 function d_getfields(...)
-    return Utils.Dump.GetFields(...)
+    return SDK.Dump.GetFields(...)
 end
 
 --- Returns a table on all entity functions.
@@ -423,7 +424,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getfunctions(ThePlayer))
 function d_getfunctions(...)
-    return Utils.Dump.GetFunctions(...)
+    return SDK.Dump.GetFunctions(...)
 end
 
 --- Returns a table on all entity replicas.
@@ -431,7 +432,7 @@ end
 -- @treturn table
 -- @usage dumptable(d_getreplicas(ThePlayer))
 function d_getreplicas(...)
-    return Utils.Dump.GetReplicas(...)
+    return SDK.Dump.GetReplicas(...)
 end
 
 --- StateGraph
