@@ -29,7 +29,6 @@
 require "class"
 require "consolecommands"
 
-local DebugUpvalue = require "devtools/debugupvalue"
 local DevTools = require "devtools/devtools/devtools"
 local SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
 local SDK = require "devtools/sdk/sdk/sdk"
@@ -489,21 +488,21 @@ end
 --
 -- @tparam Weather|CaveWeather weather
 function WorldDevTools:WeatherOnUpdate(weather)
-    local _moisturefloor = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturefloor")
-    local _moisturerate = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturerate")
-    local _temperature = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_temperature")
+    local _moisturefloor = SDK.DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturefloor")
+    local _moisturerate = SDK.DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturerate")
+    local _temperature = SDK.DebugUpvalue.GetUpvalue(weather.GetDebugString, "_temperature")
 
-    local _peakprecipitationrate = DebugUpvalue.GetUpvalue(
+    local _peakprecipitationrate = SDK.DebugUpvalue.GetUpvalue(
         weather.GetDebugString,
         "_peakprecipitationrate"
     )
 
-    local CalculatePrecipitationRate = DebugUpvalue.GetUpvalue(
+    local CalculatePrecipitationRate = SDK.DebugUpvalue.GetUpvalue(
         weather.GetDebugString,
         "CalculatePrecipitationRate"
     )
 
-    local CalculateWetnessRate = DebugUpvalue.GetUpvalue(
+    local CalculateWetnessRate = SDK.DebugUpvalue.GetUpvalue(
         weather.GetDebugString,
         "CalculateWetnessRate"
     )
