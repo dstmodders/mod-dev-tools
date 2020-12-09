@@ -46,7 +46,7 @@ local Labels = Class(function(self, devtools)
     self.username_mode = "default"
 
     -- thread
-    Utils.Thread.Start(_LABEL_UPDATE_THREAD_ID, function()
+    SDK.Thread.Start(_LABEL_UPDATE_THREAD_ID, function()
         self:OnUpdate()
         Sleep(FRAMES)
     end)

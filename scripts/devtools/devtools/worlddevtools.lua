@@ -33,7 +33,6 @@ local DebugUpvalue = require "devtools/debugupvalue"
 local DevTools = require "devtools/devtools/devtools"
 local SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 -- threads
 local _PRECIPITATION_THREAD_ID = "mod_dev_tools_precipitation_thread"
@@ -444,7 +443,7 @@ function WorldDevTools:StartPrecipitationThread()
     local current_floor, previous_floor, diff_floor
     local frames
 
-    self.precipitation_thread = Utils.Thread.Start(_PRECIPITATION_THREAD_ID, function()
+    self.precipitation_thread = SDK.Thread.Start(_PRECIPITATION_THREAD_ID, function()
         moisture = self:GetStateMoisture()
         moisture_ceil = self:GetStateMoistureCeil()
         moisture_floor = self:GetMoistureFloor() or 0
@@ -481,7 +480,7 @@ end
 --
 -- Stops the thread started earlier by the `StartPrecipitationThread`.
 function WorldDevTools:ClearPrecipitationThread()
-    Utils.Thread.Clear(self.precipitation_thread)
+    SDK.Thread.Clear(self.precipitation_thread)
 end
 
 --- Integrates with `Weather:OnUpdate()`.
