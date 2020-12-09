@@ -12,7 +12,6 @@
 --
 -- @module Utils
 -- @see Utils.Debug
--- @see Utils.RPC
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -22,7 +21,6 @@
 local Utils = {}
 
 Utils.Debug = require "devtools/utils/debug"
-Utils.RPC = require "devtools/utils/rpc"
 
 --- Assets if the required field is not missing.
 -- @tparam string name
