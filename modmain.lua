@@ -25,7 +25,6 @@ local CONTROL_MOVE_RIGHT = _G.CONTROL_MOVE_RIGHT
 local CONTROL_MOVE_UP = _G.CONTROL_MOVE_UP
 local KEY_SHIFT = _G.KEY_SHIFT
 local TheInput = _G.TheInput
-local TheSim = _G.TheSim
 
 --- SDK
 -- @section sdk
@@ -59,10 +58,6 @@ debug:DebugModConfigs()
 
 _G.ModDevToolsDebug = debug
 
-local function DebugString(...)
-    return debug and debug:DebugString(...)
-end
-
 local function DebugInit(...)
     return debug and debug:DebugInit(...)
 end
@@ -73,10 +68,6 @@ end
 local function GetKeyFromConfig(config)
     local key = GetModConfigData(config)
     return key and (type(key) == "number" and key or _G[key]) or -1
-end
-
-local function IsDST()
-    return TheSim:GetGameID() == "DST"
 end
 
 local function IsMoveButton(control)
@@ -113,17 +104,14 @@ _G.DISABLE_MOD_WARNING = GetModConfigData("default_mod_warning")
 --- Player
 -- @section player
 
-local function OnEnterCharacterSelect(world)
+SDK.OnEnterCharacterSelect(function(world)
     devtools:SetIsInCharacterSelect(true)
     devtools:DoTermPlayer()
     devtools:DoTermWorld()
     devtools:DoInitWorld(world)
-    DebugString("Player is selecting character")
-end
+end)
 
-local function OnPlayerActivated(world, player)
-    debug:DoInitGame()
-
+SDK.OnPlayerActivated(function(world, player)
     devtools.inst = player
     devtools:SetIsInCharacterSelect(false)
     devtools:DoInitWorld(world)
@@ -166,47 +154,12 @@ local function OnPlayerActivated(world, player)
             devtools.labels:SetUsernameMode(GetModConfigData("default_username_labels_mode"))
         end
     end
+end)
 
-    DebugString("Player", player:GetDisplayName(), "activated")
-end
-
-local function OnPlayerDeactivated(_, player)
+SDK.OnPlayerDeactivated(function()
     devtools.inst = nil
     devtools:SetIsInCharacterSelect(false)
-    DebugString("Player", player:GetDisplayName(), "deactivated")
-end
-
-local function AddPlayerPostInit(onActivatedFn, onDeactivatedFn)
-    DebugString("Game ID -", TheSim:GetGameID())
-    if IsDST() then
-        env.AddPrefabPostInit("world", function(_world)
-            if not devtools.world then
-                devtools:DoInitWorld(_world)
-            end
-
-            _world:ListenForEvent("entercharacterselect", function(world)
-                OnEnterCharacterSelect(world)
-            end)
-
-            _world:ListenForEvent("playeractivated", function(world, player)
-                if player == _G.ThePlayer then
-                    onActivatedFn(world, player)
-                end
-            end)
-
-            _world:ListenForEvent("playerdeactivated", function(world, player)
-                if player == _G.ThePlayer then
-                    onDeactivatedFn(world, player)
-                end
-            end)
-        end)
-    else
-        env.AddPlayerPostInit(function(player)
-            onActivatedFn(nil, player)
-        end)
-    end
-    DebugInit("AddPlayerPostInit")
-end
+end)
 
 SDK.Console.AddWordPredictionDictionaries({
     { delim = "De", num_chars = 0, words = { "vTools" } },
@@ -263,8 +216,6 @@ SDK.Console.AddWordPredictionDictionaries({
         return { delim = "DevTools:", num_chars = 0, words = words }
     end
 })
-
-AddPlayerPostInit(OnPlayerActivated, OnPlayerDeactivated)
 
 --- Player Controller
 -- @section player-controller
