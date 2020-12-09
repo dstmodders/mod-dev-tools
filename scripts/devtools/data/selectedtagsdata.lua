@@ -16,7 +16,7 @@
 require "class"
 
 local Data = require "devtools/data/data"
-local Utils = require "devtools/utils"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
 -- @section lifecycle
@@ -66,7 +66,7 @@ function SelectedTagsData:PushTagsData()
     end
 
     local tags
-    tags = Utils.Entity.GetTags(entity)
+    tags = SDK.Entity.GetTags(entity)
     if type(tags) == "table" then
         for _, tag in pairs(tags) do
             self:PushLine("", tag)

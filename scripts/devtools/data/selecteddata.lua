@@ -16,6 +16,7 @@
 require "class"
 
 local Data = require "devtools/data/data"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 --- Lifecycle
@@ -49,9 +50,9 @@ local function GetAnimState(self, entity)
         return false
     end
 
-    local bank = Utils.Entity.GetAnimStateBank(entity)
-    local build = Utils.Entity.GetAnimStateBuild(entity)
-    local anim = Utils.Entity.GetAnimStateAnim(entity)
+    local bank = SDK.Entity.GetAnimStateBank(entity)
+    local build = SDK.Entity.GetAnimStateBuild(entity)
+    local anim = SDK.Entity.GetAnimStateAnim(entity)
 
     return bank, build, anim
 end
@@ -60,7 +61,7 @@ local function GetStateGraph(self, entity)
     if not self or not entity or not entity.sg then
         return false
     end
-    return Utils.Entity.GetStateGraphName(entity), Utils.Entity.GetStateGraphState(entity)
+    return SDK.Entity.GetStateGraphName(entity), SDK.Entity.GetStateGraphState(entity)
 end
 
 --- General

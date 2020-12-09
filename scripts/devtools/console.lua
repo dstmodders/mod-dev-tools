@@ -314,7 +314,7 @@ end
 -- @tparam boolean is_all
 -- @treturn table
 function d_gettags(...)
-    return Utils.Entity.GetTags(...)
+    return SDK.Entity.GetTags(...)
 end
 
 --- AnimState
@@ -324,7 +324,7 @@ end
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getanim(...)
-    return Utils.Entity.GetAnimStateAnim(...)
+    return SDK.Entity.GetAnimStateAnim(...)
 end
 
 --- Returns an entity animation state bank.
@@ -332,14 +332,14 @@ end
 -- @treturn string
 -- @usage d_getanimbank(ThePlayer)
 function d_getanimbank(...)
-    return Utils.Entity.GetAnimStateBank(...)
+    return SDK.Entity.GetAnimStateBank(...)
 end
 
 --- Returns an entity animation state build.
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getanimbuild(...)
-    return Utils.Entity.GetAnimStateBank(...)
+    return SDK.Entity.GetAnimStateBank(...)
 end
 
 --- Dump
@@ -442,14 +442,14 @@ end
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getsg(...)
-    return Utils.Entity.GetStateGraphName(...)
+    return SDK.Entity.GetStateGraphName(...)
 end
 
 --- Returns an entity state graph state.
 -- @tparam EntityScript entity
 -- @treturn string
 function d_getsgstate(...)
-    return Utils.Entity.GetStateGraphState(...)
+    return SDK.Entity.GetStateGraphState(...)
 end
 
 --- Table
