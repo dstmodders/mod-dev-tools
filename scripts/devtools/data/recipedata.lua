@@ -16,6 +16,7 @@
 require "class"
 
 local Data = require "devtools/data/data"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 --- Lifecycle
@@ -62,7 +63,7 @@ end
 -- @tparam number amount
 function RecipeData:PushIngredientLine(type, amount)
     local inventory = self.inventorydevtools:GetInventory()
-    local name = Utils.Constant.GetStringName(type)
+    local name = SDK.Constant.GetStringName(type)
 
     if inventory then
         local state = inventory:Has(type, amount)

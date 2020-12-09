@@ -11,7 +11,6 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @module Utils
--- @see Utils.Constant
 -- @see Utils.Debug
 -- @see Utils.Dump
 -- @see Utils.Entity
@@ -29,7 +28,6 @@
 ----
 local Utils = {}
 
-Utils.Constant = require "devtools/utils/constant"
 Utils.Debug = require "devtools/utils/debug"
 Utils.Dump = require "devtools/utils/dump"
 Utils.Entity = require "devtools/utils/entity"

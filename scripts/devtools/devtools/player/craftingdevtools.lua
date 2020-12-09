@@ -27,6 +27,7 @@
 require "class"
 
 local DevTools = require "devtools/devtools/devtools"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 --- Lifecycle
@@ -175,7 +176,7 @@ function CraftingDevTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
     for _, v in pairs(recipes) do
         recipe = GetValidRecipe(v)
         if recipe and recipe.name then
-            table.insert(result, Utils.Constant.GetStringName(recipe.name))
+            table.insert(result, SDK.Constant.GetStringName(recipe.name))
         end
     end
 

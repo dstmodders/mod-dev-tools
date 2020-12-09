@@ -147,7 +147,7 @@ function InventoryDevTools:EquipActiveItem(the_net)
         self:DebugError(
             self:GetFnFullName("EquipActiveItem") .. ":",
             "not equippable",
-            "(" ..  Utils.Constant.GetStringName(item.prefab) .. ")"
+            "(" ..  SDK.Constant.GetStringName(item.prefab) .. ")"
         )
     end
 
