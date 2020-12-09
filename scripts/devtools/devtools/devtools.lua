@@ -24,6 +24,7 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 --- Lifecycle
@@ -74,11 +75,11 @@ function DevTools:GetFnFullName(fn_name)
 end
 
 function DevTools:AddGlobalDevToolsMethods(methods)
-    Utils.Methods.AddToAnotherClass(self, self.devtools, methods)
+    SDK.Utils.Methods.AddToAnotherClass(self, self.devtools, methods)
 end
 
 function DevTools:RemoveGlobalDevToolsMethods(methods)
-    Utils.Methods.RemoveFromAnotherClass(self.devtools, methods)
+    SDK.Utils.Methods.RemoveFromAnotherClass(self.devtools, methods)
 end
 
 --- Other
