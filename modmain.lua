@@ -208,18 +208,10 @@ local function AddPlayerPostInit(onActivatedFn, onDeactivatedFn)
     DebugInit("AddPlayerPostInit")
 end
 
-local function AddConsoleScreenPostInit(self)
-    self.console_edit:AddWordPredictionDictionary({
-        words = { "vTools" },
-        delim = "De",
-        num_chars = 0
-    })
-
-    self.console_edit:AddWordPredictionDictionary({ words = {
-        "mptable",
-    }, delim = "du", num_chars = 2 })
-
-    self.console_edit:AddWordPredictionDictionary({ words = {
+SDK.Console.AddWordPredictionDictionaries({
+    { delim = "De", num_chars = 0, words = { "vTools" } },
+    { delim = "du", num_chars = 2, words = { "mptable" } },
+    { delim = "d_", num_chars = 0, words = {
         -- general
         "decodefile",
         "decodesavedata",
@@ -260,29 +252,19 @@ local function AddConsoleScreenPostInit(self)
         "tablehasvalue",
         "tablekeybyvalue",
         "tablemerge",
-    }, delim = "d_", num_chars = 0 })
-
-    local words = {}
-    for k, v in pairs(devtools) do
-        if type(v) == "function"
-            and k ~= "is_a"
-            and k ~= "_ctor"
-            and not string.match(k, "^Debug")
-        then
-            table.insert(words, k)
+    } },
+    function()
+        local words = SDK.Dump.GetFunctions(devtools, true)
+        for k, word in pairs(words) do
+            if word == "is_a" or word ~= "_ctor" or not string.match(word, "^Debug") then
+                table.remove(words, k)
+            end
         end
+        return { delim = "DevTools:", num_chars = 0, words = words }
     end
-    words = SDK.Utils.Table.SortAlphabetically(words)
-
-    self.console_edit:AddWordPredictionDictionary({
-        words = words,
-        delim = "DevTools:",
-        num_chars = 0,
-    })
-end
+})
 
 AddPlayerPostInit(OnPlayerActivated, OnPlayerDeactivated)
-AddClassPostConstruct("screens/consolescreen", AddConsoleScreenPostInit)
 
 --- Player Controller
 -- @section player-controller
