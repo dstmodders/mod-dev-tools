@@ -22,6 +22,7 @@
 local Image = require "widgets/image"
 local Menu = require "devtools/menu/menu"
 local Screen = require "widgets/screen"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Text = require "widgets/text"
 local Utils = require "devtools/utils"
 
@@ -391,12 +392,12 @@ function DevToolsScreen:UpdateDataSidebar()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END then
         self:UpdateFrontEndData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE
-        and Utils.Chain.Get(playerdevtools, "crafting")
+        and SDK.Utils.Chain.Get(playerdevtools, "crafting")
     then
         self:UpdateRecipeData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED
         and worlddevtools
-        and Utils.Chain.Get(playerdevtools, "crafting")
+        and SDK.Utils.Chain.Get(playerdevtools, "crafting")
     then
         self:UpdateSelectedData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS

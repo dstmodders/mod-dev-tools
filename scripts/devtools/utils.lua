@@ -11,7 +11,6 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @module Utils
--- @see Utils.Chain
 -- @see Utils.Constant
 -- @see Utils.Debug
 -- @see Utils.Dump
@@ -30,7 +29,6 @@
 ----
 local Utils = {}
 
-Utils.Chain = require "devtools/utils/chain"
 Utils.Constant = require "devtools/utils/constant"
 Utils.Debug = require "devtools/utils/debug"
 Utils.Dump = require "devtools/utils/dump"

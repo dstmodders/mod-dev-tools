@@ -18,6 +18,7 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 -- general
@@ -272,7 +273,14 @@ end
 --
 -- @treturn string
 function Data:GetServerID() -- luacheck: only
-    return Utils.Chain.Get(TheWorld, "net", "components", "shardstate", "GetMasterSessionId", true)
+    return SDK.Utils.Chain.Get(
+        TheWorld,
+        "net",
+        "components",
+        "shardstate",
+        "GetMasterSessionId",
+        true
+    )
 end
 
 --- Gets the server.
@@ -379,7 +387,7 @@ end
 --
 -- Cleans all servers that haven't been seen for the `USER_HISTORY_EXPIRY_TIME` (30 days).
 function Data:CleanServers()
-    local servers = Utils.Chain.Get(self, "persist_data", "servers")
+    local servers = SDK.Utils.Chain.Get(self, "persist_data", "servers")
     if type(servers) == "table" then
         local i = 0
         local time = os.time()
