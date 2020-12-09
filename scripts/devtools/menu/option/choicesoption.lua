@@ -38,7 +38,7 @@
 require "class"
 
 local Option = require "devtools/menu/option/option"
-local Utils = require "devtools/utils"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Helpers
 -- @section helpers
@@ -47,7 +47,7 @@ local function GetTableKeyByValue(list, value)
     for k, v in pairs(list) do
         if v.value == value
             or (type(v.value) == "table"
-            and Utils.Table.Compare(v.value, value))
+            and SDK.Utils.Table.Compare(v.value, value))
         then
             return k
         end

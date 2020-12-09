@@ -14,7 +14,7 @@
 ----
 require "class"
 
-local Utils = require "devtools/utils"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Helpers
 -- @section class
@@ -24,7 +24,7 @@ local function DebugEvent(name, value)
 end
 
 local function CheckIfAlreadyActivated(self, fn_name, activated)
-    local count = Utils.Table.Count(activated)
+    local count = SDK.Utils.Table.Count(activated)
     if count > 0 then
         self.debug:DebugError(
             string.format("%s:%s():", self.name, fn_name),
@@ -35,7 +35,7 @@ local function CheckIfAlreadyActivated(self, fn_name, activated)
 end
 
 local function CheckIfAlreadyDeactivated(self, fn_name, activated)
-    local count = Utils.Table.Count(activated)
+    local count = SDK.Utils.Table.Count(activated)
     if count == 0 then
         self.debug:DebugError(
             string.format("%s:%s():", self.name, fn_name),
@@ -59,7 +59,7 @@ local function Activate(self, name, entity)
 
     self.debug:DebugString(
         "Activated debugging of the",
-        Utils.Table.Count(result),
+        SDK.Utils.Table.Count(result),
         name,
         "event listeners"
     )
@@ -68,7 +68,7 @@ local function Activate(self, name, entity)
 end
 
 local function Deactivate(self, name, entity, activated)
-    local count = Utils.Table.Count(activated)
+    local count = SDK.Utils.Table.Count(activated)
 
     for event, callback in pairs(activated) do
         entity:RemoveEventCallback(event, callback)
@@ -121,7 +121,7 @@ function Events:ActivatePlayer()
 
     if not ThePlayer
         or not ThePlayer.event_listeners
-        or Utils.Table.Count(ThePlayer.event_listeners) == 0
+        or SDK.Utils.Table.Count(ThePlayer.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_player)
     then
         return false
@@ -154,7 +154,7 @@ function Events:ActivatePlayerClassified()
     if not ThePlayer
         or not ThePlayer.player_classified
         or not ThePlayer.player_classified.event_listeners
-        or Utils.Table.Count(ThePlayer.player_classified.event_listeners) == 0
+        or SDK.Utils.Table.Count(ThePlayer.player_classified.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_player_classified)
     then
         return false
@@ -199,7 +199,7 @@ function Events:ActivateWorld()
 
     if not TheWorld
         or not TheWorld.event_listeners
-        or Utils.Table.Count(TheWorld.event_listeners) == 0
+        or SDK.Utils.Table.Count(TheWorld.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_world)
     then
         return false

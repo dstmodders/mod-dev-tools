@@ -36,8 +36,8 @@ local WorldStateData = Class(Data, function(self, screen, world)
     self.world = world
 
     if self.state then
-        self.state_keys = Utils.Table.Keys(self.state)
-        self.state_keys = Utils.Table.SortAlphabetically(self.state_keys)
+        self.state_keys = SDK.Utils.Table.Keys(self.state)
+        self.state_keys = SDK.Utils.Table.SortAlphabetically(self.state_keys)
     end
 
     -- self

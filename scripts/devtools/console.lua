@@ -15,7 +15,6 @@
 local Console = {}
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 local _EMOTE_THREAD
 
@@ -460,14 +459,14 @@ end
 -- @tparam table b Table B
 -- @treturn boolean
 function d_tablecompare(...)
-    return Utils.Table.Compare(...)
+    return SDK.Utils.Table.Compare(...)
 end
 
 --- Counts the number of elements inside the table.
 -- @tparam table t Table
 -- @treturn number
 function d_tablecount(...)
-    return Utils.Table.Count(...)
+    return SDK.Utils.Table.Count(...)
 end
 
 --- Checks if a table has the provided value.
@@ -475,7 +474,7 @@ end
 -- @tparam string value
 -- @treturn boolean
 function d_tablehasvalue(...)
-    return Utils.Table.HasValue(...)
+    return SDK.Utils.Table.HasValue(...)
 end
 
 --- Gets the table key based on the value.
@@ -483,7 +482,7 @@ end
 -- @param value Value to look for
 -- @treturn number
 function d_tablekeybyvalue(...)
-    return Utils.Table.KeyByValue(...)
+    return SDK.Utils.Table.KeyByValue(...)
 end
 
 --- Merges two tables.
@@ -493,7 +492,7 @@ end
 -- @tparam[opt] boolean is_merge_nested Should nested tables be merged
 -- @treturn table
 function d_tablemerge(...)
-    return Utils.Table.Merge(...)
+    return SDK.Utils.Table.Merge(...)
 end
 
 --- Klei

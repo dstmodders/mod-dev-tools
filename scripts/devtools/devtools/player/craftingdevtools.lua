@@ -168,7 +168,7 @@ end
 -- @treturn table Names
 -- @treturn table Recipes
 function CraftingDevTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
-    recipes = sort and Utils.Table.SortAlphabetically(recipes) or recipes
+    recipes = sort and SDK.Utils.Table.SortAlphabetically(recipes) or recipes
 
     local result = {}
     local recipe
@@ -242,7 +242,7 @@ end
 function CraftingDevTools:IsRecipeLearned(name)
     local recipes = self:GetLearnedRecipes()
     if type(recipes) == "table" and #recipes > 0 then
-        return Utils.Table.HasValue(recipes, name)
+        return SDK.Utils.Table.HasValue(recipes, name)
     end
 end
 
@@ -334,7 +334,7 @@ function CraftingDevTools:LockCharacterRecipes()
     self:DebugString("Locking and restoring character recipes...")
     if type(recipes) == "table" and #recipes > 0 then
         for _, recipe in pairs(recipes) do
-            if not Utils.Table.HasValue(self.character_recipes, recipe) then
+            if not SDK.Utils.Table.HasValue(self.character_recipes, recipe) then
                 self.consoledevtools:LockRecipe(recipe, self.inst)
             end
         end

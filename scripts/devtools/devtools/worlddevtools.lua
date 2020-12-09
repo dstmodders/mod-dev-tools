@@ -32,6 +32,7 @@ require "consolecommands"
 local DebugUpvalue = require "devtools/debugupvalue"
 local DevTools = require "devtools/devtools/devtools"
 local SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 -- threads
@@ -156,7 +157,7 @@ end
 -- @tparam string phase Current phase
 -- @treturn string Next phase
 function WorldDevTools:GetNextPhase(phase) -- luacheck: only
-    return Utils.Table.NextValue({ "day", "dusk", "night" }, phase)
+    return SDK.Utils.Table.NextValue({ "day", "dusk", "night" }, phase)
 end
 
 --- Selection

@@ -233,8 +233,8 @@ function DevToolsScreen:SwitchData(dir)
     if InGamePlay() then
         self.data_sidebar_idx = 1
         self.data_sidebar = dir > 0
-            and Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
-            or Utils.Table.PrevValue(self.in_game_play_data_sidebars, self.data_sidebar)
+            and SDK.Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
+            or SDK.Utils.Table.PrevValue(self.in_game_play_data_sidebars, self.data_sidebar)
         self:ResetDataSidebarIndex()
     end
 end
@@ -295,7 +295,7 @@ function DevToolsScreen:UpdateChildren(silent)
 
         if InGamePlay() then
             total_sidebar_data = #self.in_game_play_data_sidebars
-            sidebar_data_idx = Utils.Table.KeyByValue(
+            sidebar_data_idx = SDK.Utils.Table.KeyByValue(
                 self.in_game_play_data_sidebars,
                 self.data_sidebar
             )
@@ -460,7 +460,7 @@ end
 --- Triggers when select raw key is pressed.
 -- @see OnRawKey
 function DevToolsScreen:OnSelect()
-    self.selected = Utils.Table.NextValue({
+    self.selected = SDK.Utils.Table.NextValue({
         MOD_DEV_TOOLS.SELECT.MENU,
         MOD_DEV_TOOLS.SELECT.DATA,
     }, self.selected)

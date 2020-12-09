@@ -278,7 +278,7 @@ local function AddConsoleScreenPostInit(self)
             table.insert(words, k)
         end
     end
-    words = Utils.Table.SortAlphabetically(words)
+    words = SDK.Utils.Table.SortAlphabetically(words)
 
     self.console_edit:AddWordPredictionDictionary({
         words = words,
