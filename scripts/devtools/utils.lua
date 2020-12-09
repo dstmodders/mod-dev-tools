@@ -12,7 +12,6 @@
 --
 -- @module Utils
 -- @see Utils.Debug
--- @see Utils.Modmain
 -- @see Utils.RPC
 --
 -- @author Victor Popkov
@@ -23,7 +22,6 @@
 local Utils = {}
 
 Utils.Debug = require "devtools/utils/debug"
-Utils.Modmain = require "devtools/utils/modmain"
 Utils.RPC = require "devtools/utils/rpc"
 
 --- Assets if the required field is not missing.

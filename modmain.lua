@@ -13,8 +13,6 @@ local require = _G.require
 
 _G.MOD_DEV_TOOLS_TEST = false
 
-local Utils = require "devtools/utils"
-
 require "devtools/console"
 
 --- Globals
@@ -507,5 +505,5 @@ end
 -- @section knownmodindex
 
 if GetModConfigData("hide_changelog") then
-    Utils.Modmain.HideChangelog(modname, true)
+    SDK.ModMain.HideChangelog(modname, true)
 end
