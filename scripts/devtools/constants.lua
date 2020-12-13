@@ -11,6 +11,8 @@
 -- @release 0.7.0
 ----
 
+local SDK = require "devtools/sdk/sdk/sdk"
+
 --- Mod constants.
 -- @table MOD_DEV_TOOLS
 -- @tfield table API
@@ -132,11 +134,11 @@ MOD_DEV_TOOLS = {
         IS_ADMIN = function(self)
             return self.devtools.player and self.devtools.player:IsAdmin()
         end,
-        IS_CAVE = function(self)
-            return self.devtools.world and self.devtools.world:IsCave()
+        IS_CAVE = function()
+            return SDK.World.IsCave()
         end,
-        IS_FOREST = function(self)
-            return self.devtools.world and not self.devtools.world:IsCave()
+        IS_FOREST = function()
+            return not SDK.World.IsCave()
         end,
         IS_MASTER_SIM = function(self)
             return self.devtools.world and self.devtools.world:IsMasterSim()

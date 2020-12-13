@@ -114,7 +114,6 @@ describe("WorldDevTools", function()
                 "IsMasterSim",
                 "GetWorld",
                 "GetWorldNet",
-                "IsCave",
                 "GetMeta",
                 "GetSeed",
 
@@ -148,20 +147,10 @@ describe("WorldDevTools", function()
         end)
 
         describe("GetWeatherComponent", function()
-            local IsCave
-
             describe("when in the cave", function()
                 before_each(function()
-                    IsCave = spy.new(ReturnValueFn(true))
+                    _G.SDK.World.IsCave = ReturnValueFn(true)
                     worlddevtools.inst.net.components.caveweather = "caveweather"
-                    worlddevtools.IsCave = IsCave
-                end)
-
-                it("should call the WorldDevTools:IsCave()", function()
-                    assert.spy(IsCave).was_not_called()
-                    worlddevtools:IsCave()
-                    assert.spy(IsCave).was_called(1)
-                    assert.spy(IsCave).was_called_with(match.is_ref(worlddevtools))
                 end)
 
                 it("should return CaveWeather component", function()
@@ -181,16 +170,8 @@ describe("WorldDevTools", function()
 
             describe("when not in the cave", function()
                 before_each(function()
-                    IsCave = spy.new(ReturnValueFn(false))
+                    _G.SDK.World.IsCave = ReturnValueFn(false)
                     worlddevtools.inst.net.components.weather = "weather"
-                    worlddevtools.IsCave = IsCave
-                end)
-
-                it("should call the WorldDevTools:IsCave()", function()
-                    assert.spy(IsCave).was_not_called()
-                    worlddevtools:IsCave()
-                    assert.spy(IsCave).was_called(1)
-                    assert.spy(IsCave).was_called_with(match.is_ref(worlddevtools))
                 end)
 
                 it("should return Weather component", function()
@@ -266,59 +247,6 @@ describe("WorldDevTools", function()
                     AssertChainNil(function()
                         assert.is_nil(worlddevtools:GetSeed())
                     end, worlddevtools, "inst", "meta", "seed")
-                end)
-            end)
-        end)
-
-        describe("IsCave", function()
-            describe("when in the cave", function()
-                local HasTag
-
-                before_each(function()
-                    HasTag = spy.new(function(_, tag)
-                        return tag == "cave"
-                    end)
-
-                    worlddevtools.inst.HasTag = HasTag
-                end)
-
-                it("should call the TheWorld:HasTag()", function()
-                    assert.spy(HasTag).was_not_called()
-                    worlddevtools:IsCave()
-                    assert.spy(HasTag).was_called(1)
-                    assert.spy(HasTag).was_called_with(match.is_ref(worlddevtools.inst), "cave")
-                end)
-
-                it("should return true", function()
-                    assert.is_true(worlddevtools:IsCave())
-                end)
-            end)
-
-            describe("when not in the cave", function()
-                local HasTag
-
-                before_each(function()
-                    HasTag = spy.new(ReturnValueFn(false))
-                    worlddevtools.inst.HasTag = HasTag
-                end)
-
-                it("should call the TheWorld:HasTag()", function()
-                    assert.spy(HasTag).was_not_called()
-                    worlddevtools:IsCave()
-                    assert.spy(HasTag).was_called(1)
-                    assert.spy(HasTag).was_called_with(match.is_ref(worlddevtools.inst), "cave")
-                end)
-
-                it("should return false", function()
-                    assert.is_false(worlddevtools:IsCave())
-                end)
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(worlddevtools:IsCave())
-                    end, worlddevtools, "inst")
                 end)
             end)
         end)

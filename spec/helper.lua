@@ -505,7 +505,6 @@ function MockWorldDevTools()
         GetPrecipitationEnds = ReturnValueFn(90),
         GetPrecipitationStarts = ReturnValueFn(30),
         GetSeed = ReturnValueFn("1234567890"),
-        IsCave = ReturnValueFn(false),
     })
 end
 

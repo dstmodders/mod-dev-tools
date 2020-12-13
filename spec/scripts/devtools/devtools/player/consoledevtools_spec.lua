@@ -38,6 +38,9 @@ describe("ConsoleDevTools", function()
         _G.TheNet = MockTheNet()
         _G.TheSim = MockTheSim()
 
+        -- sdk
+        _G.SDK.World.IsCave = ReturnValueFn(false)
+
         -- initialization
         ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
         consoledevtools = ConsoleDevTools(playerdevtools, devtools)
@@ -317,7 +320,7 @@ describe("ConsoleDevTools", function()
                             local debug_error_fn
 
                             before_each(function()
-                                consoledevtools.worlddevtools.IsCave = ReturnValueFn(true)
+                                _G.SDK.World.IsCave = ReturnValueFn(true)
                                 debug_error_fn = world == "forest"
                                     and DebugErrorNotInForest
                                     or DebugErrorNotInCave
@@ -420,7 +423,7 @@ describe("ConsoleDevTools", function()
         describe("MiniQuake", function()
             describe("when the owner is not in the cave", function()
                 before_each(function()
-                    consoledevtools.worlddevtools.IsCave = ReturnValueFn(false)
+                    _G.SDK.World.IsCave = ReturnValueFn(false)
                 end)
 
                 it("should debug error", function()
@@ -440,7 +443,7 @@ describe("ConsoleDevTools", function()
 
             describe("when the owner is in the cave", function()
                 before_each(function()
-                    consoledevtools.worlddevtools.IsCave = ReturnValueFn(true)
+                    _G.SDK.World.IsCave = ReturnValueFn(true)
                 end)
 
                 describe("and the owner is not an admin", function()

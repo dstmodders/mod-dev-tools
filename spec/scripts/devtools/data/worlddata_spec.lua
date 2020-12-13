@@ -32,6 +32,7 @@ describe("WorldData", function()
         _G.SDK.World.GetMoistureFloor = ReturnValueFn(250)
         _G.SDK.World.GetMoistureRate = ReturnValueFn(1.5)
         _G.SDK.World.GetPeakPrecipitationRate = ReturnValueFn(2)
+        _G.SDK.World.IsCave = ReturnValueFn(false)
         _G.SDK.World.IsPrecipitation = ReturnValueFn(true)
 
         -- initialization
@@ -1134,7 +1135,7 @@ describe("WorldData", function()
 
             describe("when in the cave", function()
                 before_each(function()
-                    worlddata.worlddevtools.IsCave = ReturnValueFn(true)
+                    _G.SDK.World.IsCave = ReturnValueFn(true)
                     worlddata.savedatadevtools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }

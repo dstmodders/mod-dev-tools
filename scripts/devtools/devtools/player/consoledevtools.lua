@@ -29,6 +29,7 @@
 require "class"
 
 local DevTools = require "devtools/devtools/devtools"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
 local _ConsoleRemote = Utils.ConsoleRemote
@@ -349,7 +350,7 @@ function ConsoleDevTools:MiniQuake(target, rad, num, time)
 
     local fn_name = "MiniQuake"
 
-    if not self.worlddevtools:IsCave() then
+    if not SDK.World.IsCave() then
         self:DebugErrorNotInCave(self:GetFnFullName(fn_name))
         return false
     end
@@ -384,7 +385,7 @@ end
 function ConsoleDevTools:SendLightningStrike(pos)
     local fn_name = "SendLightningStrike"
 
-    if self.worlddevtools:IsCave() then
+    if SDK.World.IsCave() then
         self:DebugErrorNotInForest(self:GetFnFullName(fn_name))
         return false
     end
@@ -418,7 +419,7 @@ end
 function ConsoleDevTools:SetSnowLevel(delta)
     local fn_name = "SetSnowLevel"
 
-    if self.worlddevtools:IsCave() then
+    if SDK.World.IsCave() then
         self:DebugErrorNotInForest(self:GetFnFullName(fn_name))
         return false
     end

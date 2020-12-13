@@ -28,6 +28,7 @@ require "class"
 require "consolecommands"
 
 local DevTools = require "devtools/devtools/devtools"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 -- general
 local _SAVEDATA
@@ -112,7 +113,7 @@ local function ValidateLoadFile(self, savedata)
                 ValidateLoadField(self, hounded.timetoattack, name .. ".timetoattack")
             end
 
-            if not self.worlddevtools:IsCave() then
+            if not SDK.World.IsCave() then
                 name = "map.persistdata.beargerspawner"
                 local beargerspawner = persistdata.beargerspawner
                 if ValidateLoadField(self, beargerspawner, name) then

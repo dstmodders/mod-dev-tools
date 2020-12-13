@@ -15,6 +15,7 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Submenu = require "devtools/menu/submenu"
 
 --- Lifecycle
@@ -76,7 +77,7 @@ end
 
 --- Adds teleport options.
 function TeleportSubmenu:AddTeleportOptions()
-    if not self.world:IsCave() then
+    if not SDK.World.IsCave() then
         local livingtree = IsSpecialEventActive(SPECIAL_EVENTS.HALLOWED_NIGHTS)
             and "livingtree_halloween"
             or "livingtree"

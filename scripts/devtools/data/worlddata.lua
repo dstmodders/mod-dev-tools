@@ -45,7 +45,7 @@ end)
 function WorldData:Update()
     Data.Update(self)
 
-    self:PushTitleLine("World " .. (not self.worlddevtools:IsCave() and "(Forest)" or "(Cave)"))
+    self:PushTitleLine("World " .. (not SDK.World.IsCave() and "(Forest)" or "(Cave)"))
     self:PushEmptyLine()
     self:PushWorldData()
 
@@ -177,7 +177,7 @@ function WorldData:PushWorldData()
 
     -- Commented out intentionally. Maybe will be uncommented later.
     --local savedatadevtools = self.savedatadevtools
-    --if savedatadevtools and not self.worlddevtools:IsCave() then
+    --if savedatadevtools and not SDK.World.IsCave() then
     --    self:PushLine("Walrus Camps", savedatadevtools:GetNrOfWalrusCamps())
     --end
 end
@@ -328,7 +328,7 @@ function WorldData:PushHoundedLine()
     end
 
     self:PushLine(
-        (self.worlddevtools:IsCave() and "Worms" or "Hounds") .. " Attack",
+        (SDK.World.IsCave() and "Worms" or "Hounds") .. " Attack",
         value or "error"
     )
 end
@@ -364,7 +364,7 @@ function WorldData:PushSaveData()
 
     -- Commented out intentionally. Maybe will be uncommented later.
     --if self.savedatadevtools:GetMapPersistData() then
-    --    if not self.worlddevtools:IsCave() then
+    --    if not SDK.World.IsCave() then
     --        self:PushDeerclopsSpawnerLine()
     --        self:PushBeargerSpawnerLine()
     --        self:PushMalbatrossSpawnerLine()

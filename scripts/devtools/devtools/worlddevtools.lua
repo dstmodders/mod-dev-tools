@@ -93,12 +93,6 @@ function WorldDevTools:GetWorldNet()
     return self.inst and self.inst.net
 end
 
---- Checks if it's a cave world.
--- @treturn boolean
-function WorldDevTools:IsCave()
-    return self.inst and self.inst:HasTag("cave")
-end
-
 --- Gets `TheWorld` meta.
 -- @tparam[opt] string name Meta name
 -- @treturn[1] table Meta table, when no name passed
@@ -254,7 +248,7 @@ function WorldDevTools:GetWeatherComponent()
     end
 
     local component
-    if self:IsCave() then
+    if SDK.World.IsCave() then
         component = self.inst.net.components.caveweather or nil
         return component ~= nil and component or nil
     else
@@ -340,7 +334,6 @@ function WorldDevTools:DoInit()
         "IsMasterSim",
         "GetWorld",
         "GetWorldNet",
-        "IsCave",
         "GetMeta",
         "GetSeed",
 
