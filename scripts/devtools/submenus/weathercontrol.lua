@@ -68,16 +68,16 @@ return {
                 min = function()
                     return SDK.World.GetMoistureFloor()
                 end,
-                max = function(_, submenu)
-                    return submenu.world:GetStateMoistureCeil()
+                max = function()
+                    return SDK.World.GetState("moistureceil")
                 end,
                 step = 25,
-                on_get_fn = function(_, submenu)
-                    return math.floor(submenu.world:GetStateMoisture())
+                on_get_fn = function()
+                    return math.floor(SDK.World.GetState("moisture"))
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:DeltaMoisture(math.floor(value)
-                        - math.floor(submenu.world:GetStateMoisture()))
+                        - math.floor(SDK.World.GetState("moisture")))
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -90,8 +90,8 @@ return {
                 min = 0,
                 max = 100,
                 step = 10,
-                on_get_fn = function(_, submenu)
-                    return math.floor(submenu.world:GetStateSnowLevel() * 100)
+                on_get_fn = function()
+                    return math.floor(SDK.World.GetState("snowlevel") * 100)
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:SetSnowLevel(value / 100)
@@ -105,12 +105,12 @@ return {
                 label = "Wetness",
                 min = 0,
                 max = 100,
-                on_get_fn = function(_, submenu)
-                    return math.floor(submenu.world:GetStateWetness())
+                on_get_fn = function()
+                    return math.floor(SDK.World.GetState("wetness"))
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:DeltaWetness(math.floor(value)
-                        - math.floor(submenu.world:GetStateWetness()))
+                        - math.floor(SDK.World.GetState("wetness")))
                     submenu:UpdateScreen(nil, true)
                 end,
             },

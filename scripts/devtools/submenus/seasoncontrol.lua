@@ -13,6 +13,8 @@
 ----
 require "devtools/constants"
 
+local SDK = require "devtools/sdk/sdk/sdk"
+
 local _SEASONS = {
     { name = "Autumn", value = "autumn", default = TUNING.AUTUMN_LENGTH },
     { name = "Spring", value = "spring", default = TUNING.SPRING_LENGTH },
@@ -31,7 +33,7 @@ return {
             options = {
                 label = "Advance Season",
                 on_accept_fn = function(_, submenu)
-                    for _ = 1, submenu.world:GetStateRemainingDaysInSeason() do
+                    for _ = 1, SDK.World.GetState("remainingdaysinseason") do
                         submenu.console:PushWorldEvent("ms_advanceseason")
                     end
                     submenu:UpdateScreen(nil, true)
@@ -43,7 +45,7 @@ return {
             options = {
                 label = "Retreat Season",
                 on_accept_fn = function(_, submenu)
-                    for _ = 1, submenu.world:GetStateRemainingDaysInSeason() do
+                    for _ = 1, SDK.World.GetState("remainingdaysinseason") do
                         submenu.console:PushWorldEvent("ms_retreatseason")
                     end
                     submenu:UpdateScreen(nil, true)
@@ -61,8 +63,8 @@ return {
                     { name = "Summer", value = "summer" },
                     { name = "Winter", value = "winter" },
                 },
-                on_get_fn = function(_, submenu)
-                    return submenu.world:GetStateSeason()
+                on_get_fn = function()
+                    return SDK.World.GetState("season")
                 end,
                 on_set_fn = function(_, submenu, value)
                     submenu.console:SetSeason(value)

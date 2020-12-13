@@ -26,6 +26,7 @@ describe("WorldData", function()
     before_each(function()
         -- global
         _G.GetTime = spy.new(ReturnValueFn(0))
+        _G.TheWorld = MockWorldInst()
 
         -- sdk
         _G.SDK.World.GetMoistureFloor = ReturnValueFn(250)
@@ -70,11 +71,11 @@ describe("WorldData", function()
 
             describe("when one of the required values is missing", function()
                 it("shouldn't push the corresponding line to the world lines stack", function()
-                    worlddata.worlddevtools.GetStateMoisture = ReturnValueFn(nil)
+                    _G.TheWorld.state.moisture = nil
                     worlddata:PushWorldMoistureLine()
                     assert.is_nil(worlddata.stack[1])
 
-                    worlddata.worlddevtools.GetStateMoistureCeil = ReturnValueFn(nil)
+                    _G.TheWorld.state.moistureceil = nil
                     worlddata:PushWorldMoistureLine()
                     assert.is_nil(worlddata.stack[1])
 
@@ -200,8 +201,7 @@ describe("WorldData", function()
 
             describe("when the precipitation rate is available", function()
                 before_each(function()
-                    worlddevtools.GetStatePrecipitationRate = ReturnValueFn(1.5)
-                    worlddata.worlddevtools = worlddevtools
+                    _G.TheWorld.state.precipitationrate = 1.5
                 end)
 
                 describe("and the peak precipitation rate is also available", function()
@@ -234,6 +234,7 @@ describe("WorldData", function()
                 end)
 
                 it("shouldn't push the world line", function()
+                    assert.is_equal(0, #worlddata.stack)
                     worlddata:PushWorldPrecipitationLines()
                     assert.is_equal(1, #worlddata.stack)
                 end)
@@ -265,8 +266,7 @@ describe("WorldData", function()
 
                     describe("and it is snowing", function()
                         before_each(function()
-                            worlddevtools.GetStateIsSnowing = ReturnValueFn(true)
-                            worlddata.worlddevtools = worlddevtools
+                            _G.TheWorld.state.issnowing = true
                         end)
 
                         it("should push the world line", function()
@@ -277,8 +277,7 @@ describe("WorldData", function()
 
                     describe("and it is not snowing", function()
                         before_each(function()
-                            worlddevtools.GetStateIsSnowing = ReturnValueFn(false)
-                            worlddata.worlddevtools = worlddevtools
+                            _G.TheWorld.state.issnowing = false
                         end)
 
                         it("should push the world line", function()
@@ -295,8 +294,7 @@ describe("WorldData", function()
 
                     describe("and it is snowing", function()
                         before_each(function()
-                            worlddevtools.GetStateIsSnowing = ReturnValueFn(true)
-                            worlddata.worlddevtools = worlddevtools
+                            _G.TheWorld.state.issnowing = true
                         end)
 
                         it("should push the world line", function()
@@ -307,8 +305,7 @@ describe("WorldData", function()
 
                     describe("and it is not snowing", function()
                         before_each(function()
-                            worlddevtools.GetStateIsSnowing = ReturnValueFn(false)
-                            worlddata.worlddevtools = worlddevtools
+                            _G.TheWorld.state.issnowing = false
                         end)
 
                         it("should push the world line", function()
@@ -321,9 +318,8 @@ describe("WorldData", function()
 
             describe("when it is snowing", function()
                 before_each(function()
-                    worlddevtools.GetStateIsSnowing = ReturnValueFn(true)
-                    worlddevtools.GetStatePrecipitationRate = ReturnValueFn(.5)
-                    worlddata.worlddevtools = worlddevtools
+                    _G.TheWorld.state.issnowing = true
+                    _G.TheWorld.state.precipitationrate = .5
                 end)
 
                 it("should push the world line", function()
@@ -334,8 +330,8 @@ describe("WorldData", function()
 
             describe("when it is not snowing", function()
                 before_each(function()
-                    worlddevtools.GetStateIsSnowing = ReturnValueFn(false)
-                    worlddata.worlddevtools = worlddevtools
+                    _G.TheWorld.state.issnowing = false
+                    _G.TheWorld.state.precipitationrate = 0
                 end)
 
                 it("should push the world line", function()

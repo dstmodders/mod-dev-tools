@@ -137,7 +137,7 @@ end
 -- @tparam string phase Phase
 -- @treturn number
 function WorldDevTools:GetPhase()
-    return self:IsCave() and self:GetStateCavePhase() or self:GetStatePhase()
+    return self:IsCave() and SDK.World.GetState("cavephase") or SDK.World.GetState("phase")
 end
 
 --- Gets next phase.
@@ -228,87 +228,6 @@ function WorldDevTools:SelectEntityUnderMouse()
     end
 
     return false
-end
-
---- State
--- @section state
-
---- Gets `TheWorld` state.
--- @tparam[opt] string name State name
--- @treturn[1] table State table, when no name passed
--- @treturn[2] string State value, when the name is passed
-function WorldDevTools:GetState(name)
-    local state = self.inst and self.inst.state
-    if state and name ~= nil then
-        return state and state[name]
-    end
-    return state
-end
-
---- Gets `cavephase` state.
--- @treturn string
-function WorldDevTools:GetStateCavePhase()
-    return self:GetState("cavephase")
-end
-
---- Gets `issnowing` state.
--- @treturn boolean
-function WorldDevTools:GetStateIsSnowing()
-    return self:GetState("issnowing")
-end
-
---- Gets `moisture` state.
--- @treturn number
-function WorldDevTools:GetStateMoisture()
-    return self:GetState("moisture")
-end
-
---- Gets `moistureceil` state.
--- @treturn number
-function WorldDevTools:GetStateMoistureCeil()
-    return self:GetState("moistureceil")
-end
-
---- Gets `phase` state.
--- @treturn string
-function WorldDevTools:GetStatePhase()
-    return self:GetState("phase")
-end
-
---- Gets `precipitationrate` state.
--- @treturn number
-function WorldDevTools:GetStatePrecipitationRate()
-    return self:GetState("precipitationrate")
-end
-
---- Gets `remainingdaysinseason` state.
--- @treturn number
-function WorldDevTools:GetStateRemainingDaysInSeason()
-    return self:GetState("remainingdaysinseason")
-end
-
---- Gets `season` state.
--- @treturn string
-function WorldDevTools:GetStateSeason()
-    return self:GetState("season")
-end
-
---- Gets `snowlevel` state.
--- @treturn number
-function WorldDevTools:GetStateSnowLevel()
-    return self:GetState("snowlevel")
-end
-
---- Gets `temperature` state.
--- @treturn number
-function WorldDevTools:GetStateTemperature()
-    return self:GetState("temperature")
-end
-
---- Gets `wetness` state.
--- @treturn number
-function WorldDevTools:GetStateWetness()
-    return self:GetState("wetness")
 end
 
 --- Map
@@ -406,8 +325,8 @@ function WorldDevTools:StartPrecipitationThread()
     local frames
 
     self.precipitation_thread = SDK.Thread.Start(_PRECIPITATION_THREAD_ID, function()
-        moisture = self:GetStateMoisture()
-        moisture_ceil = self:GetStateMoistureCeil()
+        moisture = SDK.World.GetState("moisture")
+        moisture_ceil = SDK.World.GetState("moistureceil")
         moisture_floor = SDK.World.GetMoistureFloor() or 0
 
         current_ceil = math.abs(moisture_ceil - moisture)
@@ -468,20 +387,6 @@ function WorldDevTools:DoInit()
         -- selection
         "GetSelectedEntity",
         "SelectEntityUnderMouse",
-
-        -- state
-        "GetState",
-        "GetStateCavePhase",
-        "GetStateIsSnowing",
-        "GetStateMoisture",
-        "GetStateMoistureCeil",
-        "GetStatePhase",
-        "GetStatePrecipitationRate",
-        "GetStateRemainingDaysInSeason",
-        "GetStateSeason",
-        "GetStateSnowLevel",
-        "GetStateTemperature",
-        "GetStateWetness",
 
         -- map
         "IsMapClearing",

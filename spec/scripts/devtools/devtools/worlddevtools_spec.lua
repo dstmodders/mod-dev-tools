@@ -125,20 +125,6 @@ describe("WorldDevTools", function()
                 "GetSelectedEntity",
                 "SelectEntityUnderMouse",
 
-                -- state
-                "GetState",
-                "GetStateCavePhase",
-                "GetStateIsSnowing",
-                "GetStateMoisture",
-                "GetStateMoistureCeil",
-                "GetStatePhase",
-                "GetStatePrecipitationRate",
-                "GetStateRemainingDaysInSeason",
-                "GetStateSeason",
-                "GetStateSnowLevel",
-                "GetStateTemperature",
-                "GetStateWetness",
-
                 -- map
                 "IsMapClearing",
                 "IsMapFogOfWar",
@@ -368,54 +354,6 @@ describe("WorldDevTools", function()
             end)
         end)
 
-        describe("GetPhase", function()
-            local GetStatePhase, GetStateCavePhase
-
-            before_each(function()
-                GetStatePhase = spy.on(worlddevtools, "GetStatePhase")
-                GetStateCavePhase = spy.on(worlddevtools, "GetStateCavePhase")
-                worlddevtools.IsCave = ReturnValueFn(true)
-            end)
-
-            describe("when in the cave", function()
-                before_each(function()
-                    worlddevtools.IsCave = ReturnValueFn(true)
-                end)
-
-                it("should call the GetStateCavePhase()", function()
-                    assert.spy(GetStateCavePhase).was_not_called()
-                    worlddevtools:GetPhase()
-                    assert.spy(GetStateCavePhase).was_called(1)
-                    assert.spy(GetStateCavePhase).was_called_with(match.is_ref(worlddevtools))
-                end)
-
-                it("shouldn't call the GetStatePhase()", function()
-                    assert.spy(GetStatePhase).was_not_called()
-                    worlddevtools:GetPhase()
-                    assert.spy(GetStatePhase).was_not_called()
-                end)
-            end)
-
-            describe("when in the cave", function()
-                before_each(function()
-                    worlddevtools.IsCave = ReturnValueFn(false)
-                end)
-
-                it("should call the GetStatePhase()", function()
-                    assert.spy(GetStatePhase).was_not_called()
-                    worlddevtools:GetPhase()
-                    assert.spy(GetStatePhase).was_called(1)
-                    assert.spy(GetStatePhase).was_called_with(match.is_ref(worlddevtools))
-                end)
-
-                it("shouldn't call the GetStateCavePhase()", function()
-                    assert.spy(GetStateCavePhase).was_not_called()
-                    worlddevtools:GetPhase()
-                    assert.spy(GetStateCavePhase).was_not_called()
-                end)
-            end)
-        end)
-
         describe("GetNextPhase", function()
             describe("when the phase is passed", function()
                 it("should return the next phase", function()
@@ -529,50 +467,6 @@ describe("WorldDevTools", function()
                     assert.is_false(worlddevtools:SelectEntityUnderMouse())
                 end)
             end)
-        end)
-    end)
-
-    describe("state", function()
-        describe("should have the getter", function()
-            it("GetState", function()
-                assert.is_equal(worlddevtools.inst.state, worlddevtools:GetState())
-                assert.is_equal(worlddevtools.inst.state.season, worlddevtools:GetState("season"))
-
-                worlddevtools.inst.state.season = nil
-                assert.is_nil(worlddevtools:GetState("season"))
-                worlddevtools.inst.state = nil
-                assert.is_nil(worlddevtools:GetState("season"))
-                worlddevtools.inst = nil
-                assert.is_nil(worlddevtools:GetState("season"))
-            end)
-
-            local getters = {
-                cavephase = "GetStateCavePhase",
-                issnowing = "GetStateIsSnowing",
-                moisture = "GetStateMoisture",
-                moistureceil = "GetStateMoistureCeil",
-                phase = "GetStatePhase",
-                precipitationrate = "GetStatePrecipitationRate",
-                remainingdaysinseason = "GetStateRemainingDaysInSeason",
-                season = "GetStateSeason",
-                snowlevel = "GetStateSnowLevel",
-                temperature = "GetStateTemperature",
-                wetness = "GetStateWetness",
-            }
-
-            for field, getter in pairs(getters) do
-                it(getter, function()
-                    local fn = worlddevtools[getter]
-                    assert.is_equal(worlddevtools.inst.state[field], fn(worlddevtools))
-
-                    worlddevtools.inst.state[field] = nil
-                    assert.is_nil(fn(worlddevtools))
-                    worlddevtools.inst.state = nil
-                    assert.is_nil(fn(worlddevtools))
-                    worlddevtools.inst = nil
-                    assert.is_nil(fn(worlddevtools))
-                end)
-            end
         end)
     end)
 
