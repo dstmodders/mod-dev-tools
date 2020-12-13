@@ -65,6 +65,8 @@ SDK.Load({
     "World",
 })
 
+_G.SDK = SDK
+
 --
 -- General
 --
@@ -500,10 +502,7 @@ function MockWorldDevTools()
     return require("busted").mock({
         inst = MockWorldInst(),
         name = "WorldDevTools",
-        GetMoistureFloor = ReturnValueFn(250),
-        GetMoistureRate = ReturnValueFn(1.5),
         GetNextPhase = ReturnValueFn("dusk"),
-        GetPeakPrecipitationRate = ReturnValueFn(2),
         GetPhase = ReturnValueFn("day"),
         GetPrecipitationEnds = ReturnValueFn(90),
         GetPrecipitationStarts = ReturnValueFn(30),
@@ -521,7 +520,6 @@ function MockWorldDevTools()
         GetTimeUntilPhase = ReturnValueFn(60),
         GetWetnessRate = ReturnValueFn(1.5),
         IsCave = ReturnValueFn(false),
-        IsPrecipitation = ReturnValueFn(true),
     })
 end
 

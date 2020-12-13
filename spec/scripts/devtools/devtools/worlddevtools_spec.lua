@@ -147,14 +147,8 @@ describe("WorldDevTools", function()
 
                 -- weather
                 "GetWeatherComponent",
-                "GetMoistureFloor",
-                "GetMoistureRate",
-                "GetPeakPrecipitationRate",
-                "GetWetnessRate",
-                --"WeatherOnUpdate",
                 "GetPrecipitationStarts",
                 "GetPrecipitationEnds",
-                "IsPrecipitation",
                 "StartPrecipitationThread",
                 "ClearPrecipitationThread",
             }
@@ -601,10 +595,6 @@ describe("WorldDevTools", function()
         describe("should have the", function()
             describe("getter", function()
                 local getters = {
-                    moisture_floor = "GetMoistureFloor",
-                    moisture_rate = "GetMoistureRate",
-                    peak_precipitation_rate = "GetPeakPrecipitationRate",
-                    wetness_rate = "GetWetnessRate",
                     precipitation_starts = "GetPrecipitationStarts",
                     precipitation_ends = "GetPrecipitationEnds",
                 }

@@ -261,22 +261,6 @@ AddComponentPostInit("playercontroller", function(playercontroller, player)
     DebugInit("PlayerControllerPostInit")
 end)
 
---- Weather
--- @section weather
-
-local function WeatherPostInit(weather)
-    local OldOnUpdate = weather.OnUpdate
-    weather.OnUpdate = function(...)
-        OldOnUpdate(...)
-        if devtools.world then
-            devtools.world:WeatherOnUpdate(...)
-        end
-    end
-end
-
-AddComponentPostInit("caveweather", WeatherPostInit)
-AddComponentPostInit("weather", WeatherPostInit)
-
 --- Prefabs
 -- @section prefabs
 

@@ -13,6 +13,8 @@
 ----
 require "devtools/constants"
 
+local SDK = require "devtools/sdk/sdk/sdk"
+
 return {
     label = "Weather Control",
     name = "WeatherControlSubmenu",
@@ -23,11 +25,11 @@ return {
             type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
             options = {
                 label = "Toggle Force Precipitation",
-                on_get_fn = function(_, submenu)
-                    return submenu.world:IsPrecipitation()
+                on_get_fn = function()
+                    return SDK.World.IsPrecipitation()
                 end,
                 on_set_fn = function(_, submenu, value)
-                    if value ~= submenu.world:IsPrecipitation() then
+                    if value ~= SDK.World.IsPrecipitation() then
                         submenu.console:ForcePrecipitation(value)
                         submenu:UpdateScreen(nil, true)
                     end
@@ -63,8 +65,8 @@ return {
             on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_FOREST,
             options = {
                 label = "Moisture",
-                min = function(_, submenu)
-                    return submenu.world:GetMoistureFloor()
+                min = function()
+                    return SDK.World.GetMoistureFloor()
                 end,
                 max = function(_, submenu)
                     return submenu.world:GetStateMoistureCeil()

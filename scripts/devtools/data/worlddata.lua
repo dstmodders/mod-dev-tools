@@ -65,8 +65,8 @@ function WorldData:PushWorldMoistureLine()
     local worlddevtools = self.worlddevtools
     local moisture = worlddevtools:GetStateMoisture()
     local moisture_ceil = worlddevtools:GetStateMoistureCeil()
-    local moisture_rate = worlddevtools:GetMoistureRate()
-    local moisture_floor = worlddevtools:GetMoistureFloor()
+    local moisture_rate = SDK.World.GetMoistureRate()
+    local moisture_floor = SDK.World.GetMoistureFloor()
 
     if moisture ~= nil and moisture_ceil ~= nil and moisture_rate ~= nil then
         local moisture_string = SDK.Utils.String.ValueFloat(moisture)
@@ -75,7 +75,7 @@ function WorldData:PushWorldMoistureLine()
             moisture_string = string.format(
                 "%0.2f (%s%0.2f)",
                 moisture,
-                worlddevtools:IsPrecipitation() and "-" or "+",
+                SDK.World.IsPrecipitation() and "-" or "+",
                 math.abs(moisture_rate)
             )
         end
@@ -111,7 +111,7 @@ function WorldData:PushWorldPrecipitationLines()
 
     local precipitation_rate = worlddevtools:GetStatePrecipitationRate()
     if precipitation_rate and precipitation_rate > 0 then
-        local peakprecipitationrate = worlddevtools:GetPeakPrecipitationRate()
+        local peakprecipitationrate = SDK.World.GetPeakPrecipitationRate()
         self:PushLine("Precipitation Rate", peakprecipitationrate ~= nil
             and { precipitation_rate, peakprecipitationrate }
             or SDK.Utils.String.ValueFloat(precipitation_rate))
@@ -123,7 +123,7 @@ function WorldData:PushWorldPrecipitationLines()
 
     if precipitation_starts and precipitation_ends then
         local label = is_snowing and "Snow" or "Rain"
-        if not worlddevtools:IsPrecipitation() then
+        if not SDK.World.IsPrecipitation() then
             self:PushLine(
                 label .. " Starts",
                 "~" .. SDK.Utils.String.ValueClock(precipitation_starts)
@@ -153,7 +153,7 @@ end
 function WorldData:PushWorldWetnessLine()
     local worlddevtools = self.worlddevtools
     local wetness = worlddevtools:GetStateWetness()
-    local wetness_rate = worlddevtools:GetWetnessRate()
+    local wetness_rate = SDK.World.GetWetnessRate()
 
     if wetness and wetness > 0 then
         local value = SDK.Utils.String.ValuePercent(wetness)

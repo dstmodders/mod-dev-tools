@@ -57,13 +57,9 @@ local WorldDevTools = Class(DevTools, function(self, inst, devtools)
     self.is_map_fog_of_war = true
 
     -- weather
-    self.moisture_floor = nil
-    self.moisture_rate = nil
-    self.peak_precipitation_rate = nil
     self.precipitation_ends = nil
     self.precipitation_starts = nil
     self.precipitation_thread = nil
-    self.wetness_rate = nil
 
     if inst then
         self:StartPrecipitationThread()
@@ -385,30 +381,6 @@ function WorldDevTools:GetWeatherComponent()
     end
 end
 
---- Gets moisture floor.
--- @treturn number
-function WorldDevTools:GetMoistureFloor()
-    return self.moisture_floor
-end
-
---- Gets moisture rate.
--- @treturn number
-function WorldDevTools:GetMoistureRate()
-    return self.moisture_rate
-end
-
---- Gets peak precipitation rate.
--- @treturn number
-function WorldDevTools:GetPeakPrecipitationRate()
-    return self.peak_precipitation_rate
-end
-
---- Gets moisture floor.
--- @treturn number
-function WorldDevTools:GetWetnessRate()
-    return self.wetness_rate
-end
-
 --- Gets precipitation start time.
 -- @treturn number
 function WorldDevTools:GetPrecipitationStarts()
@@ -419,15 +391,6 @@ end
 -- @treturn number
 function WorldDevTools:GetPrecipitationEnds()
     return self.precipitation_ends
-end
-
---- Gets precipitation state.
--- @treturn boolean
-function WorldDevTools:IsPrecipitation()
-    return self.inst
-        and self.inst.state
-        and self.inst.state.precipitation ~= "none"
-        or self.inst.state.moisture >= self.inst.state.moistureceil
 end
 
 --- Starts the precipitation thread.
@@ -445,7 +408,7 @@ function WorldDevTools:StartPrecipitationThread()
     self.precipitation_thread = SDK.Thread.Start(_PRECIPITATION_THREAD_ID, function()
         moisture = self:GetStateMoisture()
         moisture_ceil = self:GetStateMoistureCeil()
-        moisture_floor = self:GetMoistureFloor() or 0
+        moisture_floor = SDK.World.GetMoistureFloor() or 0
 
         current_ceil = math.abs(moisture_ceil - moisture)
         current_floor = math.abs(moisture_floor - moisture)
@@ -480,50 +443,6 @@ end
 -- Stops the thread started earlier by the `StartPrecipitationThread`.
 function WorldDevTools:ClearPrecipitationThread()
     SDK.Thread.Clear(self.precipitation_thread)
-end
-
---- Integrates with `Weather:OnUpdate()`.
---
--- Integrates world functionality into an existing `Weather:OnUpdate()`.
---
--- @tparam Weather|CaveWeather weather
-function WorldDevTools:WeatherOnUpdate(weather)
-    local _moisturefloor = SDK.DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturefloor")
-    local _moisturerate = SDK.DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturerate")
-    local _temperature = SDK.DebugUpvalue.GetUpvalue(weather.GetDebugString, "_temperature")
-
-    local _peakprecipitationrate = SDK.DebugUpvalue.GetUpvalue(
-        weather.GetDebugString,
-        "_peakprecipitationrate"
-    )
-
-    local CalculatePrecipitationRate = SDK.DebugUpvalue.GetUpvalue(
-        weather.GetDebugString,
-        "CalculatePrecipitationRate"
-    )
-
-    local CalculateWetnessRate = SDK.DebugUpvalue.GetUpvalue(
-        weather.GetDebugString,
-        "CalculateWetnessRate"
-    )
-
-    local precipitation_rate, wetness_rate
-
-    if CalculatePrecipitationRate and type(CalculatePrecipitationRate) == "function" then
-        precipitation_rate = CalculatePrecipitationRate()
-    end
-
-    if CalculatePrecipitationRate and type(CalculatePrecipitationRate) == "function"
-        and _temperature and type(_temperature) == "number"
-    then
-        wetness_rate = CalculateWetnessRate(_temperature, precipitation_rate)
-    end
-
-    self.wetness_rate = wetness_rate
-    self.moisture_floor = type(_moisturefloor) == "userdata" and _moisturefloor:value()
-    self.moisture_rate = type(_moisturerate) == "userdata" and _moisturerate:value()
-    self.peak_precipitation_rate = type(_peakprecipitationrate) == "userdata"
-        and _peakprecipitationrate:value()
 end
 
 --- Lifecycle
@@ -572,14 +491,8 @@ function WorldDevTools:DoInit()
 
         -- weather
         "GetWeatherComponent",
-        "GetMoistureFloor",
-        "GetMoistureRate",
-        "GetPeakPrecipitationRate",
-        "GetWetnessRate",
-        --"WeatherOnUpdate",
         "GetPrecipitationStarts",
         "GetPrecipitationEnds",
-        "IsPrecipitation",
         "StartPrecipitationThread",
         "ClearPrecipitationThread",
     })
