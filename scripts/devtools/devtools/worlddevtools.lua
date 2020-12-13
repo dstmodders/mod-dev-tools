@@ -117,43 +117,6 @@ function WorldDevTools:GetSeed()
     return self:GetMeta("seed")
 end
 
---- Gets the time until the phase.
---
--- This is a convenience method returning:
---
---    TheWorld.net.components.clock:GetTimeUntilPhase(phase)
---
--- @tparam string phase
--- @treturn number
-function WorldDevTools:GetTimeUntilPhase(phase)
-    return self.inst
-        and self.inst.net
-        and self.inst.net.components
-        and self.inst.net.components.clock
-        and self.inst.net.components.clock:GetTimeUntilPhase(phase)
-end
-
---- Gets phase.
--- @tparam string phase Phase
--- @treturn number
-function WorldDevTools:GetPhase()
-    return self:IsCave() and SDK.World.GetState("cavephase") or SDK.World.GetState("phase")
-end
-
---- Gets next phase.
---
--- Returns the value based on the following logic:
---
---   - day => dusk
---   - dusk => night
---   - night => day
---
--- @tparam string phase Current phase
--- @treturn string Next phase
-function WorldDevTools:GetNextPhase(phase) -- luacheck: only
-    return SDK.Utils.Table.NextValue({ "day", "dusk", "night" }, phase)
-end
-
 --- Selection
 -- @section selection
 
@@ -380,9 +343,6 @@ function WorldDevTools:DoInit()
         "IsCave",
         "GetMeta",
         "GetSeed",
-        "GetTimeUntilPhase",
-        "GetPhase",
-        "GetNextPhase",
 
         -- selection
         "GetSelectedEntity",

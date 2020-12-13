@@ -117,9 +117,6 @@ describe("WorldDevTools", function()
                 "IsCave",
                 "GetMeta",
                 "GetSeed",
-                "GetTimeUntilPhase",
-                "GetPhase",
-                "GetNextPhase",
 
                 -- selection
                 "GetSelectedEntity",
@@ -216,34 +213,6 @@ describe("WorldDevTools", function()
                     AssertChainNil(function()
                         assert.is_nil(worlddevtools:GetWeatherComponent())
                     end, worlddevtools, "inst", "net", "components")
-                end)
-            end)
-        end)
-
-        describe("GetTimeUntilPhase", function()
-            local clock, GetTimeUntilPhase
-
-            before_each(function()
-                clock = worlddevtools.inst.net.components.clock
-                GetTimeUntilPhase = clock.GetTimeUntilPhase
-            end)
-
-            it("should call the Clock:GetTimeUntilPhase()", function()
-                assert.spy(GetTimeUntilPhase).was_not_called()
-                worlddevtools:GetTimeUntilPhase("day")
-                assert.spy(GetTimeUntilPhase).was_called(1)
-                assert.spy(GetTimeUntilPhase).was_called_with(match.is_ref(clock), "day")
-            end)
-
-            it("should return Clock:GetTimeUntilPhase() value", function()
-                assert.is_equal(10, worlddevtools:GetTimeUntilPhase("day"))
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(worlddevtools:GetTimeUntilPhase())
-                    end, worlddevtools, "inst", "net", "components", "clock")
                 end)
             end)
         end)
@@ -350,22 +319,6 @@ describe("WorldDevTools", function()
                     AssertChainNil(function()
                         assert.is_nil(worlddevtools:IsCave())
                     end, worlddevtools, "inst")
-                end)
-            end)
-        end)
-
-        describe("GetNextPhase", function()
-            describe("when the phase is passed", function()
-                it("should return the next phase", function()
-                    assert.is_equal("dusk", worlddevtools:GetNextPhase("day"))
-                    assert.is_equal("night", worlddevtools:GetNextPhase("dusk"))
-                    assert.is_equal("day", worlddevtools:GetNextPhase("night"))
-                end)
-            end)
-
-            describe("when the phase is not passed", function()
-                it("should return nil", function()
-                    assert.is_nil(worlddevtools:GetNextPhase())
                 end)
             end)
         end)

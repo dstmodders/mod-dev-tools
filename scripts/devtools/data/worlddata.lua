@@ -89,12 +89,11 @@ end
 
 --- Pushes world phase line.
 function WorldData:PushWorldPhaseLine()
-    local worlddevtools = self.worlddevtools
-    local phase = worlddevtools:GetPhase()
+    local phase = SDK.World.GetPhase()
     if phase ~= nil then
-        local next_phase = worlddevtools:GetNextPhase(phase)
+        local next_phase = SDK.World.GetPhaseNext(phase)
         if next_phase then
-            local seconds = worlddevtools:GetTimeUntilPhase(next_phase)
+            local seconds = SDK.World.GetTimeUntilPhase(next_phase)
             if seconds ~= nil then
                 self:PushLine("Phase", { phase, SDK.Utils.String.ValueClock(seconds, true) })
             else

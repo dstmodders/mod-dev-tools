@@ -502,12 +502,9 @@ function MockWorldDevTools()
     return require("busted").mock({
         inst = MockWorldInst(),
         name = "WorldDevTools",
-        GetNextPhase = ReturnValueFn("dusk"),
-        GetPhase = ReturnValueFn("day"),
         GetPrecipitationEnds = ReturnValueFn(90),
         GetPrecipitationStarts = ReturnValueFn(30),
         GetSeed = ReturnValueFn("1234567890"),
-        GetTimeUntilPhase = ReturnValueFn(60),
         IsCave = ReturnValueFn(false),
     })
 end
@@ -523,11 +520,6 @@ function MockWorldInst()
             components = {
                 caveweather = {
                     name = "caveweather",
-                },
-                clock = {
-                    GetTimeUntilPhase = function()
-                        return 10
-                    end,
                 },
                 weather = {
                     name = "weather",

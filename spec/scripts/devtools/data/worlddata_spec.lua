@@ -150,11 +150,11 @@ describe("WorldData", function()
 
             describe("when one of the required values is missing", function()
                 it("shouldn't push the corresponding line to the world lines stack", function()
-                    worlddata.worlddevtools.GetPhase = ReturnValueFn(nil)
+                    _G.SDK.World.GetPhase = ReturnValueFn(nil)
                     worlddata:PushWorldPhaseLine()
                     assert.is_nil(worlddata.stack[1])
 
-                    worlddata.worlddevtools.GetNextPhase = ReturnValueFn(nil)
+                    _G.SDK.World.GetPhaseNext = ReturnValueFn(nil)
                     worlddata:PushWorldPhaseLine()
                     assert.is_nil(worlddata.stack[1])
                 end)
@@ -163,12 +163,10 @@ describe("WorldData", function()
             describe(
                 "when the WorldDevTools:GetTimeUntilPhase() returns the valid value",
                 function()
-                    local GetTimeUntilPhase
-
                     before_each(function()
-                        GetTimeUntilPhase = ReturnValueFn(60)
-                        worlddevtools.GetTimeUntilPhase = GetTimeUntilPhase
-                        worlddata.worlddevtools = worlddevtools
+                        _G.SDK.World.GetPhase = ReturnValueFn("day")
+                        _G.SDK.World.GetPhaseNext = ReturnValueFn("dusk")
+                        _G.SDK.World.GetTimeUntilPhase = ReturnValueFn(60)
                     end)
 
                     it("should push the world line", function()
@@ -179,12 +177,10 @@ describe("WorldData", function()
             )
 
             describe("when the WorldDevTools:GetTimeUntilPhase() returns nil", function()
-                local GetTimeUntilPhase
-
                 before_each(function()
-                    GetTimeUntilPhase = ReturnValueFn(nil)
-                    worlddevtools.GetTimeUntilPhase = GetTimeUntilPhase
-                    worlddata.worlddevtools = worlddevtools
+                    _G.SDK.World.GetPhase = ReturnValueFn("day")
+                    _G.SDK.World.GetPhaseNext = ReturnValueFn("dusk")
+                    _G.SDK.World.GetTimeUntilPhase = ReturnValueFn(nil)
                 end)
 
                 it("should push the world line", function()
