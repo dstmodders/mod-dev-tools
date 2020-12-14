@@ -110,7 +110,7 @@ function SelectedData:PushPlayerData()
         self:PushLine("AnimState", { bank, build, anim })
     end
 
-    if playerdevtools:IsOwner(player) or playerdevtools:IsReal(player) == false then
+    if SDK.Player.IsOwner(player) or playerdevtools:IsReal(player) == false then
         if devtools.inst == player or (devtools.ismastersim or SDK.Player.IsAdmin()) then
             local health = SDK.Utils.String.ValuePercent(
                 playerdevtools:GetHealthPercent(player) or 0

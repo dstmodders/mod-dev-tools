@@ -171,14 +171,6 @@ function PlayerDevTools:IsGhost(player)
     return player and player.HasTag and player:HasTag("playerghost")
 end
 
---- Checks if the player is the mod owner.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsOwner(player)
-    player = player ~= nil and player or self.inst
-    return player and self.inst and (player == self.inst)
-end
-
 --- Checks if the player is platform jumping.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
@@ -618,7 +610,6 @@ function PlayerDevTools:DoInit()
         --"SetIsMoveButtonDown",
         "IsSinking",
         "IsGhost",
-        "IsOwner",
         "IsPlatformJumping",
         "IsReal",
         "IsRunning",

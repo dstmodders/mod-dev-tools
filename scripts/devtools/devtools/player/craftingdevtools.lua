@@ -358,7 +358,7 @@ end
 function CraftingDevTools:ToggleFreeCrafting(player)
     player = player == nil and self.playerdevtools:GetSelected() or player
     if player and self:IsFreeCrafting(player) ~= nil then
-        if self.playerdevtools:IsOwner(player) then
+        if SDK.Player.IsOwner(player) then
             if not self:IsFreeCrafting(player) then
                 self:UnlockCharacterRecipes()
             else

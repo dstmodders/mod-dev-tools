@@ -204,7 +204,6 @@ describe("PlayerDevTools", function()
                 --"SetIsMoveButtonDown",
                 "IsSinking",
                 "IsGhost",
-                "IsOwner",
                 "IsPlatformJumping",
                 "IsReal",
                 "IsRunning",
@@ -391,37 +390,6 @@ describe("PlayerDevTools", function()
             describe("when some chain fields are missing", function()
                 it("should return nil", function()
                     EachPlayer(AssertNilChain)
-                end)
-            end)
-        end)
-
-        describe("IsOwner", function()
-            describe("when the player is an owner", function()
-                it("should return true", function()
-                    EachPlayer(function(player)
-                        playerdevtools.inst = player
-                        assert.is_true(playerdevtools:IsOwner(player), player:GetDisplayName())
-                    end)
-                end)
-            end)
-
-            describe("when the player is not an owner", function()
-                it("should return true", function()
-                    EachPlayer(function(player)
-                        assert.is_false(playerdevtools:IsOwner(player), player:GetDisplayName())
-                    end, { inst })
-                end)
-            end)
-
-            describe("when the PlayerDevTools.inst is missing", function()
-                before_each(function()
-                    playerdevtools.inst = nil
-                end)
-
-                it("should return nil", function()
-                    EachPlayer(function(player)
-                        assert.is_nil(playerdevtools:IsOwner(player))
-                    end)
                 end)
             end)
         end)
