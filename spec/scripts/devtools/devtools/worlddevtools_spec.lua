@@ -114,7 +114,6 @@ describe("WorldDevTools", function()
                 "IsMasterSim",
                 "GetWorld",
                 "GetWorldNet",
-                "GetMeta",
 
                 -- selection
                 "GetSelectedEntity",
@@ -154,31 +153,6 @@ describe("WorldDevTools", function()
                     AssertChainNil(function()
                         assert.is_nil(worlddevtools:GetWorldNet())
                     end, worlddevtools, "inst", "net")
-                end)
-            end)
-        end)
-
-        describe("GetMeta", function()
-            describe("when no name is passed", function()
-                it("should return TheWorld.meta", function()
-                    assert.is_equal(worlddevtools.inst.meta, worlddevtools:GetMeta())
-                end)
-            end)
-
-            describe("when the name is passed", function()
-                it("should return TheWorld.meta field value", function()
-                    assert.is_equal(
-                        worlddevtools.inst.meta.saveversion,
-                        worlddevtools:GetMeta("saveversion")
-                    )
-                end)
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(worlddevtools:GetMeta("saveversion"))
-                    end, worlddevtools, "inst", "meta", "saveversion")
                 end)
             end)
         end)

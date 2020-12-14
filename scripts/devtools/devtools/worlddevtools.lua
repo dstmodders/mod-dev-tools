@@ -93,18 +93,6 @@ function WorldDevTools:GetWorldNet()
     return self.inst and self.inst.net
 end
 
---- Gets `TheWorld` meta.
--- @tparam[opt] string name Meta name
--- @treturn[1] table Meta table, when no name passed
--- @treturn[2] string Meta value, when the name is passed
-function WorldDevTools:GetMeta(name)
-    local meta = self.inst and self.inst.meta
-    if meta and name ~= nil then
-        return meta and meta[name]
-    end
-    return meta
-end
-
 --- Selection
 -- @section selection
 
@@ -307,7 +295,6 @@ function WorldDevTools:DoInit()
         "IsMasterSim",
         "GetWorld",
         "GetWorldNet",
-        "GetMeta",
 
         -- selection
         "GetSelectedEntity",
