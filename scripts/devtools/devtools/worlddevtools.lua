@@ -105,12 +105,6 @@ function WorldDevTools:GetMeta(name)
     return meta
 end
 
---- Gets meta seed.
--- @treturn string
-function WorldDevTools:GetSeed()
-    return self:GetMeta("seed")
-end
-
 --- Selection
 -- @section selection
 
@@ -314,7 +308,6 @@ function WorldDevTools:DoInit()
         "GetWorld",
         "GetWorldNet",
         "GetMeta",
-        "GetSeed",
 
         -- selection
         "GetSelectedEntity",

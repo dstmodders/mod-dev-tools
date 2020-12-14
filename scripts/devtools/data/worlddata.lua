@@ -167,7 +167,7 @@ end
 function WorldData:PushWorldData()
     Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
 
-    self:PushLine("Seed", self.worlddevtools:GetSeed())
+    self:PushLine("Seed", SDK.World.GetSeed())
     self:PushLine("Season", SDK.World.GetState("season"))
     self:PushWorldPhaseLine()
     self:PushWorldTemperatureLine()

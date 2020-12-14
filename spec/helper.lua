@@ -504,7 +504,6 @@ function MockWorldDevTools()
         name = "WorldDevTools",
         GetPrecipitationEnds = ReturnValueFn(90),
         GetPrecipitationStarts = ReturnValueFn(30),
-        GetSeed = ReturnValueFn("1234567890"),
     })
 end
 
@@ -513,7 +512,6 @@ function MockWorldInst()
         ismastersim = true,
         meta = {
             saveversion = "5.031",
-            seed = "1574459949",
         },
         net = {
             components = {

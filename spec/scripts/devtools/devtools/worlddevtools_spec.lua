@@ -115,7 +115,6 @@ describe("WorldDevTools", function()
                 "GetWorld",
                 "GetWorldNet",
                 "GetMeta",
-                "GetSeed",
 
                 -- selection
                 "GetSelectedEntity",
@@ -180,20 +179,6 @@ describe("WorldDevTools", function()
                     AssertChainNil(function()
                         assert.is_nil(worlddevtools:GetMeta("saveversion"))
                     end, worlddevtools, "inst", "meta", "saveversion")
-                end)
-            end)
-        end)
-
-        describe("GetSeed", function()
-            it("should return TheWorld.meta.seed", function()
-                assert.is_equal(worlddevtools.inst.meta.seed, worlddevtools:GetSeed())
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(worlddevtools:GetSeed())
-                    end, worlddevtools, "inst", "meta", "seed")
                 end)
             end)
         end)
