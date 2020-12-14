@@ -205,7 +205,6 @@ describe("PlayerDevTools", function()
                 "IsSinking",
                 "IsGhost",
                 "IsPlatformJumping",
-                "IsReal",
                 "IsRunning",
 
                 -- god mode
@@ -425,44 +424,6 @@ describe("PlayerDevTools", function()
                             playerdevtools:IsPlatformJumping(player),
                             player:GetDisplayName()
                         )
-                    end)
-                end)
-            end)
-        end)
-
-        describe("IsReal", function()
-            describe("when the player is real", function()
-                it("should return true", function()
-                    EachPlayer(function(player)
-                        assert.is_true(playerdevtools:IsReal(player), player:GetDisplayName())
-                    end)
-                end)
-            end)
-
-            describe("when the player is not real", function()
-                before_each(function()
-                    EachPlayer(function(player)
-                        player.userid = ""
-                    end)
-                end)
-
-                it("should return false", function()
-                    EachPlayer(function(player)
-                        assert.is_false(playerdevtools:IsReal(player), player:GetDisplayName())
-                    end)
-                end)
-            end)
-
-            describe("when the userid is missing", function()
-                before_each(function()
-                    EachPlayer(function(player)
-                        player.userid = nil
-                    end)
-                end)
-
-                it("should return false", function()
-                    EachPlayer(function(player)
-                        assert.is_false(playerdevtools:IsReal(player), player:GetDisplayName())
                     end)
                 end)
             end)

@@ -108,7 +108,7 @@ function PlayerBarsSubmenu:AddOptions()
 
     self:AddFullOption(is_inst_in_wereness_form)
 
-    if SDK.Player.IsOwner(player) or not self.player:IsReal(player) then
+    if SDK.Player.IsOwner(player) or not SDK.Player.IsReal(player) then
         self:AddDividerOption()
         self:AddPlayerBarOption("Health", "GetHealthPercent", "SetHealthPercent")
         self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")

@@ -179,14 +179,6 @@ function PlayerDevTools:IsPlatformJumping(player)
     return player and player.HasTag and player:HasTag("ignorewalkableplatforms")
 end
 
---- Checks if the player is a real user.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsReal(player)
-    player = player ~= nil and player or self.inst
-    return player and player.userid and string.len(player.userid) > 0 and true or false
-end
-
 --- Checks if the player is running.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
@@ -611,7 +603,6 @@ function PlayerDevTools:DoInit()
         "IsSinking",
         "IsGhost",
         "IsPlatformJumping",
-        "IsReal",
         "IsRunning",
 
         -- god mode
