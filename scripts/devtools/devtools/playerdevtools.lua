@@ -179,26 +179,6 @@ function PlayerDevTools:IsPlatformJumping(player)
     return player and player.HasTag and player:HasTag("ignorewalkableplatforms")
 end
 
---- Checks if the player is running.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsRunning(player)
-    player = player ~= nil and player or self.inst
-    if player and (player.sg or player.AnimState) then
-        if player.sg and player.sg.HasStateTag and player.sg:HasStateTag("run") then
-            return true
-        end
-
-        if player.AnimState and not player.AnimState.IsCurrentAnimation then
-            return nil
-        end
-
-        return player.AnimState:IsCurrentAnimation("run_pre")
-            or player.AnimState:IsCurrentAnimation("run_loop")
-            or player.AnimState:IsCurrentAnimation("run_pst")
-    end
-end
-
 --- Changes current times cale.
 -- @tparam number amount Amount to change between -4 to 4.
 -- @tparam boolean is_fixed Should it be fixed without increasing/decreasing?
@@ -603,7 +583,6 @@ function PlayerDevTools:DoInit()
         "IsSinking",
         "IsGhost",
         "IsPlatformJumping",
-        "IsRunning",
 
         -- god mode
         "GetGodModePlayers",
