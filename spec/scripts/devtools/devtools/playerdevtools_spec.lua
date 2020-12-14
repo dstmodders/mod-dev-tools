@@ -204,7 +204,6 @@ describe("PlayerDevTools", function()
                 --"SetIsMoveButtonDown",
                 "IsSinking",
                 "IsGhost",
-                "IsOverWater",
                 "IsOwner",
                 "IsPlatformJumping",
                 "IsReal",
@@ -387,106 +386,6 @@ describe("PlayerDevTools", function()
             it("should return false when the player is not dead", function()
                 AssertNotDead(inst, 1)
                 EachPlayer(AssertNotDead, { inst, player_dead })
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    EachPlayer(AssertNilChain)
-                end)
-            end)
-        end)
-
-        -- TODO: Split the PlayerDevTools:IsOverWater() tests into smaller ones
-        describe("IsOverWater", function()
-            local function AssertOverWater(player)
-                world = MockWorldDevTools()
-                playerdevtools.world = world
-
-                assert.spy(player.Transform.GetWorldPosition).was_not_called()
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_not_called()
-                assert.spy(world.inst.Map.GetTileAtPoint).was_not_called()
-                assert.spy(player.GetCurrentPlatform).was_not_called()
-
-                assert.is_true(
-                    playerdevtools:IsOverWater(player),
-                    string.format("Player %s should be over water", player:GetDisplayName())
-                )
-
-                assert.spy(player.Transform.GetWorldPosition).was_called(1)
-                assert.spy(player.Transform.GetWorldPosition).was_called_with(
-                    match.is_ref(player.Transform)
-                )
-
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called(1)
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called_with(
-                    match.is_ref(world.inst.Map),
-                    player.Transform.GetWorldPosition()
-                )
-
-                assert.spy(world.inst.Map.GetTileAtPoint).was_called(1)
-                assert.spy(world.inst.Map.GetTileAtPoint).was_called_with(
-                    match.is_ref(world.inst.Map),
-                    player.Transform.GetWorldPosition()
-                )
-
-                assert.spy(player.GetCurrentPlatform).was_called(1)
-                assert.spy(player.GetCurrentPlatform).was_called_with(match.is_ref(player))
-            end
-
-            local function AssertNotOverWater(player)
-                world = MockWorldDevTools()
-                playerdevtools.world = world
-
-                assert.spy(player.Transform.GetWorldPosition).was_not_called()
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_not_called()
-                assert.spy(world.inst.Map.GetTileAtPoint).was_not_called()
-                assert.spy(player.GetCurrentPlatform).was_not_called()
-
-                assert.is_false(
-                    playerdevtools:IsOverWater(player),
-                    string.format("Player %s shouldn't be over water", player:GetDisplayName())
-                )
-
-                assert.spy(player.Transform.GetWorldPosition).was_called(1)
-                assert.spy(player.Transform.GetWorldPosition).was_called_with(
-                    match.is_ref(player.Transform)
-                )
-
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called(1)
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called_with(
-                    match.is_ref(world.inst.Map),
-                    player.Transform.GetWorldPosition()
-                )
-
-                assert.spy(world.inst.Map.GetTileAtPoint).was_not_called()
-                assert.spy(player.GetCurrentPlatform).was_not_called()
-            end
-
-            local function AssertNilChain(player)
-                player.Transform.GetWorldPosition = nil
-                assert.is_nil(playerdevtools:IsOverWater(player))
-                player.Transform = nil
-                assert.is_nil(playerdevtools:IsOverWater(player))
-
-                world = MockWorldDevTools(true)
-                playerdevtools.world = world
-
-                world.inst.Map.IsVisualGroundAtPoint = nil
-                assert.is_nil(playerdevtools:IsOverWater(player))
-                world.inst.Map = nil
-                assert.is_nil(playerdevtools:IsOverWater(player))
-                world.inst = nil
-                assert.is_nil(playerdevtools:IsOverWater(player))
-                world = nil
-                assert.is_nil(playerdevtools:IsOverWater(player))
-            end
-
-            it("should return true when the player is over water", function()
-                AssertOverWater(player_over_water)
-            end)
-
-            it("should return false when the player is not over water", function()
-                EachPlayer(AssertNotOverWater, { player_over_water })
             end)
 
             describe("when some chain fields are missing", function()

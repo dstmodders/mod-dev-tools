@@ -171,21 +171,6 @@ function PlayerDevTools:IsGhost(player)
     return player and player.HasTag and player:HasTag("playerghost")
 end
 
---- Checks if the player is over water.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsOverWater(player)
-    player = player ~= nil and player or self.inst
-    if player and player.Transform and player.Transform.GetWorldPosition
-        and self.world and self.world.inst and self.world.inst.Map
-    then
-        local x, y, z = player.Transform:GetWorldPosition()
-        return not self.world.inst.Map:IsVisualGroundAtPoint(x, y, z)
-            and self.world.inst.Map:GetTileAtPoint(x, y, z) ~= GROUND.INVALID
-            and player:GetCurrentPlatform() == nil
-    end
-end
-
 --- Checks if the player is the mod owner.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
@@ -633,7 +618,6 @@ function PlayerDevTools:DoInit()
         --"SetIsMoveButtonDown",
         "IsSinking",
         "IsGhost",
-        "IsOverWater",
         "IsOwner",
         "IsPlatformJumping",
         "IsReal",
