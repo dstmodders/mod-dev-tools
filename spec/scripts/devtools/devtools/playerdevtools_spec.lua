@@ -111,6 +111,9 @@ describe("PlayerDevTools", function()
         _G.SetDebugEntity = spy.new(Empty)
         _G.TheSim = MockTheSim()
 
+        -- sdk
+        _G.SDK.Player.IsAdmin = ReturnValueFn(true)
+
         -- initialization
         devtools = MockDevTools()
         world = MockWorldDevTools()
@@ -199,7 +202,6 @@ describe("PlayerDevTools", function()
                 "GetWerenessMode",
                 "IsMoveButtonDown",
                 --"SetIsMoveButtonDown",
-                "IsAdmin",
                 "IsSinking",
                 "IsGhost",
                 "IsIdle",
@@ -272,75 +274,6 @@ describe("PlayerDevTools", function()
             describe("setter", function()
                 it("SetIsMoveButtonDown", function()
                     AssertSetter(playerdevtools, "is_move_button_down", "SetIsMoveButtonDown")
-                end)
-            end)
-        end)
-
-        describe("IsAdmin", function()
-            local GetClientTable
-
-            before_each(function()
-                GetClientTable = TheNet.GetClientTable
-            end)
-
-            describe("when the TheNet.GetClientTable() returns an empty table", function()
-                before_each(function()
-                    _G.TheNet = MockTheNet({})
-                    GetClientTable = TheNet.GetClientTable
-                end)
-
-                it("should call the TheNet.GetClientTable()", function()
-                    EachPlayer(function(player)
-                        GetClientTable:clear()
-                        playerdevtools:IsAdmin(player)
-                        assert.spy(GetClientTable).was_called(1)
-                    end)
-                end)
-
-                it("should return nil", function()
-                    EachPlayer(function(player)
-                        assert.is_nil(playerdevtools:IsAdmin(player))
-                    end)
-                end)
-            end)
-
-            describe("when the player is an admin", function()
-                it("should call the TheNet.GetClientTable()", function()
-                    assert.spy(GetClientTable).was_not_called()
-                    playerdevtools:IsAdmin(inst)
-                    assert.spy(GetClientTable).was_called(1)
-                    assert.spy(GetClientTable).was_called_with(TheNet)
-                end)
-
-                it("should return true", function()
-                    assert.is_true(playerdevtools:IsAdmin(inst))
-                end)
-            end)
-
-            describe("when the player is not an admin", function()
-                it("should call the TheNet.GetClientTable()", function()
-                    EachPlayer(function(player)
-                        GetClientTable:clear()
-                        playerdevtools:IsAdmin(player)
-                        assert.spy(GetClientTable).was_called(1)
-                        assert.spy(GetClientTable).was_called_with(TheNet)
-                    end, { inst })
-                end)
-
-                it("should return false", function()
-                    EachPlayer(function(player)
-                        assert.is_false(playerdevtools:IsAdmin(player))
-                    end, { inst })
-                end)
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    EachPlayer(function(player)
-                        AssertChainNil(function()
-                            assert.is_nil(playerdevtools:IsAdmin(player))
-                        end, playerdevtools, "userid")
-                    end)
                 end)
             end)
         end)
@@ -1246,6 +1179,7 @@ describe("PlayerDevTools", function()
         describe("IsGodMode", function()
             describe("when the owner is not an admin", function()
                 before_each(function()
+                    _G.SDK.Player.IsAdmin = ReturnValueFn(false)
                     playerdevtools.inst = player_dead
                 end)
 
@@ -1401,6 +1335,7 @@ describe("PlayerDevTools", function()
         describe("ToggleGodMode", function()
             describe("when the owner is not an admin", function()
                 before_each(function()
+                    _G.SDK.Player.IsAdmin = ReturnValueFn(false)
                     playerdevtools.inst = player_dead
                 end)
 

@@ -385,7 +385,6 @@ function MockPlayerDevTools()
         name = "PlayerDevTools",
         vision = {},
         world = world,
-        IsAdmin = ReturnValueFn(true),
     })
 end
 

@@ -42,6 +42,7 @@ local Config = require "devtools/config"
 local Data = require "devtools/data"
 local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Submenu = require "devtools/menu/submenu"
 local Utils = require "devtools/utils"
 local WorldDevTools = require "devtools/devtools/worlddevtools"
@@ -170,7 +171,7 @@ function DevTools:Reset()
         return true
     end
 
-    if self.player and not self.player:IsAdmin() then
+    if self.player and not SDK.Player.IsAdmin() then
         self:DebugErrorNotAdmin("DevTools:Reset()")
         return false
     end

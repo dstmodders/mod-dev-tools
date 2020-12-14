@@ -39,6 +39,7 @@ describe("ConsoleDevTools", function()
         _G.TheSim = MockTheSim()
 
         -- sdk
+        _G.SDK.Player.IsAdmin = ReturnValueFn(true)
         _G.SDK.World.IsCave = ReturnValueFn(false)
 
         -- initialization
@@ -291,7 +292,7 @@ describe("ConsoleDevTools", function()
 
                 describe("when the owner is not an admin", function()
                     before_each(function()
-                        consoledevtools.playerdevtools.IsAdmin = ReturnValueFn(false)
+                        _G.SDK.Player.IsAdmin = ReturnValueFn(false)
                     end)
 
                     it("should debug error", function()
@@ -448,7 +449,7 @@ describe("ConsoleDevTools", function()
 
                 describe("and the owner is not an admin", function()
                     before_each(function()
-                        consoledevtools.playerdevtools.IsAdmin = ReturnValueFn(false)
+                        _G.SDK.Player.IsAdmin = ReturnValueFn(false)
                     end)
 
                     it("should debug error", function()
@@ -468,7 +469,7 @@ describe("ConsoleDevTools", function()
 
                 describe("and the owner is an admin", function()
                     before_each(function()
-                        consoledevtools.playerdevtools.IsAdmin = ReturnValueFn(true)
+                        _G.SDK.Player.IsAdmin = ReturnValueFn(true)
                     end)
 
                     describe("with valid passed values", function()

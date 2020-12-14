@@ -131,8 +131,8 @@ MOD_DEV_TOOLS = {
     -- @tfield function IS_WORLD
     -- @tfield function ONE_PLAYER
     ON_ADD_TO_ROOT_FN = {
-        IS_ADMIN = function(self)
-            return self.devtools.player and self.devtools.player:IsAdmin()
+        IS_ADMIN = function()
+            return SDK.Player.IsAdmin()
         end,
         IS_CAVE = function()
             return SDK.World.IsCave()

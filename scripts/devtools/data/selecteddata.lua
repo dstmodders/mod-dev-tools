@@ -111,7 +111,7 @@ function SelectedData:PushPlayerData()
     end
 
     if playerdevtools:IsOwner(player) or playerdevtools:IsReal(player) == false then
-        if devtools.inst == player or (devtools.ismastersim or playerdevtools:IsAdmin()) then
+        if devtools.inst == player or (devtools.ismastersim or SDK.Player.IsAdmin()) then
             local health = SDK.Utils.String.ValuePercent(
                 playerdevtools:GetHealthPercent(player) or 0
             )
@@ -144,7 +144,7 @@ function SelectedData:PushPlayerData()
         end
     end
 
-    if devtools.ismastersim or playerdevtools:IsAdmin() then
+    if devtools.ismastersim or SDK.Player.IsAdmin() then
         local is_god_mode = playerdevtools:IsGodMode(player)
         if is_god_mode ~= nil then
             self:PushLine("God Mode", (is_god_mode and "enabled" or "disabled"))

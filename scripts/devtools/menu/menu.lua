@@ -29,6 +29,7 @@
 require "class"
 require "consolecommands"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local TextMenu = require "devtools/menu/textmenu"
 
 -- submenus
@@ -172,7 +173,7 @@ function Menu:AddSelectedPlayerSubmenus()
     local playerdevtools = devtools.player
     local craftingdevtools = playerdevtools.crafting
 
-    if playerdevtools:IsAdmin() then
+    if SDK.Player.IsAdmin() then
         local player = playerdevtools:GetSelected()
         local prefix = #devtools:GetAllPlayers() > 1
             and string.format("[ %s ]  ", player:GetDisplayName())
@@ -267,7 +268,7 @@ function Menu:AddMenu()
         self:AddSelectSubmenu()
         self:AddSelectedPlayerSubmenus()
         self:AddPlayerSubmenus()
-        if playerdevtools:IsAdmin() then
+        if SDK.Player.IsAdmin() then
             self:AddWorldSubmenus()
         end
     end

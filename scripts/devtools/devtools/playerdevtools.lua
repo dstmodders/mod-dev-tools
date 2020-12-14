@@ -46,6 +46,7 @@ local CraftingPlayerDevTools = require "devtools/devtools/player/craftingdevtool
 local DevTools = require "devtools/devtools/devtools"
 local InventoryPlayerDevTools = require "devtools/devtools/player/inventorydevtools"
 local MapPlayerDevTools = require "devtools/devtools/player/mapdevtools"
+local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 local VisionPlayerDevTools = require "devtools/devtools/player/visiondevtools"
 
@@ -149,28 +150,6 @@ end
 -- @tparam boolean down
 function PlayerDevTools:SetIsMoveButtonDown(down)
     self.is_move_button_down = down
-end
-
---- Checks if the player is an admin.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsAdmin(player)
-    player = player ~= nil and player or self.inst
-
-    if not TheNet or not TheNet.GetClientTable then
-        return
-    end
-
-    local client_table = TheNet:GetClientTable()
-    if type(client_table) == "table" then
-        if player and player.userid then
-            for _, v in pairs(client_table) do
-                if v.userid == player.userid then
-                    return v.admin and true or false
-                end
-            end
-        end
-    end
 end
 
 --- Checks if the player is sinking.
@@ -299,7 +278,7 @@ end
 function PlayerDevTools:IsGodMode(player)
     player = player ~= nil and player or self:GetSelected()
 
-    if self:IsAdmin() then
+    if SDK.Player.IsAdmin() then
         if player
             and player.components
             and player.components.health
@@ -326,7 +305,7 @@ end
 function PlayerDevTools:ToggleGodMode(player)
     player = player ~= nil and player or self:GetSelected()
 
-    if not player or not self:IsAdmin() then
+    if not player or not SDK.Player.IsAdmin() then
         self:DebugErrorNotAdmin("PlayerDevTools:ToggleGodMode()")
     end
 
@@ -574,7 +553,7 @@ function PlayerDevTools:Select(player)
 
     if self.ismastersim then
         self:DebugString("Selected", name)
-    elseif self:IsAdmin() then
+    elseif SDK.Player.IsAdmin() then
         Utils.ConsoleRemote('SetDebugEntity(LookupPlayerInstByUserID("%s"))', { player.userid })
         self.selected_server = player
         self:DebugString("[client]", "Selected", name)
@@ -631,10 +610,10 @@ function PlayerDevTools:Teleport()
         local world_pos = screen:WidgetPosToMapPos(widget_pos)
         local x, y, _ = screen.minimap:MapPosToWorldPos(world_pos:Get())
         if not self.is_fake_teleport then
-            if self.ismastersim and self:IsAdmin() then
+            if self.ismastersim and SDK.Player.IsAdmin() then
                 player.Physics:Teleport(x, 0, y)
                 return true
-            elseif self:IsAdmin() then
+            elseif SDK.Player.IsAdmin() then
                 Utils.ConsoleRemote(
                     'player = LookupPlayerInstByUserID("%s") player.Physics:Teleport(%d, 0, %d)',
                     { player.userid, x, y }
@@ -645,10 +624,10 @@ function PlayerDevTools:Teleport()
             player.Physics:Teleport(x, 0, y)
             return true
         end
-    elseif not self.is_fake_teleport and self.ismastersim and self:IsAdmin() then
+    elseif not self.is_fake_teleport and self.ismastersim and SDK.Player.IsAdmin() then
         player.Physics:Teleport(TheInput:GetWorldPosition():Get())
         return true
-    elseif not self.is_fake_teleport and self:IsAdmin() then
+    elseif not self.is_fake_teleport and SDK.Player.IsAdmin() then
         local pos = TheInput:GetWorldPosition()
         Utils.ConsoleRemote(
             'player = LookupPlayerInstByUserID("%s") player.Physics:Teleport(%d, 0, %d)',
@@ -678,7 +657,6 @@ function PlayerDevTools:DoInit()
         "GetWerenessMode",
         "IsMoveButtonDown",
         --"SetIsMoveButtonDown",
-        "IsAdmin",
         "IsSinking",
         "IsGhost",
         "IsIdle",

@@ -179,7 +179,7 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
     debug = debug ~= nil and debug or { fn_full_name .. ":", debug_values }
     debug_fn = debug_fn ~= nil and debug_fn or self.DebugString
 
-    if not self.playerdevtools:IsAdmin() then
+    if not SDK.Player.IsAdmin() then
         self:DebugErrorNotAdmin(fn_full_name)
         return false
     end

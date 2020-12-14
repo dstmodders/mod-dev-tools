@@ -123,13 +123,13 @@ SDK.OnPlayerActivated(function(world, player)
             local crafting = playerdevtools.crafting
             local vision = playerdevtools.vision
 
-            if playerdevtools:IsAdmin() and GetModConfigData("default_god_mode") then
+            if SDK.Player.IsAdmin() and GetModConfigData("default_god_mode") then
                 if GetModConfigData("default_god_mode") then
                     playerdevtools:ToggleGodMode()
                 end
             end
 
-            if crafting and playerdevtools:IsAdmin() then
+            if crafting and SDK.Player.IsAdmin() then
                 if GetModConfigData("default_free_crafting") then
                     crafting:ToggleFreeCrafting()
                 end
