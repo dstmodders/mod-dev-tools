@@ -361,14 +361,6 @@ end
 --- Light Watcher
 -- @section light-watcher
 
---- Checks if the owner is in the light.
--- @treturn boolean
-function PlayerDevTools:IsInLight()
-    return self.inst.LightWatcher
-        and self.inst.LightWatcher.IsInLight
-        and self.inst.LightWatcher:IsInLight()
-end
-
 --- Gets the owner time in the dark.
 -- @treturn number
 function PlayerDevTools:GetTimeInDark()
@@ -389,7 +381,7 @@ end
 -- @treturn boolean
 function PlayerDevTools:CanGrueAttack()
     return not (self:IsGodMode()
-        or self:IsInLight()
+        or SDK.Player.IsInLight()
         or self.inventory:HasEquippedMoggles()
         or self:IsGhost())
 end
@@ -659,7 +651,6 @@ function PlayerDevTools:DoInit()
         "IsHUDWritableScreenActive",
 
         -- lightwatcher
-        "IsInLight",
         "GetTimeInDark",
         "GetTimeInLight",
         "CanGrueAttack",

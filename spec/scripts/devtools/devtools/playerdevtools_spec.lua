@@ -222,7 +222,6 @@ describe("PlayerDevTools", function()
                 "IsHUDWritableScreenActive",
 
                 -- lightwatcher
-                "IsInLight",
                 "GetTimeInDark",
                 "GetTimeInLight",
                 "CanGrueAttack",
@@ -763,16 +762,6 @@ describe("PlayerDevTools", function()
     end)
 
     describe("lightwatcher", function()
-        describe("IsInLight", function()
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(playerdevtools:IsInLight())
-                    end, inst, "LightWatcher", "IsInLight")
-                end)
-            end)
-        end)
-
         describe("GetTimeInDark", function()
             describe("when some chain fields are missing", function()
                 it("should return nil", function()
@@ -794,76 +783,79 @@ describe("PlayerDevTools", function()
         end)
 
         describe("CanGrueAttack", function()
-            local HasEquippedMoggles, IsGhost, IsGodMode, IsInLight
+            local HasEquippedMoggles, IsGhost, IsGodMode
 
             before_each(function()
                 HasEquippedMoggles = spy.new(ReturnValueFn(true))
                 IsGhost = spy.new(ReturnValueFn(true))
-                IsInLight = spy.new(ReturnValueFn(true))
             end)
 
-            describe("when the player is in god mode", function()
+            describe("when the player is in dark", function()
                 before_each(function()
-                    IsGodMode = spy.new(ReturnValueFn(true))
-                    playerdevtools.god_mode_players = { inst }
-                    playerdevtools.IsGodMode = IsGodMode
+                    _G.SDK.Player.IsInLight = spy.new(ReturnValueFn(false))
                 end)
 
-                it("shouldn't call other methods", function()
-                    playerdevtools:CanGrueAttack()
-                    assert.spy(IsInLight).was_not_called()
-                    assert.spy(HasEquippedMoggles).was_not_called()
-                    assert.spy(IsGhost).was_not_called()
-                end)
-
-                it("should return false", function()
-                    assert.is_false(playerdevtools:CanGrueAttack())
-                end)
-            end)
-
-            describe("when the player is not in god mode", function()
-                before_each(function()
-                    IsGodMode = spy.new(ReturnValueFn(false))
-                    playerdevtools.god_mode_players = {}
-                    playerdevtools.IsGodMode = IsGodMode
-                end)
-
-                it("should return true", function()
-                    assert.is_true(playerdevtools:CanGrueAttack())
-                end)
-
-                describe("but in the light", function()
+                describe("and has god mode", function()
                     before_each(function()
+                        IsGodMode = spy.new(ReturnValueFn(true))
+                        playerdevtools.god_mode_players = { inst }
+                        playerdevtools.IsGodMode = IsGodMode
+                    end)
+
+                    it("shouldn't call other functions", function()
+                        playerdevtools:CanGrueAttack()
+                        assert.spy(_G.SDK.Player.IsInLight).was_not_called()
+                        assert.spy(HasEquippedMoggles).was_not_called()
+                        assert.spy(IsGhost).was_not_called()
+                    end)
+
+                    it("should return false", function()
+                        assert.is_false(playerdevtools:CanGrueAttack())
+                    end)
+                end)
+
+                describe("and doesn't have god mode", function()
+                    before_each(function()
+                        IsGodMode = spy.new(ReturnValueFn(false))
+                        playerdevtools.god_mode_players = {}
+                        playerdevtools.IsGodMode = IsGodMode
+                    end)
+
+                    it("should return true", function()
+                        assert.is_true(playerdevtools:CanGrueAttack())
+                    end)
+
+                    describe("but in the light", function()
                         before_each(function()
-                            playerdevtools.IsInLight = IsInLight
+                            _G.SDK.Player.IsInLight = spy.new(ReturnValueFn(true))
                         end)
 
                         it("should return false", function()
                             assert.is_false(playerdevtools:CanGrueAttack())
                         end)
                     end)
-                end)
 
-                describe("but has Moggles equipped", function()
-                    before_each(function()
+                    describe("but has Moggles equipped", function()
                         before_each(function()
-                            playerdevtools.HasEquippedMoggles = HasEquippedMoggles
-                        end)
+                            before_each(function()
+                                playerdevtools.HasEquippedMoggles = HasEquippedMoggles
+                            end)
 
-                        it("should return false", function()
-                            assert.is_false(playerdevtools:CanGrueAttack())
+                            it("should return false", function()
+                                assert.is_false(playerdevtools:CanGrueAttack())
+                            end)
                         end)
                     end)
-                end)
 
-                describe("but is a ghost", function()
-                    before_each(function()
+                    describe("but is a ghost", function()
                         before_each(function()
-                            playerdevtools.IsGhost = IsGhost
-                        end)
+                            before_each(function()
+                                playerdevtools.IsGhost = IsGhost
+                            end)
 
-                        it("should return false", function()
-                            assert.is_false(playerdevtools:CanGrueAttack())
+                            it("should return false", function()
+                                assert.is_false(playerdevtools:CanGrueAttack())
+                            end)
                         end)
                     end)
                 end)
