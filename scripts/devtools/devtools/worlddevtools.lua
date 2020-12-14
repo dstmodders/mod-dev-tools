@@ -236,27 +236,6 @@ end
 --- Weather
 -- @section weather
 
---- Gets weather component.
---
--- Returns the component based on the current world type: cave or forest.
---
--- @treturn[1] Weather
--- @treturn[2] CaveWeather
-function WorldDevTools:GetWeatherComponent()
-    if not self.inst or not self.inst.net or not self.inst.net.components then
-        return
-    end
-
-    local component
-    if SDK.World.IsCave() then
-        component = self.inst.net.components.caveweather or nil
-        return component ~= nil and component or nil
-    else
-        component = self.inst.net.components.weather or nil
-        return component ~= nil and component or nil
-    end
-end
-
 --- Gets precipitation start time.
 -- @treturn number
 function WorldDevTools:GetPrecipitationStarts()
@@ -310,7 +289,7 @@ function WorldDevTools:StartPrecipitationThread()
 
         Sleep(FRAMES / FRAMES)
     end, function()
-        return self.inst and self.inst.net and self:GetWeatherComponent()
+        return self.inst and self.inst.net and SDK.World.GetWeatherComponent()
     end)
 end
 
@@ -348,7 +327,6 @@ function WorldDevTools:DoInit()
         "ToggleMapFogOfWar",
 
         -- weather
-        "GetWeatherComponent",
         "GetPrecipitationStarts",
         "GetPrecipitationEnds",
         "StartPrecipitationThread",

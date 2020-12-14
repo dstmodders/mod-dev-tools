@@ -128,7 +128,6 @@ describe("WorldDevTools", function()
                 "ToggleMapFogOfWar",
 
                 -- weather
-                "GetWeatherComponent",
                 "GetPrecipitationStarts",
                 "GetPrecipitationEnds",
                 "StartPrecipitationThread",
@@ -144,58 +143,6 @@ describe("WorldDevTools", function()
     describe("general", function()
         it("should have the getter GetWorld", function()
             AssertGetter(worlddevtools, "inst", "GetWorld")
-        end)
-
-        describe("GetWeatherComponent", function()
-            describe("when in the cave", function()
-                before_each(function()
-                    _G.SDK.World.IsCave = ReturnValueFn(true)
-                    worlddevtools.inst.net.components.caveweather = "caveweather"
-                end)
-
-                it("should return CaveWeather component", function()
-                    assert.is_equal("caveweather", worlddevtools:GetWeatherComponent())
-                end)
-
-                describe("and the CaveWeather component is missing", function()
-                    before_each(function()
-                        worlddevtools.inst.net.components.caveweather = nil
-                    end)
-
-                    it("should return nil", function()
-                        assert.is_nil(worlddevtools:GetWeatherComponent())
-                    end)
-                end)
-            end)
-
-            describe("when not in the cave", function()
-                before_each(function()
-                    _G.SDK.World.IsCave = ReturnValueFn(false)
-                    worlddevtools.inst.net.components.weather = "weather"
-                end)
-
-                it("should return Weather component", function()
-                    assert.is_equal("weather", worlddevtools:GetWeatherComponent())
-                end)
-
-                describe("and the Weather component is missing", function()
-                    before_each(function()
-                        worlddevtools.inst.net.components.weather = nil
-                    end)
-
-                    it("should return nil", function()
-                        assert.is_nil(worlddevtools:GetWeatherComponent())
-                    end)
-                end)
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(worlddevtools:GetWeatherComponent())
-                    end, worlddevtools, "inst", "net", "components")
-                end)
-            end)
         end)
 
         describe("GetWorldNet", function()
