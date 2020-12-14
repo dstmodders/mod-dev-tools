@@ -171,24 +171,6 @@ function PlayerDevTools:IsGhost(player)
     return player and player.HasTag and player:HasTag("playerghost")
 end
 
---- Checks if the player is in idle.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsIdle(player)
-    player = player ~= nil and player or self.inst
-    if player and (player.sg or player.AnimState) then
-        if player.sg and player.sg.HasStateTag and player.sg:HasStateTag("idle") then
-            return true
-        end
-
-        if player.AnimState and not player.AnimState.IsCurrentAnimation then
-            return nil
-        end
-
-        return player.AnimState:IsCurrentAnimation("idle_loop")
-    end
-end
-
 --- Checks if the player is over water.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
@@ -659,7 +641,6 @@ function PlayerDevTools:DoInit()
         --"SetIsMoveButtonDown",
         "IsSinking",
         "IsGhost",
-        "IsIdle",
         "IsOverWater",
         "IsOwner",
         "IsPlatformJumping",

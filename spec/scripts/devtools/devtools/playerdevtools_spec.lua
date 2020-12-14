@@ -204,7 +204,6 @@ describe("PlayerDevTools", function()
                 --"SetIsMoveButtonDown",
                 "IsSinking",
                 "IsGhost",
-                "IsIdle",
                 "IsOverWater",
                 "IsOwner",
                 "IsPlatformJumping",
@@ -389,113 +388,6 @@ describe("PlayerDevTools", function()
             it("should return false when the player is not dead", function()
                 AssertNotDead(inst, 1)
                 EachPlayer(AssertNotDead, { inst, player_dead })
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    EachPlayer(AssertNilChain)
-                end)
-            end)
-        end)
-
-        -- TODO: Split the PlayerDevTools:IsIdle() tests into smaller ones
-        describe("IsIdle", function()
-            local function AssertIdleStateGraph(player)
-                assert.spy(player.sg.HasStateTag).was_not_called()
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called()
-
-                assert.is_true(
-                    playerdevtools:IsIdle(player),
-                    string.format("Player %s should be idle", player:GetDisplayName())
-                )
-
-                assert.spy(player.sg.HasStateTag).was_called(1)
-                assert.spy(player.sg.HasStateTag).was_called_with(match.is_ref(player.sg), "idle")
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called()
-            end
-
-            local function AssertIdleAnimation(player)
-                player.sg = nil
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called()
-
-                assert.is_true(
-                    playerdevtools:IsIdle(player),
-                    string.format("Player %s should be idle", player:GetDisplayName())
-                )
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "idle_loop"
-                )
-            end
-
-            local function AssertNotIdleStateGraph(player)
-                assert.spy(player.sg.HasStateTag).was_not_called()
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called()
-
-                assert.is_false(
-                    playerdevtools:IsIdle(player),
-                    string.format("Player %s shouldn't be idle", player:GetDisplayName())
-                )
-
-                assert.spy(player.sg.HasStateTag).was_called(1)
-                assert.spy(player.sg.HasStateTag).was_called_with(match.is_ref(player.sg), "idle")
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "idle_loop"
-                )
-            end
-
-            local function AssertNotIdleAnimation(player)
-                player.sg = nil
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called()
-
-                assert.is_false(
-                    playerdevtools:IsIdle(player),
-                    string.format("Player %s shouldn't be idle", player:GetDisplayName())
-                )
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "idle_loop"
-                )
-            end
-
-            local function AssertNilChain(player)
-                player.sg = nil
-                player.AnimState.IsCurrentAnimation = nil
-                assert.is_nil(playerdevtools:IsIdle(player))
-                player.AnimState = nil
-                assert.is_nil(playerdevtools:IsIdle(player))
-            end
-
-            describe("should return true when the player is idle", function()
-                it("based on the state graph", function()
-                    AssertIdleStateGraph(inst)
-                    AssertIdleStateGraph(player_dead)
-                    AssertIdleStateGraph(player_over_water)
-                end)
-
-                it("based on the animation", function()
-                    AssertIdleAnimation(inst)
-                    AssertIdleAnimation(player_dead)
-                    AssertIdleAnimation(player_over_water)
-                end)
-            end)
-
-            describe("should return false when the player is not idle", function()
-                it("based on the state graph", function()
-                    EachPlayer(AssertNotIdleStateGraph, { inst, player_dead, player_over_water })
-                end)
-
-                it("based on the animation", function()
-                    EachPlayer(AssertNotIdleAnimation, { inst, player_dead, player_over_water })
-                end)
             end)
 
             describe("when some chain fields are missing", function()
