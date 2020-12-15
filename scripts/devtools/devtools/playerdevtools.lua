@@ -310,14 +310,6 @@ end
 --- Light Watcher
 -- @section light-watcher
 
---- Gets the owner time in the dark.
--- @treturn number
-function PlayerDevTools:GetTimeInDark()
-    return self.inst.LightWatcher
-        and self.inst.LightWatcher.GetTimeInDark
-        and self.inst.LightWatcher:GetTimeInDark()
-end
-
 --- Gets the owner time in the light.
 -- @treturn number
 function PlayerDevTools:GetTimeInLight()
@@ -596,7 +588,6 @@ function PlayerDevTools:DoInit()
         "IsHUDWritableScreenActive",
 
         -- lightwatcher
-        "GetTimeInDark",
         "GetTimeInLight",
         "CanGrueAttack",
 
