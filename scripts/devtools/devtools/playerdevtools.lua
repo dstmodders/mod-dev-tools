@@ -310,14 +310,6 @@ end
 --- Light Watcher
 -- @section light-watcher
 
---- Gets the owner time in the light.
--- @treturn number
-function PlayerDevTools:GetTimeInLight()
-    return self.inst.LightWatcher
-        and self.inst.LightWatcher.GetTimeInLight
-        and self.inst.LightWatcher:GetTimeInLight()
-end
-
 --- Checks if Grue (Charlie) can attack the owner.
 -- @treturn boolean
 function PlayerDevTools:CanGrueAttack()
@@ -588,7 +580,6 @@ function PlayerDevTools:DoInit()
         "IsHUDWritableScreenActive",
 
         -- lightwatcher
-        "GetTimeInLight",
         "CanGrueAttack",
 
         -- movement prediction

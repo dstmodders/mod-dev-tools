@@ -218,7 +218,6 @@ describe("PlayerDevTools", function()
                 "IsHUDWritableScreenActive",
 
                 -- lightwatcher
-                "GetTimeInLight",
                 "CanGrueAttack",
 
                 -- movement prediction
@@ -429,16 +428,6 @@ describe("PlayerDevTools", function()
     end)
 
     describe("lightwatcher", function()
-        describe("GetTimeInLight", function()
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(playerdevtools:GetTimeInLight())
-                    end, inst, "LightWatcher", "GetTimeInLight")
-                end)
-            end)
-        end)
-
         describe("CanGrueAttack", function()
             local HasEquippedMoggles, IsGhost, IsGodMode
 
