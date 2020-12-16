@@ -142,7 +142,7 @@ function PlayerBarsSubmenu:AddOptions()
         self:AddDividerOption()
         self:AddPlayerBarOption("Health", "GetHealthPercent", "SetHealthPercent")
         self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
-        self:AddOldPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
+        self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
 
         self:AddDividerOption()
         self:AddOldPlayerBarOption(

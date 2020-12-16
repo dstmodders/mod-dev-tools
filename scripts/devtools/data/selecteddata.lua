@@ -126,7 +126,7 @@ function SelectedData:PushPlayerData()
 
             self:PushLine(
                 "Sanity",
-                SDK.Utils.String.ValuePercent(playerdevtools:GetSanityPercent(player))
+                SDK.Utils.String.ValuePercent(SDK.Player.GetSanityPercent(player))
             )
 
             self:PushLine(
