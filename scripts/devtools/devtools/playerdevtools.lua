@@ -322,12 +322,6 @@ end
 --- Movement Prediction
 -- @section movement-prediction
 
---- Checks the movement prediction state.
--- @treturn boolean
-function PlayerDevTools:IsMovementPrediction()
-    return self.inst.components.locomotor ~= nil
-end
-
 --- Enables/Disables the movement prediction.
 -- @tparam boolean isenabled
 -- @treturn boolean
@@ -358,11 +352,7 @@ end
 --- Toggles the movement prediction.
 -- @treturn boolean
 function PlayerDevTools:ToggleMovementPrediction()
-    if self:IsMovementPrediction() then
-        return self:MovementPrediction(false)
-    else
-        return self:MovementPrediction(true)
-    end
+    return self:MovementPrediction(not SDK.Player.HasMovementPrediction())
 end
 
 --- Player
@@ -583,7 +573,6 @@ function PlayerDevTools:DoInit()
         "CanGrueAttack",
 
         -- movement prediction
-        "IsMovementPrediction",
         "MovementPrediction",
         "ToggleMovementPrediction",
 

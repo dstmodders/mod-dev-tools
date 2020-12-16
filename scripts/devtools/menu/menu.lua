@@ -208,7 +208,7 @@ function Menu:AddPlayerSubmenus()
     if not worlddevtools:IsMasterSim() then
         self:AddToggleOption(
             { name = "Movement Prediction" },
-            { src = playerdevtools, name = "IsMovementPrediction" },
+            { src = SDK.Player, name = "HasMovementPrediction", args = {} },
             { src = playerdevtools, name = "ToggleMovementPrediction" }
         )
     end
