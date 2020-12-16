@@ -287,10 +287,7 @@ end)
 
 SDK.Input.AddConfigKeyUpHandler("key_movement_prediction", function()
     if devtools and devtools:CanPressKeyInGamePlay() and not SDK.World.IsMasterSim() then
-        local playerdevtools = devtools.player
-        if playerdevtools then
-            playerdevtools:ToggleMovementPrediction()
-        end
+        SDK.Player.ToggleMovementPrediction()
     end
 end)
 

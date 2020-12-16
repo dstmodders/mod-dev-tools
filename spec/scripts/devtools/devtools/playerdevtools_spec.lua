@@ -220,9 +220,6 @@ describe("PlayerDevTools", function()
                 -- lightwatcher
                 "CanGrueAttack",
 
-                -- movement prediction
-                "ToggleMovementPrediction",
-
                 -- player
                 "GetHealthPercent",
                 "GetHungerPercent",

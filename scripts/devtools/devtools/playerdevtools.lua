@@ -319,15 +319,6 @@ function PlayerDevTools:CanGrueAttack()
         or self:IsGhost())
 end
 
---- Movement Prediction
--- @section movement-prediction
-
---- Toggles the movement prediction.
--- @treturn boolean
-function PlayerDevTools:ToggleMovementPrediction() -- luacheck: only
-    return SDK.Player.SetMovementPrediction(not SDK.Player.HasMovementPrediction())
-end
-
 --- Player
 -- @section player
 
@@ -544,9 +535,6 @@ function PlayerDevTools:DoInit()
 
         -- lightwatcher
         "CanGrueAttack",
-
-        -- movement prediction
-        "ToggleMovementPrediction",
 
         -- player
         "GetHealthPercent",
