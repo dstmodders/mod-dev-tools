@@ -322,37 +322,10 @@ end
 --- Movement Prediction
 -- @section movement-prediction
 
---- Enables/Disables the movement prediction.
--- @tparam boolean isenabled
--- @treturn boolean
-function PlayerDevTools:MovementPrediction(isenabled)
-    isenabled = isenabled and true or false
-
-    local fn_name = "MovementPrediction"
-    local fn_full_name = self:GetFnFullName(fn_name)
-
-    if self.ismastersim then
-        self:DebugError(fn_full_name .. ": Can't be toggled on the master simulation")
-        return false
-    end
-
-    if isenabled then
-        self.inst:EnableMovementPrediction(true)
-    elseif self.inst.components and self.inst.components.locomotor then
-        self.inst.components.locomotor:Stop()
-        self.inst:EnableMovementPrediction(false)
-    end
-
-    self:DebugString("Movement prediction:", isenabled and "enabled" or "disabled")
-    TheSim:SetSetting("misc", "movementprediction", tostring(isenabled))
-
-    return isenabled
-end
-
 --- Toggles the movement prediction.
 -- @treturn boolean
-function PlayerDevTools:ToggleMovementPrediction()
-    return self:MovementPrediction(not SDK.Player.HasMovementPrediction())
+function PlayerDevTools:ToggleMovementPrediction() -- luacheck: only
+    return SDK.Player.SetMovementPrediction(not SDK.Player.HasMovementPrediction())
 end
 
 --- Player
@@ -573,7 +546,6 @@ function PlayerDevTools:DoInit()
         "CanGrueAttack",
 
         -- movement prediction
-        "MovementPrediction",
         "ToggleMovementPrediction",
 
         -- player

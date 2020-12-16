@@ -221,7 +221,6 @@ describe("PlayerDevTools", function()
                 "CanGrueAttack",
 
                 -- movement prediction
-                "MovementPrediction",
                 "ToggleMovementPrediction",
 
                 -- player
