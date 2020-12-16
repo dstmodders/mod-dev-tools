@@ -76,7 +76,7 @@ end
 -- @tparam[opt] number min
 -- @tparam[opt] number max
 -- @tparam[opt] number step
-function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, step)
+function PlayerBarsSubmenu:AddOldPlayerBarOption(label, getter, setter, min, max, step)
     min = min ~= nil and min or 1
     max = max ~= nil and max or 100
     step = step ~= nil and step or 5
@@ -99,6 +99,36 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
     })
 end
 
+--- Adds player bar option.
+-- @tparam table|string label
+-- @tparam string getter
+-- @tparam string setter
+-- @tparam[opt] number min
+-- @tparam[opt] number max
+-- @tparam[opt] number step
+function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, step)
+    min = min ~= nil and min or 1
+    max = max ~= nil and max or 100
+    step = step ~= nil and step or 5
+
+    self:AddNumericOption({
+        label = label,
+        min = min,
+        max = max,
+        step = step,
+        on_cursor_fn = function()
+            self:UpdateScreen()
+        end,
+        on_get_fn = function()
+            return math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
+        end,
+        on_set_fn = function(_, _, value)
+            self.console[setter](self.console, value)
+            self:UpdateScreen()
+        end,
+    })
+end
+
 --- Adds options.
 function PlayerBarsSubmenu:AddOptions()
     local player = self.player:GetSelected()
@@ -111,18 +141,23 @@ function PlayerBarsSubmenu:AddOptions()
     if SDK.Player.IsOwner(player) or not SDK.Player.IsReal(player) then
         self:AddDividerOption()
         self:AddPlayerBarOption("Health", "GetHealthPercent", "SetHealthPercent")
-        self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
-        self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
+        self:AddOldPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
+        self:AddOldPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
 
         self:AddDividerOption()
-        self:AddPlayerBarOption("Maximum Health", "GetMaxHealthPercent", "SetMaxHealthPercent", 25)
+        self:AddOldPlayerBarOption(
+            "Maximum Health",
+            "GetMaxHealthPercent",
+            "SetMaxHealthPercent",
+            25
+        )
 
         self:AddDividerOption()
-        self:AddPlayerBarOption("Moisture", "GetMoisturePercent", "SetMoisturePercent", 0)
-        self:AddPlayerBarOption("Temperature", "GetTemperature", "SetTemperature", -20, 90)
+        self:AddOldPlayerBarOption("Moisture", "GetMoisturePercent", "SetMoisturePercent", 0)
+        self:AddOldPlayerBarOption("Temperature", "GetTemperature", "SetTemperature", -20, 90)
 
         if is_inst_in_wereness_form then
-            self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
+            self:AddOldPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
         end
     end
 end
