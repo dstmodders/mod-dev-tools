@@ -221,7 +221,6 @@ describe("PlayerDevTools", function()
                 "CanGrueAttack",
 
                 -- player
-                "GetHungerPercent",
                 "GetSanityPercent",
                 "GetMaxHealthPercent",
                 "GetMoisturePercent",
@@ -1011,50 +1010,6 @@ describe("PlayerDevTools", function()
                     end)
                 end)
             end
-
-            describe("GetHungerPercent", function()
-                TestWhenThePlayerIsNotPassed(describe, it, before_each, "GetHungerPercent")
-
-                describe("when the player is passed", function()
-                    describe("and the Hunger replica component is available", function()
-                        local GetPercent
-
-                        before_each(function()
-                            EachPlayer(function(player)
-                                player.replica.hunger = { GetPercent = spy.new(ReturnValueFn(1)) }
-                            end)
-                        end)
-
-                        it("should call the Hunger:GetPercent()", function()
-                            EachPlayer(function(player)
-                                GetPercent = player.replica.hunger.GetPercent
-                                assert.spy(GetPercent).was_not_called()
-                                playerdevtools:GetHungerPercent(player)
-                                assert.spy(GetPercent).was_called(1)
-                                assert.spy(GetPercent).was_called_with(
-                                    match.is_ref(player.replica.hunger)
-                                )
-                            end)
-                        end)
-
-                        it("should return the hunger percent", function()
-                            EachPlayer(function(player)
-                                assert.is_equal(100, playerdevtools:GetHungerPercent(player))
-                            end)
-                        end)
-                    end)
-
-                    describe("when some chain fields are missing", function()
-                        it("should return nil", function()
-                            EachPlayer(function(player)
-                                AssertChainNil(function()
-                                    assert.is_nil(playerdevtools:GetHungerPercent(player))
-                                end, player, "replica", "hunger")
-                            end)
-                        end)
-                    end)
-                end)
-            end)
 
             describe("GetSanityPercent", function()
                 TestWhenThePlayerIsNotPassed(describe, it, before_each, "GetSanityPercent")

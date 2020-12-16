@@ -121,7 +121,7 @@ function SelectedData:PushPlayerData()
 
             self:PushLine(
                 "Hunger",
-                SDK.Utils.String.ValuePercent(playerdevtools:GetHungerPercent(player))
+                SDK.Utils.String.ValuePercent(SDK.Player.GetHungerPercent(player))
             )
 
             self:PushLine(

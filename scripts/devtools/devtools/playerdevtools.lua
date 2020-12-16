@@ -322,16 +322,6 @@ end
 --- Player
 -- @section player
 
---- Gets the Hunger value.
--- @tparam[opt] EntityScript player Player instance (the selected one by default)
--- @treturn number
-function PlayerDevTools:GetHungerPercent(player)
-    player = player ~= nil and player or self:GetSelected()
-    if player and player.replica and player.replica.hunger then
-        return player.replica.hunger:GetPercent() * 100
-    end
-end
-
 --- Gets the Sanity value.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn number
@@ -527,7 +517,6 @@ function PlayerDevTools:DoInit()
         "CanGrueAttack",
 
         -- player
-        "GetHungerPercent",
         "GetSanityPercent",
         "GetMaxHealthPercent",
         "GetMoisturePercent",

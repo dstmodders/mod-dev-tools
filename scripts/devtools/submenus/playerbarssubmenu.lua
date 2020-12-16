@@ -141,7 +141,7 @@ function PlayerBarsSubmenu:AddOptions()
     if SDK.Player.IsOwner(player) or not SDK.Player.IsReal(player) then
         self:AddDividerOption()
         self:AddPlayerBarOption("Health", "GetHealthPercent", "SetHealthPercent")
-        self:AddOldPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
+        self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
         self:AddOldPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
 
         self:AddDividerOption()
