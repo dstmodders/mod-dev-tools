@@ -10,12 +10,14 @@
 --        get = {
 --            src = worlddevtools, -- can be a function, see "set" as a reference
 --            name = "IsMapFogOfWar",
+--            args = {}, -- optional, to customize passed arguments
 --        },
 --        set = {
 --            src = function(self, submenu) -- can be a field, see "get" as a reference
 --                return submenu.devtools.world
 --            end,
 --            name = "ToggleMapFogOfWar",
+--            args = {}, -- optional, to customize passed arguments
 --        },
 --        on_accept_fn = function(self, submenu, textmenu)
 --            print("Your option is accepted")
@@ -61,18 +63,27 @@ local ToggleCheckboxOption = Class(CheckboxOption, function(self, options, subme
         end
     end
 
-    local set_src = options.set.src
     local get_src = options.get.src
+    local set_src = options.set.src
 
     options.on_get_fn = function()
         get_src = type(get_src) == "function" and get_src(self, submenu) or get_src
-        return get_src[options.get.name](get_src)
+        return options.get.args
+            and get_src[options.get.name](unpack(options.get.args))
+            or get_src[options.get.name](get_src)
     end
 
     options.on_set_fn = function(value)
+        local state = options.get.args
+            and get_src[options.get.name](unpack(options.get.args))
+            or get_src[options.get.name](get_src)
+
         set_src = type(set_src) == "function" and set_src(self, submenu) or set_src
-        if value ~= get_src[options.get.name](get_src) then
-            set_src[options.set.name](set_src)
+
+        if value ~= state then
+            return options.set.args
+                and set_src[options.set.name](unpack(options.set.args))
+                or set_src[options.set.name](set_src)
         end
     end
 
