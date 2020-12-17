@@ -19,10 +19,6 @@ require "devtools/console"
 -- @section globals
 
 local CONTROL_ACCEPT = _G.CONTROL_ACCEPT
-local CONTROL_MOVE_DOWN = _G.CONTROL_MOVE_DOWN
-local CONTROL_MOVE_LEFT = _G.CONTROL_MOVE_LEFT
-local CONTROL_MOVE_RIGHT = _G.CONTROL_MOVE_RIGHT
-local CONTROL_MOVE_UP = _G.CONTROL_MOVE_UP
 local KEY_SHIFT = _G.KEY_SHIFT
 local TheInput = _G.TheInput
 
@@ -53,21 +49,6 @@ SDK.Load(env, "scripts/devtools/sdk", {
 SDK.Debug.SetIsEnabled(GetModConfigData("debug") and true or false)
 SDK.Debug.ModConfigs()
 
---- Helpers
--- @section helpers
-
-local function GetKeyFromConfig(config)
-    local key = GetModConfigData(config)
-    return key and (type(key) == "number" and key or _G[key]) or -1
-end
-
-local function IsMoveButton(control)
-    return control == CONTROL_MOVE_UP
-        or control == CONTROL_MOVE_DOWN
-        or control == CONTROL_MOVE_LEFT
-        or control == CONTROL_MOVE_RIGHT
-end
-
 --- Initialization
 -- @section initialization
 
@@ -79,8 +60,8 @@ _G.DevTools = devtools
 _G.DevToolsAPI = devtools:GetAPI()
 
 -- config
-devtools:SetConfig("key_select", GetKeyFromConfig("key_select"))
-devtools:SetConfig("key_switch_data", GetKeyFromConfig("key_switch_data"))
+devtools:SetConfig("key_select", SDK.Config.GetModKeyConfigData("key_select"))
+devtools:SetConfig("key_switch_data", SDK.Config.GetModKeyConfigData("key_switch_data"))
 
 local DevToolsScreen -- not an instance
 
@@ -211,44 +192,36 @@ SDK.Console.AddWordPredictionDictionaries({
 --- Player Controller
 -- @section player-controller
 
-AddComponentPostInit("playercontroller", function(playercontroller, player)
-    if player ~= _G.ThePlayer then
+SDK.OnLoadComponent("playercontroller", function(self)
+    devtools:GetDebug():DoInitPlayerController(self)
+end)
+
+SDK.OverrideComponentMethod("playercontroller", "OnControl", function(old, self, control, down)
+    if not devtools then
+        old(self, control, down)
         return
     end
 
-    -- overrides PlayerController:OnControl()
-    local OldOnControl = playercontroller.OnControl
-    playercontroller.OnControl = function(self, control, down)
-        if not devtools then
-            OldOnControl(self, control, down)
-            return
-        end
-
-        if not devtools.player.controller then
-            devtools.player.controller = playercontroller
-        end
-
-        if devtools then
-            -- screen
-            if DevToolsScreen then
-                if devtools:IsPaused()
-                    and not DevToolsScreen:IsOpen()
-                    and control == CONTROL_ACCEPT
-                then
-                    devtools:Unpause()
-                end
-            end
-
-            -- player
-            if devtools.player then
-                devtools.player:SetIsMoveButtonDown(down and IsMoveButton(control))
-            end
-        end
-
-        OldOnControl(self, control, down)
+    if not devtools.player.controller then
+        devtools.player.controller = self
     end
 
-    devtools:GetDebug():DoInitPlayerController(playercontroller)
+    if devtools then
+        -- screen
+        if DevToolsScreen then
+            if devtools:IsPaused()
+                and not DevToolsScreen:IsOpen()
+                and control == CONTROL_ACCEPT
+            then
+                devtools:Unpause()
+            end
+        end
+
+        -- player
+        if devtools.player then
+            devtools.player:SetIsMoveButtonDown(down and SDK.Input.IsControlMove(control))
+        end
+    end
 end)
 
 --- Prefabs
