@@ -62,9 +62,9 @@ function WorldStateData:PushWorldStateData()
         local state
         for _, v in pairs(self.state_keys) do
             state = self.state[v]
-            if type(state) == "number" and Utils.IsInteger(state) then
+            if type(state) == "number" and SDK.Utils.IsInteger(state) then
                 self:PushLine(v, tostring(state))
-            elseif type(state) == "number" and not Utils.IsInteger(state) then
+            elseif type(state) == "number" and not SDK.Utils.IsInteger(state) then
                 self:PushLine(v, SDK.Utils.String.ValueFloat(state))
             else
                 self:PushLine(v, tostring(state))

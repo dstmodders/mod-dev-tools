@@ -26,11 +26,4 @@ function Utils.AssertRequiredField(name, field)
     assert(field ~= nil, string.format("Required %s is missing", name))
 end
 
---- Checks if value is an integer.
--- @tparam number value
--- @treturn boolean
-function Utils.IsInteger(value)
-    return value == math.floor(value)
-end
-
 return Utils
