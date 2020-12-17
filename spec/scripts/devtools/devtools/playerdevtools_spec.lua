@@ -221,7 +221,6 @@ describe("PlayerDevTools", function()
                 "CanGrueAttack",
 
                 -- player
-                "GetMaxHealthPercent",
                 "GetMoisturePercent",
                 "GetTemperature",
                 "GetWerenessPercent",
@@ -1009,52 +1008,6 @@ describe("PlayerDevTools", function()
                     end)
                 end)
             end
-
-            describe("GetMaxHealthPercent", function()
-                TestWhenThePlayerIsNotPassed(describe, it, before_each, "GetMaxHealthPercent")
-
-                describe("when the player is passed", function()
-                    describe("and the Health replica component is available", function()
-                        local GetPenaltyPercent
-
-                        before_each(function()
-                            EachPlayer(function(player)
-                                player.replica.health = {
-                                    GetPenaltyPercent = spy.new(ReturnValueFn(.4)),
-                                }
-                            end)
-                        end)
-
-                        it("should call the Health:GetPenaltyPercent()", function()
-                            EachPlayer(function(player)
-                                GetPenaltyPercent = player.replica.health.GetPenaltyPercent
-                                assert.spy(GetPenaltyPercent).was_not_called()
-                                playerdevtools:GetMaxHealthPercent(player)
-                                assert.spy(GetPenaltyPercent).was_called(1)
-                                assert.spy(GetPenaltyPercent).was_called_with(
-                                    match.is_ref(player.replica.health)
-                                )
-                            end)
-                        end)
-
-                        it("should return the maximum health percent", function()
-                            EachPlayer(function(player)
-                                assert.is_equal(60, playerdevtools:GetMaxHealthPercent(player))
-                            end)
-                        end)
-                    end)
-                end)
-
-                describe("when some chain fields are missing", function()
-                    it("should return nil", function()
-                        EachPlayer(function(player)
-                            AssertChainNil(function()
-                                assert.is_nil(playerdevtools:GetMaxHealthPercent(player))
-                            end, player, "replica", "health")
-                        end)
-                    end)
-                end)
-            end)
 
             describe("GetMoisturePercent", function()
                 TestWhenThePlayerIsNotPassed(describe, it, before_each, "GetMoisturePercent")

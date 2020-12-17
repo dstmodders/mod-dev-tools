@@ -114,7 +114,7 @@ function SelectedData:PushPlayerData()
         if devtools.inst == player or (devtools.ismastersim or SDK.Player.IsAdmin()) then
             local health = SDK.Utils.String.ValuePercent(SDK.Player.GetHealthPercent() or 0)
             local health_max = SDK.Utils.String.ValuePercent(
-                playerdevtools:GetMaxHealthPercent(player) or 0
+                SDK.Player.GetHealthLimitPercent(player) or 0
             )
 
             self:PushLine("Health / Maximum", { health, health_max })

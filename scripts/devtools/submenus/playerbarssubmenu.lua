@@ -145,9 +145,9 @@ function PlayerBarsSubmenu:AddOptions()
         self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
 
         self:AddDividerOption()
-        self:AddOldPlayerBarOption(
+        self:AddPlayerBarOption(
             "Maximum Health",
-            "GetMaxHealthPercent",
+            "GetHealthLimitPercent",
             "SetMaxHealthPercent",
             25
         )
