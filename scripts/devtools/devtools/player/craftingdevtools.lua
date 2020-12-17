@@ -369,7 +369,8 @@ function CraftingDevTools:ToggleFreeCrafting(player)
         self.consoledevtools:ToggleFreeCrafting(player)
 
         local is_free_crafting = self:IsFreeCrafting(player)
-        self:DebugSelectedPlayerString(
+        self:DebugString(
+            player and "(" .. player:GetDisplayName() .. ")",
             "Free Crafting is",
             (is_free_crafting and "enabled" or "disabled")
         )

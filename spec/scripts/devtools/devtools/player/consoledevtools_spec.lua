@@ -1,19 +1,12 @@
 require "busted.runner"()
 
 describe("ConsoleDevTools", function()
-    -- setup
-    local match
-
     -- before_each initialization
     local ConsoleDevTools, consoledevtools
     local devtools, playerdevtools
 
-    -- before_each debug
-    local DebugSelectedPlayerString, DebugString
-    local DebugError, DebugErrorNotAdmin, DebugErrorNotInCave, DebugErrorNotInForest
-
     setup(function()
-        match = require "luassert.match"
+        DebugSpyInit()
     end)
 
     teardown(function()
@@ -46,13 +39,7 @@ describe("ConsoleDevTools", function()
         ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
         consoledevtools = ConsoleDevTools(playerdevtools, devtools)
 
-        -- debug
-        DebugError = spy.on(consoledevtools, "DebugError")
-        DebugErrorNotAdmin = spy.on(consoledevtools, "DebugErrorNotAdmin")
-        DebugErrorNotInCave = spy.on(consoledevtools, "DebugErrorNotInCave")
-        DebugErrorNotInForest = spy.on(consoledevtools, "DebugErrorNotInForest")
-        DebugSelectedPlayerString = spy.on(consoledevtools, "DebugSelectedPlayerString")
-        DebugString = spy.on(consoledevtools, "DebugString")
+        DebugSpyClear()
     end)
 
     insulate("initialization", function()
@@ -130,7 +117,6 @@ describe("ConsoleDevTools", function()
     describe("remote", function()
         local remotes = {
             SetHealthPercent = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
@@ -139,7 +125,6 @@ describe("ConsoleDevTools", function()
                 },
             },
             SetHungerPercent = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
@@ -148,7 +133,6 @@ describe("ConsoleDevTools", function()
                 },
             },
             SetSanityPercent = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
@@ -157,7 +141,6 @@ describe("ConsoleDevTools", function()
                 },
             },
             SetMaxHealthPercent = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
@@ -166,7 +149,6 @@ describe("ConsoleDevTools", function()
                 },
             },
             SetMoisturePercent = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
@@ -175,7 +157,6 @@ describe("ConsoleDevTools", function()
                 },
             },
             SetTemperature = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
@@ -184,7 +165,6 @@ describe("ConsoleDevTools", function()
                 },
             },
             SetWerenessPercent = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
@@ -193,7 +173,6 @@ describe("ConsoleDevTools", function()
                 },
             },
             GoNext = {
-                debug_fn = "DebugSelectedPlayerString",
                 invalid = { { "Bearger", 1000 }, "1000" },
                 valid = {
                     { "Bearger", "bearger" },
@@ -296,13 +275,12 @@ describe("ConsoleDevTools", function()
                     end)
 
                     it("should debug error", function()
-                        assert.spy(DebugErrorNotAdmin, remote).was_not_called()
+                        DebugSpyClear("DebugError")
                         consoledevtools[remote](consoledevtools)
-                        assert.spy(DebugErrorNotAdmin, remote).was_called(1)
-                        assert.spy(DebugErrorNotAdmin, remote).was_called_with(
-                            match.is_ref(consoledevtools),
-                            string.format("ConsoleDevTools:%s()", remote)
-                        )
+                        DebugSpyAssertWasCalled("DebugError", 1, {
+                            string.format("ConsoleDevTools:%s():", remote),
+                            "not an admin"
+                        })
                     end)
 
                     it("should return false", function()
@@ -318,23 +296,17 @@ describe("ConsoleDevTools", function()
                         local another_world = world == "forest" and "cave" or "forest"
 
                         describe("and in the " .. another_world, function()
-                            local debug_error_fn
-
                             before_each(function()
                                 _G.SDK.World.IsCave = ReturnValueFn(true)
-                                debug_error_fn = world == "forest"
-                                    and DebugErrorNotInForest
-                                    or DebugErrorNotInCave
                             end)
 
                             it("should debug error", function()
-                                assert.spy(debug_error_fn, remote).was_not_called()
+                                DebugSpyClear("DebugError")
                                 consoledevtools[remote](consoledevtools)
-                                assert.spy(debug_error_fn, remote).was_called(1)
-                                assert.spy(debug_error_fn, remote).was_called_with(
-                                    match.is_ref(consoledevtools),
-                                    string.format("ConsoleDevTools:%s()", remote)
-                                )
+                                DebugSpyAssertWasCalled("DebugError", 1, {
+                                    string.format("ConsoleDevTools:%s():", remote),
+                                    string.format("not in the %s world", world)
+                                })
                             end)
 
                             it("should return false", function()
@@ -360,9 +332,7 @@ describe("ConsoleDevTools", function()
                                 value = { value }
                             end
 
-                            debug_fn = data.debug_fn == "DebugSelectedPlayerString"
-                                and DebugSelectedPlayerString
-                                or DebugString
+                            debug_fn = data.debug_fn ~= nil and data.debug_fn or "DebugString"
                         end)
 
                         it("should send the corresponding remote console command", function()
@@ -373,13 +343,9 @@ describe("ConsoleDevTools", function()
                         end)
 
                         it("should debug string", function()
-                            assert.spy(debug_fn, remote).was_not_called()
+                            DebugSpyClear(debug_fn)
                             consoledevtools[remote](consoledevtools, unpack(value))
-                            assert.spy(debug_fn, remote).was_called(1)
-                            assert.spy(debug_fn, remote).was_called_with(
-                                match.is_ref(consoledevtools),
-                                unpack(debug)
-                            )
+                            DebugSpyAssertWasCalled(debug_fn, 1, debug)
                         end)
 
                         it("should return true", function()
@@ -396,17 +362,13 @@ describe("ConsoleDevTools", function()
 
                         describe("with an invalid passed value", function()
                             it("should debug error", function()
-                                assert.spy(DebugError, remote).was_not_called()
+                                DebugSpyClear("DebugError")
                                 consoledevtools[remote](consoledevtools, unpack(value))
-                                assert.spy(DebugError, remote).was_called(1)
-                                assert.spy(DebugError, remote).was_called_with(
-                                    match.is_ref(consoledevtools),
-                                    string.format(
-                                        "ConsoleDevTools:%s(): invalid value",
-                                        remote
-                                    ),
+                                DebugSpyAssertWasCalled("DebugError", 1, {
+                                    string.format("ConsoleDevTools:%s():", remote),
+                                    "invalid value",
                                     string.format("(%s)", error)
-                                )
+                                })
                             end)
 
                             it("should return false", function()
@@ -428,13 +390,12 @@ describe("ConsoleDevTools", function()
                 end)
 
                 it("should debug error", function()
-                    assert.spy(DebugErrorNotInCave).was_not_called()
+                    DebugSpyClear("DebugError")
                     consoledevtools:MiniQuake()
-                    assert.spy(DebugErrorNotInCave).was_called(1)
-                    assert.spy(DebugErrorNotInCave).was_called_with(
-                        match.is_ref(consoledevtools),
-                        "ConsoleDevTools:MiniQuake()"
-                    )
+                    DebugSpyAssertWasCalled("DebugError", 1, {
+                        "ConsoleDevTools:MiniQuake():",
+                        "not in the cave world"
+                    })
                 end)
 
                 it("should return false", function()
@@ -453,13 +414,12 @@ describe("ConsoleDevTools", function()
                     end)
 
                     it("should debug error", function()
-                        assert.spy(DebugErrorNotAdmin).was_not_called()
+                        DebugSpyClear("DebugError")
                         consoledevtools:MiniQuake()
-                        assert.spy(DebugErrorNotAdmin).was_called(1)
-                        assert.spy(DebugErrorNotAdmin).was_called_with(
-                            match.is_ref(consoledevtools),
-                            "ConsoleDevTools:MiniQuake()"
-                        )
+                        DebugSpyAssertWasCalled("DebugError", 1, {
+                            "ConsoleDevTools:MiniQuake():",
+                            "not an admin"
+                        })
                     end)
 
                     it("should return false", function()
@@ -484,14 +444,12 @@ describe("ConsoleDevTools", function()
                         end)
 
                         it("should debug string", function()
-                            assert.spy(DebugString).was_not_called()
+                            DebugSpyClear("DebugString")
                             consoledevtools:MiniQuake(nil, 10, 10, 1)
-                            assert.spy(DebugString).was_called(1)
-                            assert.spy(DebugString).was_called_with(
-                                match.is_ref(consoledevtools),
+                            DebugSpyAssertWasCalled("DebugString", 1, {
                                 "ConsoleDevTools:MiniQuake():",
                                 "KU_admin, 10, 10, 1"
-                            )
+                            })
                         end)
 
                         it("should return true", function()
@@ -501,14 +459,13 @@ describe("ConsoleDevTools", function()
 
                     describe("with invalid passed values", function()
                         it("should debug error", function()
-                            assert.spy(DebugError).was_not_called()
+                            DebugSpyClear("DebugError")
                             consoledevtools:MiniQuake(1, "test", "test", "test")
-                            assert.spy(DebugError).was_called(1)
-                            assert.spy(DebugError).was_called_with(
-                                match.is_ref(consoledevtools),
-                                "ConsoleDevTools:MiniQuake(): invalid value",
+                            DebugSpyAssertWasCalled("DebugError", 1, {
+                                "ConsoleDevTools:MiniQuake():",
+                                "invalid value",
                                 "(1, test, test, test)"
-                            )
+                            })
                         end)
 
                         it("should return false", function()

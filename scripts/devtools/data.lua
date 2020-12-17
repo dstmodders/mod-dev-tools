@@ -19,7 +19,6 @@
 require "class"
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 -- general
 local _DEFAULT_PERSIST_DATA = { general = {}, servers = {} }
@@ -33,7 +32,7 @@ local _SERVER_EXPIRE_TIME = USER_HISTORY_EXPIRY_TIME
 -- @function _ctor
 -- @usage local data = Data(modname)
 local Data = Class(function(self, modname)
-    Utils.Debug.AddMethods(self)
+    SDK.Debug.AddMethods(self)
 
     -- general
     self.dirty = true

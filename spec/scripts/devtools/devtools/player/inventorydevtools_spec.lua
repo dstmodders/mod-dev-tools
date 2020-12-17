@@ -6,8 +6,7 @@ describe("InventoryDevTools", function()
     local InventoryDevTools, inventorydevtools
 
     setup(function()
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
     end)
 
     teardown(function()

@@ -27,7 +27,7 @@
 ----
 require "class"
 
-local Utils = require "devtools/utils"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 local ActionOption = require "devtools/menu/option/actionoption"
 local CheckboxOption = require "devtools/menu/option/checkboxoption"
@@ -50,7 +50,7 @@ local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
 -- @tparam[opt] number|table data_sidebar
 -- @usage local submenu = Submenu(devtools, root, "Label", "Name")
 local Submenu = Class(function(self, devtools, root, label, name, data_sidebar)
-    Utils.Debug.AddMethods(self)
+    SDK.Debug.AddMethods(self)
 
     -- general
     self.data_sidebar = data_sidebar

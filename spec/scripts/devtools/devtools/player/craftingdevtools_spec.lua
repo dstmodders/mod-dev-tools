@@ -6,8 +6,7 @@ describe("CraftingDevTools", function()
     local CraftingDevTools, craftingdevtools
 
     setup(function()
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
     end)
 
     teardown(function()

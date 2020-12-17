@@ -16,6 +16,8 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
+
 --- Lifecycle
 -- @section lifecycle
 
@@ -24,6 +26,8 @@ require "class"
 -- @tparam Debug debug
 -- @usage local playercontroller = PlayerController(debug)
 local PlayerController = Class(function(self, debug)
+    SDK.Debug.AddMethods(self)
+
     -- general
     self.debug = debug
     self.name = "PlayerController"
@@ -33,7 +37,7 @@ local PlayerController = Class(function(self, debug)
     self.activated_player_classified = {}
 
     -- other
-    self.debug:DebugInit("Debug (PlayerController)")
+    self:DebugInit("Debug (PlayerController)")
 end)
 
 --- Shared
@@ -179,7 +183,7 @@ function PlayerController:OverrideMouseClicks(playercontroller)
     local function NewOnLeftClick(_self, down)
         OldOnLeftClick(_self, down)
 
-        if self.debug:IsDebug("lmb") and down and not TheInput:GetHUDEntityUnderMouse() then
+        if SDK.Debug.IsDebug("lmb") and down and not TheInput:GetHUDEntityUnderMouse() then
             local act
             if _self:IsAOETargeting() then
                 act = _self:GetRightMouseAction()
@@ -247,7 +251,7 @@ function PlayerController:OverrideMouseClicks(playercontroller)
     local function NewOnRightClick(_self, down)
         OldOnRightClick(_self, down)
 
-        if self.debug:IsDebug("rmb") and down and not TheInput:GetHUDEntityUnderMouse() then
+        if SDK.Debug.IsDebug("rmb") and down and not TheInput:GetHUDEntityUnderMouse() then
             local act = _self:GetRightMouseAction()
             if act then
                 if _self.deployplacer ~= nil and act.action == ACTIONS.DEPLOY then
@@ -555,91 +559,91 @@ function PlayerController:OverrideRemotes(playercontroller)
     local OldRemoteUseItemFromInvTile = playercontroller.RemoteUseItemFromInvTile
 
     local function NewRemoteActionButton(...)
-        if self.debug:IsDebug("RemoteActionButton") then
+        if SDK.Debug.IsDebug("RemoteActionButton") then
             RemoteActionButton(self, ...)
         end
         OldRemoteActionButton(...)
     end
 
     local function NewRemoteAttackButton(...)
-        if self.debug:IsDebug("RemoteAttackButton") then
+        if SDK.Debug.IsDebug("RemoteAttackButton") then
             RemoteAttackButton(self, ...)
         end
         OldRemoteAttackButton(...)
     end
 
     local function NewRemoteBufferedAction(...)
-        if self.debug:IsDebug("RemoteBufferedAction") then
+        if SDK.Debug.IsDebug("RemoteBufferedAction") then
             RemoteBufferedAction(self, ...)
         end
         OldRemoteBufferedAction(...)
     end
 
     local function NewRemoteDirectWalking(...)
-        if self.debug:IsDebug("RemoteDirectWalking") then
+        if SDK.Debug.IsDebug("RemoteDirectWalking") then
             RemoteDirectWalking(self, ...)
         end
         OldRemoteDirectWalking(...)
     end
 
     local function NewRemoteDragWalking(...)
-        if self.debug:IsDebug("RemoteDragWalking") then
+        if SDK.Debug.IsDebug("RemoteDragWalking") then
             RemoteDragWalking(self, ...)
         end
         OldRemoteDragWalking(...)
     end
 
     local function NewRemoteDropItemFromInvTile(...)
-        if self.debug:IsDebug("RemoteDropItemFromInvTile") then
+        if SDK.Debug.IsDebug("RemoteDropItemFromInvTile") then
             RemoteDropItemFromInvTile(self, ...)
         end
         OldRemoteDropItemFromInvTile(...)
     end
 
     local function NewRemoteInspectButton(...)
-        if self.debug:IsDebug("RemoteInspectButton") then
+        if SDK.Debug.IsDebug("RemoteInspectButton") then
             RemoteInspectButton(self, ...)
         end
         OldRemoteInspectButton(...)
     end
 
     local function NewRemoteInspectItemFromInvTile(...)
-        if self.debug:IsDebug("RemoteInspectItemFromInvTile") then
+        if SDK.Debug.IsDebug("RemoteInspectItemFromInvTile") then
             RemoteInspectItemFromInvTile(self, ...)
         end
         OldRemoteInspectItemFromInvTile(...)
     end
 
     local function NewRemoteMakeRecipeAtPoint(...)
-        if self.debug:IsDebug("RemoteMakeRecipeAtPoint") then
+        if SDK.Debug.IsDebug("RemoteMakeRecipeAtPoint") then
             RemoteMakeRecipeAtPoint(self, ...)
         end
         OldRemoteMakeRecipeAtPoint(...)
     end
 
     local function NewRemoteMakeRecipeFromMenu(...)
-        if self.debug:IsDebug("RemoteMakeRecipeFromMenu") then
+        if SDK.Debug.IsDebug("RemoteMakeRecipeFromMenu") then
             RemoteMakeRecipeFromMenu(self, ...)
         end
         OldRemoteMakeRecipeFromMenu(...)
     end
 
     local function NewRemotePredictWalking(...)
-        if self.debug:IsDebug("RemotePredictWalking") then
+        if SDK.Debug.IsDebug("RemotePredictWalking") then
             RemotePredictWalking(self, ...)
         end
         OldRemotePredictWalking(...)
     end
 
     local function NewRemoteStopWalking(...)
-        if self.debug:IsDebug("RemoteStopWalking") then
+        if SDK.Debug.IsDebug("RemoteStopWalking") then
             RemoteStopWalking(self, ...)
         end
         OldRemoteStopWalking(...)
     end
 
     local function NewRemoteUseItemFromInvTile(...)
-        if self.debug:IsDebug("RemoteUseItemFromInvTile") then
+        if SDK.Debug.IsDebug("RemoteUseItemFromInvTile") then
             RemoteUseItemFromInvTile(self, ...)
         end
         OldRemoteUseItemFromInvTile(...)

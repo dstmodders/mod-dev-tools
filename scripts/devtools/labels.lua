@@ -17,7 +17,6 @@ require "class"
 require "devtools/constants"
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 -- threads
 local _LABEL_UPDATE_THREAD_ID = "mod_dev_tools_label_update_thread"
@@ -30,7 +29,7 @@ local _LABEL_UPDATE_THREAD_ID = "mod_dev_tools_label_update_thread"
 -- @tparam DevTools devtools
 -- @usage local labels = Labels(devtools)
 local Labels = Class(function(self, devtools)
-    Utils.Debug.AddMethods(self)
+    SDK.Debug.AddMethods(self)
 
     -- general
     self.default_font = nil

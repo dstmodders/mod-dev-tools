@@ -21,7 +21,6 @@
 require "class"
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -30,7 +29,7 @@ local Utils = require "devtools/utils"
 -- @function _ctor
 -- @usage local data = Data(screen)
 local Data = Class(function(self, screen)
-    Utils.Debug.AddMethods(self)
+    SDK.Debug.AddMethods(self)
 
     -- general
     self.index = screen and screen.data_sidebar_idx

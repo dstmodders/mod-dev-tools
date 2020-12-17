@@ -13,6 +13,8 @@
 ----
 require "devtools/constants"
 
+local SDK = require "devtools/sdk/sdk/sdk"
+
 local _TOGGLE_ALL_MOUSE_CLICKS = { "lmb", "rmb" }
 
 local _TOGGLE_ALL_EVENTS = {
@@ -47,17 +49,17 @@ local function Debug(label, debug_keys, on_add_to_root_fn)
                     name = label,
                     left = true,
                 },
-                on_get_fn = function(_, submenu)
+                on_get_fn = function()
                     for _, debug_key in pairs(debug_keys) do
-                        if not submenu.debug:IsDebug(debug_key) then
+                        if not SDK.Debug.IsDebug(debug_key) then
                             return false
                         end
                     end
                     return true
                 end,
-                on_set_fn = function(_, submenu, value)
+                on_set_fn = function(_, _, value)
                     for _, debug_key in pairs(debug_keys) do
-                        submenu.debug:SetIsDebug(debug_key, value)
+                        SDK.Debug.SetIsDebug(debug_key, value)
                     end
                 end,
             },
@@ -71,11 +73,11 @@ local function Debug(label, debug_keys, on_add_to_root_fn)
                     name = label,
                     left = true,
                 },
-                on_get_fn = function(_, submenu)
-                    return submenu.debug:IsDebug(debug_keys)
+                on_get_fn = function()
+                    return SDK.Debug.IsDebug(debug_keys)
                 end,
-                on_set_fn = function(_, submenu, value)
-                    submenu.debug:SetIsDebug(debug_keys, value)
+                on_set_fn = function(_, _, value)
+                    SDK.Debug.SetIsDebug(debug_keys, value)
                 end,
             },
         }
@@ -91,12 +93,12 @@ local function DebugEvents(name, activate, deactivate, on_add_to_root_fn)
                 name = name,
                 left = true,
             },
-            on_get_fn = function(_, submenu)
-                return submenu.debug:IsDebug(name)
+            on_get_fn = function()
+                return SDK.Debug.IsDebug(name)
             end,
             on_set_fn = function(_, submenu, value)
-                if value ~= submenu.debug:IsDebug(name) then
-                    submenu.debug:SetIsDebug(name, value)
+                if value ~= SDK.Debug.IsDebug(name) then
+                    SDK.Debug.SetIsDebug(name, value)
                     local events = submenu.debug:GetEvents()
                     return value and events[activate](events) or events[deactivate](events)
                 end
@@ -118,9 +120,9 @@ return {
                     left = true,
                 },
                 name = "DebugToggleAllEvents",
-                on_get_fn = function(_, submenu)
+                on_get_fn = function()
                     for debug_key, _ in pairs(_TOGGLE_ALL_EVENTS) do
-                        if not submenu.debug:IsDebug(debug_key) then
+                        if not SDK.Debug.IsDebug(debug_key) then
                             return false
                         end
                     end
@@ -128,8 +130,8 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     for debug_key, functions in pairs(_TOGGLE_ALL_EVENTS) do
-                        if value ~= submenu.debug:IsDebug(debug_key) then
-                            submenu.debug:SetIsDebug(debug_key, value)
+                        if value ~= SDK.Debug.IsDebug(debug_key) then
+                            SDK.Debug.SetIsDebug(debug_key, value)
                             local events = submenu.debug:GetEvents()
                             events[value and functions[1] or functions[2]](events)
                         end

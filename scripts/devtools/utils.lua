@@ -11,7 +11,6 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @module Utils
--- @see Utils.Debug
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -19,8 +18,6 @@
 -- @release 0.7.0
 ----
 local Utils = {}
-
-Utils.Debug = require "devtools/utils/debug"
 
 --- Assets if the required field is not missing.
 -- @tparam string name

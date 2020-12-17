@@ -6,8 +6,7 @@ describe("SaveDataDevTools", function()
     local SaveDataDevTools, savedatadevtools
 
     setup(function()
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
     end)
 
     teardown(function()

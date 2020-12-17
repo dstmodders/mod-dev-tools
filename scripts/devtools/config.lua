@@ -16,7 +16,6 @@ require "class"
 require "devtools/constants"
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -25,7 +24,7 @@ local Utils = require "devtools/utils"
 -- @function _ctor
 -- @tparam[opt] Data data
 local Config = Class(function(self, data)
-    Utils.Debug.AddMethods(self)
+    SDK.Debug.AddMethods(self)
 
     -- general
     self.data = data

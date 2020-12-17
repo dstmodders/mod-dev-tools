@@ -102,7 +102,7 @@ local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
             self.wereness_mode = _inst.weremode:value()
         end
 
-        self:DebugActivateEventListener("weremodedirty")
+        self:DebugString("[event]", "[weremodedirty]", "Activated")
         inst:ListenForEvent("weremodedirty", OnWereModeDirty)
     end
 
@@ -237,7 +237,7 @@ function PlayerDevTools:ToggleGodMode(player)
     player = player ~= nil and player or self:GetSelected()
 
     if not player or not SDK.Player.IsAdmin() then
-        self:DebugErrorNotAdmin("PlayerDevTools:ToggleGodMode()")
+        self:DebugError("PlayerDevTools:ToggleGodMode():", "not an admin")
     end
 
     local is_god_mode = self:IsGodMode(player)
@@ -254,7 +254,10 @@ function PlayerDevTools:ToggleGodMode(player)
                 { player.userid }
             )
 
-            self:DebugSelectedPlayerString("God Mode is disabled")
+            self:DebugString(
+                player and "(" .. player:GetDisplayName() .. ")",
+                "God Mode is disabled"
+            )
 
             return false
         elseif is_god_mode == false then
@@ -264,7 +267,10 @@ function PlayerDevTools:ToggleGodMode(player)
             )
 
             table.insert(self.god_mode_players, player.userid)
-            self:DebugSelectedPlayerString("God Mode is enabled")
+            self:DebugString(
+                player and "(" .. player:GetDisplayName() .. ")",
+                "God Mode is enabled"
+            )
 
             return true
         end
@@ -530,7 +536,7 @@ function PlayerDevTools:DoTerm()
     if self.inst then
         if OnWereModeDirty then
             self.inst:RemoveEventCallback("weremodedirty", OnWereModeDirty)
-            self:DebugDeactivateEventListener("weremodedirty")
+            self:DebugString("[event]", "[weremodedirty]", "Deactivated")
         end
     end
 

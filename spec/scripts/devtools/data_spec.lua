@@ -24,8 +24,7 @@ describe("Data", function()
         match = require "luassert.match"
 
         -- debug
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
 
         -- other
         modname = "test"
@@ -78,8 +77,7 @@ describe("Data", function()
         _G.json = json
 
         -- initialization
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
         Data = require "devtools/data"
         data = Data(modname)
 

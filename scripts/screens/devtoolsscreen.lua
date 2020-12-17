@@ -569,7 +569,7 @@ end
 --- Initializes.
 -- @tparam DevTools devtools
 function DevToolsScreen:DoInit(devtools)
-    Utils.Debug.AddMethods(self)
+    SDK.Debug.AddMethods(self)
 
     -- general
     self.data_text = nil

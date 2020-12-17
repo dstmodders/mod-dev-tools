@@ -6,8 +6,7 @@ describe("DevTools", function()
     local DevTools, devtools
 
     setup(function()
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
     end)
 
     teardown(function()

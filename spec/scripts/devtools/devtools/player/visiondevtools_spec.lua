@@ -14,8 +14,7 @@ describe("VisionDevTools", function()
         match = require "luassert.match"
 
         -- debug
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
 
         -- other
         NIGHTVISION_COLOUR_CUBES = {

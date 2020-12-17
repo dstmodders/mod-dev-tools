@@ -14,6 +14,8 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
+
 --- Lifecycle
 -- @section lifecycle
 
@@ -22,6 +24,8 @@ require "class"
 -- @tparam Debug debug
 -- @usage local globals = Globals(debug)
 local Globals = Class(function(self, debug)
+    SDK.Debug.AddMethods(self)
+
     -- general
     self.debug = debug
 
@@ -33,7 +37,7 @@ local Globals = Class(function(self, debug)
     end
 
     -- other
-    self.debug:DebugInit("Debug (Globals)")
+    self:DebugInit("Debug (Globals)")
 end)
 
 --- General
@@ -42,7 +46,7 @@ end)
 --- SendRPCToServer.
 -- @tparam any ...
 function Globals:SendRPCToServer(...)
-    if self.debug:IsDebug("rpc") then
+    if SDK.Debug.IsDebug("rpc") then
         print(string.format("[debug] [rpc] %s", self.debug:SendRPCToServerString(...)))
     end
 end

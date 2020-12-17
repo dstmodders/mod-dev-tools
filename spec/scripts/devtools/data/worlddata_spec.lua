@@ -7,8 +7,7 @@ describe("WorldData", function()
 
     setup(function()
         -- debug
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
 
         -- globals
         _G.MOD_DEV_TOOLS_TEST = true

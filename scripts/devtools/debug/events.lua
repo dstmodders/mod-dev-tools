@@ -26,7 +26,7 @@ end
 local function CheckIfAlreadyActivated(self, fn_name, activated)
     local count = SDK.Utils.Table.Count(activated)
     if count > 0 then
-        self.debug:DebugError(
+        self:DebugError(
             string.format("%s:%s():", self.name, fn_name),
             string.format("already %d activated, deactivate first", count)
         )
@@ -37,7 +37,7 @@ end
 local function CheckIfAlreadyDeactivated(self, fn_name, activated)
     local count = SDK.Utils.Table.Count(activated)
     if count == 0 then
-        self.debug:DebugError(
+        self:DebugError(
             string.format("%s:%s():", self.name, fn_name),
             string.format("already deactivated, activate first", count)
         )
@@ -57,7 +57,7 @@ local function Activate(self, name, entity)
         result[event] = callback
     end
 
-    self.debug:DebugString(
+    self:DebugString(
         "Activated debugging of the",
         SDK.Utils.Table.Count(result),
         name,
@@ -74,7 +74,7 @@ local function Deactivate(self, name, entity, activated)
         entity:RemoveEventCallback(event, callback)
     end
 
-    self.debug:DebugString("Deactivated debugging of the", count, name, "event listeners")
+    self:DebugString("Deactivated debugging of the", count, name, "event listeners")
 
     return {}
 end
@@ -87,6 +87,8 @@ end
 -- @tparam Debug debug
 -- @usage local events = Events(debug)
 local Events = Class(function(self, debug)
+    SDK.Debug.AddMethods(self)
+
     -- general
     self.debug = debug
     self.name = "Events"
@@ -108,7 +110,7 @@ local Events = Class(function(self, debug)
     end
 
     -- other
-    self.debug:DebugInit("Debug (Events)")
+    self:DebugInit("Debug (Events)")
 end)
 
 --- Player

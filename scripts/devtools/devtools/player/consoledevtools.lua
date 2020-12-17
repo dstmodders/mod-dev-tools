@@ -180,7 +180,7 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
     debug_fn = debug_fn ~= nil and debug_fn or self.DebugString
 
     if not SDK.Player.IsAdmin() then
-        self:DebugErrorNotAdmin(fn_full_name)
+        self:DebugError(fn_full_name .. ":", "not an admin")
         return false
     end
 
@@ -201,7 +201,9 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
     end
 
     self:DebugError(
-        fn_full_name .. ": invalid value", values ~= nil
+        fn_full_name .. ":",
+        "invalid value",
+        values ~= nil
             and string.format("(%s)", debug_values)
             or nil
     )
@@ -210,7 +212,7 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
 end
 
 local function RemoteSelectedPlayer(self, fn_name, console, value, check, debug)
-    return Remote(self, fn_name, console, value, check, debug, self.DebugSelectedPlayerString)
+    return Remote(self, fn_name, console, value, check, debug)
 end
 
 --- Player
@@ -351,7 +353,7 @@ function ConsoleDevTools:MiniQuake(target, rad, num, time)
     local fn_name = "MiniQuake"
 
     if not SDK.World.IsCave() then
-        self:DebugErrorNotInCave(self:GetFnFullName(fn_name))
+        self:DebugError(self:GetFnFullName(fn_name) .. ":", "not in the cave world")
         return false
     end
 
@@ -386,7 +388,7 @@ function ConsoleDevTools:SendLightningStrike(pos)
     local fn_name = "SendLightningStrike"
 
     if SDK.World.IsCave() then
-        self:DebugErrorNotInForest(self:GetFnFullName(fn_name))
+        self:DebugError(self:GetFnFullName(fn_name) .. ":", "not in the forest world")
         return false
     end
 
@@ -420,7 +422,7 @@ function ConsoleDevTools:SetSnowLevel(delta)
     local fn_name = "SetSnowLevel"
 
     if SDK.World.IsCave() then
-        self:DebugErrorNotInForest(self:GetFnFullName(fn_name))
+        self:DebugError(self:GetFnFullName(fn_name) .. ":", "not in the forest world")
         return false
     end
 
@@ -437,7 +439,7 @@ function ConsoleDevTools:SetTimeScale(timescale)
     local fn_name = 'SetTimeScale'
 
     if self.devtools and #self.devtools:GetPlayersClientTable() > 1 then
-        self:DebugError(fn_name .. ": There are other players on the server")
+        self:DebugError(fn_name .. ":", "There are other players on the server")
         return false
     end
 

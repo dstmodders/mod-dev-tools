@@ -26,8 +26,7 @@ describe("PlayerDevTools", function()
         match = require "luassert.match"
 
         -- debug
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
 
         -- globals
         _G.kleifileexists = ReturnValueFn(false)
@@ -862,10 +861,11 @@ describe("PlayerDevTools", function()
 
                 it("should debug error", function()
                     EachPlayer(function(player)
-                        DebugSpyClear("DebugErrorNotAdmin")
+                        DebugSpyClear("DebugError")
                         playerdevtools:ToggleGodMode(player)
-                        DebugSpyAssertWasCalled("DebugErrorNotAdmin", 1, {
-                            "PlayerDevTools:ToggleGodMode()"
+                        DebugSpyAssertWasCalled("DebugError", 1, {
+                            "PlayerDevTools:ToggleGodMode():",
+                            "not an admin"
                         })
                     end)
                 end)
@@ -912,9 +912,10 @@ describe("PlayerDevTools", function()
 
                     it("should debug selected player string", function()
                         EachPlayer(function(player)
-                            DebugSpyClear("DebugSelectedPlayerString")
+                            DebugSpyClear("DebugString")
                             playerdevtools:ToggleGodMode(player)
-                            DebugSpyAssertWasCalled("DebugSelectedPlayerString", 1, {
+                            DebugSpyAssertWasCalled("DebugString", 1, {
+                                "(" .. player:GetDisplayName() .. ")",
                                 "God Mode is enabled"
                             })
                         end)
@@ -964,9 +965,10 @@ describe("PlayerDevTools", function()
 
                     it("should debug selected player string", function()
                         EachPlayer(function(player)
-                            DebugSpyClear("DebugSelectedPlayerString")
+                            DebugSpyClear("DebugString")
                             playerdevtools:ToggleGodMode(player)
-                            DebugSpyAssertWasCalled("DebugSelectedPlayerString", 1, {
+                            DebugSpyAssertWasCalled("DebugString", 1, {
+                                "(" .. player:GetDisplayName() .. ")",
                                 "God Mode is disabled"
                             })
                         end)

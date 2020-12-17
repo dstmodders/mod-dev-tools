@@ -142,11 +142,11 @@ function VisionDevTools:ToggleForcedHUDVisibility()
 
     self.is_forced_hud_visibility = not self.is_forced_hud_visibility
     if self.is_forced_hud_visibility then
-        self:DebugActivateEventListener("playerhuddirty")
+        self:DebugString("[event]", "[playerhuddirty]", "Activated")
         classified:ListenForEvent("playerhuddirty", OnPlayerHUDDirty)
         return true
     else
-        self:DebugDeactivateEventListener("playerhuddirty")
+        self:DebugString("[event]", "[playerhuddirty]", "Deactivated")
         classified:RemoveEventCallback("playerhuddirty", OnPlayerHUDDirty)
         return false
     end
@@ -190,11 +190,11 @@ function VisionDevTools:ToggleForcedUnfading()
 
     self.is_forced_unfading = not self.is_forced_unfading
     if self.is_forced_unfading then
-        self:DebugActivateEventListener("playerfadedirty")
+        self:DebugString("[event]", "[playerfadedirty]", "Activated")
         classified:ListenForEvent("playerfadedirty", OnPlayerFadeDirty)
         return true
     else
-        self:DebugDeactivateEventListener("playerfadedirty")
+        self:DebugString("[event]", "[playerfadedirty]", "Deactivated")
         classified:RemoveEventCallback("playerfadedirty", OnPlayerFadeDirty)
         return false
     end

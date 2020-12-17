@@ -13,8 +13,7 @@ describe("WorldDevTools", function()
         match = require "luassert.match"
 
         -- debug
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
     end)
 
     teardown(function()

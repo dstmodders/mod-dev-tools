@@ -15,7 +15,7 @@
 require "class"
 require "devtools/constants"
 
-local Utils = require "devtools/utils"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
 -- @section lifecycle
@@ -24,7 +24,7 @@ local Utils = require "devtools/utils"
 -- @function _ctor
 -- @tparam DevTools devtools
 local API = Class(function(self, devtools)
-    Utils.Debug.AddMethods(self)
+    SDK.Debug.AddMethods(self)
 
     -- general
     self.devtools = devtools

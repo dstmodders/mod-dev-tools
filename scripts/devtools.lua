@@ -40,6 +40,7 @@ require "devtools/constants"
 local API = require "devtools/api"
 local Config = require "devtools/config"
 local Data = require "devtools/data"
+local Debug = require "devtools/debug"
 local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
 local SDK = require "devtools/sdk/sdk/sdk"
@@ -53,10 +54,9 @@ local WorldDevTools = require "devtools/devtools/worlddevtools"
 --- Constructor.
 -- @function _ctor
 -- @tparam string modname
--- @tparam Debug debug
--- @usage local devtools = DevTools(modname, debug)
-local DevTools = Class(function(self, modname, debug)
-    self:DoInit(modname, debug)
+-- @usage local devtools = DevTools(modname)
+local DevTools = Class(function(self, modname)
+    self:DoInit(modname)
 end)
 
 --- Helpers
@@ -68,12 +68,6 @@ end
 
 --- Debugging
 -- @section debugging
-
---- Gets `screens.DevToolsScreen`.
--- @treturn screens.DevToolsScreen
-function DevTools:GetScreen()
-    return self.screen
-end
 
 --- Gets `Debug`.
 -- @treturn Debug
@@ -110,6 +104,12 @@ end
 -- @tparam any value Config value
 function DevTools:SetConfig(name, value)
     self.config:SetValue(name, value)
+end
+
+--- Gets `screens.DevToolsScreen`.
+-- @treturn screens.DevToolsScreen
+function DevTools:GetScreen()
+    return self.screen
 end
 
 --- Resets config.
@@ -172,7 +172,7 @@ function DevTools:Reset()
     end
 
     if self.player and not SDK.Player.IsAdmin() then
-        self:DebugErrorNotAdmin("DevTools:Reset()")
+        self:DebugError("DevTools:Reset():", "not an admin")
         return false
     end
 
@@ -224,7 +224,7 @@ function DevTools:Pause()
     if playerdevtools then
         local fn_full_name = GetFnFullName("Pause")
         if self:IsPaused() then
-            self:DebugError(fn_full_name .. ": Game is already paused")
+            self:DebugError(fn_full_name .. ":", "Game is already paused")
             return false
         end
 
@@ -251,7 +251,7 @@ function DevTools:Unpause()
     if playerdevtools then
         local fn_full_name = GetFnFullName("Unpause")
         if not self:IsPaused() then
-            self:DebugError(fn_full_name .. ": Game is already resumed")
+            self:DebugError(fn_full_name .. ":", "Game is already resumed")
             return false
         end
 
@@ -460,13 +460,9 @@ end
 -- @section lifecycle
 
 --- Initializes.
---
--- Sets empty fields and adds debug functions.
---
 -- @tparam string modname
--- @tparam boolean debug
-function DevTools:DoInit(modname, debug)
-    Utils.Debug.AddMethods(self)
+function DevTools:DoInit(modname)
+    SDK.Debug.AddMethods(self)
 
     -- data
     local data = Data(modname)
@@ -475,7 +471,7 @@ function DevTools:DoInit(modname, debug)
     self.api = API(self)
     self.config = Config(data)
     self.data = data
-    self.debug = debug
+    self.debug = Debug(modname)
     self.inst = nil
     self.is_in_character_select = false
     self.ismastersim = nil
@@ -509,6 +505,7 @@ function DevTools:DoInitPlayer(inst)
     local msg = "Required DevTools.world is missing. Did you forget to DevTools:DoInitWorld()?"
     assert(self.world ~= nil, msg)
     self.player = PlayerDevTools(inst, self.world, self)
+    self.debug:DoInitGame()
 end
 
 --- Terminates when the world is terminated.

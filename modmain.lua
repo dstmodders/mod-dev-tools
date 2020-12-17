@@ -50,17 +50,8 @@ SDK.Load(env, "scripts/devtools/sdk", {
 --- Debugging
 -- @section debugging
 
-local debug
-
-debug = require("devtools/debug")(modname)
-debug:SetIsEnabled(GetModConfigData("debug") and true or false)
-debug:DebugModConfigs()
-
-_G.ModDevToolsDebug = debug
-
-local function DebugInit(...)
-    return debug and debug:DebugInit(...)
-end
+SDK.Debug.SetIsEnabled(GetModConfigData("debug") and true or false)
+SDK.Debug.ModConfigs()
 
 --- Helpers
 -- @section helpers
@@ -82,7 +73,7 @@ end
 
 local devtools
 
-devtools = require("devtools")(modname, debug)
+devtools = require("devtools")(modname)
 
 _G.DevTools = devtools
 _G.DevToolsAPI = devtools:GetAPI()
@@ -257,8 +248,7 @@ AddComponentPostInit("playercontroller", function(playercontroller, player)
         OldOnControl(self, control, down)
     end
 
-    debug:DoInitPlayerController(playercontroller)
-    DebugInit("PlayerControllerPostInit")
+    devtools:GetDebug():DoInitPlayerController(playercontroller)
 end)
 
 --- Prefabs

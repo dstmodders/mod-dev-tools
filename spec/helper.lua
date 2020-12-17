@@ -124,51 +124,6 @@ end
 
 local _DEBUG_SPY = {}
 
-function DebugSpyInit(spy)
-    local methods = {
-        "DebugActivateEventListener",
-        "DebugDeactivateEventListener",
-        "DebugError",
-        "DebugErrorNotAdmin",
-        "DebugErrorNotInCave",
-        "DebugErrorNotInForest",
-        "DebugInit",
-        "DebugSelectedPlayerString",
-        "DebugString",
-        "DebugStringStart",
-        "DebugStringStop",
-        "DebugTerm",
-    }
-
-    _G.ModDevToolsDebug = require "devtools/debug"
-    for _, method in pairs(methods) do
-        if not _DEBUG_SPY[method] then
-            _DEBUG_SPY[method] = spy.on(_G.ModDevToolsDebug, method)
-        end
-    end
-end
-
-function DebugSpyTerm()
-    for name, _ in pairs(_DEBUG_SPY) do
-        _DEBUG_SPY[name] = nil
-    end
-    _G.ModDevToolsDebug = nil
-end
-
-function DebugSpyClear(name)
-    if name ~= nil then
-        for _name, method in pairs(_DEBUG_SPY) do
-            if _name == name then
-                method:clear()
-            end
-        end
-    else
-        for _, method in pairs(_DEBUG_SPY) do
-            method:clear()
-        end
-    end
-end
-
 function DebugSpy(name)
     for _name, method in pairs(_DEBUG_SPY) do
         if _name == name then
@@ -189,7 +144,58 @@ function DebugSpyAssertWasCalled(name, calls, args)
     args = type(args) == "string" and { args } or args
     DebugSpyAssert(name).was_called(calls)
     if calls > 0 then
-        DebugSpyAssert(name).was_called_with(match.is_ref(_G.ModDevToolsDebug), unpack(args))
+        DebugSpyAssert(name).was_called_with(match.is_not_nil(), unpack(args))
+    end
+end
+
+function DebugSpyClear(name)
+    if name ~= nil then
+        for _name, method in pairs(_DEBUG_SPY) do
+            if _name == name then
+                method:clear()
+                return
+            end
+        end
+    end
+
+    for _, method in pairs(_DEBUG_SPY) do
+        method:clear()
+    end
+end
+
+function DebugSpyInit()
+    local spy = require "luassert.spy"
+    local functions = {
+        "Error",
+        "Init",
+        "ModConfigs",
+        "String",
+        "StringStart",
+        "StringStop",
+        "Term",
+    }
+
+    DebugSpyTerm()
+
+    for _, fn in pairs(functions) do
+        if SDK.Debug[fn] and not _DEBUG_SPY[fn] then
+            _DEBUG_SPY[fn] = spy.new(Empty)
+        end
+    end
+
+    SDK.Debug.AddMethods = function(self)
+        for _, fn in pairs(functions) do
+            if SDK.Debug[fn] and _DEBUG_SPY[fn] and not self["Debug" .. fn] then
+                self["Debug" .. fn] = _DEBUG_SPY[fn]
+                _DEBUG_SPY["Debug" .. fn] = self["Debug" .. fn]
+            end
+        end
+    end
+end
+
+function DebugSpyTerm()
+    for name, _ in pairs(_DEBUG_SPY) do
+        _DEBUG_SPY[name] = nil
     end
 end
 

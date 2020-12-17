@@ -5,16 +5,15 @@ describe("Events", function()
     local match
 
     -- initialization
-    local DebugError, DebugString, debug
     local Events, events
+    local debug
 
     setup(function()
         -- match
         match = require "luassert.match"
 
         -- debug
-        DebugSpyTerm()
-        DebugSpyInit(spy)
+        DebugSpyInit()
 
         -- globals
         _G.MOD_DEV_TOOLS_TEST = true
@@ -35,20 +34,8 @@ describe("Events", function()
 
         -- initialization
         debug = mock({
-            -- fields
             name = "Debug",
-
-            -- general
-            IsDebug = ReturnValueFn(false),
-
-            -- messages
-            DebugError = Empty,
-            DebugInit = Empty,
-            DebugString = Empty,
         })
-
-        DebugError = debug.DebugError
-        DebugString = debug.DebugString
 
         Events = require "devtools/debug/events"
         events = Events(debug)
@@ -133,14 +120,12 @@ describe("Events", function()
                 end)
 
                 it("should debug error", function()
-                    assert.spy(DebugError).was_not_called()
+                    DebugSpyClear("DebugError")
                     CheckIfAlreadyActivated(events, "Test", activated)
-                    assert.spy(DebugError).was_called(1)
-                    assert.spy(DebugError).was_called_with(
-                        match.is_ref(debug),
+                    DebugSpyAssertWasCalled("DebugError", 1, {
                         "Events:Test():",
                         "already 2 activated, deactivate first"
-                    )
+                    })
                 end)
 
                 it("should return true", function()
@@ -156,9 +141,9 @@ describe("Events", function()
                 end)
 
                 it("shouldn't debug error", function()
-                    assert.spy(DebugError).was_not_called()
+                    DebugSpyClear("DebugError")
                     CheckIfAlreadyActivated(events, "Test", activated)
-                    assert.spy(DebugError).was_not_called()
+                    DebugSpyAssertWasCalled("DebugError", 0)
                 end)
 
                 it("should return false", function()
@@ -192,9 +177,9 @@ describe("Events", function()
                 end)
 
                 it("shouldn't debug error", function()
-                    assert.spy(DebugError).was_not_called()
+                    DebugSpyClear("DebugError")
                     CheckIfAlreadyDeactivated(events, "Test", activated)
-                    assert.spy(DebugError).was_not_called()
+                    DebugSpyAssertWasCalled("DebugError", 0)
                 end)
 
                 it("should return false", function()
@@ -210,14 +195,12 @@ describe("Events", function()
                 end)
 
                 it("should debug error", function()
-                    assert.spy(DebugError).was_not_called()
+                    DebugSpyClear("DebugError")
                     CheckIfAlreadyDeactivated(events, "Test", activated)
-                    assert.spy(DebugError).was_called(1)
-                    assert.spy(DebugError).was_called_with(
-                        match.is_ref(debug),
+                    DebugSpyAssertWasCalled("DebugError", 1, {
                         "Events:Test():",
                         "already deactivated, activate first"
-                    )
+                    })
                 end)
 
                 it("should return true", function()
@@ -252,16 +235,14 @@ describe("Events", function()
             end)
 
             it("should debug string", function()
-                assert.spy(DebugString).was_not_called()
+                DebugSpyClear("DebugString")
                 Activate(events, "Test", entity)
-                assert.spy(DebugString).was_called(1)
-                assert.spy(DebugString).was_called_with(
-                    match.is_ref(debug),
+                DebugSpyAssertWasCalled("DebugString", 1, {
                     "Activated debugging of the",
                     2,
                     "Test",
                     "event listeners"
-                )
+                })
             end)
 
             it("should return the activated table with added events", function()
@@ -293,16 +274,14 @@ describe("Events", function()
             end)
 
             it("should debug string", function()
-                assert.spy(DebugString).was_not_called()
+                DebugSpyClear("DebugString")
                 Deactivate(events, "Test", entity, activated)
-                assert.spy(DebugString).was_called(1)
-                assert.spy(DebugString).was_called_with(
-                    match.is_ref(debug),
+                DebugSpyAssertWasCalled("DebugString", 1, {
                     "Deactivated debugging of the",
                     2,
                     "Test",
                     "event listeners"
-                )
+                })
             end)
 
             it("should return the cleared activated table", function()
@@ -359,14 +338,12 @@ describe("Events", function()
                         end)
 
                         it("should debug error", function()
-                            assert.spy(DebugError).was_not_called()
+                            DebugSpyClear("DebugError")
                             events:ActivatePlayer()
-                            assert.spy(DebugError).was_called(1)
-                            assert.spy(DebugError).was_called_with(
-                                match.is_ref(debug),
+                            DebugSpyAssertWasCalled("DebugError", 1, {
                                 "Events:ActivatePlayer():",
                                 "already 2 activated, deactivate first"
-                            )
+                            })
                         end)
 
                         it("should return false", function()
@@ -396,14 +373,12 @@ describe("Events", function()
                         end)
 
                         it("should debug error", function()
-                            assert.spy(DebugError).was_not_called()
+                            DebugSpyClear("DebugError")
                             events:DeactivatePlayer()
-                            assert.spy(DebugError).was_called(1)
-                            assert.spy(DebugError).was_called_with(
-                                match.is_ref(debug),
+                            DebugSpyAssertWasCalled("DebugError", 1, {
                                 "Events:DeactivatePlayer():",
                                 "already deactivated, activate first"
-                            )
+                            })
                         end)
 
                         it("should return false", function()
@@ -476,14 +451,12 @@ describe("Events", function()
                         end)
 
                         it("should debug error", function()
-                            assert.spy(DebugError).was_not_called()
+                            DebugSpyClear("DebugError")
                             events:ActivatePlayerClassified()
-                            assert.spy(DebugError).was_called(1)
-                            assert.spy(DebugError).was_called_with(
-                                match.is_ref(debug),
+                            DebugSpyAssertWasCalled("DebugError", 1, {
                                 "Events:ActivatePlayerClassified():",
                                 "already 2 activated, deactivate first"
-                            )
+                            })
                         end)
 
                         it("should return false", function()
@@ -513,14 +486,12 @@ describe("Events", function()
                         end)
 
                         it("should debug error", function()
-                            assert.spy(DebugError).was_not_called()
+                            DebugSpyClear("DebugError")
                             assert.is_false(events:DeactivatePlayerClassified())
-                            assert.spy(DebugError).was_called(1)
-                            assert.spy(DebugError).was_called_with(
-                                match.is_ref(debug),
+                            DebugSpyAssertWasCalled("DebugError", 1, {
                                 "Events:DeactivatePlayerClassified():",
                                 "already deactivated, activate first"
-                            )
+                            })
                         end)
 
                         it("should return false", function()
