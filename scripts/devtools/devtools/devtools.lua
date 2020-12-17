@@ -25,7 +25,6 @@
 require "class"
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -104,7 +103,7 @@ end
 function DevTools:DoInit(dest, field, methods)
     methods = methods ~= nil and methods or {}
 
-    Utils.AssertRequiredField(self.name .. ".devtools", self.devtools)
+    SDK.Utils.AssertRequiredField(self.name .. ".devtools", self.devtools)
 
     local init = self._init
 
@@ -125,7 +124,7 @@ end
 --
 -- Removes added methods and a field added earlier by `DoInit`.
 function DevTools:DoTerm()
-    Utils.AssertRequiredField(self.name .. ".devtools", self.devtools)
+    SDK.Utils.AssertRequiredField(self.name .. ".devtools", self.devtools)
 
     local init = self._init
 

@@ -27,7 +27,6 @@ require "class"
 
 local DevTools = require "devtools/devtools/devtools"
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -41,12 +40,12 @@ local InventoryDevTools = Class(DevTools, function(self, playerdevtools, devtool
     DevTools._ctor(self, "InventoryDevTools", devtools)
 
     -- asserts
-    Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    Utils.AssertRequiredField(self.name .. ".ismastersim", playerdevtools.ismastersim)
-    Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
+    SDK.Utils.AssertRequiredField(self.name .. ".ismastersim", playerdevtools.ismastersim)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
 
     local inventory = SDK.Utils.Chain.Get(playerdevtools, "inst", "replica", "inventory")
-    Utils.AssertRequiredField(self.name .. ".inventory", inventory)
+    SDK.Utils.AssertRequiredField(self.name .. ".inventory", inventory)
 
     -- general
     self.inst = playerdevtools.inst

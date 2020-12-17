@@ -24,7 +24,6 @@ local Menu = require "devtools/menu/menu"
 local Screen = require "widgets/screen"
 local SDK = require "devtools/sdk/sdk/sdk"
 local Text = require "widgets/text"
-local Utils = require "devtools/utils"
 
 local DumpedData = require "devtools/data/dumpeddata"
 local FrontEndData = require "devtools/data/frontenddata"
@@ -554,7 +553,7 @@ end
 
 --- Triggers on becoming active.
 function DevToolsScreen:OnBecomeActive()
-    Utils.AssertRequiredField("DevToolsScreen.devtools", self.devtools)
+    SDK.Utils.AssertRequiredField("DevToolsScreen.devtools", self.devtools)
 
     Screen.OnBecomeActive(self)
 

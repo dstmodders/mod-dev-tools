@@ -17,7 +17,6 @@ require "class"
 
 local Data = require "devtools/data/data"
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -165,7 +164,7 @@ end
 
 --- Pushes world data.
 function WorldData:PushWorldData()
-    Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
+    SDK.Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
 
     self:PushLine("Seed", SDK.World.GetSeed())
     self:PushLine("Season", SDK.World.GetState("season"))
@@ -356,8 +355,8 @@ end
 
 --- Pushes save data.
 function WorldData:PushSaveData()
-    Utils.AssertRequiredField("WorldData.savedatadevtools", self.savedatadevtools)
-    Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
+    SDK.Utils.AssertRequiredField("WorldData.savedatadevtools", self.savedatadevtools)
+    SDK.Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
 
     self:PushLine("Seed", self.savedatadevtools:GetSeed())
     self:PushLine("Save Version", self.savedatadevtools:GetVersion())

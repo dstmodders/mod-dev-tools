@@ -17,7 +17,6 @@ require "class"
 
 local Data = require "devtools/data/data"
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -79,8 +78,8 @@ end
 
 --- Pushes recipe data.
 function RecipeData:PushRecipeData()
-    Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
-    Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
+    SDK.Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
+    SDK.Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
 
     local recipe = self.recipe
 
@@ -118,9 +117,9 @@ end
 
 --- Pushes ingredients data.
 function RecipeData:PushIngredientsData()
-    Utils.AssertRequiredField("RecipeData.inventorydevtools", self.inventorydevtools)
-    Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
-    Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
+    SDK.Utils.AssertRequiredField("RecipeData.inventorydevtools", self.inventorydevtools)
+    SDK.Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
+    SDK.Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
 
     for _, ingredient in pairs(self.recipe.ingredients) do
         self:PushIngredientLine(ingredient.type, ingredient.amount)

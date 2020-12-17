@@ -28,7 +28,6 @@ require "class"
 
 local DevTools = require "devtools/devtools/devtools"
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -42,11 +41,11 @@ local CraftingDevTools = Class(DevTools, function(self, playerdevtools, devtools
     DevTools._ctor(self, "CraftingDevTools", devtools)
 
     -- asserts
-    Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    Utils.AssertRequiredField(self.name .. ".console", playerdevtools.console)
-    Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
-    Utils.AssertRequiredField(self.name .. ".inventory", playerdevtools.inventory)
-    Utils.AssertRequiredField(self.name .. ".ismastersim", playerdevtools.ismastersim)
+    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
+    SDK.Utils.AssertRequiredField(self.name .. ".console", playerdevtools.console)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".inventory", playerdevtools.inventory)
+    SDK.Utils.AssertRequiredField(self.name .. ".ismastersim", playerdevtools.ismastersim)
 
     -- general
     self.character_recipes = {}

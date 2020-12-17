@@ -17,7 +17,6 @@ require "class"
 
 local Data = require "devtools/data/data"
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle
@@ -86,10 +85,10 @@ end
 
 --- Pushes player data.
 function SelectedData:PushPlayerData()
-    Utils.AssertRequiredField("SelectedData.craftingdevtools", self.craftingdevtools)
-    Utils.AssertRequiredField("SelectedData.devtools", self.devtools)
-    Utils.AssertRequiredField("SelectedData.player", self.player)
-    Utils.AssertRequiredField("SelectedData.playerdevtools", self.playerdevtools)
+    SDK.Utils.AssertRequiredField("SelectedData.craftingdevtools", self.craftingdevtools)
+    SDK.Utils.AssertRequiredField("SelectedData.devtools", self.devtools)
+    SDK.Utils.AssertRequiredField("SelectedData.player", self.player)
+    SDK.Utils.AssertRequiredField("SelectedData.playerdevtools", self.playerdevtools)
 
     local craftingdevtools = self.craftingdevtools
     local devtools = self.devtools
@@ -156,7 +155,7 @@ end
 
 --- Pushes entity data.
 function SelectedData:PushEntityData()
-    Utils.AssertRequiredField("SelectedData.entity", self.entity)
+    SDK.Utils.AssertRequiredField("SelectedData.entity", self.entity)
 
     local name, physics
 

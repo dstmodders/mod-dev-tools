@@ -17,7 +17,6 @@ require "class"
 
 local Data = require "devtools/data/data"
 local SDK = require "devtools/sdk/sdk/sdk"
-local Utils = require "devtools/utils"
 
 --- Lifecycle
 -- @section lifecycle

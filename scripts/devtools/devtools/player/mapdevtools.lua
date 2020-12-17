@@ -27,7 +27,7 @@
 require "class"
 
 local DevTools = require "devtools/devtools/devtools"
-local Utils = require "devtools/utils"
+local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
 -- @section lifecycle
@@ -41,9 +41,9 @@ local MapDevTools = Class(DevTools, function(self, playerdevtools, devtools)
     DevTools._ctor(self, "MapDevTools", devtools)
 
     -- asserts
-    Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    Utils.AssertRequiredField(self.name .. ".world", playerdevtools.world)
-    Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
+    SDK.Utils.AssertRequiredField(self.name .. ".world", playerdevtools.world)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
 
     -- general
     self.inst = playerdevtools.inst
