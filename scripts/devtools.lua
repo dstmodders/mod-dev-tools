@@ -45,7 +45,6 @@ local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
 local SDK = require "devtools/sdk/sdk/sdk"
 local Submenu = require "devtools/menu/submenu"
-local Utils = require "devtools/utils"
 local WorldDevTools = require "devtools/devtools/worlddevtools"
 
 --- Lifecycle
@@ -181,7 +180,7 @@ function DevTools:Reset()
         TheNet:SendWorldRollbackRequestToServer(0)
     else
         self:DebugString("Resetting remote game...")
-        Utils.ConsoleRemote("TheNet:SendWorldRollbackRequestToServer(0)")
+        SDK.Console.Remote("TheNet:SendWorldRollbackRequestToServer(0)")
     end
 
     return true

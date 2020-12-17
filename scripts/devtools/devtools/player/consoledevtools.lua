@@ -32,7 +32,7 @@ local DevTools = require "devtools/devtools/devtools"
 local SDK = require "devtools/sdk/sdk/sdk"
 local Utils = require "devtools/utils"
 
-local _ConsoleRemote = Utils.ConsoleRemote
+local _ConsoleRemote = SDK.Console.Remote
 
 --- Lifecycle
 -- @section lifecycle

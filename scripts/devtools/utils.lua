@@ -26,16 +26,6 @@ function Utils.AssertRequiredField(name, field)
     assert(field ~= nil, string.format("Required %s is missing", name))
 end
 
---- Executes the console command remotely.
--- @tparam string cmd Command to execute
--- @tparam[opt] table data Data that will be unpacked and used alongside with string
--- @treturn table
-function Utils.ConsoleRemote(cmd, data)
-    local fn_str = string.format(cmd, unpack(data or {}))
-    local x, _, z = TheSim:ProjectScreenPos(TheSim:GetPosition())
-    TheNet:SendRemoteExecute(fn_str, x, z)
-end
-
 --- Checks if value is an integer.
 -- @tparam number value
 -- @treturn boolean
