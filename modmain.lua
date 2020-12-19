@@ -37,6 +37,7 @@ SDK.Load(env, "scripts/devtools/sdk", {
     "Dump",
     "Entity",
     "Input",
+    "Inventory",
     "ModMain",
     "Player",
     "Thread",
@@ -132,6 +133,9 @@ SDK.OnPlayerDeactivated(function()
     devtools.inst = nil
     devtools:SetIsInCharacterSelect(false)
 end)
+
+--- Console
+-- @section console
 
 SDK.Console.AddWordPredictionDictionaries({
     { delim = "De", num_chars = 0, words = { "vTools" } },
