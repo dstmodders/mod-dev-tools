@@ -151,14 +151,6 @@ function PlayerDevTools:SetIsMoveButtonDown(down)
     self.is_move_button_down = down
 end
 
---- Checks if the player is a ghost.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsGhost(player)
-    player = player ~= nil and player or self.inst
-    return player and player.HasTag and player:HasTag("playerghost")
-end
-
 --- Checks if the player is platform jumping.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
@@ -309,8 +301,8 @@ end
 function PlayerDevTools:CanGrueAttack()
     return not (self:IsGodMode()
         or SDK.Player.IsInLight()
-        or self.inventory:HasEquippedMoggles()
-        or self:IsGhost())
+        or SDK.Player.IsGhost()
+        or self.inventory:HasEquippedMoggles())
 end
 
 --- Player
@@ -472,7 +464,6 @@ function PlayerDevTools:DoInit()
         "GetWerenessMode",
         "IsMoveButtonDown",
         --"SetIsMoveButtonDown",
-        "IsGhost",
         "IsPlatformJumping",
 
         -- god mode
