@@ -201,7 +201,6 @@ describe("PlayerDevTools", function()
                 "GetWerenessMode",
                 "IsMoveButtonDown",
                 --"SetIsMoveButtonDown",
-                "IsSinking",
                 "IsGhost",
                 "IsPlatformJumping",
 
@@ -256,72 +255,6 @@ describe("PlayerDevTools", function()
             describe("setter", function()
                 it("SetIsMoveButtonDown", function()
                     AssertSetter(playerdevtools, "is_move_button_down", "SetIsMoveButtonDown")
-                end)
-            end)
-        end)
-
-        -- TODO: Split the PlayerDevTools:IsSinking() tests into smaller ones
-        describe("IsSinking", function()
-            local function AssertSinking(player)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called()
-
-                assert.is_true(
-                    playerdevtools:IsSinking(player),
-                    string.format("Player %s should be sinking", player:GetDisplayName())
-                )
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "sink"
-                )
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called_with(
-                    match.is_ref(player.AnimState),
-                    "plank_hop"
-                )
-            end
-
-            local function AssertNotSinking(player)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called()
-
-                assert.is_false(
-                    playerdevtools:IsSinking(player),
-                    string.format("Player %s shouldn't be sinking", player:GetDisplayName())
-                )
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called(2)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "sink"
-                )
-
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "plank_hop"
-                )
-            end
-
-            local function AssertNilChain(player)
-                player.AnimState.IsCurrentAnimation = nil
-                assert.is_nil(playerdevtools:IsSinking(player))
-                player.AnimState = nil
-                assert.is_nil(playerdevtools:IsSinking(player))
-                player = nil
-                assert.is_nil(playerdevtools:IsSinking(player))
-            end
-
-            it("should return true when the player is sinking", function()
-                AssertSinking(player_sinking)
-            end)
-
-            it("should return false when the player is not sinking", function()
-                EachPlayer(AssertNotSinking, { player_sinking })
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    EachPlayer(AssertNilChain)
                 end)
             end)
         end)

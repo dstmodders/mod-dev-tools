@@ -151,17 +151,6 @@ function PlayerDevTools:SetIsMoveButtonDown(down)
     self.is_move_button_down = down
 end
 
---- Checks if the player is sinking.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerDevTools:IsSinking(player)
-    player = player ~= nil and player or self.inst
-    if player and player.AnimState and player.AnimState.IsCurrentAnimation then
-        return player.AnimState:IsCurrentAnimation("sink")
-            or player.AnimState:IsCurrentAnimation("plank_hop")
-    end
-end
-
 --- Checks if the player is a ghost.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
@@ -483,7 +472,6 @@ function PlayerDevTools:DoInit()
         "GetWerenessMode",
         "IsMoveButtonDown",
         --"SetIsMoveButtonDown",
-        "IsSinking",
         "IsGhost",
         "IsPlatformJumping",
 
