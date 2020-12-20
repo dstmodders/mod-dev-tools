@@ -49,7 +49,6 @@ local WorldDevTools = Class(DevTools, function(self, inst, devtools)
 
     -- general
     self.inst = inst
-    self.ismastersim = inst.ismastersim
     self.savedata = SaveDataDevTools(self, self.devtools)
 
     -- map
@@ -63,9 +62,6 @@ local WorldDevTools = Class(DevTools, function(self, inst, devtools)
 
     if inst then
         self:StartPrecipitationThread()
-        if devtools then
-            devtools.ismastersim = inst.ismastersim
-        end
     end
 
     -- self
@@ -74,12 +70,6 @@ end)
 
 --- General
 -- @section general
-
---- Checks if a master simulated world.
--- @treturn boolean
-function WorldDevTools:IsMasterSim()
-    return self.ismastersim
-end
 
 --- Gets `TheWorld`.
 -- @treturn table
@@ -187,7 +177,7 @@ end
 --- Toggles map clearing.
 -- @treturn boolean
 function WorldDevTools:ToggleMapClearing()
-    if not self.ismastersim then
+    if not SDK.World.IsMasterSim() then
         return false
     end
 
@@ -204,7 +194,7 @@ end
 --- Toggles fog of war.
 -- @treturn boolean
 function WorldDevTools:ToggleMapFogOfWar()
-    if not self.ismastersim then
+    if not SDK.World.IsMasterSim() then
         return false
     end
 
@@ -292,7 +282,6 @@ function WorldDevTools:DoInit()
         SelectWorldNet = "SelectNet",
 
         -- general
-        "IsMasterSim",
         "GetWorld",
         "GetWorldNet",
 

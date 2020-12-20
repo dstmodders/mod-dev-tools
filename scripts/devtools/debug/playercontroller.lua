@@ -349,7 +349,7 @@ local function RemoteAttackButton(self, playercontroller, target, force_attack)
 end
 
 local function RemoteBufferedAction(self, playercontroller, action)
-    if not playercontroller.ismastersim and action.preview_cb ~= nil then
+    if not SDK.World.IsMasterSim() and action.preview_cb ~= nil then
         DebugRemoteBufferedActionPreview(self, playercontroller, action)
     end
 end
@@ -374,7 +374,7 @@ local function RemoteDragWalking(self, playercontroller, x, z)
 end
 
 local function RemoteDropItemFromInvTile(self, playercontroller, item, single)
-    if playercontroller.ismastersim then
+    if SDK.World.IsMasterSim() then
         return
     end
 
@@ -395,7 +395,7 @@ local function RemoteInspectButton(self, act)
 end
 
 local function RemoteInspectItemFromInvTile(self, playercontroller, item)
-    if playercontroller.ismastersim then
+    if SDK.World.IsMasterSim() then
         return
     end
 
@@ -411,7 +411,7 @@ local function RemoteInspectItemFromInvTile(self, playercontroller, item)
 end
 
 local function RemoteMakeRecipeAtPoint(self, playercontroller, recipe, pt, rot, skin)
-    if playercontroller.ismastersim then
+    if SDK.World.IsMasterSim() then
         return
     end
 
@@ -459,7 +459,7 @@ local function RemoteMakeRecipeAtPoint(self, playercontroller, recipe, pt, rot, 
 end
 
 local function RemoteMakeRecipeFromMenu(self, playercontroller, recipe, skin)
-    if playercontroller.ismastersim then
+    if SDK.World.IsMasterSim() then
         return
     end
 
@@ -510,7 +510,7 @@ local function RemoteStopWalking(self, playercontroller)
 end
 
 local function RemoteUseItemFromInvTile(self, playercontroller, act, item)
-    if playercontroller.ismastersim then
+    if SDK.World.IsMasterSim() then
         return
     end
 

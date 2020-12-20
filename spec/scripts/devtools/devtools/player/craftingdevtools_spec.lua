@@ -45,7 +45,6 @@ describe("CraftingDevTools", function()
             assert.is_equal(playerdevtools.console, self.consoledevtools)
             assert.is_equal(playerdevtools.inst, self.inst)
             assert.is_equal(playerdevtools.inventory, self.inventory)
-            assert.is_equal(playerdevtools.ismastersim, self.ismastersim)
             assert.is_equal(playerdevtools, self.playerdevtools)
 
             -- selection

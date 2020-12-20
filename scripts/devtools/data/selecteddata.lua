@@ -70,7 +70,7 @@ end
 function SelectedData:Update()
     Data.Update(self)
 
-    local is_synced = self.devtools.ismastersim or self.playerdevtools:IsSelectedInSync()
+    local is_synced = SDK.World.IsMasterSim() or self.playerdevtools:IsSelectedInSync()
     self:PushTitleLine("Selected Player " .. (is_synced and "(Client/Server)" or "(Client)"))
     self:PushEmptyLine()
     self:PushPlayerData()
@@ -110,7 +110,7 @@ function SelectedData:PushPlayerData()
     end
 
     if SDK.Player.IsOwner(player) or playerdevtools:IsReal(player) == false then
-        if devtools.inst == player or (devtools.ismastersim or SDK.Player.IsAdmin()) then
+        if devtools.inst == player or (SDK.World.IsMasterSim() or SDK.Player.IsAdmin()) then
             local health = SDK.Utils.String.ValuePercent(SDK.Player.GetHealthPercent() or 0)
             local health_max = SDK.Utils.String.ValuePercent(
                 SDK.Player.GetHealthLimitPercent(player) or 0
@@ -140,7 +140,7 @@ function SelectedData:PushPlayerData()
         end
     end
 
-    if devtools.ismastersim or SDK.Player.IsAdmin() then
+    if SDK.World.IsMasterSim() or SDK.Player.IsAdmin() then
         local is_god_mode = playerdevtools:IsGodMode(player)
         if is_god_mode ~= nil then
             self:PushLine("God Mode", (is_god_mode and "enabled" or "disabled"))

@@ -45,14 +45,12 @@ local CraftingDevTools = Class(DevTools, function(self, playerdevtools, devtools
     SDK.Utils.AssertRequiredField(self.name .. ".console", playerdevtools.console)
     SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
     SDK.Utils.AssertRequiredField(self.name .. ".inventory", playerdevtools.inventory)
-    SDK.Utils.AssertRequiredField(self.name .. ".ismastersim", playerdevtools.ismastersim)
 
     -- general
     self.character_recipes = {}
     self.consoledevtools = playerdevtools.console
     self.inst = playerdevtools.inst
     self.inventory = playerdevtools.inventory
-    self.ismastersim = playerdevtools.ismastersim
     self.playerdevtools = playerdevtools
 
     -- selection
@@ -118,7 +116,7 @@ function CraftingDevTools:GetLearnedRecipes()
         return
     end
 
-    if self.ismastersim then
+    if SDK.World.IsMasterSim() then
         if self.inst.components
             and self.inst.components.builder
             and self.inst.components.builder.recipes

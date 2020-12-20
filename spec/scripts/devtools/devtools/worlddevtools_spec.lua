@@ -69,7 +69,6 @@ describe("WorldDevTools", function()
 
             -- general
             assert.is_equal(inst, self.inst)
-            assert.is_equal(inst.ismastersim, self.inst.ismastersim)
 
             -- map
             assert.is_false(self.is_map_clearing)
@@ -89,9 +88,6 @@ describe("WorldDevTools", function()
             -- spies
             assert.spy(self.StartPrecipitationThread).was_called(1)
             assert.spy(self.StartPrecipitationThread).was_called_with(match.is_ref(self))
-
-            -- DevTools
-            assert.is_equal(self.inst.ismastersim, self.devtools.ismastersim)
         end
 
         describe("using the constructor", function()
@@ -110,7 +106,6 @@ describe("WorldDevTools", function()
                 SelectWorldNet = "SelectNet",
 
                 -- general
-                "IsMasterSim",
                 "GetWorld",
                 "GetWorldNet",
 

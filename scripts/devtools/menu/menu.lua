@@ -201,10 +201,7 @@ end
 --- Adds player submenus.
 -- @see AddMenu
 function Menu:AddPlayerSubmenus()
-    local devtools = self.devtools
-    local worlddevtools = devtools.world
-
-    if not worlddevtools:IsMasterSim() then
+    if not SDK.World.IsMasterSim() then
         self:AddToggleOption(
             { name = "Movement Prediction" },
             { src = SDK.Player, name = "HasMovementPrediction", args = {} },

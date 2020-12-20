@@ -69,7 +69,6 @@ local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
     self.inst = inst
     self.is_fake_teleport = false
     self.is_move_button_down = false
-    self.ismastersim = world.inst.ismastersim
     self.speech = nil
     self.wereness_mode = nil
     self.world = world
@@ -167,9 +166,8 @@ function PlayerDevTools:ChangeTimeScale(amount, is_fixed)
     time_scale = is_fixed and amount or TheSim:GetTimeScale() + amount
     time_scale = time_scale < 0 and 0 or time_scale
     time_scale = time_scale >= 4 and 4 or time_scale
-    print(amount, time_scale)
     TheSim:SetTimeScale(time_scale)
-    if not self.ismastersim then
+    if not SDK.World.IsMasterSim() then
         self.console:SetTimeScale(time_scale)
     end
 end
@@ -358,7 +356,7 @@ function PlayerDevTools:Select(player)
     self.selected_client = player
     self.devtools.labels:AddSelected(player)
 
-    if self.ismastersim then
+    if SDK.World.IsMasterSim() then
         self:DebugString("Selected", name)
     elseif SDK.Player.IsAdmin() then
         SDK.Console.Remote('SetDebugEntity(LookupPlayerInstByUserID("%s"))', { player.userid })
@@ -378,7 +376,7 @@ end
 --
 -- @treturn boolean
 function PlayerDevTools:IsSelectedInSync()
-    if self.ismastersim then
+    if SDK.World.IsMasterSim() then
         return self.selected_client ~= nil
     end
     return self.selected_client == self.selected_server
@@ -417,7 +415,7 @@ function PlayerDevTools:Teleport()
         local world_pos = screen:WidgetPosToMapPos(widget_pos)
         local x, y, _ = screen.minimap:MapPosToWorldPos(world_pos:Get())
         if not self.is_fake_teleport then
-            if self.ismastersim and SDK.Player.IsAdmin() then
+            if SDK.World.IsMasterSim() and SDK.Player.IsAdmin() then
                 player.Physics:Teleport(x, 0, y)
                 return true
             elseif SDK.Player.IsAdmin() then
@@ -431,7 +429,7 @@ function PlayerDevTools:Teleport()
             player.Physics:Teleport(x, 0, y)
             return true
         end
-    elseif not self.is_fake_teleport and self.ismastersim and SDK.Player.IsAdmin() then
+    elseif not self.is_fake_teleport and SDK.World.IsMasterSim() and SDK.Player.IsAdmin() then
         player.Physics:Teleport(TheInput:GetWorldPosition():Get())
         return true
     elseif not self.is_fake_teleport and SDK.Player.IsAdmin() then

@@ -46,7 +46,6 @@ local SaveDataDevTools = Class(DevTools, function(self, worlddevtools, devtools)
 
     -- general
     self.inst = worlddevtools.inst
-    self.ismastersim = worlddevtools.ismastersim
     self.worlddevtools = worlddevtools
 
     -- walrus camps
@@ -198,8 +197,8 @@ end
 --   - `client_temp/server_save` (dedicated server)
 --
 -- @treturn string
-function SaveDataDevTools:GetPath()
-    return self.ismastersim and "server_temp/server_save" or "client_temp/server_save"
+function SaveDataDevTools:GetPath() -- luacheck: only
+    return SDK.World.IsMasterSim() and "server_temp/server_save" or "client_temp/server_save"
 end
 
 --- Gets the save data.

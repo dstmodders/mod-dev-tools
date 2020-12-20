@@ -175,7 +175,7 @@ function DevTools:Reset()
         return false
     end
 
-    if self.world.ismastersim then
+    if SDK.World.IsMasterSim() then
         self:DebugString("Resetting local game...")
         TheNet:SendWorldRollbackRequestToServer(0)
     else
@@ -473,7 +473,6 @@ function DevTools:DoInit(modname)
     self.debug = Debug(modname)
     self.inst = nil
     self.is_in_character_select = false
-    self.ismastersim = nil
     self.labels = Labels(self)
     self.modname = modname
     self.name = "DevTools"

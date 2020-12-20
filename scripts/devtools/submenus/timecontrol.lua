@@ -13,6 +13,7 @@
 ----
 require "devtools/constants"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Toggle = require "devtools/submenus/option/toggle"
 
 return {
@@ -42,7 +43,7 @@ return {
                 step = 10,
                 on_accept_fn = function(_, submenu)
                     TheSim:SetTimeScale(1)
-                    if not submenu.world.ismastersim then
+                    if not SDK.World.IsMasterSim() then
                         submenu.console:SetTimeScale(1)
                     end
                 end,
@@ -52,7 +53,7 @@ return {
                 on_set_fn = function(_, submenu, value)
                     value = value / 100
                     TheSim:SetTimeScale(value)
-                    if not submenu.world.ismastersim then
+                    if not SDK.World.IsMasterSim() then
                         submenu.console:SetTimeScale(value)
                     end
                 end,

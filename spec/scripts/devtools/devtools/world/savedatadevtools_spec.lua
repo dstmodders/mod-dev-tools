@@ -46,7 +46,6 @@ describe("SaveDataDevTools", function()
 
             -- general
             assert.is_equal(savedatadevtools.inst, self.inst)
-            assert.is_equal(worlddevtools.ismastersim, self.ismastersim)
             assert.is_equal(worlddevtools, self.worlddevtools)
 
             -- walrus camps

@@ -41,7 +41,6 @@ local InventoryDevTools = Class(DevTools, function(self, playerdevtools, devtool
 
     -- asserts
     SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    SDK.Utils.AssertRequiredField(self.name .. ".ismastersim", playerdevtools.ismastersim)
     SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
 
     local inventory = SDK.Utils.Chain.Get(playerdevtools, "inst", "replica", "inventory")
@@ -50,7 +49,6 @@ local InventoryDevTools = Class(DevTools, function(self, playerdevtools, devtool
     -- general
     self.inst = playerdevtools.inst
     self.inventory = inventory
-    self.ismastersim = playerdevtools.ismastersim
     self.playerdevtools = playerdevtools
 
     -- self
@@ -178,7 +176,7 @@ function InventoryDevTools:GetBackpackContainer()
         return
     end
 
-    if self.ismastersim then
+    if SDK.World.IsMasterSim() then
         return backpack.components and backpack.components.container
     else
         return backpack ~= nil
@@ -193,7 +191,7 @@ end
 function InventoryDevTools:GetBackpackItems()
     local container = self:GetBackpackContainer()
     if container then
-        return self.ismastersim and container.slots or container:GetItems()
+        return SDK.World.IsMasterSim() and container.slots or container:GetItems()
     end
 end
 

@@ -42,7 +42,6 @@ describe("InventoryDevTools", function()
 
             -- general
             assert.is_equal(playerdevtools.inst, self.inst)
-            assert.is_equal(playerdevtools.ismastersim, self.ismastersim)
             assert.is_equal(playerdevtools, self.playerdevtools)
 
             -- other
@@ -100,7 +99,6 @@ describe("InventoryDevTools", function()
 
         local asserts = {
             "inst",
-            "ismastersim",
         }
 
         for _, _assert in pairs(asserts) do

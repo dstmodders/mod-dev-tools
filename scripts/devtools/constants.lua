@@ -140,8 +140,8 @@ MOD_DEV_TOOLS = {
         IS_FOREST = function()
             return not SDK.World.IsCave()
         end,
-        IS_MASTER_SIM = function(self)
-            return self.devtools.world and self.devtools.world:IsMasterSim()
+        IS_MASTER_SIM = function()
+            return SDK.World.IsMasterSim()
         end,
         IS_NO_PLAYER = function(self)
             return (not self.devtools.player) and true or false
@@ -149,8 +149,8 @@ MOD_DEV_TOOLS = {
         IS_NO_WORLD = function(self)
             return (not self.devtools.world) and true or false
         end,
-        IS_NOT_MASTER_SIM = function(self)
-            return self.devtools.world and not self.devtools.world:IsMasterSim()
+        IS_NOT_MASTER_SIM = function()
+            return not SDK.World.IsMasterSim()
         end,
         IS_PLAYER = function(self)
             return self.devtools.player and true or false

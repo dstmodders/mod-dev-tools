@@ -118,7 +118,7 @@ function d_decodesavedata()
         return false
     end
 
-    local path = TheWorld.ismastersim and "server_temp/server_save" or "client_temp/server_save"
+    local path = SDK.World.IsMasterSim() and "server_temp/server_save" or "client_temp/server_save"
 
     return d_decodefile(path)
 end

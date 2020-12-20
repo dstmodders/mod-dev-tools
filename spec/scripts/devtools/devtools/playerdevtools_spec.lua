@@ -140,7 +140,6 @@ describe("PlayerDevTools", function()
             assert.is_nil(self.controller)
             assert.is_equal(inst, self.inst)
             assert.is_false(self.is_move_button_down)
-            assert.is_equal(world.inst.ismastersim, self.ismastersim)
             assert.is_nil(self.speech)
             assert.is_nil(self.wereness_mode)
             assert.is_equal(world, self.world)
@@ -392,7 +391,7 @@ describe("PlayerDevTools", function()
         describe("Select", function()
             describe("in the local game", function()
                 before_each(function()
-                    playerdevtools.ismastersim = true
+                    _G.SDK.World.IsMasterSim = spy.new(ReturnValueFn(true))
                 end)
 
                 it("should set the selected_client field only", function()
@@ -431,7 +430,7 @@ describe("PlayerDevTools", function()
 
             describe("on dedicated server", function()
                 before_each(function()
-                    playerdevtools.ismastersim = false
+                    _G.SDK.World.IsMasterSim = spy.new(ReturnValueFn(false))
                 end)
 
                 it("should set the selected_client field only", function()
@@ -485,7 +484,7 @@ describe("PlayerDevTools", function()
         describe("IsSelectedInSync", function()
             describe("in the local game", function()
                 before_each(function()
-                    playerdevtools.ismastersim = true
+                    _G.SDK.World.IsMasterSim = spy.new(ReturnValueFn(true))
                 end)
 
                 describe("when the player is selected on the client only", function()
@@ -524,7 +523,7 @@ describe("PlayerDevTools", function()
 
             describe("on dedicated server", function()
                 before_each(function()
-                    playerdevtools.ismastersim = false
+                    _G.SDK.World.IsMasterSim = spy.new(ReturnValueFn(false))
                 end)
 
                 describe("when the player is selected on the client only", function()
