@@ -251,13 +251,13 @@ end
 --
 -- @tparam string name Item name
 -- @treturn boolean
-function CraftingDevTools:CanCraftItem(name)
+function CraftingDevTools:CanCraftItem(name) -- luacheck: only
     if type(name) ~= "string" or not GetValidRecipe(name) then
         return false
     end
 
     local recipe = GetValidRecipe(name)
-    local inventory = self.inventory:GetInventory()
+    local inventory = SDK.Inventory.Get()
     if inventory and recipe then
         for _, ingredient in pairs(recipe.ingredients) do
             if not inventory:Has(ingredient.type, ingredient.amount) then

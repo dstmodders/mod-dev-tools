@@ -58,15 +58,6 @@ end)
 --- General
 -- @section general
 
---- Gets inventory.
---
--- Returns an owner's inventory replica.
---
--- @treturn table
-function InventoryDevTools:GetInventory()
-    return self.inventory
-end
-
 --- Gets an equipped item by slot.
 -- @tparam string slot `EQUIPSLOTS`
 -- @treturn table
@@ -232,7 +223,6 @@ end
 function InventoryDevTools:DoInit()
     DevTools.DoInit(self, self.playerdevtools, "inventory", {
         -- general
-        "GetInventory",
         "GetEquippedItem",
         "HasEquippedItem",
         "HasEquippedMoggles",

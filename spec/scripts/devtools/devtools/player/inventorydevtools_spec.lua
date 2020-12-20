@@ -61,7 +61,6 @@ describe("InventoryDevTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- general
-                "GetInventory",
                 "GetEquippedItem",
                 "HasEquippedItem",
                 "HasEquippedMoggles",
@@ -114,19 +113,5 @@ describe("InventoryDevTools", function()
                 end)
             end)
         end
-    end)
-
-    describe("general", function()
-        local inventory
-
-        describe("GetInventory", function()
-            before_each(function()
-                inventory = inventorydevtools.inst.replica.inventory
-            end)
-
-            it("should return the inventory", function()
-                assert.is_equal(inventory, inventorydevtools:GetInventory())
-            end)
-        end)
     end)
 end)
