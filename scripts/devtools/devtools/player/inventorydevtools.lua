@@ -145,17 +145,10 @@ function InventoryDevTools:HasEquippedBackpack() -- luacheck: only
     return item and item:HasTag("backpack")
 end
 
---- Gets a backpack from an inventory.
--- @treturn table
-function InventoryDevTools:GetBackpack() -- luacheck: only
-    local item = SDK.Inventory.GetEquippedItem(EQUIPSLOTS.BODY)
-    return item and item:HasTag("backpack") and item
-end
-
 --- Gets a container from a backpack.
 -- @treturn table
-function InventoryDevTools:GetBackpackContainer()
-    local backpack = self:GetBackpack()
+function InventoryDevTools:GetBackpackContainer() -- luacheck: only
+    local backpack = SDK.Inventory.GetEquippedBackpack()
     if not backpack then
         return
     end
@@ -224,7 +217,6 @@ function InventoryDevTools:DoInit()
 
         -- backpack
         "HasEquippedBackpack",
-        "GetBackpack",
         "GetBackpackContainer",
         "GetBackpackItems",
         "GetBackpackSlotByItem",

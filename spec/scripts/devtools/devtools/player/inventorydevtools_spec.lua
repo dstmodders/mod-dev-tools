@@ -69,7 +69,6 @@ describe("InventoryDevTools", function()
 
                 -- backpack
                 "HasEquippedBackpack",
-                "GetBackpack",
                 "GetBackpackContainer",
                 "GetBackpackItems",
                 "GetBackpackSlotByItem",
