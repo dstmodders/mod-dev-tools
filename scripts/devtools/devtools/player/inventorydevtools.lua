@@ -58,23 +58,16 @@ end)
 --- General
 -- @section general
 
---- Gets an equipped item by slot.
--- @tparam string slot `EQUIPSLOTS`
--- @treturn table
-function InventoryDevTools:GetEquippedItem(slot)
-    return self.inventory:GetEquippedItem(slot)
-end
-
 --- Checks if a player has an equipped items.
 -- @treturn boolean
-function InventoryDevTools:HasEquippedItem(slot)
-    return self:GetEquippedItem(slot) and true or false
+function InventoryDevTools:HasEquippedItem(slot) -- luacheck: only
+    return SDK.Inventory.GetEquippedItem(slot) and true or false
 end
 
 --- Checks if Moggles are equipped.
 -- @treturn boolean
-function InventoryDevTools:HasEquippedMoggles()
-    local item = self:GetEquippedItem(EQUIPSLOTS.HEAD)
+function InventoryDevTools:HasEquippedMoggles() -- luacheck: only
+    local item = SDK.Inventory.GetEquippedItem(EQUIPSLOTS.HEAD)
     return item and item:HasTag("nightvision")
 end
 
@@ -147,15 +140,15 @@ end
 
 --- Checks if a backpack is equipped.
 -- @treturn boolean
-function InventoryDevTools:HasEquippedBackpack()
-    local item = self:GetEquippedItem(EQUIPSLOTS.BODY)
+function InventoryDevTools:HasEquippedBackpack() -- luacheck: only
+    local item = SDK.Inventory.GetEquippedItem(EQUIPSLOTS.BODY)
     return item and item:HasTag("backpack")
 end
 
 --- Gets a backpack from an inventory.
 -- @treturn table
-function InventoryDevTools:GetBackpack()
-    local item = self:GetEquippedItem(EQUIPSLOTS.BODY)
+function InventoryDevTools:GetBackpack() -- luacheck: only
+    local item = SDK.Inventory.GetEquippedItem(EQUIPSLOTS.BODY)
     return item and item:HasTag("backpack") and item
 end
 
@@ -206,7 +199,7 @@ end
 --- Selects an equipped item.
 -- @treturn boolean Always true
 function InventoryDevTools:SelectEquippedItem(slot)
-    local item = self:GetEquippedItem(slot)
+    local item = SDK.Inventory.GetEquippedItem(slot)
     if item then
         SetDebugEntity(item)
         self.devtools.labels:AddSelected(item)
@@ -223,7 +216,6 @@ end
 function InventoryDevTools:DoInit()
     DevTools.DoInit(self, self.playerdevtools, "inventory", {
         -- general
-        "GetEquippedItem",
         "HasEquippedItem",
         "HasEquippedMoggles",
         "IsEquippableLightSource",

@@ -15,6 +15,7 @@
 ----
 require "class"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Submenu = require "devtools/menu/submenu"
 
 --- Lifecycle
@@ -99,9 +100,9 @@ function SelectSubmenu:AddSelectEntityUnderMouseOption()
             self.player:GetSelected(),
             self.world:GetWorld(),
             self.world:GetWorldNet(),
-            self.inventory:GetEquippedItem(EQUIPSLOTS.HEAD),
-            self.inventory:GetEquippedItem(EQUIPSLOTS.BODY),
-            self.inventory:GetEquippedItem(EQUIPSLOTS.HANDS),
+            SDK.Inventory.GetEquippedItem(EQUIPSLOTS.HEAD),
+            SDK.Inventory.GetEquippedItem(EQUIPSLOTS.BODY),
+            SDK.Inventory.GetEquippedItem(EQUIPSLOTS.HANDS),
         }),
         on_accept_fn = function()
             self.world:SelectEntityUnderMouse()
@@ -117,7 +118,7 @@ function SelectSubmenu:AddSelectEquippedItem(slot)
         self:AddActionOption({
             label = self:AppendSelected(
                 string.format("Equipped Item (%s)", slot:gsub("^%l", string.upper)),
-                self.inventory:GetEquippedItem(slot)
+                SDK.Inventory.GetEquippedItem(slot)
             ),
             on_accept_fn = function()
                 self.inventory:SelectEquippedItem(slot)
