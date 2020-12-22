@@ -67,7 +67,6 @@ describe("InventoryDevTools", function()
                 "GetInventoryEdible",
 
                 -- backpack
-                "GetBackpackContainer",
                 "GetBackpackSlotByItem",
 
                 -- selection

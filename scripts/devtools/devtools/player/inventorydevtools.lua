@@ -108,24 +108,6 @@ end
 --- Backpack
 -- @section backpack
 
---- Gets a container from a backpack.
--- @treturn table
-function InventoryDevTools:GetBackpackContainer() -- luacheck: only
-    local backpack = SDK.Inventory.GetEquippedBackpack()
-    if not backpack then
-        return
-    end
-
-    if SDK.World.IsMasterSim() then
-        return backpack.components and backpack.components.container
-    else
-        return backpack ~= nil
-            and backpack.replica
-            and backpack.replica.container ~= nil
-            and backpack.replica.container.classified
-    end
-end
-
 --- Gets a backpack slot number for an item.
 -- @tparam table item
 -- @treturn number
@@ -169,7 +151,6 @@ function InventoryDevTools:DoInit()
         "GetInventoryEdible",
 
         -- backpack
-        "GetBackpackContainer",
         "GetBackpackSlotByItem",
 
         -- selection
