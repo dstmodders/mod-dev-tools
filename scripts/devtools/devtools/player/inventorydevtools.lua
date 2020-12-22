@@ -58,13 +58,6 @@ end)
 --- General
 -- @section general
 
---- Checks if Moggles are equipped.
--- @treturn boolean
-function InventoryDevTools:HasEquippedMoggles() -- luacheck: only
-    local item = SDK.Inventory.GetEquippedItem(EQUIPSLOTS.HEAD)
-    return item and item:HasTag("nightvision")
-end
-
 --- Checks if an item is a light source.
 -- @tparam table item
 -- @treturn boolean
@@ -139,7 +132,6 @@ end
 function InventoryDevTools:DoInit()
     DevTools.DoInit(self, self.playerdevtools, "inventory", {
         -- general
-        "HasEquippedMoggles",
         "IsEquippableLightSource",
         "GetInventoryEdible",
 

@@ -300,7 +300,7 @@ function PlayerDevTools:CanGrueAttack()
     return not (self:IsGodMode()
         or SDK.Player.IsInLight()
         or SDK.Player.IsGhost()
-        or self.inventory:HasEquippedMoggles())
+        or SDK.Inventory.HasEquippedItemWithTag(EQUIPSLOTS.HEAD, "nightvision"))
 end
 
 --- Player

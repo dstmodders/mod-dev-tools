@@ -61,7 +61,6 @@ describe("InventoryDevTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- general
-                "HasEquippedMoggles",
                 "IsEquippableLightSource",
                 "GetInventoryEdible",
 
