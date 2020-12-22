@@ -100,9 +100,9 @@ function SelectSubmenu:AddSelectEntityUnderMouseOption()
             self.player:GetSelected(),
             self.world:GetWorld(),
             self.world:GetWorldNet(),
-            SDK.Inventory.GetEquippedItem(EQUIPSLOTS.HEAD),
-            SDK.Inventory.GetEquippedItem(EQUIPSLOTS.BODY),
-            SDK.Inventory.GetEquippedItem(EQUIPSLOTS.HANDS),
+            SDK.Inventory.GetEquippedHeadItem(),
+            SDK.Inventory.GetEquippedBodyItem(),
+            SDK.Inventory.GetEquippedHandsItem(),
         }),
         on_accept_fn = function()
             self.world:SelectEntityUnderMouse()
@@ -114,11 +114,12 @@ end
 --- Adds select equipped item option.
 -- @tparam number slot
 function SelectSubmenu:AddSelectEquippedItem(slot)
-    if self.inventory:HasEquippedItem(slot) then
+    local item = SDK.Inventory.GetEquippedItem(slot)
+    if item then
         self:AddActionOption({
             label = self:AppendSelected(
                 string.format("Equipped Item (%s)", slot:gsub("^%l", string.upper)),
-                SDK.Inventory.GetEquippedItem(slot)
+                item
             ),
             on_accept_fn = function()
                 self.inventory:SelectEquippedItem(slot)

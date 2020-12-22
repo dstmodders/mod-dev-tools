@@ -58,12 +58,6 @@ end)
 --- General
 -- @section general
 
---- Checks if a player has an equipped items.
--- @treturn boolean
-function InventoryDevTools:HasEquippedItem(slot) -- luacheck: only
-    return SDK.Inventory.GetEquippedItem(slot) and true or false
-end
-
 --- Checks if Moggles are equipped.
 -- @treturn boolean
 function InventoryDevTools:HasEquippedMoggles() -- luacheck: only
@@ -145,7 +139,6 @@ end
 function InventoryDevTools:DoInit()
     DevTools.DoInit(self, self.playerdevtools, "inventory", {
         -- general
-        "HasEquippedItem",
         "HasEquippedMoggles",
         "IsEquippableLightSource",
         "GetInventoryEdible",
