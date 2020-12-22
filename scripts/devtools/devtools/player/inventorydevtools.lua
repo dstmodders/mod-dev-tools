@@ -126,20 +126,11 @@ function InventoryDevTools:GetBackpackContainer() -- luacheck: only
     end
 end
 
---- Gets items from the backpack container.
--- @treturn table
-function InventoryDevTools:GetBackpackItems()
-    local container = self:GetBackpackContainer()
-    if container then
-        return SDK.World.IsMasterSim() and container.slots or container:GetItems()
-    end
-end
-
 --- Gets a backpack slot number for an item.
 -- @tparam table item
 -- @treturn number
-function InventoryDevTools:GetBackpackSlotByItem(item)
-    local items = self:GetBackpackItems()
+function InventoryDevTools:GetBackpackSlotByItem(item) -- luacheck: only
+    local items = SDK.Inventory.GetEquippedBackpackItems()
     if items and item then
         for k, v in pairs(items) do
             if v == item then
@@ -179,7 +170,6 @@ function InventoryDevTools:DoInit()
 
         -- backpack
         "GetBackpackContainer",
-        "GetBackpackItems",
         "GetBackpackSlotByItem",
 
         -- selection
