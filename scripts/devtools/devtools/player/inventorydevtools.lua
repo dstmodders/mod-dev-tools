@@ -108,13 +108,6 @@ end
 --- Backpack
 -- @section backpack
 
---- Checks if a backpack is equipped.
--- @treturn boolean
-function InventoryDevTools:HasEquippedBackpack() -- luacheck: only
-    local item = SDK.Inventory.GetEquippedItem(EQUIPSLOTS.BODY)
-    return item and item:HasTag("backpack")
-end
-
 --- Gets a container from a backpack.
 -- @treturn table
 function InventoryDevTools:GetBackpackContainer() -- luacheck: only
@@ -185,7 +178,6 @@ function InventoryDevTools:DoInit()
         "GetInventoryEdible",
 
         -- backpack
-        "HasEquippedBackpack",
         "GetBackpackContainer",
         "GetBackpackItems",
         "GetBackpackSlotByItem",
