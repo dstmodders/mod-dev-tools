@@ -65,7 +65,6 @@ describe("InventoryDevTools", function()
                 "HasEquippedMoggles",
                 "IsEquippableLightSource",
                 "GetInventoryEdible",
-                "EquipActiveItem",
 
                 -- backpack
                 "HasEquippedBackpack",

@@ -105,36 +105,6 @@ function InventoryDevTools:GetInventoryEdible()
     end
 end
 
---- Equips an active item.
--- @tparam boolean the_net Use `TheNet:SendRPCToServer()` instead of the `SendRPCToServer()`
--- @treturn boolean
-function InventoryDevTools:EquipActiveItem(the_net)
-    local item = self.inventory:GetActiveItem()
-    if not item then
-        return false
-    end
-
-    local _SendRPCToServer = the_net and function(...)
-        return TheNet:SendRPCToServer(...)
-    end or SendRPCToServer
-
-    if item:HasTag("_equippable") then
-        if SDK.Utils.Chain.Get(item, "replica", "equippable", "EquipSlot", true) then
-            _SendRPCToServer(RPC.SwapEquipWithActiveItem)
-        end
-        _SendRPCToServer(RPC.EquipActiveItem)
-        return true
-    else
-        self:DebugError(
-            self:GetFnFullName("EquipActiveItem") .. ":",
-            "not equippable",
-            "(" ..  SDK.Constant.GetStringName(item.prefab) .. ")"
-        )
-    end
-
-    return false
-end
-
 --- Backpack
 -- @section backpack
 
@@ -213,7 +183,6 @@ function InventoryDevTools:DoInit()
         "HasEquippedMoggles",
         "IsEquippableLightSource",
         "GetInventoryEdible",
-        "EquipActiveItem",
 
         -- backpack
         "HasEquippedBackpack",
