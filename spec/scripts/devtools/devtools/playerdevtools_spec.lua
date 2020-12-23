@@ -344,7 +344,7 @@ describe("PlayerDevTools", function()
                         _G.SDK.Player.IsInLight = spy.new(ReturnValueFn(false))
                     end)
 
-                    describe("but a ghost", function()
+                    describe("and a ghost", function()
                         before_each(function()
                             _G.SDK.Player.IsGhost = spy.new(ReturnValueFn(true))
                         end)
@@ -355,10 +355,15 @@ describe("PlayerDevTools", function()
                     end)
 
                     describe("but has Moggles equipped", function()
+                        local _HasEquippedItemWithTag
+
                         before_each(function()
-                            playerdevtools.inventory.HasEquippedMoggles = spy.new(
-                                ReturnValueFn(true)
-                            )
+                            _HasEquippedItemWithTag = _G.SDK.Inventory.HasEquippedItemWithTag
+                            _G.SDK.Inventory.HasEquippedItemWithTag = spy.new(ReturnValueFn(true))
+                        end)
+
+                        teardown(function()
+                            _G.SDK.Inventory.HasEquippedItemWithTag = _HasEquippedItemWithTag
                         end)
 
                         it("should return false", function()
