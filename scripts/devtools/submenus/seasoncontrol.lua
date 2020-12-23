@@ -92,8 +92,8 @@ return {
                                     submenu.console:SetSeasonLength(season.value, season.default)
                                     submenu:UpdateScreen(nil, true)
                                 end,
-                                on_get_fn = function(_, submenu)
-                                    return submenu.world:GetState(season.value .. "length")
+                                on_get_fn = function()
+                                    return SDK.World.GetState(season.value .. "length")
                                 end,
                                 on_set_fn = function(_, submenu, value)
                                     submenu.console:SetSeasonLength(season.value, value)
