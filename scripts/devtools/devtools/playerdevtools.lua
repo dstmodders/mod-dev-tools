@@ -270,14 +270,6 @@ end
 --- Player
 -- @section player
 
---- Gets the Temperature value.
--- @tparam[opt] EntityScript player Player instance (the selected one by default)
--- @treturn number
-function PlayerDevTools:GetTemperature(player)
-    player = player ~= nil and player or self:GetSelected()
-    return player and player.GetTemperature and player:GetTemperature()
-end
-
 --- Gets the Wereness value.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn number
@@ -429,7 +421,6 @@ function PlayerDevTools:DoInit()
         "CanGrueAttack",
 
         -- player
-        "GetTemperature",
         "GetWerenessPercent",
 
         -- selection

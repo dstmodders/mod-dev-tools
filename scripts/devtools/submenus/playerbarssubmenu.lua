@@ -154,7 +154,7 @@ function PlayerBarsSubmenu:AddOptions()
 
         self:AddDividerOption()
         self:AddPlayerBarOption("Moisture", "GetMoisturePercent", "SetMoisturePercent", 0)
-        self:AddOldPlayerBarOption("Temperature", "GetTemperature", "SetTemperature", -20, 90)
+        self:AddPlayerBarOption("Temperature", "GetTemperature", "SetTemperature", -20, 90)
 
         if is_inst_in_wereness_form then
             self:AddOldPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")

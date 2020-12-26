@@ -211,7 +211,6 @@ describe("PlayerDevTools", function()
                 "CanGrueAttack",
 
                 -- player
-                "GetTemperature",
                 "GetWerenessPercent",
 
                 -- selection
@@ -853,72 +852,6 @@ describe("PlayerDevTools", function()
                                 playerdevtools:ToggleGodMode(player),
                                 player:GetDisplayName()
                             )
-                        end)
-                    end)
-                end)
-            end)
-        end)
-    end)
-
-    describe("player bars", function()
-        describe("getter", function()
-            local function TestWhenThePlayerIsNotPassed(describe, it, before_each, fn_name)
-                describe("when the player is not passed", function()
-                    local GetSelected
-
-                    before_each(function()
-                        GetSelected = spy.new(Empty)
-                        playerdevtools.GetSelected = GetSelected
-                    end)
-
-                    it("should call the GetSelected()", function()
-                        assert.spy(GetSelected).was_not_called()
-                        playerdevtools[fn_name](playerdevtools)
-                        assert.spy(GetSelected).was_called(1)
-                        assert.spy(GetSelected).was_called_with(match.is_ref(playerdevtools))
-                    end)
-
-                    it("should return nil", function()
-                        assert.is_nil(playerdevtools[fn_name](playerdevtools))
-                    end)
-                end)
-            end
-
-            describe("GetTemperature", function()
-                TestWhenThePlayerIsNotPassed(describe, it, before_each, "GetTemperature")
-
-                describe("when the player is passed", function()
-                    local GetTemperature
-
-                    before_each(function()
-                        EachPlayer(function(player)
-                            player.GetTemperature = spy.new(ReturnValueFn(20))
-                        end)
-                    end)
-
-                    it("should call the player GetTemperature()", function()
-                        EachPlayer(function(player)
-                            GetTemperature = player.GetTemperature
-                            assert.spy(GetTemperature).was_not_called()
-                            playerdevtools:GetTemperature(player)
-                            assert.spy(GetTemperature).was_called(1)
-                            assert.spy(GetTemperature).was_called_with(match.is_ref(player))
-                        end)
-                    end)
-
-                    it("should return the temperature", function()
-                        EachPlayer(function(player)
-                            assert.is_equal(20, playerdevtools:GetTemperature(player))
-                        end)
-                    end)
-                end)
-
-                describe("when some chain fields are missing", function()
-                    it("should return nil", function()
-                        EachPlayer(function(player)
-                            AssertChainNil(function()
-                                assert.is_nil(playerdevtools:GetTemperature(player))
-                            end, player, "GetTemperature")
                         end)
                     end)
                 end)

@@ -135,7 +135,7 @@ function SelectedData:PushPlayerData()
 
             self:PushLine(
                 "Temperature",
-                SDK.Utils.String.ValueScale(playerdevtools:GetTemperature(player))
+                SDK.Utils.String.ValueScale(SDK.Player.GetTemperature(player))
             )
         end
     end
