@@ -270,14 +270,6 @@ end
 --- Player
 -- @section player
 
---- Gets the Moisture value.
--- @tparam[opt] EntityScript player Player instance (the selected one by default)
--- @treturn number
-function PlayerDevTools:GetMoisturePercent(player)
-    player = player ~= nil and player or self:GetSelected()
-    return player and player.GetMoisture and player:GetMoisture()
-end
-
 --- Gets the Temperature value.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn number
@@ -437,7 +429,6 @@ function PlayerDevTools:DoInit()
         "CanGrueAttack",
 
         -- player
-        "GetMoisturePercent",
         "GetTemperature",
         "GetWerenessPercent",
 

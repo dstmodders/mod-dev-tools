@@ -211,7 +211,6 @@ describe("PlayerDevTools", function()
                 "CanGrueAttack",
 
                 -- player
-                "GetMoisturePercent",
                 "GetTemperature",
                 "GetWerenessPercent",
 
@@ -880,50 +879,10 @@ describe("PlayerDevTools", function()
                     end)
 
                     it("should return nil", function()
-                        assert.is_nil(playerdevtools:GetMoisturePercent())
+                        assert.is_nil(playerdevtools[fn_name](playerdevtools))
                     end)
                 end)
             end
-
-            describe("GetMoisturePercent", function()
-                TestWhenThePlayerIsNotPassed(describe, it, before_each, "GetMoisturePercent")
-
-                describe("when the player is passed", function()
-                    local GetMoisture
-
-                    before_each(function()
-                        EachPlayer(function(player)
-                            player.GetMoisture = spy.new(ReturnValueFn(0))
-                        end)
-                    end)
-
-                    it("should call the player GetMoisture()", function()
-                        EachPlayer(function(player)
-                            GetMoisture = player.GetMoisture
-                            assert.spy(GetMoisture).was_not_called()
-                            playerdevtools:GetMoisturePercent(player)
-                            assert.spy(GetMoisture).was_called(1)
-                            assert.spy(GetMoisture).was_called_with(match.is_ref(player))
-                        end)
-                    end)
-
-                    it("should return the moisture percent", function()
-                        EachPlayer(function(player)
-                            assert.is_equal(0, playerdevtools:GetMoisturePercent(player))
-                        end)
-                    end)
-                end)
-
-                describe("when some chain fields are missing", function()
-                    it("should return nil", function()
-                        EachPlayer(function(player)
-                            AssertChainNil(function()
-                                assert.is_nil(playerdevtools:GetMoisturePercent(player))
-                            end, player, "GetMoisture")
-                        end)
-                    end)
-                end)
-            end)
 
             describe("GetTemperature", function()
                 TestWhenThePlayerIsNotPassed(describe, it, before_each, "GetTemperature")

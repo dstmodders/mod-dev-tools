@@ -130,7 +130,7 @@ function SelectedData:PushPlayerData()
 
             self:PushLine(
                 "Moisture",
-                SDK.Utils.String.ValuePercent(playerdevtools:GetMoisturePercent(player))
+                SDK.Utils.String.ValuePercent(SDK.Player.GetMoisturePercent(player))
             )
 
             self:PushLine(
