@@ -69,7 +69,7 @@ local Menu = Class(function(self, screen, devtools)
     self.screen = screen
     self.title = "Front-End Developer Tools"
 
-    if self.devtools:IsInCharacterSelect() then
+    if SDK.IsInCharacterSelect() then
         self.title = "Character Selection Developer Tools"
     elseif InGamePlay() then
         self.title = "In-Game Developer Tools"

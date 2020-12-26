@@ -112,18 +112,6 @@ function DevTools:IsDedicated() -- luacheck: only
     return TheNet:IsDedicated()
 end
 
---- Gets character select state.
--- @treturn boolean
-function DevTools:IsInCharacterSelect()
-    return self.is_in_character_select
-end
-
---- Sets character select state.
--- @tparam boolean is_in_character_select
-function DevTools:SetIsInCharacterSelect(is_in_character_select)
-    self.is_in_character_select = is_in_character_select
-end
-
 --- Resets game.
 -- @treturn boolean
 function DevTools:Reset()
@@ -431,7 +419,6 @@ function DevTools:DoInit(modname)
     self.config = Config()
     self.debug = Debug(modname)
     self.inst = nil
-    self.is_in_character_select = false
     self.labels = Labels(self)
     self.modname = modname
     self.name = "DevTools"

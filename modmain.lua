@@ -79,7 +79,6 @@ _G.DISABLE_MOD_WARNING = GetModConfigData("default_mod_warning")
 -- @section player
 
 SDK.OnEnterCharacterSelect(function(world)
-    devtools:SetIsInCharacterSelect(true)
     devtools:DoTermPlayer()
     devtools:DoTermWorld()
     devtools:DoInitWorld(world)
@@ -87,7 +86,6 @@ end)
 
 SDK.OnPlayerActivated(function(world, player)
     devtools.inst = player
-    devtools:SetIsInCharacterSelect(false)
     devtools:DoInitWorld(world)
     devtools:DoInitPlayer(player)
 
@@ -132,7 +130,6 @@ end)
 
 SDK.OnPlayerDeactivated(function()
     devtools.inst = nil
-    devtools:SetIsInCharacterSelect(false)
 end)
 
 --- Console
