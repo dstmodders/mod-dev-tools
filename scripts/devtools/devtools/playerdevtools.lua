@@ -258,32 +258,26 @@ end
 --- HUD
 -- @section hud
 
---- Gets HUD.
--- @treturn table
-function PlayerDevTools:GetHUD()
-    return self.inst and self.inst.HUD
-end
-
 --- Checks if the HUD chat is open.
 -- @treturn boolean
-function PlayerDevTools:IsHUDChatInputScreenOpen()
-    local hud = self:GetHUD()
+function PlayerDevTools:IsHUDChatInputScreenOpen() -- luacheck: only
+    local hud = SDK.Player.GetHUD()
     return hud and hud:IsChatInputScreenOpen()
 end
 
 --- Checks if the HUD console is open.
 -- @treturn boolean
-function PlayerDevTools:IsHUDConsoleScreenOpen()
-    local hud = self:GetHUD()
+function PlayerDevTools:IsHUDConsoleScreenOpen() -- luacheck: only
+    local hud = SDK.Player.GetHUD()
     return hud and hud:IsConsoleScreenOpen()
 end
 
 --- Checks if the HUD writable screen is active.
 -- @treturn boolean
-function PlayerDevTools:IsHUDWritableScreenActive()
+function PlayerDevTools:IsHUDWritableScreenActive() -- luacheck: only
     local screen = TheFrontEnd:GetActiveScreen()
     if screen then
-        local hud = self:GetHUD()
+        local hud = SDK.Player.GetHUD()
         if hud and screen == hud.writeablescreen then
             return true
         end
@@ -470,7 +464,6 @@ function PlayerDevTools:DoInit()
         "ToggleGodMode",
 
         -- hud
-        "GetHUD",
         "IsHUDChatInputScreenOpen",
         "IsHUDConsoleScreenOpen",
         "IsHUDWritableScreenActive",

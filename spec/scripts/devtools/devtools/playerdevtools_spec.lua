@@ -208,7 +208,6 @@ describe("PlayerDevTools", function()
                 "ToggleGodMode",
 
                 -- hud
-                "GetHUD",
                 "IsHUDChatInputScreenOpen",
                 "IsHUDConsoleScreenOpen",
                 "IsHUDWritableScreenActive",
