@@ -23,11 +23,11 @@ local SDK = require "devtools/sdk/sdk/sdk"
 --- Constructor.
 -- @function _ctor
 -- @tparam[opt] Data data
-local Config = Class(function(self, data)
+local Config = Class(function(self)
     SDK.Debug.AddMethods(self)
+    SDK.PersistentData.Load().SetMode(SDK.PersistentData.DEFAULT).SetIsEncoded(false)
 
     -- general
-    self.data = data
     self.defaults = {}
     self.name = "Config"
     self.values = {}
@@ -43,27 +43,19 @@ end)
 --- Loads.
 -- @treturn boolean
 function Config:Load()
-    if self.data then
-        self.data:GeneralGet("config", self, "values")
-        if self.values == nil
-            or (type(self.values) == "table" and SDK.Utils.Table.Count(self.values) == 0)
-        then
-            self.values = self.defaults
-        end
+    SDK.PersistentData.Get("config", self, "values")
+    if self.values == nil
+        or (type(self.values) == "table" and SDK.Utils.Table.Count(self.values) == 0)
+    then
+        self.values = self.defaults
         return true
     end
     return false
 end
 
 --- Saves.
--- @treturn boolean
 function Config:Save()
-    if self.data then
-        self.data:GeneralSet("config", self.values)
-        self.data:Save()
-        return true
-    end
-    return false
+    SDK.PersistentData.Set("config", self.values).Save()
 end
 
 --- Defaults
@@ -107,6 +99,7 @@ end
 -- @tparam table values
 function Config:SetValues(values)
     self.values = values
+    self:Save()
 end
 
 --- Gets value.

@@ -39,6 +39,7 @@ SDK.Load(env, "scripts/devtools/sdk", {
     "Input",
     "Inventory",
     "ModMain",
+    "PersistentData",
     "Player",
     "Thread",
     "World",

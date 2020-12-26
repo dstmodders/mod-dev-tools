@@ -39,7 +39,6 @@ require "devtools/constants"
 
 local API = require "devtools/api"
 local Config = require "devtools/config"
-local Data = require "devtools/data"
 local Debug = require "devtools/debug"
 local Labels = require "devtools/labels"
 local PlayerDevTools = require "devtools/devtools/playerdevtools"
@@ -427,13 +426,9 @@ end
 function DevTools:DoInit(modname)
     SDK.Debug.AddMethods(self)
 
-    -- data
-    local data = Data(modname)
-
     -- general
     self.api = API(self)
-    self.config = Config(data)
-    self.data = data
+    self.config = Config()
     self.debug = Debug(modname)
     self.inst = nil
     self.is_in_character_select = false
