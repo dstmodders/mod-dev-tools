@@ -208,7 +208,6 @@ describe("PlayerDevTools", function()
                 "ToggleGodMode",
 
                 -- hud
-                "IsHUDConsoleScreenOpen",
                 "IsHUDWritableScreenActive",
 
                 -- lightwatcher

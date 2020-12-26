@@ -258,13 +258,6 @@ end
 --- HUD
 -- @section hud
 
---- Checks if the HUD console is open.
--- @treturn boolean
-function PlayerDevTools:IsHUDConsoleScreenOpen() -- luacheck: only
-    local hud = SDK.Player.GetHUD()
-    return hud and hud:IsConsoleScreenOpen()
-end
-
 --- Checks if the HUD writable screen is active.
 -- @treturn boolean
 function PlayerDevTools:IsHUDWritableScreenActive() -- luacheck: only
@@ -457,7 +450,6 @@ function PlayerDevTools:DoInit()
         "ToggleGodMode",
 
         -- hud
-        "IsHUDConsoleScreenOpen",
         "IsHUDWritableScreenActive",
 
         -- lightwatcher

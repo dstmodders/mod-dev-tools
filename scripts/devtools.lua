@@ -84,7 +84,7 @@ function DevTools:CanPressKeyInGamePlay()
     return InGamePlay()
         and playerdevtools
         and not SDK.Player.IsHUDChatInputScreenOpen()
-        and not playerdevtools:IsHUDConsoleScreenOpen()
+        and not SDK.Player.IsHUDConsoleScreenOpen()
         and not playerdevtools:IsHUDWritableScreenActive()
 end
 
