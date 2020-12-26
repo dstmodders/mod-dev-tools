@@ -158,8 +158,8 @@ MOD_DEV_TOOLS = {
         IS_WORLD = function(self)
             return self.devtools.world and true or false
         end,
-        ONE_PLAYER = function(self)
-            return self.devtools and #self.devtools:GetPlayersClientTable() == 1
+        ONE_PLAYER = function()
+            return #SDK.Player.GetClientTable(nil, true) == 1
         end,
     },
 

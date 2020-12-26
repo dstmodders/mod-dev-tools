@@ -125,21 +125,6 @@ function DevTools:SetIsInCharacterSelect(is_in_character_select)
     self.is_in_character_select = is_in_character_select
 end
 
---- Gets players client table.
--- @treturn table
-function DevTools:GetPlayersClientTable() -- luacheck: only
-    local clients = TheNet and TheNet.GetClientTable and TheNet:GetClientTable() or {}
-    if not TheNet:GetServerIsClientHosted() then
-        for i, v in pairs(clients) do
-            if v.performance ~= nil then
-                table.remove(clients, i) -- remove "host" object
-                break
-            end
-        end
-    end
-    return clients
-end
-
 --- Resets game.
 -- @treturn boolean
 function DevTools:Reset()

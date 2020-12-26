@@ -437,7 +437,7 @@ end
 function ConsoleDevTools:SetTimeScale(timescale)
     local fn_name = 'SetTimeScale'
 
-    if self.devtools and #self.devtools:GetPlayersClientTable() > 1 then
+    if self.devtools and #SDK.Player.GetClientTable(nil, true) > 1 then
         self:DebugError(fn_name .. ":", "There are other players on the server")
         return false
     end
