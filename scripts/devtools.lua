@@ -77,17 +77,6 @@ end
 --- General
 -- @section general
 
---- Checks if a user can press our key.
--- @treturn boolean
-function DevTools:CanPressKeyInGamePlay()
-    local playerdevtools = self.player
-    return InGamePlay()
-        and playerdevtools
-        and not SDK.Player.IsHUDChatInputScreenOpen()
-        and not SDK.Player.IsHUDConsoleScreenOpen()
-        and not SDK.Player.IsHUDWriteableScreenActive()
-end
-
 --- Gets config.
 -- @tparam[opt] string name Config name
 -- @treturn any

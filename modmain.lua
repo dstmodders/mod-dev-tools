@@ -253,19 +253,19 @@ SDK.Input.AddConfigKeyUpHandler("key_toggle_tools", function()
 end)
 
 SDK.Input.AddConfigKeyUpHandler("key_movement_prediction", function()
-    if devtools and devtools:CanPressKeyInGamePlay() and not SDK.World.IsMasterSim() then
+    if SDK.Player.CanPressKeyInGamePlay() and not SDK.World.IsMasterSim() then
         SDK.Player.ToggleMovementPrediction()
     end
 end)
 
 SDK.Input.AddConfigKeyUpHandler("key_pause", function()
-    if devtools and devtools:CanPressKeyInGamePlay() then
+    if devtools and SDK.Player.CanPressKeyInGamePlay() then
         devtools:TogglePause()
     end
 end)
 
 SDK.Input.AddConfigKeyUpHandler("key_god_mode", function()
-    if devtools and devtools:CanPressKeyInGamePlay() then
+    if devtools and SDK.Player.CanPressKeyInGamePlay() then
         local playerdevtools = devtools.player
         playerdevtools:ToggleGodMode()
     end
@@ -273,7 +273,7 @@ end)
 
 local _KEY_TELEPORT = SDK.Config.GetModKeyConfigData("key_teleport")
 SDK.Input.AddConfigKeyDownHandler("key_teleport", function()
-    if devtools and devtools:CanPressKeyInGamePlay() then
+    if devtools and SDK.Player.CanPressKeyInGamePlay() then
         local playerdevtools = devtools.player
         playerdevtools:Teleport(_KEY_TELEPORT)
     end
@@ -281,14 +281,14 @@ end)
 
 SDK.Input.AddConfigKeyUpHandler("key_select_entity", function()
     local worlddevtools = SDK.Utils.Chain.Get(devtools, "world")
-    if worlddevtools and devtools:CanPressKeyInGamePlay() then
+    if worlddevtools and SDK.Player.CanPressKeyInGamePlay() then
         worlddevtools:SelectEntityUnderMouse()
     end
 end)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_increase", function()
     local playerdevtools = SDK.Utils.Chain.Get(devtools, "player")
-    if playerdevtools and devtools:CanPressKeyInGamePlay() then
+    if playerdevtools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
             playerdevtools:ChangeTimeScale(4, true)
         else
@@ -299,7 +299,7 @@ end)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_decrease", function()
     local playerdevtools = SDK.Utils.Chain.Get(devtools, "player")
-    if playerdevtools and devtools:CanPressKeyInGamePlay() then
+    if playerdevtools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
             playerdevtools:ChangeTimeScale(0, true)
         else
@@ -310,7 +310,7 @@ end)
 
 SDK.Input.AddConfigKeyUpHandler("key_time_scale_default", function()
     local playerdevtools = SDK.Utils.Chain.Get(devtools, "player")
-    if playerdevtools and devtools:CanPressKeyInGamePlay() then
+    if playerdevtools and SDK.Player.CanPressKeyInGamePlay() then
         playerdevtools:ChangeTimeScale(1, true)
     end
 end)
