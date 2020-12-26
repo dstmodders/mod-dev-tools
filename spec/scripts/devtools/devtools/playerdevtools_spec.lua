@@ -207,9 +207,6 @@ describe("PlayerDevTools", function()
                 "IsGodMode",
                 "ToggleGodMode",
 
-                -- hud
-                "IsHUDWritableScreenActive",
-
                 -- lightwatcher
                 "CanGrueAttack",
 

@@ -85,7 +85,7 @@ function DevTools:CanPressKeyInGamePlay()
         and playerdevtools
         and not SDK.Player.IsHUDChatInputScreenOpen()
         and not SDK.Player.IsHUDConsoleScreenOpen()
-        and not playerdevtools:IsHUDWritableScreenActive()
+        and not SDK.Player.IsHUDWriteableScreenActive()
 end
 
 --- Gets config.

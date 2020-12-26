@@ -255,22 +255,6 @@ function PlayerDevTools:ToggleGodMode(player)
     end
 end
 
---- HUD
--- @section hud
-
---- Checks if the HUD writable screen is active.
--- @treturn boolean
-function PlayerDevTools:IsHUDWritableScreenActive() -- luacheck: only
-    local screen = TheFrontEnd:GetActiveScreen()
-    if screen then
-        local hud = SDK.Player.GetHUD()
-        if hud and screen == hud.writeablescreen then
-            return true
-        end
-    end
-    return false
-end
-
 --- Light Watcher
 -- @section light-watcher
 
@@ -448,9 +432,6 @@ function PlayerDevTools:DoInit()
         "GetGodModePlayers",
         "IsGodMode",
         "ToggleGodMode",
-
-        -- hud
-        "IsHUDWritableScreenActive",
 
         -- lightwatcher
         "CanGrueAttack",
