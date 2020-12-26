@@ -276,7 +276,7 @@ function Labels:UpdateUsername()
     for _, inst in pairs(self.devtools:GetAllPlayers()) do
         if inst:IsValid() and inst.Label then
             if self.is_username_enabled then
-                local client = self.devtools:GetClientTableForUser(inst)
+                local client = SDK.Player.GetClientTable(inst)
 
                 inst.Label:Enable(true)
                 inst.Label:SetFont(self.font)

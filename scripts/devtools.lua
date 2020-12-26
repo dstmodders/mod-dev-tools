@@ -125,16 +125,6 @@ function DevTools:SetIsInCharacterSelect(is_in_character_select)
     self.is_in_character_select = is_in_character_select
 end
 
---- Gets client table for the user.
--- @tparam table user Player
--- @treturn table
-function DevTools:GetClientTableForUser(user) -- luacheck: only
-    user = user ~= nil and user or self.inst
-    if user and user.userid then
-        return TheNet:GetClientTableForUser(user.userid)
-    end
-end
-
 --- Gets players client table.
 -- @treturn table
 function DevTools:GetPlayersClientTable() -- luacheck: only
