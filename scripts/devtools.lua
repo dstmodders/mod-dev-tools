@@ -83,7 +83,7 @@ function DevTools:CanPressKeyInGamePlay()
     local playerdevtools = self.player
     return InGamePlay()
         and playerdevtools
-        and not playerdevtools:IsHUDChatInputScreenOpen()
+        and not SDK.Player.IsHUDChatInputScreenOpen()
         and not playerdevtools:IsHUDConsoleScreenOpen()
         and not playerdevtools:IsHUDWritableScreenActive()
 end

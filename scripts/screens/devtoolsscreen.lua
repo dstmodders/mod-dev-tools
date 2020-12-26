@@ -155,7 +155,7 @@ function DevToolsScreen:CanToggle() -- luacheck: only
         and not devtools:IsInCharacterSelect()
     then
         local playerdevtools = devtools.player
-        if playerdevtools and playerdevtools:IsHUDChatInputScreenOpen() then
+        if playerdevtools and SDK.Player.IsHUDChatInputScreenOpen() then
             return false
         end
     end

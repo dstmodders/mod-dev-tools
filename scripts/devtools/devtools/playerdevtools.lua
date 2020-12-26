@@ -258,13 +258,6 @@ end
 --- HUD
 -- @section hud
 
---- Checks if the HUD chat is open.
--- @treturn boolean
-function PlayerDevTools:IsHUDChatInputScreenOpen() -- luacheck: only
-    local hud = SDK.Player.GetHUD()
-    return hud and hud:IsChatInputScreenOpen()
-end
-
 --- Checks if the HUD console is open.
 -- @treturn boolean
 function PlayerDevTools:IsHUDConsoleScreenOpen() -- luacheck: only
@@ -464,7 +457,6 @@ function PlayerDevTools:DoInit()
         "ToggleGodMode",
 
         -- hud
-        "IsHUDChatInputScreenOpen",
         "IsHUDConsoleScreenOpen",
         "IsHUDWritableScreenActive",
 
