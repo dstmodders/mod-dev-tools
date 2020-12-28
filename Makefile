@@ -34,7 +34,7 @@ citest:
 			&& rm luacov.report.out.bak; \
 		awk '/^Summary$$/{if (a) print a;if (b) print b}{a=b;b=$$0;} /^Summary$$/,f' luacov.report.out
 
-dev: reinstall ldoc lint test
+dev: reinstall ldoc lint testclean test
 
 gitrelease:
 	@echo "Latest Git tag: ${GIT_LATEST_TAG}"
@@ -109,7 +109,7 @@ test:
 	@busted .; luacov -r lcov > /dev/null 2>&1 && cp luacov.report.out lcov.info; luacov-console . && luacov-console -s
 
 testclean:
-	@rm -f busted.out lcov.info luacov*
+	@rm -f busted.out core lcov.info luacov*
 
 testcoverage:
 	@luacov -r lcov > /dev/null 2>&1 && cp luacov.report.out lcov.info; luacov-console . && luacov-console -s
@@ -119,19 +119,28 @@ testlist:
 
 uninstall:
 	@:$(call check_defined, DST_MODS)
-	@rm -Rf "${DST_MODS}/dst-mod-dev-tools/"
+	@rm -rf "${DST_MODS}/dst-mod-dev-tools/"
 
 workshop:
-	@rm -Rf ./workshop*
+	@rm -rf ./workshop*
 	@mkdir -p ./workshop/
-	@cp -R ./LICENSE ./workshop/
-	@cp -R ./modicon.tex ./workshop/
-	@cp -R ./modicon.xml ./workshop/
-	@cp -R ./modinfo.lua ./workshop/
-	@cp -R ./modmain.lua ./workshop/
-	@cp -R ./scripts/ ./workshop/
+	@cp -r ./LICENSE ./workshop/
+	@cp -r ./modicon.tex ./workshop/
+	@cp -r ./modicon.xml ./workshop/
+	@cp -r ./modinfo.lua ./workshop/
+	@cp -r ./modmain.lua ./workshop/
+	@cp -r ./scripts/ ./workshop/
+	@rm -rf ./workshop/scripts/devtools/sdk/*.md
+	@rm -rf ./workshop/scripts/devtools/sdk/.[!.]*
+	@rm -rf ./workshop/scripts/devtools/sdk/config.ld
+	@rm -rf ./workshop/scripts/devtools/sdk/Makefile
+	@rm -rf ./workshop/scripts/devtools/sdk/readme
+	@rm -rf ./workshop/scripts/devtools/sdk/spec
+	@cp -r ./workshop/ ./workshop-2220506640/
+	@zip -r ./steam-workshop.zip ./workshop-2220506640/
+	@rm -rf ./workshop-2220506640/
 
 workshopclean:
-	@rm -Rf ./workshop* ./steam-workshop.zip
+	@rm -rf ./workshop* ./steam-workshop.zip
 
-.PHONY: ldoc modicon workshop
+.PHONY: workshop
