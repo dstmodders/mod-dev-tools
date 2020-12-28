@@ -1,4 +1,6 @@
 exclude = {
+    "modinfo",
     "scripts/devtools/sdk",
     "scripts/devtools/sdk%/.+$",
+    "spec%/.+$",
 }
