@@ -5,21 +5,18 @@
 .vscode/
 
 ### Lua ###
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
-
-# luacov
+# LuaCov
+coverage/
+lcov.info
 luacov.*
+
+# Busted
+busted.out
+core
 
 ### Project ###
 # general
-.github/slack*.json
-busted.out
-coverage/
 description.txt
-lcov.info
 
 # doc
 doc/*
