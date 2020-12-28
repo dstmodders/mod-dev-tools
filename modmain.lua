@@ -28,22 +28,7 @@ local TheInput = _G.TheInput
 local SDK
 
 SDK = require "devtools/sdk/sdk/sdk"
-SDK.Load(env, "scripts/devtools/sdk", {
-    "Config",
-    "Console",
-    "Constant",
-    "Debug",
-    "DebugUpvalue",
-    "Dump",
-    "Entity",
-    "Input",
-    "Inventory",
-    "ModMain",
-    "PersistentData",
-    "Player",
-    "Thread",
-    "World",
-})
+SDK.Load(env, "devtools/sdk")
 
 --- Debugging
 -- @section debugging

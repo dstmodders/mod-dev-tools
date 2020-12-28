@@ -13,6 +13,7 @@ local preloads = {
     ["sdk/input"] = "scripts/devtools/sdk/sdk/input",
     ["sdk/inventory"] = "scripts/devtools/sdk/sdk/inventory",
     ["sdk/modmain"] = "scripts/devtools/sdk/sdk/modmain",
+    ["sdk/persistentdata"] = "scripts/devtools/sdk/sdk/persistentdata",
     ["sdk/player"] = "scripts/devtools/sdk/sdk/player",
     ["sdk/rpc"] = "scripts/devtools/sdk/sdk/rpc",
     ["sdk/thread"] = "scripts/devtools/sdk/sdk/thread",
@@ -48,24 +49,10 @@ end
 local SDK
 
 SDK = require "devtools/sdk/sdk/sdk"
-SDK.Load({
+SDK.SetIsSilent(true).Load({
     modname = "dst-mod-dev-tools",
     AddPrefabPostInit = function() end
-}, "scripts/devtools/sdk", {
-    "Config",
-    "Console",
-    "Constant",
-    "Debug",
-    "DebugUpvalue",
-    "Dump",
-    "Entity",
-    "Input",
-    "Inventory",
-    "ModMain",
-    "Player",
-    "Thread",
-    "World",
-})
+}, "devtools/sdk")
 
 _G.SDK = SDK
 
