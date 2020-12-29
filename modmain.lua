@@ -328,5 +328,5 @@ end
 -- @section knownmodindex
 
 if GetModConfigData("hide_changelog") then
-    SDK.ModMain.HideChangelog(modname, true)
+    SDK.ModMain.HideChangelog(true)
 end
