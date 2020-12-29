@@ -26,7 +26,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
 require "consolecommands"
 
 local SDK = require "devtools/sdk/sdk/sdk"

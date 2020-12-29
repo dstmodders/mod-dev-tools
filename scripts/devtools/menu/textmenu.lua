@@ -11,7 +11,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
 
 --- Lifecycle
 -- @section lifecycle

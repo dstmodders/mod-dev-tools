@@ -29,8 +29,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
-
 local ChoicesOption = require "devtools/menu/option/choicesoption"
 
 --- Lifecycle

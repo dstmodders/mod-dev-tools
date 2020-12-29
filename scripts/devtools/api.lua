@@ -12,7 +12,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
 require "devtools/constants"
 
 local SDK = require "devtools/sdk/sdk/sdk"

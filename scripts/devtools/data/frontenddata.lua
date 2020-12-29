@@ -13,8 +13,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
-
 local Data = require "devtools/data/data"
 local SDK = require "devtools/sdk/sdk/sdk"
 

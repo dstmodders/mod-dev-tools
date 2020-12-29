@@ -22,8 +22,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
-
 local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle

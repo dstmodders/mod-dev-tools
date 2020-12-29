@@ -30,7 +30,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
 
 --- Helpers
 -- @section helpers

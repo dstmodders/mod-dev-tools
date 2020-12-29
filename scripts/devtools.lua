@@ -33,7 +33,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
 require "consolecommands"
 require "devtools/constants"
 

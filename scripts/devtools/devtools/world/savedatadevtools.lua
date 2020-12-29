@@ -24,7 +24,6 @@
 -- @license MIT
 -- @release 0.7.0
 ----
-require "class"
 require "consolecommands"
 
 local DevTools = require "devtools/devtools/devtools"
