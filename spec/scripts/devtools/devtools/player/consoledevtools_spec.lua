@@ -277,7 +277,7 @@ describe("ConsoleDevTools", function()
                     it("should debug error", function()
                         DebugSpyClear("DebugError")
                         consoledevtools[remote](consoledevtools)
-                        DebugSpyAssertWasCalled("DebugError", 1, {
+                        AssertDebugSpyWasCalled("DebugError", 1, {
                             string.format("ConsoleDevTools:%s():", remote),
                             "not an admin"
                         })
@@ -303,7 +303,7 @@ describe("ConsoleDevTools", function()
                             it("should debug error", function()
                                 DebugSpyClear("DebugError")
                                 consoledevtools[remote](consoledevtools)
-                                DebugSpyAssertWasCalled("DebugError", 1, {
+                                AssertDebugSpyWasCalled("DebugError", 1, {
                                     string.format("ConsoleDevTools:%s():", remote),
                                     string.format("not in the %s world", world)
                                 })
@@ -345,7 +345,7 @@ describe("ConsoleDevTools", function()
                         it("should debug string", function()
                             DebugSpyClear(debug_fn)
                             consoledevtools[remote](consoledevtools, unpack(value))
-                            DebugSpyAssertWasCalled(debug_fn, 1, debug)
+                            AssertDebugSpyWasCalled(debug_fn, 1, debug)
                         end)
 
                         it("should return true", function()
@@ -364,7 +364,7 @@ describe("ConsoleDevTools", function()
                             it("should debug error", function()
                                 DebugSpyClear("DebugError")
                                 consoledevtools[remote](consoledevtools, unpack(value))
-                                DebugSpyAssertWasCalled("DebugError", 1, {
+                                AssertDebugSpyWasCalled("DebugError", 1, {
                                     string.format("ConsoleDevTools:%s():", remote),
                                     "invalid value",
                                     string.format("(%s)", error)
@@ -392,7 +392,7 @@ describe("ConsoleDevTools", function()
                 it("should debug error", function()
                     DebugSpyClear("DebugError")
                     consoledevtools:MiniQuake()
-                    DebugSpyAssertWasCalled("DebugError", 1, {
+                    AssertDebugSpyWasCalled("DebugError", 1, {
                         "ConsoleDevTools:MiniQuake():",
                         "not in the cave world"
                     })
@@ -416,7 +416,7 @@ describe("ConsoleDevTools", function()
                     it("should debug error", function()
                         DebugSpyClear("DebugError")
                         consoledevtools:MiniQuake()
-                        DebugSpyAssertWasCalled("DebugError", 1, {
+                        AssertDebugSpyWasCalled("DebugError", 1, {
                             "ConsoleDevTools:MiniQuake():",
                             "not an admin"
                         })
@@ -446,7 +446,7 @@ describe("ConsoleDevTools", function()
                         it("should debug string", function()
                             DebugSpyClear("DebugString")
                             consoledevtools:MiniQuake(nil, 10, 10, 1)
-                            DebugSpyAssertWasCalled("DebugString", 1, {
+                            AssertDebugSpyWasCalled("DebugString", 1, {
                                 "ConsoleDevTools:MiniQuake():",
                                 "KU_admin, 10, 10, 1"
                             })
@@ -461,7 +461,7 @@ describe("ConsoleDevTools", function()
                         it("should debug error", function()
                             DebugSpyClear("DebugError")
                             consoledevtools:MiniQuake(1, "test", "test", "test")
-                            DebugSpyAssertWasCalled("DebugError", 1, {
+                            AssertDebugSpyWasCalled("DebugError", 1, {
                                 "ConsoleDevTools:MiniQuake():",
                                 "invalid value",
                                 "(1, test, test, test)"

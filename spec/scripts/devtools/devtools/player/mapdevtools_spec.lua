@@ -102,11 +102,11 @@ describe("MapDevTools", function()
                 it("should debug string", function()
                     mapdevtools:Reveal()
 
-                    DebugSpyAssertWasCalled("DebugString", 2, {
+                    AssertDebugSpyWasCalled("DebugString", 2, {
                         "Revealing map..."
                     })
 
-                    DebugSpyAssertWasCalled("DebugString", 2, {
+                    AssertDebugSpyWasCalled("DebugString", 2, {
                         "Map revealing has been completed"
                     })
                 end)

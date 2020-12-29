@@ -134,7 +134,7 @@ describe("WorldDevTools", function()
 
     describe("general", function()
         it("should have the getter GetWorld", function()
-            AssertGetter(worlddevtools, "inst", "GetWorld")
+            AssertClassGetter(worlddevtools, "inst", "GetWorld")
         end)
 
         describe("GetWorldNet", function()
@@ -176,7 +176,7 @@ describe("WorldDevTools", function()
 
             it("should debug string", function()
                 worlddevtools:Select()
-                DebugSpyAssertWasCalled("DebugString", 1, {
+                AssertDebugSpyWasCalled("DebugString", 1, {
                     "Selected TheWorld"
                 })
             end)
@@ -196,7 +196,7 @@ describe("WorldDevTools", function()
 
             it("should debug string", function()
                 worlddevtools:SelectNet()
-                DebugSpyAssertWasCalled("DebugString", 1, {
+                AssertDebugSpyWasCalled("DebugString", 1, {
                     "Selected TheWorld.net"
                 })
             end)
@@ -227,7 +227,7 @@ describe("WorldDevTools", function()
             describe("when there is an entity under mouse", function()
                 it("should debug string", function()
                     worlddevtools:SelectEntityUnderMouse()
-                    DebugSpyAssertWasCalled("DebugString", 1, {
+                    AssertDebugSpyWasCalled("DebugString", 1, {
                         "Selected",
                         "Test"
                     })
@@ -260,7 +260,7 @@ describe("WorldDevTools", function()
 
             for field, getter in pairs(getters) do
                 it(getter, function()
-                    AssertGetter(worlddevtools, field, getter)
+                    AssertClassGetter(worlddevtools, field, getter)
                 end)
             end
         end)
@@ -276,7 +276,7 @@ describe("WorldDevTools", function()
 
                 for field, getter in pairs(getters) do
                     it(getter, function()
-                        AssertGetter(worlddevtools, field, getter)
+                        AssertClassGetter(worlddevtools, field, getter)
                     end)
                 end
             end)

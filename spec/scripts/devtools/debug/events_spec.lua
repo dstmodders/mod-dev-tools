@@ -122,7 +122,7 @@ describe("Events", function()
                 it("should debug error", function()
                     DebugSpyClear("DebugError")
                     CheckIfAlreadyActivated(events, "Test", activated)
-                    DebugSpyAssertWasCalled("DebugError", 1, {
+                    AssertDebugSpyWasCalled("DebugError", 1, {
                         "Events:Test():",
                         "already 2 activated, deactivate first"
                     })
@@ -143,7 +143,7 @@ describe("Events", function()
                 it("shouldn't debug error", function()
                     DebugSpyClear("DebugError")
                     CheckIfAlreadyActivated(events, "Test", activated)
-                    DebugSpyAssertWasCalled("DebugError", 0)
+                    AssertDebugSpyWasCalled("DebugError", 0)
                 end)
 
                 it("should return false", function()
@@ -179,7 +179,7 @@ describe("Events", function()
                 it("shouldn't debug error", function()
                     DebugSpyClear("DebugError")
                     CheckIfAlreadyDeactivated(events, "Test", activated)
-                    DebugSpyAssertWasCalled("DebugError", 0)
+                    AssertDebugSpyWasCalled("DebugError", 0)
                 end)
 
                 it("should return false", function()
@@ -197,7 +197,7 @@ describe("Events", function()
                 it("should debug error", function()
                     DebugSpyClear("DebugError")
                     CheckIfAlreadyDeactivated(events, "Test", activated)
-                    DebugSpyAssertWasCalled("DebugError", 1, {
+                    AssertDebugSpyWasCalled("DebugError", 1, {
                         "Events:Test():",
                         "already deactivated, activate first"
                     })
@@ -237,7 +237,7 @@ describe("Events", function()
             it("should debug string", function()
                 DebugSpyClear("DebugString")
                 Activate(events, "Test", entity)
-                DebugSpyAssertWasCalled("DebugString", 1, {
+                AssertDebugSpyWasCalled("DebugString", 1, {
                     "Activated debugging of the",
                     2,
                     "Test",
@@ -276,7 +276,7 @@ describe("Events", function()
             it("should debug string", function()
                 DebugSpyClear("DebugString")
                 Deactivate(events, "Test", entity, activated)
-                DebugSpyAssertWasCalled("DebugString", 1, {
+                AssertDebugSpyWasCalled("DebugString", 1, {
                     "Deactivated debugging of the",
                     2,
                     "Test",
@@ -340,7 +340,7 @@ describe("Events", function()
                         it("should debug error", function()
                             DebugSpyClear("DebugError")
                             events:ActivatePlayer()
-                            DebugSpyAssertWasCalled("DebugError", 1, {
+                            AssertDebugSpyWasCalled("DebugError", 1, {
                                 "Events:ActivatePlayer():",
                                 "already 2 activated, deactivate first"
                             })
@@ -375,7 +375,7 @@ describe("Events", function()
                         it("should debug error", function()
                             DebugSpyClear("DebugError")
                             events:DeactivatePlayer()
-                            DebugSpyAssertWasCalled("DebugError", 1, {
+                            AssertDebugSpyWasCalled("DebugError", 1, {
                                 "Events:DeactivatePlayer():",
                                 "already deactivated, activate first"
                             })
@@ -453,7 +453,7 @@ describe("Events", function()
                         it("should debug error", function()
                             DebugSpyClear("DebugError")
                             events:ActivatePlayerClassified()
-                            DebugSpyAssertWasCalled("DebugError", 1, {
+                            AssertDebugSpyWasCalled("DebugError", 1, {
                                 "Events:ActivatePlayerClassified():",
                                 "already 2 activated, deactivate first"
                             })
@@ -488,7 +488,7 @@ describe("Events", function()
                         it("should debug error", function()
                             DebugSpyClear("DebugError")
                             assert.is_false(events:DeactivatePlayerClassified())
-                            DebugSpyAssertWasCalled("DebugError", 1, {
+                            AssertDebugSpyWasCalled("DebugError", 1, {
                                 "Events:DeactivatePlayerClassified():",
                                 "already deactivated, activate first"
                             })

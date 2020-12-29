@@ -84,14 +84,14 @@ describe("Option", function()
 
             for field, getter in pairs(getters) do
                 it(getter, function()
-                    AssertGetter(option, field, getter)
+                    AssertClassGetter(option, field, getter)
                 end)
             end
         end)
 
         describe("setter", function()
             it("SetLabel", function()
-                AssertSetter(option, "label", "SetLabel")
+                AssertClassSetter(option, "label", "SetLabel")
             end)
         end)
 

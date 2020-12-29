@@ -237,14 +237,14 @@ describe("PlayerDevTools", function()
 
                 for field, getter in pairs(getters) do
                     it(getter, function()
-                        AssertGetter(playerdevtools, field, getter)
+                        AssertClassGetter(playerdevtools, field, getter)
                     end)
                 end
             end)
 
             describe("setter", function()
                 it("SetIsMoveButtonDown", function()
-                    AssertSetter(playerdevtools, "is_move_button_down", "SetIsMoveButtonDown")
+                    AssertClassSetter(playerdevtools, "is_move_button_down", "SetIsMoveButtonDown")
                 end)
             end)
         end)
@@ -411,7 +411,7 @@ describe("PlayerDevTools", function()
                     EachPlayer(function(player)
                         DebugSpyClear("DebugString")
                         playerdevtools:Select(player)
-                        DebugSpyAssertWasCalled("DebugString", 1, {
+                        AssertDebugSpyWasCalled("DebugString", 1, {
                             "Selected",
                             player:GetDisplayName()
                         })
@@ -456,13 +456,13 @@ describe("PlayerDevTools", function()
                         playerdevtools:Select(player)
 
                         local name = player:GetDisplayName()
-                        DebugSpyAssertWasCalled("DebugString", 2, {
+                        AssertDebugSpyWasCalled("DebugString", 2, {
                             "[client]",
                             "Selected",
                             name
                         })
 
-                        DebugSpyAssertWasCalled("DebugString", 2, {
+                        AssertDebugSpyWasCalled("DebugString", 2, {
                             "[server]",
                             "Selected",
                             name
@@ -563,7 +563,7 @@ describe("PlayerDevTools", function()
         describe("should have the getter", function()
             describe("getter", function()
                 it("GetGodModePlayers", function()
-                    AssertGetter(playerdevtools, "god_mode_players", "GetGodModePlayers")
+                    AssertClassGetter(playerdevtools, "god_mode_players", "GetGodModePlayers")
                 end)
             end)
         end)
@@ -735,7 +735,7 @@ describe("PlayerDevTools", function()
                     EachPlayer(function(player)
                         DebugSpyClear("DebugError")
                         playerdevtools:ToggleGodMode(player)
-                        DebugSpyAssertWasCalled("DebugError", 1, {
+                        AssertDebugSpyWasCalled("DebugError", 1, {
                             "PlayerDevTools:ToggleGodMode():",
                             "not an admin"
                         })
@@ -786,7 +786,7 @@ describe("PlayerDevTools", function()
                         EachPlayer(function(player)
                             DebugSpyClear("DebugString")
                             playerdevtools:ToggleGodMode(player)
-                            DebugSpyAssertWasCalled("DebugString", 1, {
+                            AssertDebugSpyWasCalled("DebugString", 1, {
                                 "(" .. player:GetDisplayName() .. ")",
                                 "God Mode is enabled"
                             })
@@ -839,7 +839,7 @@ describe("PlayerDevTools", function()
                         EachPlayer(function(player)
                             DebugSpyClear("DebugString")
                             playerdevtools:ToggleGodMode(player)
-                            DebugSpyAssertWasCalled("DebugString", 1, {
+                            AssertDebugSpyWasCalled("DebugString", 1, {
                                 "(" .. player:GetDisplayName() .. ")",
                                 "God Mode is disabled"
                             })
