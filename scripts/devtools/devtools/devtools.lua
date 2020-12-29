@@ -74,11 +74,11 @@ function DevTools:GetFnFullName(fn_name)
 end
 
 function DevTools:AddGlobalDevToolsMethods(methods)
-    SDK.Utils.Methods.AddToAnotherClass(self, self.devtools, methods)
+    SDK.Utils.Method.AddToAnotherClass(self, self.devtools, methods)
 end
 
 function DevTools:RemoveGlobalDevToolsMethods(methods)
-    SDK.Utils.Methods.RemoveFromAnotherClass(self.devtools, methods)
+    SDK.Utils.Method.RemoveFromAnotherClass(self.devtools, methods)
 end
 
 --- Other
