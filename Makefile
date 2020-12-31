@@ -1,4 +1,5 @@
 GIT_LATEST_TAG = $$(git describe --abbrev=0)
+GIT_SUBMODULE_COMMIT = $$(git submodule foreach git rev-parse --short HEAD | tail -1)
 MODINFO_VERSION = $$(grep '^version.*=' < modinfo.lua | awk -F'= ' '{ print $$2 }' | tr -d '"')
 
 # Source: https://stackoverflow.com/a/10858332
@@ -23,6 +24,7 @@ help:
 	@echo "   testcoverage          to print the tests coverage report"
 	@echo "   testlist              to list all existing tests"
 	@echo "   uninstall             to uninstall the mod"
+	@echo "   updatesdk             to update SDK to the latest version"
 	@echo "   workshop              to prepare the Steam Workshop directory + archive"
 	@echo "   workshopclean         to clean up Steam Workshop directory + archive"
 
@@ -128,6 +130,12 @@ testlist:
 uninstall:
 	@:$(call check_defined, DST_MODS)
 	@rm -rf "${DST_MODS}/dst-mod-dev-tools/"
+
+updatesdk:
+	@git submodule foreach git reset --hard origin/main
+	@git submodule foreach git pull
+	@git add scripts/devtools/sdk
+	@git commit -m "Update SDK: ${GIT_SUBMODULE_COMMIT}"
 
 workshop:
 	@rm -rf ./workshop*
