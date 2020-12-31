@@ -5,7 +5,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod debug.Events
+-- @classmod DebugEvents
+-- @see Debug
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -25,7 +26,7 @@ local function CheckIfAlreadyActivated(self, fn_name, activated)
     local count = SDK.Utils.Table.Count(activated)
     if count > 0 then
         self:DebugError(
-            string.format("%s:%s():", self.name, fn_name),
+            string.format("%s:%s():", tostring(self), fn_name),
             string.format("already %d activated, deactivate first", count)
         )
     end
@@ -36,7 +37,7 @@ local function CheckIfAlreadyDeactivated(self, fn_name, activated)
     local count = SDK.Utils.Table.Count(activated)
     if count == 0 then
         self:DebugError(
-            string.format("%s:%s():", self.name, fn_name),
+            string.format("%s:%s():", tostring(self), fn_name),
             string.format("already deactivated, activate first", count)
         )
     end
@@ -83,13 +84,13 @@ end
 --- Constructor.
 -- @function _ctor
 -- @tparam Debug debug
--- @usage local events = Events(debug)
-local Events = Class(function(self, debug)
+-- @usage local events = DebugEvents(debug)
+local DebugEvents = Class(function(self, debug)
     SDK.Debug.AddMethods(self)
+    SDK.Method.SetClass(self).AddToString("DebugEvents")
 
     -- general
     self.debug = debug
-    self.name = "Events"
 
     -- player
     self.activated_player = {}
@@ -108,14 +109,14 @@ local Events = Class(function(self, debug)
     end
 
     -- other
-    self:DebugInit("Debug (Events)")
+    self:DebugInit("Debug (DebugEvents)")
 end)
 
 --- Player
 -- @section player
 
 --- Activates `ThePlayer`.
-function Events:ActivatePlayer()
+function DebugEvents:ActivatePlayer()
     local fn_name = "ActivatePlayer"
     local name = "ThePlayer"
 
@@ -133,7 +134,7 @@ function Events:ActivatePlayer()
 end
 
 --- Deactivates `ThePlayer`.
-function Events:DeactivatePlayer()
+function DebugEvents:DeactivatePlayer()
     local fn_name = "DeactivatePlayer"
     local name = "ThePlayer"
 
@@ -147,7 +148,7 @@ function Events:DeactivatePlayer()
 end
 
 --- Activate `ThePlayer.player_classified`.
-function Events:ActivatePlayerClassified()
+function DebugEvents:ActivatePlayerClassified()
     local fn_name = "ActivatePlayerClassified"
     local name = "ThePlayer.player_classified"
 
@@ -166,7 +167,7 @@ function Events:ActivatePlayerClassified()
 end
 
 --- Deactivates `ThePlayer.player_classified`.
-function Events:DeactivatePlayerClassified()
+function DebugEvents:DeactivatePlayerClassified()
     local fn_name = "DeactivatePlayerClassified"
     local name = "ThePlayer.player_classified"
 
@@ -193,7 +194,7 @@ end
 -- @section player
 
 --- Activates `TheWorld`.
-function Events:ActivateWorld()
+function DebugEvents:ActivateWorld()
     local fn_name = "ActivateWorld"
     local name = "TheWorld"
 
@@ -211,7 +212,7 @@ function Events:ActivateWorld()
 end
 
 --- Deactivates `TheWorld`.
-function Events:DeactivateWorld()
+function DebugEvents:DeactivateWorld()
     local fn_name = "DeactivateWorld"
     local name = "TheWorld"
 
@@ -224,4 +225,4 @@ function Events:DeactivateWorld()
     return true
 end
 
-return Events
+return DebugEvents

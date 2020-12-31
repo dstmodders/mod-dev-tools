@@ -47,7 +47,7 @@ require "devtools/constants"
 
 local API = require "devtools/api"
 local Config = require "devtools/config"
-local Debug = require "devtools/debug"
+local Debug = require "devtools/debug/debug"
 local Labels = require "devtools/labels"
 local PlayerTools = require "devtools/tools/playertools"
 local SDK = require "devtools/sdk/sdk/sdk"
@@ -59,9 +59,8 @@ local WorldTools = require "devtools/tools/worldtools"
 
 --- Constructor.
 -- @function _ctor
--- @tparam string modname
--- @usage local devtools = DevTools(modname)
-local DevTools = Class(function(self, modname)
+-- @usage local devtools = DevTools()
+local DevTools = Class(function(self)
     SDK.Debug.AddMethods(self)
     SDK.Method
         .SetClass(self)
@@ -76,10 +75,9 @@ local DevTools = Class(function(self, modname)
     -- general
     self.api = API(self)
     self.config = Config()
-    self.debug = Debug(modname)
+    self.debug = Debug()
     self.inst = nil
     self.labels = Labels(self)
-    self.modname = modname
     self.name = "DevTools"
     self.player = nil
     self.screen = nil -- set in DevToolsScreen:DoInit()

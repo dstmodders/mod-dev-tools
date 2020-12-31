@@ -5,7 +5,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod debug.Globals
+-- @classmod DebugGlobals
+-- @see Debug
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -20,9 +21,10 @@ local SDK = require "devtools/sdk/sdk/sdk"
 --- Constructor.
 -- @function _ctor
 -- @tparam Debug debug
--- @usage local globals = Globals(debug)
-local Globals = Class(function(self, debug)
+-- @usage local globals = DebugGlobals(debug)
+local DebugGlobals = Class(function(self, debug)
     SDK.Debug.AddMethods(self)
+    SDK.Method.SetClass(self).AddToString("DebugGlobals")
 
     -- general
     self.debug = debug
@@ -35,7 +37,7 @@ local Globals = Class(function(self, debug)
     end
 
     -- other
-    self:DebugInit("Debug (Globals)")
+    self:DebugInit(tostring(self))
 end)
 
 --- General
@@ -43,10 +45,10 @@ end)
 
 --- SendRPCToServer.
 -- @tparam any ...
-function Globals:SendRPCToServer(...)
+function DebugGlobals:SendRPCToServer(...)
     if SDK.Debug.IsDebug("rpc") then
         print(string.format("[debug] [rpc] %s", self.debug:SendRPCToServerString(...)))
     end
 end
 
-return Globals
+return DebugGlobals

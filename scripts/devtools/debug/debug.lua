@@ -3,18 +3,29 @@
 --
 -- Includes different debugging-related stuff.
 --
+-- _Below is the list of some self-explanatory methods which have been added using SDK._
+--
+-- **Getters:**
+--
+--   - `GetEvents`
+--   - `GetGlobals`
+--   - `GetPlayerController`
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod Debug
+-- @see DebugEvents
+-- @see DebugGlobals
+-- @see DebugPlayerController
 --
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
 -- @release 0.7.0
 ----
-local Events = require "devtools/debug/events"
-local Globals = require "devtools/debug/globals"
-local PlayerController = require "devtools/debug/playercontroller"
+local DebugEvents = require "devtools/debug/debugevents"
+local DebugGlobals = require "devtools/debug/debugglobals"
+local DebugPlayerController = require "devtools/debug/debugplayercontroller"
 local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
@@ -22,10 +33,25 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam string modname Mod name
--- @usage local debug = Debug(modname)
-local Debug = Class(function(self, modname)
-    self:DoInit(modname)
+-- @usage local debug = Debug()
+local Debug = Class(function(self)
+    SDK.Debug.AddMethods(self)
+    SDK.Method
+        .SetClass(self)
+        .AddToString("Debug")
+        .AddGetters({
+            events = "GetEvents",
+            globals = "GetGlobals",
+            playercontroller = "GetPlayerController",
+        })
+
+    -- submodules
+    self.events = nil
+    self.globals = nil
+    self.playercontroller = nil
+
+    -- other
+    self:DebugInit(tostring(self))
 end)
 
 --- Shared
@@ -121,24 +147,6 @@ end
 --- Submodules
 -- @section submodules
 
---- Gets `Events` debug class.
--- @treturn table
-function Debug:GetEvents()
-    return self.events
-end
-
---- Gets `Globals` debug class.
--- @treturn table
-function Debug:GetGlobals()
-    return self.globals
-end
-
---- Gets `PlayerController` debug class.
--- @treturn table
-function Debug:GetPlayerController()
-    return self.playercontroller
-end
-
 --- Returns `SendRPCToServer()` string.
 -- @tparam number code RPC code
 -- @tparam any ...
@@ -164,59 +172,35 @@ end
 --- Lifecycle
 -- @section lifecycle
 
---- Initializes.
---
--- Sets empty fields and adds debug functions.
---
--- @tparam string modname
-function Debug:DoInit(modname)
-    SDK.Debug.AddMethods(self)
-
-    -- general
-    self.is_debug = {}
-    self.is_enabled = false
-    self.modname = modname
-    self.name = "Debug"
-    self.start_time = nil
-
-    -- submodules
-    self.events = nil
-    self.globals = nil
-    self.playercontroller = nil
-
-    -- other
-    self:DebugInit(self.name)
-end
-
 --- Initializes when the game is initialized.
 --
--- Initializes the corresponding `Events` and `Globals` debug classes for debugging events and
+-- Initializes the corresponding `DebugEvents` and `DebugGlobals` debug classes for debugging events and
 -- globals respectively.
 function Debug:DoInitGame()
     if not self.events then
-        self.events = Events(self)
+        self.events = DebugEvents(self)
     end
 
     if not self.globals then
-        self.globals = Globals(self)
+        self.globals = DebugGlobals(self)
     end
 
-    self:DebugInit(self.name, "(DoInitGame)")
+    self:DebugInit(tostring(self), "(DoInitGame)")
 end
 
 --- Initializes when the player controller is initialized.
 --
--- Initializes the corresponding `PlayerController` debug class for debugging some its methods.
+-- Initializes the corresponding `DebugPlayerController` debug class for debugging some its methods.
 --
 -- @tparam table playercontroller Player controller
 function Debug:DoInitPlayerController(playercontroller)
     if not self.playercontroller then
-        self.playercontroller = PlayerController(self)
+        self.playercontroller = DebugPlayerController(self)
     end
 
     self.playercontroller:OverrideMouseClicks(playercontroller)
     self.playercontroller:OverrideRemotes(playercontroller)
-    self:DebugInit(self.name, "(DoInitPlayerController)")
+    self:DebugInit(tostring(self), "(DoInitPlayerController)")
 end
 
 return Debug

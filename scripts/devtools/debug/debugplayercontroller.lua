@@ -1,12 +1,12 @@
 ----
 -- Debug player controller.
 --
--- Includes player controller (`PlayerController`) debugging functionality as a part of `Debug`.
--- Shouldn't be used on its own.
+-- Includes player controller debugging functionality as a part of `Debug`. Shouldn't be used on its
+-- own.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod debug.PlayerController
+-- @classmod DebugPlayerController
 -- @see Debug
 --
 -- @author Victor Popkov
@@ -22,20 +22,20 @@ local SDK = require "devtools/sdk/sdk/sdk"
 --- Constructor.
 -- @function _ctor
 -- @tparam Debug debug
--- @usage local playercontroller = PlayerController(debug)
-local PlayerController = Class(function(self, debug)
+-- @usage local debugplayercontroller = DebugPlayerController(debug)
+local DebugPlayerController = Class(function(self, debug)
     SDK.Debug.AddMethods(self)
+    SDK.Method.SetClass(self).AddToString("DebugPlayerController")
 
     -- general
     self.debug = debug
-    self.name = "PlayerController"
 
     -- event listeners
     self.activated_player = {}
     self.activated_player_classified = {}
 
     -- other
-    self:DebugInit("Debug (PlayerController)")
+    self:DebugInit(tostring(self))
 end)
 
 --- Shared
@@ -173,8 +173,8 @@ local function DebugRMBClickSendRPCToServer(
 end
 
 --- Overrides `PlayerController` mouse clicks.
--- @tparam debug.PlayerController playercontroller
-function PlayerController:OverrideMouseClicks(playercontroller)
+-- @tparam PlayerController playercontroller
+function DebugPlayerController:OverrideMouseClicks(playercontroller)
     local OldOnLeftClick = playercontroller.OnLeftClick
     local OldOnRightClick = playercontroller.OnRightClick
 
@@ -540,8 +540,8 @@ local function RemoteUseItemFromInvTile(self, playercontroller, act, item)
 end
 
 --- Overrides `PlayerController` remotes.
--- @tparam debug.PlayerController playercontroller
-function PlayerController:OverrideRemotes(playercontroller)
+-- @tparam PlayerController playercontroller
+function DebugPlayerController:OverrideRemotes(playercontroller)
     local OldRemoteActionButton = playercontroller.RemoteActionButton
     local OldRemoteAttackButton = playercontroller.RemoteAttackButton
     local OldRemoteBufferedAction = playercontroller.RemoteBufferedAction
@@ -662,4 +662,4 @@ function PlayerController:OverrideRemotes(playercontroller)
     playercontroller.RemoteUseItemFromInvTile = NewRemoteUseItemFromInvTile
 end
 
-return PlayerController
+return DebugPlayerController

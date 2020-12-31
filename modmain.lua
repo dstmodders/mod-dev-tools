@@ -41,7 +41,7 @@ require "devtools/console"
 
 local devtools
 
-devtools = require("devtools")(modname)
+devtools = require("devtools")()
 
 _G.DevTools = devtools
 _G.DevToolsAPI = devtools:GetAPI()
