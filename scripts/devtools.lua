@@ -122,6 +122,7 @@ end
 -- @tparam any value Config value
 function DevTools:SetConfig(name, value)
     self.config:SetValue(name, value)
+    self.config:Save()
 end
 
 --- Resets config.
@@ -129,6 +130,7 @@ end
 -- @treturn boolean
 function DevTools:ResetConfig(name)
     self.config:ResetValue(name)
+    self.config:Save()
 end
 
 --- Checks if it's a dedicated server game.

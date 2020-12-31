@@ -3,6 +3,18 @@
 --
 -- Includes config functionality.
 --
+-- _Below is the list of some self-explanatory methods which have been added using SDK._
+--
+-- **Getters:**
+--
+--   - `GetDefaults`
+--   - `GetValues`
+--
+-- **Setters:**
+--
+--   - `SetDefaults`
+--   - `SetValues`
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod Config
@@ -25,15 +37,25 @@ local SDK = require "devtools/sdk/sdk/sdk"
 local Config = Class(function(self)
     SDK.Debug.AddMethods(self)
     SDK.PersistentData.Load().SetMode(SDK.PersistentData.DEFAULT).SetIsEncoded(false)
+    SDK.Method
+        .SetClass(self)
+        .AddToString("Config")
+        .AddGetters({
+            defaults = "GetDefaults",
+            values = "GetValues",
+        })
+        .AddSetters({
+            defaults = "SetDefaults",
+            values = "SetValues",
+        })
 
     -- general
     self.defaults = {}
-    self.name = "Config"
     self.values = {}
 
     -- other
     self:Load()
-    self:DebugInit(self.name)
+    self:DebugInit(tostring(self))
 end)
 
 --- General
@@ -60,25 +82,7 @@ end
 --- Defaults
 -- @section defaults
 
---- Gets defaults.
--- @treturn table
-function Config:GetDefaults()
-    return self.defaults
-end
-
---- Sets defaults.
--- @tparam table defaults
-function Config:SetDefaults(defaults)
-    self.defaults = defaults
-end
-
---- Gets default.
--- @treturn table
-function Config:GetDefault(name)
-    return self.defaults[name]
-end
-
---- Sets default.
+--- Sets a default.
 -- @tparam string name
 -- @tparam any value
 function Config:SetDefault(name, value)
@@ -88,40 +92,25 @@ end
 --- Values
 -- @section values
 
---- Gets values.
--- @treturn table
-function Config:GetValues()
-    return self.values
-end
-
---- Sets values.
--- @tparam table values
-function Config:SetValues(values)
-    self.values = values
-    self:Save()
-end
-
---- Gets value.
+--- Gets a value.
 -- @treturn table
 function Config:GetValue(name)
     return self.values[name]
 end
 
---- Sets value.
--- @tparam string name
--- @tparam any value
-function Config:SetValue(name, value)
-    self.values[name] = value
-    self:Save()
-end
-
---- Resets value.
+--- Resets a value.
 -- @tparam string name
 function Config:ResetValue(name)
     if self.values[name] ~= nil and self.defaults[name] ~= nil then
         self.values[name] = self.defaults[name]
-        self:Save()
     end
+end
+
+--- Sets a value.
+-- @tparam string name
+-- @tparam any value
+function Config:SetValue(name, value)
+    self.values[name] = value
 end
 
 return Config
