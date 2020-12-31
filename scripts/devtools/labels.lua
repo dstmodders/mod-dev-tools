@@ -3,6 +3,19 @@
 --
 -- Includes labels functionality.
 --
+-- _Below is the list of some self-explanatory methods which have been added using SDK._
+--
+-- **Getters:**
+--
+--   - `GetDefaultFont`
+--   - `GetDefaultFontSize`
+--   - `GetDefaultUsernameMode`
+--   - `GetFont`
+--   - `GetFontSize`
+--   - `GetUsernameMode`
+--   - `IsSelectedEnabled`
+--   - `IsUsernameEnabled`
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod Labels
@@ -29,6 +42,19 @@ local _LABEL_UPDATE_THREAD_ID = "mod_dev_tools_label_update_thread"
 -- @usage local labels = Labels(devtools)
 local Labels = Class(function(self, devtools)
     SDK.Debug.AddMethods(self)
+    SDK.Method
+        .SetClass(self)
+        .AddToString("Labels")
+        .AddGetters({
+            default_font = "GetDefaultFont",
+            default_font_size = "GetDefaultFontSize",
+            default_username_mode = "GetDefaultUsernameMode",
+            font = "GetFont",
+            font_size = "GetFontSize",
+            is_selected_enabled = "IsSelectedEnabled",
+            is_username_enabled = "IsUsernameEnabled",
+            username_mode = "GetUsernameMode",
+        })
 
     -- general
     self.default_font = nil
@@ -39,7 +65,6 @@ local Labels = Class(function(self, devtools)
     self.font_size = 18
     self.is_selected_enabled = false
     self.is_username_enabled = false
-    self.name = "Labels"
     self.selected_entity = nil
     self.username_mode = "default"
 
@@ -50,17 +75,11 @@ local Labels = Class(function(self, devtools)
     end)
 
     -- other
-    self:DebugInit(self.name)
+    self:DebugInit(tostring(self))
 end)
 
 --- General
 -- @section general
-
---- Gets font.
--- @treturn number
-function Labels:GetFont()
-    return self.font
-end
 
 --- Sets font.
 -- @tparam string font
@@ -73,18 +92,6 @@ function Labels:SetFont(font)
         self:OnUpdate()
         self:UpdateUsername()
     end
-end
-
---- Gets default font.
--- @treturn number
-function Labels:GetDefaultFont()
-    return self.default_font
-end
-
---- Gets font size.
--- @treturn number
-function Labels:GetFontSize()
-    return self.font_size
 end
 
 --- Sets the font size.
@@ -100,20 +107,8 @@ function Labels:SetFontSize(size)
     end
 end
 
---- Gets default font size.
--- @treturn number
-function Labels:GetDefaultFontSize()
-    return self.default_font_size
-end
-
 --- Selected
 -- @section selected
-
---- Checks if selected is enabled state.
--- @treturn boolean
-function Labels:IsSelectedEnabled()
-    return self.is_selected_enabled
-end
 
 --- Sets selected enabled state.
 -- @treturn boolean enabled
@@ -165,12 +160,6 @@ end
 --- Username
 -- @section username
 
---- Checks if username is enabled state.
--- @treturn boolean
-function Labels:IsUsernameEnabled()
-    return self.is_username_enabled
-end
-
 --- Sets username enabled state.
 -- @treturn boolean enabled
 function Labels:SetIsUsernameEnabled(enabled)
@@ -184,12 +173,6 @@ function Labels:ToggleUsernameEnabled()
     self:UpdateUsername()
 end
 
---- Gets username mode.
--- @treturn boolean|string
-function Labels:GetUsernameMode()
-    return self.username_mode
-end
-
 --- Sets username mode.
 -- @tparam boolean|string mode
 function Labels:SetUsernameMode(mode)
@@ -198,12 +181,6 @@ function Labels:SetUsernameMode(mode)
     end
     self.username_mode = mode
     self:UpdateUsername()
-end
-
---- Gets default username mode.
--- @treturn boolean|string
-function Labels:GetDefaultUsernameMode()
-    return self.default_username_mode
 end
 
 --- Adds username label to a player.
