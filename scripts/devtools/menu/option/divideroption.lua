@@ -1,14 +1,14 @@
 ----
 -- Divider option.
 --
--- Extends `menu.option.Option`.
+-- Extends `menu.Option`.
 --
 --    local divideroption = DividerOption(submenu)
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.DividerOption
--- @see menu.option.Option
+-- @classmod menu.DividerOption
+-- @see menu.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020

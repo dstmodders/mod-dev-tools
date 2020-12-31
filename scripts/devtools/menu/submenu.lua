@@ -126,8 +126,8 @@ end
 -- Switches data based on the provided `MOD_DEV_TOOLS.DATA_SIDEBAR` constant.
 --
 -- @see MOD_DEV_TOOLS.DATA_SIDEBAR
--- @see screens.DevToolsScreen
--- @see screens.DevToolsScreen.ChangeDataSidebar
+-- @see DevToolsScreen
+-- @see DevToolsScreen.ChangeDataSidebar
 -- @tparam[opt] number|table data_sidebar Data sidebar constant(s) (`MOD_DEV_TOOLS.DATA_SIDEBAR`)
 -- @tparam[opt] boolean unpause Should the world be resumed if paused?
 function Submenu:UpdateScreen(data_sidebar, unpause)
@@ -163,8 +163,8 @@ end
 -- Switches data based on the provided `MOD_DEV_TOOLS.DATA_SIDEBAR` constant.
 --
 -- @see MOD_DEV_TOOLS.DATA_SIDEBAR
--- @see screens.DevToolsScreen
--- @see screens.DevToolsScreen.UpdateMenu
+-- @see DevToolsScreen
+-- @see DevToolsScreen.UpdateMenu
 -- @tparam number idx Menu index
 function Submenu:UpdateScreenMenu(idx)
     idx = idx ~= nil and idx or self.menu_idx
@@ -198,7 +198,7 @@ function Submenu:AddToRoot(root, option)
 end
 
 --- Adds do action option.
--- @see menu.option.ActionOption
+-- @see menu.ActionOption
 -- @tparam table options
 -- @tparam[opt] table root
 function Submenu:AddActionOption(options, root)
@@ -207,7 +207,7 @@ function Submenu:AddActionOption(options, root)
 end
 
 --- Adds checkbox option.
--- @see menu.option.CheckboxOption
+-- @see menu.CheckboxOption
 -- @tparam table options
 -- @tparam[opt] table root
 function Submenu:AddCheckboxOption(options, root)
@@ -216,7 +216,7 @@ function Submenu:AddCheckboxOption(options, root)
 end
 
 --- Adds choices option.
--- @see menu.option.ChoicesOption
+-- @see menu.ChoicesOption
 -- @tparam table options
 -- @tparam[opt] table root
 function Submenu:AddChoicesOption(options, root)
@@ -225,7 +225,7 @@ function Submenu:AddChoicesOption(options, root)
 end
 
 --- Adds divider option.
--- @see menu.option.DividerOption
+-- @see menu.DividerOption
 -- @tparam[opt] table root
 function Submenu:AddDividerOption(root)
     root = root ~= nil and root or self.options
@@ -233,7 +233,7 @@ function Submenu:AddDividerOption(root)
 end
 
 --- Adds font option.
--- @see menu.option.FontOption
+-- @see menu.FontOption
 -- @tparam table options
 -- @tparam[opt] table root
 function Submenu:AddFontOption(options, root)
@@ -242,7 +242,7 @@ function Submenu:AddFontOption(options, root)
 end
 
 --- Adds numeric toggle option.
--- @see menu.option.NumericOption
+-- @see menu.NumericOption
 -- @tparam table options
 -- @tparam[opt] table root
 function Submenu:AddNumericOption(options, root)
@@ -251,7 +251,7 @@ function Submenu:AddNumericOption(options, root)
 end
 
 --- Adds submenu option.
--- @see menu.option.SubmenuOption
+-- @see menu.SubmenuOption
 -- @tparam table options
 -- @tparam[opt] table root
 function Submenu:AddSubmenuOption(options, root)
@@ -260,7 +260,7 @@ function Submenu:AddSubmenuOption(options, root)
 end
 
 --- Adds toggle checkbox option.
--- @see menu.option.ToggleCheckboxOption
+-- @see menu.ToggleCheckboxOption
 -- @tparam table options
 -- @tparam[opt] table root
 function Submenu:AddToggleCheckboxOption(options, root)
@@ -269,7 +269,7 @@ function Submenu:AddToggleCheckboxOption(options, root)
 end
 
 --- Adds toggle option.
--- @see menu.option.ToggleCheckboxOption
+-- @see menu.ToggleCheckboxOption
 -- @tparam table label
 -- @tparam table get
 -- @tparam table set

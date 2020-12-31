@@ -261,7 +261,7 @@ end
 
 --- Returns option string.
 -- @tparam number key
--- @tparam menu.option.Option option
+-- @tparam menu.Option option
 -- @treturn string
 function TextMenu:Option(key, option)
     local pre = ""

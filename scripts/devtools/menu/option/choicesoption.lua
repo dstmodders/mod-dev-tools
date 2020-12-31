@@ -1,7 +1,7 @@
 ----
 -- Choices option.
 --
--- Extends `menu.option.Option`.
+-- Extends `menu.Option`.
 --
 --    local choicesoption = ChoicesOption({
 --        name = "your_option", -- optional
@@ -27,8 +27,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.ChoicesOption
--- @see menu.option.Option
+-- @classmod menu.ChoicesOption
+-- @see menu.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020

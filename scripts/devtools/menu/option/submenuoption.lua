@@ -1,7 +1,7 @@
 ----
 -- Submenu option.
 --
--- Extends `menu.option.Option`.
+-- Extends `menu.Option`.
 --
 --     local submenuoption = SubmenuOption({
 --         name = "your_submenu", -- optional
@@ -19,8 +19,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.SubmenuOption
--- @see menu.option.Option
+-- @classmod menu.SubmenuOption
+-- @see menu.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020

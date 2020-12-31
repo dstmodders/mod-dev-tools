@@ -1,8 +1,8 @@
 ----
 -- Action option.
 --
--- Extends `menu.option.Option` but doesn't add anything. It's a leftover from my original mod based
--- on which this mod has been created.
+-- Extends `menu.Option` but doesn't add anything. It's a leftover from my original mod based on
+-- which this mod has been created.
 --
 -- Not removed for convenience to differentiate from the base option.
 --
@@ -19,8 +19,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.ActionOption
--- @see menu.option.Option
+-- @classmod menu.ActionOption
+-- @see menu.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020

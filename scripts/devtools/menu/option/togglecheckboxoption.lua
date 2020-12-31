@@ -1,7 +1,7 @@
 ----
 -- Toggle checkbox option.
 --
--- Extends `menu.option.Option` and is very similar to `menu.option.CheckboxOption` except it
+-- Extends `menu.Option` and is very similar to `menu.CheckboxOption` except it
 -- auto-adds `on_get_fn` and `on_set_fn` based on the provided `get` and `src` values.
 --
 --    local togglecheckboxoption = ToggleCheckboxOption({
@@ -29,8 +29,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.ToggleCheckboxOption
--- @see menu.option.Option
+-- @classmod menu.ToggleCheckboxOption
+-- @see menu.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020

@@ -1,7 +1,7 @@
 ----
 -- Numeric toggle option.
 --
--- Extends `menu.option.Option`.
+-- Extends `menu.Option`.
 --
 --    local numericoption = NumericOption({
 --        name = "your_option", -- optional
@@ -25,8 +25,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.NumericOption
--- @see menu.option.Option
+-- @classmod menu.NumericOption
+-- @see menu.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020

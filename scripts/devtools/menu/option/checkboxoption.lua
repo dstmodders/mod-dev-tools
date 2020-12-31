@@ -1,7 +1,7 @@
 ----
 -- Checkbox option.
 --
--- Extends `menu.option.Option`.
+-- Extends `menu.Option`.
 --
 --    local checkboxoption = CheckboxOption({
 --        name = "your_option", -- optional
@@ -26,8 +26,8 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod menu.option.CheckboxOption
--- @see menu.option.Option
+-- @classmod menu.CheckboxOption
+-- @see menu.Option
 --
 -- @author Victor Popkov
 -- @copyright 2020
