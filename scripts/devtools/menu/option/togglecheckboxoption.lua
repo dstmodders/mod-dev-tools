@@ -8,7 +8,7 @@
 --        name = "fog_of_war", -- optional
 --        label = "Fog of War",
 --        get = {
---            src = worlddevtools, -- can be a function, see "set" as a reference
+--            src = worldtools, -- can be a function, see "set" as a reference
 --            name = "IsMapFogOfWar",
 --            args = {}, -- optional, to customize passed arguments
 --        },

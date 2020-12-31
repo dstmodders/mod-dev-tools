@@ -21,7 +21,7 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam screens.DevToolsScreen screen
+-- @tparam DevToolsScreen screen
 -- @usage local frontenddata = FrontEndData(screen)
 local FrontEndData = Class(Data, function(self, screen)
     Data._ctor(self, screen)

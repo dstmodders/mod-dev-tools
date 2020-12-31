@@ -1,6 +1,6 @@
 require "busted.runner"()
 
-describe("PlayerDevTools", function()
+describe("PlayerTools", function()
     -- setup
     local match
 
@@ -10,7 +10,7 @@ describe("PlayerDevTools", function()
 
     -- before_each initialization
     local devtools, world
-    local PlayerDevTools, playerdevtools
+    local PlayerTools, playertools
 
     local function EachPlayer(fn, except)
         except = except ~= nil and except or {}
@@ -115,10 +115,10 @@ describe("PlayerDevTools", function()
 
         -- initialization
         devtools = MockDevTools()
-        world = MockWorldDevTools()
+        world = MockWorldTools()
 
-        PlayerDevTools = require "devtools/devtools/playerdevtools"
-        playerdevtools = PlayerDevTools(inst, world, devtools)
+        PlayerTools = require "devtools/tools/playertools"
+        playertools = PlayerTools(inst, world, devtools)
 
         DebugSpyClear()
     end)
@@ -129,12 +129,12 @@ describe("PlayerDevTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            PlayerDevTools = require "devtools/devtools/playerdevtools"
+            PlayerTools = require "devtools/tools/playertools"
         end)
 
         local function AssertDefaults(self)
             assert.is_equal(devtools, self.devtools)
-            assert.is_equal("PlayerDevTools", self.name)
+            assert.is_equal("PlayerTools", self.name)
 
             -- general
             assert.is_nil(self.controller)
@@ -167,11 +167,11 @@ describe("PlayerDevTools", function()
                 inst.HasTag:clear()
                 inst.ListenForEvent:clear()
 
-                playerdevtools = PlayerDevTools(inst, world, devtools)
+                playertools = PlayerTools(inst, world, devtools)
             end)
 
             it("should have the default fields", function()
-                AssertDefaults(playerdevtools)
+                AssertDefaults(playertools)
             end)
 
             it("should call the instance HasTag()", function()
@@ -221,8 +221,8 @@ describe("PlayerDevTools", function()
             }
 
             AssertAddedMethodsBefore(methods, devtools)
-            playerdevtools = PlayerDevTools(inst, world, devtools)
-            AssertAddedMethodsAfter(methods, playerdevtools, devtools)
+            playertools = PlayerTools(inst, world, devtools)
+            AssertAddedMethodsAfter(methods, playertools, devtools)
         end)
     end)
 
@@ -237,14 +237,14 @@ describe("PlayerDevTools", function()
 
                 for field, getter in pairs(getters) do
                     it(getter, function()
-                        AssertClassGetter(playerdevtools, field, getter)
+                        AssertClassGetter(playertools, field, getter)
                     end)
                 end
             end)
 
             describe("setter", function()
                 it("SetIsMoveButtonDown", function()
-                    AssertClassSetter(playerdevtools, "is_move_button_down", "SetIsMoveButtonDown")
+                    AssertClassSetter(playertools, "is_move_button_down", "SetIsMoveButtonDown")
                 end)
             end)
         end)
@@ -252,7 +252,7 @@ describe("PlayerDevTools", function()
         describe("IsPlatformJumping", function()
             describe("when the player is jumping", function()
                 it("should return true", function()
-                    assert.is_true(playerdevtools:IsPlatformJumping(player_hopping))
+                    assert.is_true(playertools:IsPlatformJumping(player_hopping))
                 end)
             end)
 
@@ -260,7 +260,7 @@ describe("PlayerDevTools", function()
                 it("should return true", function()
                     EachPlayer(function(player)
                         assert.is_false(
-                            playerdevtools:IsPlatformJumping(player),
+                            playertools:IsPlatformJumping(player),
                             player:GetDisplayName()
                         )
                     end, { player_hopping })
@@ -277,7 +277,7 @@ describe("PlayerDevTools", function()
                 it("should return nil", function()
                     EachPlayer(function(player)
                         assert.is_nil(
-                            playerdevtools:IsPlatformJumping(player),
+                            playertools:IsPlatformJumping(player),
                             player:GetDisplayName()
                         )
                     end)
@@ -291,34 +291,34 @@ describe("PlayerDevTools", function()
             before_each(function()
                 _G.SDK.Player.IsGhost = spy.new(ReturnValueFn(false))
                 _G.SDK.Player.IsInLight = spy.new(ReturnValueFn(false))
-                playerdevtools.inventory.HasEquippedMoggles = spy.new(ReturnValueFn(false))
+                playertools.inventory.HasEquippedMoggles = spy.new(ReturnValueFn(false))
             end)
 
             describe("and has god mode", function()
                 before_each(function()
-                    playerdevtools.god_mode_players = { inst }
-                    playerdevtools.IsGodMode = spy.new(ReturnValueFn(true))
+                    playertools.god_mode_players = { inst }
+                    playertools.IsGodMode = spy.new(ReturnValueFn(true))
                 end)
 
                 it("shouldn't call other functions", function()
                     assert.spy(_G.SDK.Player.IsInLight).was_not_called()
                     assert.spy(_G.SDK.Player.IsGhost).was_not_called()
-                    assert.spy(playerdevtools.inventory.HasEquippedMoggles).was_not_called()
-                    playerdevtools:CanGrueAttack()
+                    assert.spy(playertools.inventory.HasEquippedMoggles).was_not_called()
+                    playertools:CanGrueAttack()
                     assert.spy(_G.SDK.Player.IsInLight).was_not_called()
                     assert.spy(_G.SDK.Player.IsGhost).was_not_called()
-                    assert.spy(playerdevtools.inventory.HasEquippedMoggles).was_not_called()
+                    assert.spy(playertools.inventory.HasEquippedMoggles).was_not_called()
                 end)
 
                 it("should return false", function()
-                    assert.is_false(playerdevtools:CanGrueAttack())
+                    assert.is_false(playertools:CanGrueAttack())
                 end)
             end)
 
             describe("and doesn't have god mode", function()
                 before_each(function()
-                    playerdevtools.god_mode_players = {}
-                    playerdevtools.IsGodMode = spy.new(ReturnValueFn(false))
+                    playertools.god_mode_players = {}
+                    playertools.IsGodMode = spy.new(ReturnValueFn(false))
                 end)
 
                 describe("and in light", function()
@@ -327,7 +327,7 @@ describe("PlayerDevTools", function()
                     end)
 
                     it("should return false", function()
-                        assert.is_false(playerdevtools:CanGrueAttack())
+                        assert.is_false(playertools:CanGrueAttack())
                     end)
                 end)
 
@@ -342,7 +342,7 @@ describe("PlayerDevTools", function()
                         end)
 
                         it("should return false", function()
-                            assert.is_false(playerdevtools:CanGrueAttack())
+                            assert.is_false(playertools:CanGrueAttack())
                         end)
                     end)
 
@@ -359,12 +359,12 @@ describe("PlayerDevTools", function()
                         end)
 
                         it("should return false", function()
-                            assert.is_false(playerdevtools:CanGrueAttack())
+                            assert.is_false(playertools:CanGrueAttack())
                         end)
                     end)
 
                     it("should return true", function()
-                        assert.is_true(playerdevtools:CanGrueAttack())
+                        assert.is_true(playertools:CanGrueAttack())
                     end)
                 end)
             end)
@@ -375,13 +375,13 @@ describe("PlayerDevTools", function()
         describe("GetSelected", function()
             it("should call the ConsoleCommandPlayer", function()
                 ConsoleCommandPlayer:clear()
-                playerdevtools:GetSelected()
+                playertools:GetSelected()
                 assert.spy(ConsoleCommandPlayer).was_called(1)
                 assert.spy(ConsoleCommandPlayer).was_called_with()
             end)
 
             it("should return the ConsoleCommandPlayer", function()
-                assert.is_equal(ConsoleCommandPlayer(), playerdevtools:GetSelected())
+                assert.is_equal(ConsoleCommandPlayer(), playertools:GetSelected())
             end)
         end)
 
@@ -393,24 +393,24 @@ describe("PlayerDevTools", function()
 
                 it("should set the selected_client field only", function()
                     EachPlayer(function(player)
-                        playerdevtools.selected_client = nil
-                        playerdevtools.selected_server = nil
-                        playerdevtools:Select(player)
+                        playertools.selected_client = nil
+                        playertools.selected_server = nil
+                        playertools:Select(player)
 
                         assert.is_equal(
                             player,
-                            playerdevtools.selected_client,
+                            playertools.selected_client,
                             player:GetDisplayName()
                         )
 
-                        assert.is_nil(playerdevtools.selected_server, player:GetDisplayName())
+                        assert.is_nil(playertools.selected_server, player:GetDisplayName())
                     end)
                 end)
 
                 it("should debug string", function()
                     EachPlayer(function(player)
                         DebugSpyClear("DebugString")
-                        playerdevtools:Select(player)
+                        playertools:Select(player)
                         AssertDebugSpyWasCalled("DebugString", 1, {
                             "Selected",
                             player:GetDisplayName()
@@ -420,7 +420,7 @@ describe("PlayerDevTools", function()
 
                 it("should return true", function()
                     EachPlayer(function(player)
-                        assert.is_true(playerdevtools:Select(player), player:GetDisplayName())
+                        assert.is_true(playertools:Select(player), player:GetDisplayName())
                     end)
                 end)
             end)
@@ -432,19 +432,19 @@ describe("PlayerDevTools", function()
 
                 it("should set the selected_client field only", function()
                     EachPlayer(function(player)
-                        playerdevtools.selected_client = nil
-                        playerdevtools.selected_server = nil
-                        playerdevtools:Select(player)
+                        playertools.selected_client = nil
+                        playertools.selected_server = nil
+                        playertools:Select(player)
 
                         assert.is_equal(
                             player,
-                            playerdevtools.selected_client,
+                            playertools.selected_client,
                             player:GetDisplayName()
                         )
 
                         assert.is_equal(
                             player,
-                            playerdevtools.selected_server,
+                            playertools.selected_server,
                             player:GetDisplayName()
                         )
                     end)
@@ -453,7 +453,7 @@ describe("PlayerDevTools", function()
                 it("should debug 2 strings", function()
                     EachPlayer(function(player)
                         DebugSpyClear("DebugString")
-                        playerdevtools:Select(player)
+                        playertools:Select(player)
 
                         local name = player:GetDisplayName()
                         AssertDebugSpyWasCalled("DebugString", 2, {
@@ -472,7 +472,7 @@ describe("PlayerDevTools", function()
 
                 it("should return true", function()
                     EachPlayer(function(player)
-                        assert.is_true(playerdevtools:Select(player), player:GetDisplayName())
+                        assert.is_true(playertools:Select(player), player:GetDisplayName())
                     end)
                 end)
             end)
@@ -486,34 +486,34 @@ describe("PlayerDevTools", function()
 
                 describe("when the player is selected on the client only", function()
                     before_each(function()
-                        playerdevtools.selected_client = inst
-                        playerdevtools.selected_server = nil
+                        playertools.selected_client = inst
+                        playertools.selected_server = nil
                     end)
 
                     it("should return true", function()
-                        assert.is_true(playerdevtools:IsSelectedInSync())
+                        assert.is_true(playertools:IsSelectedInSync())
                     end)
                 end)
 
                 describe("when the player is selected on the server only", function()
                     before_each(function()
-                        playerdevtools.selected_client = nil
-                        playerdevtools.selected_server = inst
+                        playertools.selected_client = nil
+                        playertools.selected_server = inst
                     end)
 
                     it("should return false", function()
-                        assert.is_false(playerdevtools:IsSelectedInSync())
+                        assert.is_false(playertools:IsSelectedInSync())
                     end)
                 end)
 
                 describe("when the player is selected on both client and server", function()
                     before_each(function()
-                        playerdevtools.selected_client = inst
-                        playerdevtools.selected_server = inst
+                        playertools.selected_client = inst
+                        playertools.selected_server = inst
                     end)
 
                     it("should return true", function()
-                        assert.is_true(playerdevtools:IsSelectedInSync())
+                        assert.is_true(playertools:IsSelectedInSync())
                     end)
                 end)
             end)
@@ -525,34 +525,34 @@ describe("PlayerDevTools", function()
 
                 describe("when the player is selected on the client only", function()
                     before_each(function()
-                        playerdevtools.selected_client = inst
-                        playerdevtools.selected_server = nil
+                        playertools.selected_client = inst
+                        playertools.selected_server = nil
                     end)
 
                     it("should return true", function()
-                        assert.is_false(playerdevtools:IsSelectedInSync())
+                        assert.is_false(playertools:IsSelectedInSync())
                     end)
                 end)
 
                 describe("when the player is selected on the server only", function()
                     before_each(function()
-                        playerdevtools.selected_client = nil
-                        playerdevtools.selected_server = inst
+                        playertools.selected_client = nil
+                        playertools.selected_server = inst
                     end)
 
                     it("should return false", function()
-                        assert.is_false(playerdevtools:IsSelectedInSync())
+                        assert.is_false(playertools:IsSelectedInSync())
                     end)
                 end)
 
                 describe("when the player is selected on both client and server", function()
                     before_each(function()
-                        playerdevtools.selected_client = inst
-                        playerdevtools.selected_server = inst
+                        playertools.selected_client = inst
+                        playertools.selected_server = inst
                     end)
 
                     it("should return false", function()
-                        assert.is_true(playerdevtools:IsSelectedInSync())
+                        assert.is_true(playertools:IsSelectedInSync())
                     end)
                 end)
             end)
@@ -563,7 +563,7 @@ describe("PlayerDevTools", function()
         describe("should have the getter", function()
             describe("getter", function()
                 it("GetGodModePlayers", function()
-                    AssertClassGetter(playerdevtools, "god_mode_players", "GetGodModePlayers")
+                    AssertClassGetter(playertools, "god_mode_players", "GetGodModePlayers")
                 end)
             end)
         end)
@@ -572,24 +572,24 @@ describe("PlayerDevTools", function()
             describe("when the owner is not an admin", function()
                 before_each(function()
                     _G.SDK.Player.IsAdmin = ReturnValueFn(false)
-                    playerdevtools.inst = player_dead
+                    playertools.inst = player_dead
                 end)
 
                 it("should return nil", function()
                     EachPlayer(function(player)
-                        assert.is_nil(playerdevtools:IsGodMode(player), player:GetDisplayName())
+                        assert.is_nil(playertools:IsGodMode(player), player:GetDisplayName())
                     end)
                 end)
             end)
 
             describe("when the owner is an admin", function()
                 before_each(function()
-                    playerdevtools.inst = inst
+                    playertools.inst = inst
                 end)
 
                 describe("and the player is not in god_mode_players", function()
                     before_each(function()
-                        playerdevtools.god_mode_players = {}
+                        playertools.god_mode_players = {}
                     end)
 
                     describe("but the health is invincible", function()
@@ -603,7 +603,7 @@ describe("PlayerDevTools", function()
                         it("should return true", function()
                             EachPlayer(function(player)
                                 assert.is_true(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
                             end)
@@ -621,7 +621,7 @@ describe("PlayerDevTools", function()
                         it("should return false", function()
                             EachPlayer(function(player)
                                 assert.is_false(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
                             end)
@@ -633,19 +633,19 @@ describe("PlayerDevTools", function()
                             EachPlayer(function(player)
                                 player.components.health.invincible = nil
                                 assert.is_false(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
 
                                 player.components.health = nil
                                 assert.is_false(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
 
                                 player.components = nil
                                 assert.is_false(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
                             end)
@@ -655,9 +655,9 @@ describe("PlayerDevTools", function()
 
                 describe("and the player is in god_mode_players", function()
                     before_each(function()
-                        playerdevtools.god_mode_players = {}
+                        playertools.god_mode_players = {}
                         EachPlayer(function(player)
-                            table.insert(playerdevtools.god_mode_players, player.userid)
+                            table.insert(playertools.god_mode_players, player.userid)
                         end)
                     end)
 
@@ -672,7 +672,7 @@ describe("PlayerDevTools", function()
                         it("should return true", function()
                             EachPlayer(function(player)
                                 assert.is_true(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
                             end)
@@ -690,7 +690,7 @@ describe("PlayerDevTools", function()
                         it("should return false", function()
                             EachPlayer(function(player)
                                 assert.is_false(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
                             end)
@@ -702,19 +702,19 @@ describe("PlayerDevTools", function()
                             EachPlayer(function(player)
                                 player.components.health.invincible = nil
                                 assert.is_true(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
 
                                 player.components.health = nil
                                 assert.is_true(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
 
                                 player.components = nil
                                 assert.is_true(
-                                    playerdevtools:IsGodMode(player),
+                                    playertools:IsGodMode(player),
                                     player:GetDisplayName()
                                 )
                             end)
@@ -728,15 +728,15 @@ describe("PlayerDevTools", function()
             describe("when the owner is not an admin", function()
                 before_each(function()
                     _G.SDK.Player.IsAdmin = ReturnValueFn(false)
-                    playerdevtools.inst = player_dead
+                    playertools.inst = player_dead
                 end)
 
                 it("should debug error", function()
                     EachPlayer(function(player)
                         DebugSpyClear("DebugError")
-                        playerdevtools:ToggleGodMode(player)
+                        playertools:ToggleGodMode(player)
                         AssertDebugSpyWasCalled("DebugError", 1, {
-                            "PlayerDevTools:ToggleGodMode():",
+                            "PlayerTools:ToggleGodMode():",
                             "not an admin"
                         })
                     end)
@@ -744,33 +744,33 @@ describe("PlayerDevTools", function()
 
                 it("should return nil", function()
                     EachPlayer(function(player)
-                        assert.is_nil(playerdevtools:ToggleGodMode(player), player:GetDisplayName())
+                        assert.is_nil(playertools:ToggleGodMode(player), player:GetDisplayName())
                     end)
                 end)
             end)
 
             describe("when the owner is an admin", function()
                 before_each(function()
-                    playerdevtools.inst = inst
+                    playertools.inst = inst
                 end)
 
                 describe("and the player is not in god mode", function()
                     before_each(function()
-                        playerdevtools.god_mode_players = {}
-                        playerdevtools.IsGodMode = ReturnValueFn(false)
+                        playertools.god_mode_players = {}
+                        playertools.IsGodMode = ReturnValueFn(false)
                     end)
 
                     it("should add the player userid to the god_mode_players table", function()
                         EachPlayer(function(player)
                             assert.is_false(
-                                TableHasValue(playerdevtools.god_mode_players, player.userid),
+                                TableHasValue(playertools.god_mode_players, player.userid),
                                 player:GetDisplayName()
                             )
 
-                            playerdevtools:ToggleGodMode(player)
+                            playertools:ToggleGodMode(player)
 
                             assert.is_true(
-                                TableHasValue(playerdevtools.god_mode_players, player.userid),
+                                TableHasValue(playertools.god_mode_players, player.userid),
                                 player:GetDisplayName()
                             )
                         end)
@@ -778,14 +778,14 @@ describe("PlayerDevTools", function()
 
                     it("should send the corresponding remote console command", function()
                         EachPlayer(function()
-                            -- TODO: Add the missing PlayerDevTools:ToggleGodMode() test
+                            -- TODO: Add the missing PlayerTools:ToggleGodMode() test
                         end)
                     end)
 
                     it("should debug selected player string", function()
                         EachPlayer(function(player)
                             DebugSpyClear("DebugString")
-                            playerdevtools:ToggleGodMode(player)
+                            playertools:ToggleGodMode(player)
                             AssertDebugSpyWasCalled("DebugString", 1, {
                                 "(" .. player:GetDisplayName() .. ")",
                                 "God Mode is enabled"
@@ -796,7 +796,7 @@ describe("PlayerDevTools", function()
                     it("should return true", function()
                         EachPlayer(function(player)
                             assert.is_true(
-                                playerdevtools:ToggleGodMode(player),
+                                playertools:ToggleGodMode(player),
                                 player:GetDisplayName()
                             )
                         end)
@@ -805,25 +805,25 @@ describe("PlayerDevTools", function()
 
                 describe("and the player is in god mode", function()
                     before_each(function()
-                        playerdevtools.god_mode_players = {}
-                        playerdevtools.IsGodMode = ReturnValueFn(true)
+                        playertools.god_mode_players = {}
+                        playertools.IsGodMode = ReturnValueFn(true)
 
                         EachPlayer(function(player)
-                            table.insert(playerdevtools.god_mode_players, player.userid)
+                            table.insert(playertools.god_mode_players, player.userid)
                         end)
                     end)
 
                     it("should remove the player from the god_mode_players table", function()
                         EachPlayer(function(player)
                             assert.is_true(
-                                TableHasValue(playerdevtools.god_mode_players, player.userid),
+                                TableHasValue(playertools.god_mode_players, player.userid),
                                 player:GetDisplayName()
                             )
 
-                            playerdevtools:ToggleGodMode(player)
+                            playertools:ToggleGodMode(player)
 
                             assert.is_false(
-                                TableHasValue(playerdevtools.god_mode_players, player.userid),
+                                TableHasValue(playertools.god_mode_players, player.userid),
                                 player:GetDisplayName()
                             )
                         end)
@@ -831,14 +831,14 @@ describe("PlayerDevTools", function()
 
                     it("should send the corresponding remote console command", function()
                         EachPlayer(function()
-                            -- TODO: Add the missing PlayerDevTools:ToggleGodMode() test
+                            -- TODO: Add the missing PlayerTools:ToggleGodMode() test
                         end)
                     end)
 
                     it("should debug selected player string", function()
                         EachPlayer(function(player)
                             DebugSpyClear("DebugString")
-                            playerdevtools:ToggleGodMode(player)
+                            playertools:ToggleGodMode(player)
                             AssertDebugSpyWasCalled("DebugString", 1, {
                                 "(" .. player:GetDisplayName() .. ")",
                                 "God Mode is disabled"
@@ -849,7 +849,7 @@ describe("PlayerDevTools", function()
                     it("should return false", function()
                         EachPlayer(function(player)
                             assert.is_false(
-                                playerdevtools:ToggleGodMode(player),
+                                playertools:ToggleGodMode(player),
                                 player:GetDisplayName()
                             )
                         end)

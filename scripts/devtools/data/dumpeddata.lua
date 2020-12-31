@@ -20,7 +20,7 @@ local Data = require "devtools/data/data"
 
 --- Constructor.
 -- @function _ctor
--- @tparam screens.DevToolsScreen screen
+-- @tparam DevToolsScreen screen
 -- @usage local dumpeddata = DumpedData(screen)
 local DumpedData = Class(Data, function(self, screen)
     Data._ctor(self, screen)

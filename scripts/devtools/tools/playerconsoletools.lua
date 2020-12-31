@@ -1,8 +1,8 @@
 ----
 -- Player console commands.
 --
--- Extends `devtools.DevTools` and includes different functionality to send remote console commands
--- for both the player and the world.
+-- Extends `tools.Tools` and includes different functionality to send remote console commands for
+-- both the player and the world.
 --
 -- Of course, the mod owner should have administrator rights on the server for most methods to work.
 --
@@ -16,17 +16,17 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.player.ConsoleDevTools
+-- @classmod tools.PlayerConsoleTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.PlayerDevTools
+-- @see tools.PlayerTools
+-- @see tools.Tools
 --
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
 -- @release 0.7.0
 ----
-local DevTools = require "devtools/devtools/devtools"
+local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
 local _ConsoleRemote = SDK.Console.Remote
@@ -36,21 +36,21 @@ local _ConsoleRemote = SDK.Console.Remote
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.PlayerDevTools playerdevtools
+-- @tparam PlayerTools playertools
 -- @tparam DevTools devtools
--- @usage local consoledevtools = ConsoleDevTools(playerdevtools, devtools)
-local ConsoleDevTools = Class(DevTools, function(self, playerdevtools, devtools)
-    DevTools._ctor(self, "ConsoleDevTools", devtools)
+-- @usage local playerconsoletools = PlayerConsoleTools(playertools, devtools)
+local PlayerConsoleTools = Class(DevTools, function(self, playertools, devtools)
+    DevTools._ctor(self, "PlayerConsoleTools", devtools)
 
     -- asserts
-    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    SDK.Utils.AssertRequiredField(self.name .. ".world", playerdevtools.world)
-    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".playertools", playertools)
+    SDK.Utils.AssertRequiredField(self.name .. ".world", playertools.world)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playertools.inst)
 
     -- general
-    self.inst = playerdevtools.inst
-    self.playerdevtools = playerdevtools
-    self.worlddevtools = playerdevtools.world
+    self.inst = playertools.inst
+    self.playertools = playertools
+    self.worldtools = playertools.world
 
     -- tests
     if _G.MOD_DEV_TOOLS_TEST then
@@ -218,7 +218,7 @@ end
 --- Sets player health value.
 -- @tparam number value
 -- @treturn boolean
-function ConsoleDevTools:SetHealthPercent(value)
+function PlayerConsoleTools:SetHealthPercent(value)
     local console = value ~= nil and { 'c_sethealth(%0.2f)', { value / 100 } }
     local debug = value ~= nil and { "Health:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetHealthPercent", console, value, IsPercent, debug)
@@ -227,7 +227,7 @@ end
 --- Sets player hunger value.
 -- @tparam number value
 -- @treturn boolean
-function ConsoleDevTools:SetHungerPercent(value)
+function PlayerConsoleTools:SetHungerPercent(value)
     local console = value ~= nil and { 'c_sethunger(%0.2f)', { value / 100 } }
     local debug = value ~= nil and { "Hunger:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetHungerPercent", console, value, IsPercent, debug)
@@ -236,7 +236,7 @@ end
 --- Sets player sanity value.
 -- @tparam number value
 -- @treturn boolean
-function ConsoleDevTools:SetSanityPercent(value)
+function PlayerConsoleTools:SetSanityPercent(value)
     local console = value ~= nil and { 'c_setsanity(%0.2f)', { value / 100 } }
     local debug = value ~= nil and { "Sanity:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetSanityPercent", console, value, IsPercent, debug)
@@ -245,7 +245,7 @@ end
 --- Sets player max health value.
 -- @tparam number value
 -- @treturn boolean
-function ConsoleDevTools:SetMaxHealthPercent(value)
+function PlayerConsoleTools:SetMaxHealthPercent(value)
     local debug = value ~= nil and { "Maximum Health:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetMaxHealthPercent", value ~= nil and {
         "ConsoleCommandPlayer().components.health:SetPenalty(%0.2f)",
@@ -256,7 +256,7 @@ end
 --- Sets player moisture value.
 -- @tparam number value
 -- @treturn boolean
-function ConsoleDevTools:SetMoisturePercent(value)
+function PlayerConsoleTools:SetMoisturePercent(value)
     local console = value ~= nil and { 'c_setmoisture(%0.2f)', { value / 100 } }
     local debug = value ~= nil and { "Moisture:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetMoisturePercent", console, value, IsMoisture, debug)
@@ -265,7 +265,7 @@ end
 --- Sets player temperature value.
 -- @tparam number value
 -- @treturn boolean
-function ConsoleDevTools:SetTemperature(value)
+function PlayerConsoleTools:SetTemperature(value)
     local console = value ~= nil and { "c_settemperature(%0.2f)", { value } }
     local debug = value ~= nil and { "Temperature:", tostring(value) }
     return RemoteSelectedPlayer(self, "SetTemperature", console, value, IsTemperature, debug)
@@ -274,7 +274,7 @@ end
 --- Sets player wereness level.
 -- @tparam number value
 -- @treturn boolean
-function ConsoleDevTools:SetWerenessPercent(value)
+function PlayerConsoleTools:SetWerenessPercent(value)
     local debug = value ~= nil and { "Wereness:", tostring(value) }
     return RemoteSelectedPlayer(self, "SetWerenessPercent", value ~= nil and {
         "ConsoleCommandPlayer().components.wereness:SetPercent(%0.2f)",
@@ -289,7 +289,7 @@ end
 -- @tparam string name Name of an entity
 -- @tparam string value Entity (prefab)
 -- @treturn boolean
-function ConsoleDevTools:GoNext(name, value)
+function PlayerConsoleTools:GoNext(name, value)
     local console = value ~= nil and { 'c_gonext("%s")', { value } }
     local debug = name ~= nil and { "Teleported to", name }
     return RemoteSelectedPlayer(self, "GoNext", console, value, IsString, debug)
@@ -300,7 +300,7 @@ end
 -- All players are teleported to the mouse pointer location.
 --
 -- @treturn boolean
-function ConsoleDevTools:GatherPlayers()
+function PlayerConsoleTools:GatherPlayers()
     local console = { "c_gatherplayers()" }
     local debug = { "Gathered players" }
     return Remote(self, "GatherPlayers", console, nil, nil, debug)
@@ -312,7 +312,7 @@ end
 --- Sets world delta moisture.
 -- @tparam number delta
 -- @treturn boolean
-function ConsoleDevTools:DeltaMoisture(delta)
+function PlayerConsoleTools:DeltaMoisture(delta)
     local console = delta ~= nil and { 'TheWorld:PushEvent("ms_deltamoisture", %d)', { delta } }
     return Remote(self, "DeltaMoisture", console, delta, IsNumber)
 end
@@ -320,7 +320,7 @@ end
 --- Sets world delta wetness.
 -- @tparam number delta
 -- @treturn boolean
-function ConsoleDevTools:DeltaWetness(delta)
+function PlayerConsoleTools:DeltaWetness(delta)
     local console = delta ~= nil and { 'TheWorld:PushEvent("ms_deltawetness", %d)', { delta } }
     return Remote(self, "DeltaWetness", console, delta, IsNumber)
 end
@@ -328,7 +328,7 @@ end
 --- Forces precipitation.
 -- @tparam boolean value
 -- @treturn boolean
-function ConsoleDevTools:ForcePrecipitation(value)
+function PlayerConsoleTools:ForcePrecipitation(value)
     return Remote(self, "ForcePrecipitation", value ~= nil and {
         'TheWorld:PushEvent("ms_forceprecipitation", %s)',
         { tostring(value) }
@@ -341,7 +341,7 @@ end
 -- @tparam number num Amount
 -- @tparam number time Duration
 -- @treturn boolean
-function ConsoleDevTools:MiniQuake(target, rad, num, time)
+function PlayerConsoleTools:MiniQuake(target, rad, num, time)
     target = target ~= nil and target or self.inst
     rad = rad ~= nil and rad or 20
     num = num ~= nil and num or 20
@@ -373,7 +373,7 @@ end
 --- Pushes world event.
 -- @tparam string event
 -- @treturn boolean
-function ConsoleDevTools:PushWorldEvent(event)
+function PlayerConsoleTools:PushWorldEvent(event)
     local console = event ~= nil and { 'TheWorld:PushEvent("%s")', { event } }
     return Remote(self, "PushWorldEvent", console, event, IsString)
 end
@@ -381,7 +381,7 @@ end
 --- Sends lightning strike.
 -- @tparam Point pos Position
 -- @treturn boolean
-function ConsoleDevTools:SendLightningStrike(pos)
+function PlayerConsoleTools:SendLightningStrike(pos)
     local fn_name = "SendLightningStrike"
 
     if SDK.World.IsCave() then
@@ -396,7 +396,7 @@ end
 --- Sets season.
 -- @tparam string season
 -- @treturn boolean
-function ConsoleDevTools:SetSeason(season)
+function PlayerConsoleTools:SetSeason(season)
     local console = season ~= nil and { 'TheWorld:PushEvent("ms_setseason", "%s")', { season } }
     return Remote(self, "SetSeason", console, season, IsSeason)
 end
@@ -405,7 +405,7 @@ end
 -- @tparam string season
 -- @tparam number length
 -- @treturn boolean
-function ConsoleDevTools:SetSeasonLength(season, length)
+function PlayerConsoleTools:SetSeasonLength(season, length)
     return Remote(self, "SetSeasonLength", (season ~= nil and length ~= nil) and {
         'TheWorld:PushEvent("ms_setseasonlength", { season="%s", length=%d })',
         { season, length }
@@ -415,7 +415,7 @@ end
 --- Sets snow level.
 -- @tparam number delta
 -- @treturn boolean
-function ConsoleDevTools:SetSnowLevel(delta)
+function PlayerConsoleTools:SetSnowLevel(delta)
     local fn_name = "SetSnowLevel"
 
     if SDK.World.IsCave() then
@@ -432,7 +432,7 @@ end
 --- Sets time scale.
 -- @tparam string timescale
 -- @treturn boolean
-function ConsoleDevTools:SetTimeScale(timescale)
+function PlayerConsoleTools:SetTimeScale(timescale)
     local fn_name = 'SetTimeScale'
 
     if self.devtools and #SDK.Player.GetClientTable(nil, true) > 1 then
@@ -450,7 +450,7 @@ end
 --- Toggles free crafting mode.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
-function ConsoleDevTools:ToggleFreeCrafting(player)
+function PlayerConsoleTools:ToggleFreeCrafting(player)
     player = player ~= nil and player or self.inst
 
     local fn_name = "ToggleFreeCrafting"
@@ -469,7 +469,7 @@ end
 -- @tparam string recipe
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
-function ConsoleDevTools:UnlockRecipe(recipe, player)
+function PlayerConsoleTools:UnlockRecipe(recipe, player)
     player = player ~= nil and player or self.inst
 
     local fn_name = "UnlockRecipe"
@@ -488,7 +488,7 @@ end
 -- @tparam string recipe
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
-function ConsoleDevTools:LockRecipe(recipe, player)
+function PlayerConsoleTools:LockRecipe(recipe, player)
     player = player ~= nil and player or self.inst
 
     local fn_name = "LockRecipe"
@@ -507,8 +507,8 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function ConsoleDevTools:DoInit()
-    DevTools.DoInit(self, self.playerdevtools, "console", {
+function PlayerConsoleTools:DoInit()
+    DevTools.DoInit(self, self.playertools, "console", {
         -- player
         "SetHealthPercent",
         "SetHungerPercent",
@@ -541,4 +541,4 @@ function ConsoleDevTools:DoInit()
     })
 end
 
-return ConsoleDevTools
+return PlayerConsoleTools

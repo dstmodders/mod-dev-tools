@@ -1,9 +1,9 @@
 require "busted.runner"()
 
-describe("SaveDataDevTools", function()
+describe("WorldSaveDataTools", function()
     -- initialization
-    local devtools, worlddevtools
-    local SaveDataDevTools, savedatadevtools
+    local devtools, worldtools
+    local WorldSaveDataTools, worldsavedatatools
 
     setup(function()
         DebugSpyInit()
@@ -23,10 +23,10 @@ describe("SaveDataDevTools", function()
 
         -- initialization
         devtools = MockDevTools()
-        worlddevtools = MockWorldDevTools()
+        worldtools = MockWorldTools()
 
-        SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
-        savedatadevtools = SaveDataDevTools(worlddevtools, devtools)
+        WorldSaveDataTools = require "devtools/tools/worldsavedatatools"
+        worldsavedatatools = WorldSaveDataTools(worldtools, devtools)
 
         DebugSpyClear()
     end)
@@ -37,16 +37,16 @@ describe("SaveDataDevTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
+            WorldSaveDataTools = require "devtools/tools/worldsavedatatools"
         end)
 
         local function AssertDefaults(self)
-            assert.is_equal("SaveDataDevTools", self.name)
+            assert.is_equal("WorldSaveDataTools", self.name)
             assert.is_equal(devtools, self.devtools)
 
             -- general
-            assert.is_equal(savedatadevtools.inst, self.inst)
-            assert.is_equal(worlddevtools, self.worlddevtools)
+            assert.is_equal(worldsavedatatools.inst, self.inst)
+            assert.is_equal(worldtools, self.worldtools)
 
             -- walrus camps
             assert.is_equal(3, self.nr_of_walrus_camps)
@@ -54,11 +54,11 @@ describe("SaveDataDevTools", function()
 
         describe("using the constructor", function()
             before_each(function()
-                savedatadevtools = SaveDataDevTools(worlddevtools, devtools)
+                worldsavedatatools = WorldSaveDataTools(worldtools, devtools)
             end)
 
             it("should have the default fields", function()
-                AssertDefaults(savedatadevtools)
+                AssertDefaults(worldsavedatatools)
             end)
         end)
 
@@ -79,8 +79,8 @@ describe("SaveDataDevTools", function()
             }
 
             AssertAddedMethodsBefore(methods, devtools)
-            savedatadevtools = SaveDataDevTools(worlddevtools, devtools)
-            AssertAddedMethodsAfter(methods, savedatadevtools, devtools)
+            worldsavedatatools = WorldSaveDataTools(worldtools, devtools)
+            AssertAddedMethodsAfter(methods, worldsavedatatools, devtools)
         end)
     end)
 end)

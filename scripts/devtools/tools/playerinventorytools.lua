@@ -1,7 +1,7 @@
 ----
 -- Player inventory tools.
 --
--- Extends `devtools.DevTools` and includes different inventory functionality.
+-- Extends `tools.Tools` and includes different inventory functionality.
 --
 -- When available, all (or most) methods can be accessed within `DevTools` global class:
 --
@@ -13,17 +13,17 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.player.InventoryDevTools
+-- @classmod tools.PlayerInventoryTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.PlayerDevTools
+-- @see tools.PlayerTools
+-- @see tools.Tools
 --
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
 -- @release 0.7.0
 ----
-local DevTools = require "devtools/devtools/devtools"
+local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
@@ -31,23 +31,23 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.PlayerDevTools playerdevtools
+-- @tparam PlayerTools playertools
 -- @tparam DevTools devtools
--- @usage local inventorydevtools = InventoryDevTools(playerdevtools, devtools)
-local InventoryDevTools = Class(DevTools, function(self, playerdevtools, devtools)
-    DevTools._ctor(self, "InventoryDevTools", devtools)
+-- @usage local playerinventorytools = PlayerInventoryTools(playertools, devtools)
+local PlayerInventoryTools = Class(DevTools, function(self, playertools, devtools)
+    DevTools._ctor(self, "PlayerInventoryTools", devtools)
 
     -- asserts
-    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".playertools", playertools)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playertools.inst)
 
-    local inventory = SDK.Utils.Chain.Get(playerdevtools, "inst", "replica", "inventory")
+    local inventory = SDK.Utils.Chain.Get(playertools, "inst", "replica", "inventory")
     SDK.Utils.AssertRequiredField(self.name .. ".inventory", inventory)
 
     -- general
-    self.inst = playerdevtools.inst
+    self.inst = playertools.inst
     self.inventory = inventory
-    self.playerdevtools = playerdevtools
+    self.playertools = playertools
 
     -- self
     self:DoInit()
@@ -59,7 +59,7 @@ end)
 --- Checks if an item is a light source.
 -- @tparam table item
 -- @treturn boolean
-function InventoryDevTools:IsEquippableLightSource(item) -- luacheck: only
+function PlayerInventoryTools:IsEquippableLightSource(item) -- luacheck: only
     if not item:HasTag("_equippable") or item:HasTag("fueldepleted") then
         return false
     end
@@ -78,7 +78,7 @@ end
 --
 -- @treturn number Slot
 -- @treturn table Item
-function InventoryDevTools:GetInventoryEdible()
+function PlayerInventoryTools:GetInventoryEdible()
     local items = self.inventory:GetItems()
     for slot, item in pairs(items) do
         if item:HasTag("cookable")
@@ -96,7 +96,7 @@ end
 --- Gets a backpack slot number for an item.
 -- @tparam table item
 -- @treturn number
-function InventoryDevTools:GetBackpackSlotByItem(item) -- luacheck: only
+function PlayerInventoryTools:GetBackpackSlotByItem(item) -- luacheck: only
     local items = SDK.Inventory.GetEquippedBackpackItems()
     if items and item then
         for k, v in pairs(items) do
@@ -112,7 +112,7 @@ end
 
 --- Selects an equipped item.
 -- @treturn boolean Always true
-function InventoryDevTools:SelectEquippedItem(slot)
+function PlayerInventoryTools:SelectEquippedItem(slot)
     local item = SDK.Inventory.GetEquippedItem(slot)
     if item then
         SetDebugEntity(item)
@@ -127,8 +127,8 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function InventoryDevTools:DoInit()
-    DevTools.DoInit(self, self.playerdevtools, "inventory", {
+function PlayerInventoryTools:DoInit()
+    DevTools.DoInit(self, self.playertools, "inventory", {
         -- general
         "IsEquippableLightSource",
         "GetInventoryEdible",
@@ -141,4 +141,4 @@ function InventoryDevTools:DoInit()
     })
 end
 
-return InventoryDevTools
+return PlayerInventoryTools

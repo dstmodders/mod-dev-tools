@@ -1,9 +1,9 @@
 ----
 -- General player tools.
 --
--- Extends `devtools.DevTools` and includes different player functionality. Acts as a layer to all
--- other player-specific methods defined in the corresponding subclasses. Besides, it also includes
--- some general player-specific methods.
+-- Extends `tools.Tools` and includes different player functionality. Acts as a layer to all other
+-- player-specific methods defined in the corresponding subclasses. Besides, it also includes some
+-- general player-specific methods.
 --
 -- When available, all (or most) methods can be accessed within `DevTools` global class:
 --
@@ -24,14 +24,14 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.PlayerDevTools
+-- @classmod tools.PlayerTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.player.ConsoleDevTools
--- @see devtools.player.CraftingDevTools
--- @see devtools.player.InventoryDevTools
--- @see devtools.player.MapDevTools
--- @see devtools.player.VisionDevTools
+-- @see tools.PlayerConsoleTools
+-- @see tools.PlayerCraftingTools
+-- @see tools.PlayerInventoryTools
+-- @see tools.PlayerMapTools
+-- @see tools.PlayerVisionTools
+-- @see tools.Tools
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -40,13 +40,13 @@
 ----
 require "consolecommands"
 
-local ConsolePlayerDevTools = require "devtools/devtools/player/consoledevtools"
-local CraftingPlayerDevTools = require "devtools/devtools/player/craftingdevtools"
-local DevTools = require "devtools/devtools/devtools"
-local InventoryPlayerDevTools = require "devtools/devtools/player/inventorydevtools"
-local MapPlayerDevTools = require "devtools/devtools/player/mapdevtools"
+local DevTools = require "devtools/tools/tools"
+local PlayerConsoleTools = require "devtools/tools/playerconsoletools"
+local PlayerCraftingTools = require "devtools/tools/playercraftingtools"
+local PlayerInventoryTools = require "devtools/tools/playerinventorytools"
+local PlayerMapTools = require "devtools/tools/playermaptools"
+local PlayerVisionTools = require "devtools/tools/playervisiontools"
 local SDK = require "devtools/sdk/sdk/sdk"
-local VisionPlayerDevTools = require "devtools/devtools/player/visiondevtools"
 
 -- event listeners
 local OnWereModeDirty
@@ -57,11 +57,11 @@ local OnWereModeDirty
 --- Constructor.
 -- @function _ctor
 -- @tparam EntityScript inst
--- @tparam devtools.WorldDevTools world
+-- @tparam WorldTools worldtools
 -- @tparam DevTools devtools
--- @usage local playerdevtools = PlayerDevTools(ThePlayer, world, devtools)
-local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
-    DevTools._ctor(self, "PlayerDevTools", devtools)
+-- @usage local playertools = PlayerTools(ThePlayer, worldtools, devtools)
+local PlayerTools = Class(DevTools, function(self, inst, worldtools, devtools)
+    DevTools._ctor(self, "PlayerTools", devtools)
 
     -- general
     self.controller = nil
@@ -70,7 +70,7 @@ local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
     self.is_move_button_down = false
     self.speech = nil
     self.wereness_mode = nil
-    self.world = world
+    self.world = worldtools
 
     -- god mode
     self.god_mode_players = {}
@@ -88,11 +88,11 @@ local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
     end
 
     -- submodules (order-dependent)
-    self.console = ConsolePlayerDevTools(self, devtools)
-    self.inventory = InventoryPlayerDevTools(self, devtools)
-    self.crafting = CraftingPlayerDevTools(self, devtools)
-    self.vision = VisionPlayerDevTools(self, devtools)
-    self.map = MapPlayerDevTools(self, devtools)
+    self.console = PlayerConsoleTools(self, devtools)
+    self.inventory = PlayerInventoryTools(self, devtools)
+    self.crafting = PlayerCraftingTools(self, devtools)
+    self.vision = PlayerVisionTools(self, devtools)
+    self.map = PlayerMapTools(self, devtools)
 
     if inst and inst:HasTag("wereness") then
         OnWereModeDirty = function(_inst)
@@ -112,13 +112,13 @@ end)
 
 --- Gets `ThePlayer`.
 -- @treturn table
-function PlayerDevTools:GetPlayer()
+function PlayerTools:GetPlayer()
     return self.inst
 end
 
 --- Gets character speech.
 -- @treturn table
-function PlayerDevTools:GetSpeech()
+function PlayerTools:GetSpeech()
     return self.speech
 end
 
@@ -127,7 +127,7 @@ end
 -- Is set when the owner is playing as Woodie and the "weremodedirty" event is triggered.
 --
 -- @treturn number
-function PlayerDevTools:GetWerenessMode()
+function PlayerTools:GetWerenessMode()
     return self.wereness_mode
 end
 
@@ -136,7 +136,7 @@ end
 -- Returns the value set earlier by `SetIsMoveButtonDown`.
 --
 -- @treturn boolean
-function PlayerDevTools:IsMoveButtonDown()
+function PlayerTools:IsMoveButtonDown()
     return self.is_move_button_down
 end
 
@@ -145,14 +145,14 @@ end
 -- This setter is called in the **modmain** through the `PlayerController` hook.
 --
 -- @tparam boolean down
-function PlayerDevTools:SetIsMoveButtonDown(down)
+function PlayerTools:SetIsMoveButtonDown(down)
     self.is_move_button_down = down
 end
 
 --- Checks if the player is platform jumping.
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
 -- @treturn boolean
-function PlayerDevTools:IsPlatformJumping(player)
+function PlayerTools:IsPlatformJumping(player)
     player = player ~= nil and player or self.inst
     return player and player.HasTag and player:HasTag("ignorewalkableplatforms")
 end
@@ -160,7 +160,7 @@ end
 --- Changes current times cale.
 -- @tparam number amount Amount to change between -4 to 4.
 -- @tparam boolean is_fixed Should it be fixed without increasing/decreasing?
-function PlayerDevTools:ChangeTimeScale(amount, is_fixed)
+function PlayerTools:ChangeTimeScale(amount, is_fixed)
     local time_scale
     time_scale = is_fixed and amount or TheSim:GetTimeScale() + amount
     time_scale = time_scale < 0 and 0 or time_scale
@@ -176,14 +176,14 @@ end
 
 --- Gets a list of players in god mode.
 -- @treturn table
-function PlayerDevTools:GetGodModePlayers()
+function PlayerTools:GetGodModePlayers()
     return self.god_mode_players
 end
 
 --- Checks if a player is in god mode.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn boolean
-function PlayerDevTools:IsGodMode(player)
+function PlayerTools:IsGodMode(player)
     player = player ~= nil and player or self:GetSelected()
 
     if SDK.Player.IsAdmin() then
@@ -210,11 +210,11 @@ end
 --- Toggles player god mode.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn boolean
-function PlayerDevTools:ToggleGodMode(player)
+function PlayerTools:ToggleGodMode(player)
     player = player ~= nil and player or self:GetSelected()
 
     if not player or not SDK.Player.IsAdmin() then
-        self:DebugError("PlayerDevTools:ToggleGodMode():", "not an admin")
+        self:DebugError("PlayerTools:ToggleGodMode():", "not an admin")
     end
 
     local is_god_mode = self:IsGodMode(player)
@@ -259,7 +259,7 @@ end
 
 --- Checks if Grue (Charlie) can attack the owner.
 -- @treturn boolean
-function PlayerDevTools:CanGrueAttack()
+function PlayerTools:CanGrueAttack()
     return not (self:IsGodMode()
         or SDK.Player.IsInLight()
         or SDK.Player.IsGhost()
@@ -272,7 +272,7 @@ end
 --- Gets the Wereness value.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn number
-function PlayerDevTools:GetWerenessPercent(player)
+function PlayerTools:GetWerenessPercent(player)
     player = player ~= nil and player or self:GetSelected()
     if player.player_classified and player.player_classified.currentwereness then
         return player.player_classified.currentwereness:value()
@@ -289,14 +289,14 @@ end
 --    ConsoleCommandPlayer()
 --
 -- @treturn table
-function PlayerDevTools:GetSelected() -- luacheck: only
+function PlayerTools:GetSelected() -- luacheck: only
     return ConsoleCommandPlayer()
 end
 
 --- Selects the player.
 -- @tparam EntityScript player Player instance
 -- @treturn boolean
-function PlayerDevTools:Select(player)
+function PlayerTools:Select(player)
     local name = player:GetDisplayName()
 
     SetDebugEntity(player)
@@ -322,7 +322,7 @@ end
 -- Verifies if the same player is selected of both client and server.
 --
 -- @treturn boolean
-function PlayerDevTools:IsSelectedInSync()
+function PlayerTools:IsSelectedInSync()
     if SDK.World.IsMasterSim() then
         return self.selected_client ~= nil
     end
@@ -334,13 +334,13 @@ end
 
 --- Checks fake teleport state.
 -- @treturn boolean
-function PlayerDevTools:IsFakeTeleport()
+function PlayerTools:IsFakeTeleport()
     return self.is_fake_teleport
 end
 
 --- Sets fake teleport state.
 -- @tparam boolean is_fake_teleport
-function PlayerDevTools:SetIsFakeTeleport(is_fake_teleport)
+function PlayerTools:SetIsFakeTeleport(is_fake_teleport)
     self.is_fake_teleport = is_fake_teleport
 end
 
@@ -349,7 +349,7 @@ end
 -- Supports teleporting on the map as well.
 --
 -- @treturn boolean
-function PlayerDevTools:Teleport()
+function PlayerTools:Teleport()
     local player = self:GetSelected()
     if not player then
         return false
@@ -398,7 +398,7 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function PlayerDevTools:DoInit()
+function PlayerTools:DoInit()
     DevTools.DoInit(self, self.devtools, "player", {
         GetSelectedPlayer = "GetSelected",
         SelectPlayer = "Select",
@@ -431,7 +431,7 @@ function PlayerDevTools:DoInit()
 end
 
 --- Terminates.
-function PlayerDevTools:DoTerm()
+function PlayerTools:DoTerm()
     if self.crafting then
         self.crafting.DoTerm(self.crafting)
     end
@@ -458,4 +458,4 @@ function PlayerDevTools:DoTerm()
     DevTools.DoTerm(self)
 end
 
-return PlayerDevTools
+return PlayerTools

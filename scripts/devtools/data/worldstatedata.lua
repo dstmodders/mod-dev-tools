@@ -21,7 +21,7 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam screens.DevToolsScreen screen
+-- @tparam DevToolsScreen screen
 -- @tparam EntityScript world
 -- @usage local worldstatedata = WorldStateData(screen, TheWorld)
 local WorldStateData = Class(Data, function(self, screen, world)

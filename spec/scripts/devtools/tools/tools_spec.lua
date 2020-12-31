@@ -1,9 +1,9 @@
 require "busted.runner"()
 
-describe("DevTools", function()
+describe("Tools", function()
     -- initialization
-    local _devtools
-    local DevTools, devtools
+    local devtools
+    local Tools, tools
 
     setup(function()
         DebugSpyInit()
@@ -15,10 +15,10 @@ describe("DevTools", function()
 
     before_each(function()
         -- initialization
-        _devtools = MockDevTools()
+        devtools = MockDevTools()
 
-        DevTools = require "devtools/devtools/devtools"
-        devtools = DevTools("Test", _devtools)
+        Tools = require "devtools/tools/tools"
+        tools = Tools("Test", devtools)
 
         DebugSpyClear()
     end)
@@ -26,25 +26,25 @@ describe("DevTools", function()
     insulate("initialization", function()
         before_each(function()
             -- general
-            _devtools = MockDevTools()
+            devtools = MockDevTools()
 
             -- initialization
-            DevTools = require "devtools/devtools/devtools"
+            Tools = require "devtools/tools/tools"
         end)
 
         local function AssertDefaults(self)
             -- general
-            assert.is_equal(_devtools, self.devtools)
+            assert.is_equal(devtools, self.devtools)
             assert.is_equal("Test", self.name)
         end
 
         describe("using the constructor", function()
             before_each(function()
-                devtools = DevTools("Test", _devtools)
+                tools = Tools("Test", devtools)
             end)
 
             it("should have the default fields", function()
-                AssertDefaults(devtools)
+                AssertDefaults(tools)
             end)
         end)
     end)
@@ -53,7 +53,7 @@ describe("DevTools", function()
         describe("should have the", function()
             describe("getter", function()
                 it("GetName", function()
-                    AssertClassGetter(devtools, "name", "GetName")
+                    AssertClassGetter(tools, "name", "GetName")
                 end)
             end)
         end)

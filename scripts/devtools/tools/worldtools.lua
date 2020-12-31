@@ -1,10 +1,10 @@
 ----
 -- World tools.
 --
--- Extends `devtools.DevTools` and includes different world functionality. Acts as a layer to
--- `TheWorld` so most of the methods are just for convenience. However, it also holds upvalues
--- retrieved in the **modmain** for the rain/snow prediction and some map-related features that
--- don't require direct access to `ThePlayer`.
+-- Extends `tools.Tools` and includes different world functionality. Acts as a layer to `TheWorld`
+-- so most of the methods are just for convenience. However, it also holds upvalues retrieved in the
+-- **modmain** for the rain/snow prediction and some map-related features that don't require direct
+-- access to `ThePlayer`.
 --
 -- When available, all (or most) methods can be accessed within `DevTools` global class:
 --
@@ -16,10 +16,10 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.WorldDevTools
+-- @classmod tools.WorldTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.world.SaveDataDevTools
+-- @see tools.Tools
+-- @see tools.WorldSaveDataTools
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -28,9 +28,9 @@
 ----
 require "consolecommands"
 
-local DevTools = require "devtools/devtools/devtools"
-local SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
+local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
+local WorldSaveDataTools = require "devtools/tools/worldsavedatatools"
 
 -- threads
 local _PRECIPITATION_THREAD_ID = "mod_dev_tools_precipitation_thread"
@@ -42,13 +42,13 @@ local _PRECIPITATION_THREAD_ID = "mod_dev_tools_precipitation_thread"
 -- @function _ctor
 -- @tparam EntityScript inst
 -- @tparam DevTools devtools
--- @usage local worlddevtools = WorldDevTools(TheWorld, devtools)
-local WorldDevTools = Class(DevTools, function(self, inst, devtools)
-    DevTools._ctor(self, "WorldDevTools", devtools)
+-- @usage local worldtools = WorldTools(TheWorld, devtools)
+local WorldTools = Class(DevTools, function(self, inst, devtools)
+    DevTools._ctor(self, "WorldTools", devtools)
 
     -- general
     self.inst = inst
-    self.savedata = SaveDataDevTools(self, self.devtools)
+    self.savedata = WorldSaveDataTools(self, self.devtools)
 
     -- map
     self.is_map_clearing = false
@@ -72,13 +72,13 @@ end)
 
 --- Gets `TheWorld`.
 -- @treturn table
-function WorldDevTools:GetWorld()
+function WorldTools:GetWorld()
     return self.inst
 end
 
 --- Gets `TheWorld.net`.
 -- @treturn table
-function WorldDevTools:GetWorldNet()
+function WorldTools:GetWorldNet()
     return self.inst and self.inst.net
 end
 
@@ -92,7 +92,7 @@ end
 --    GetDebugEntity()
 --
 -- @treturn table
-function WorldDevTools:GetSelectedEntity() -- luacheck: only
+function WorldTools:GetSelectedEntity() -- luacheck: only
     return GetDebugEntity()
 end
 
@@ -103,7 +103,7 @@ end
 --    SetDebugEntity(TheWorld)
 --
 -- @treturn boolean Always true
-function WorldDevTools:Select()
+function WorldTools:Select()
     SetDebugEntity(self.inst)
     self.devtools.labels:RemoveSelected()
     self:DebugString("Selected TheWorld")
@@ -117,7 +117,7 @@ end
 --    SetDebugEntity(TheWorld.net)
 --
 -- @treturn boolean Always true
-function WorldDevTools:SelectNet()
+function WorldTools:SelectNet()
     SetDebugEntity(self.inst.net)
     self.devtools.labels:RemoveSelected()
     self:DebugString("Selected TheWorld.net")
@@ -131,7 +131,7 @@ end
 --    SetDebugEntity(TheInput:GetWorldEntityUnderMouse())
 --
 -- @treturn boolean
-function WorldDevTools:SelectEntityUnderMouse()
+function WorldTools:SelectEntityUnderMouse()
     local entity = TheInput:GetWorldEntityUnderMouse()
     if entity then
         SetDebugEntity(entity)
@@ -163,19 +163,19 @@ end
 
 --- Checks if the map clearing state.
 -- @treturn boolean
-function WorldDevTools:IsMapClearing()
+function WorldTools:IsMapClearing()
     return self.is_map_clearing
 end
 
 --- Checks if the map for of war state.
 -- @treturn boolean
-function WorldDevTools:IsMapFogOfWar()
+function WorldTools:IsMapFogOfWar()
     return self.is_map_fog_of_war
 end
 
 --- Toggles map clearing.
 -- @treturn boolean
-function WorldDevTools:ToggleMapClearing()
+function WorldTools:ToggleMapClearing()
     if not SDK.World.IsMasterSim() then
         return false
     end
@@ -192,7 +192,7 @@ end
 
 --- Toggles fog of war.
 -- @treturn boolean
-function WorldDevTools:ToggleMapFogOfWar()
+function WorldTools:ToggleMapFogOfWar()
     if not SDK.World.IsMasterSim() then
         return false
     end
@@ -209,13 +209,13 @@ end
 
 --- Gets precipitation start time.
 -- @treturn number
-function WorldDevTools:GetPrecipitationStarts()
+function WorldTools:GetPrecipitationStarts()
     return self.precipitation_starts
 end
 
 --- Gets precipitation end time.
 -- @treturn number
-function WorldDevTools:GetPrecipitationEnds()
+function WorldTools:GetPrecipitationEnds()
     return self.precipitation_ends
 end
 
@@ -225,7 +225,7 @@ end
 -- predicting when the rain/show starts/ends.
 --
 -- The in-game prediction accuracy is ~15 minutes at very best.
-function WorldDevTools:StartPrecipitationThread()
+function WorldTools:StartPrecipitationThread()
     local moisture, moisture_ceil, moisture_floor
     local current_ceil, previous_ceil, diff_ceil
     local current_floor, previous_floor, diff_floor
@@ -267,7 +267,7 @@ end
 --- Stops the precipitation thread.
 --
 -- Stops the thread started earlier by the `StartPrecipitationThread`.
-function WorldDevTools:ClearPrecipitationThread()
+function WorldTools:ClearPrecipitationThread()
     SDK.Thread.Clear(self.precipitation_thread)
 end
 
@@ -275,7 +275,7 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function WorldDevTools:DoInit()
+function WorldTools:DoInit()
     DevTools.DoInit(self, self.devtools, "world", {
         SelectWorld = "Select",
         SelectWorldNet = "SelectNet",
@@ -303,11 +303,11 @@ function WorldDevTools:DoInit()
 end
 
 --- Terminates.
-function WorldDevTools:DoTerm()
+function WorldTools:DoTerm()
     if self.savedata then
         self.savedata.DoTerm(self.savedata)
     end
     DevTools.DoTerm(self)
 end
 
-return WorldDevTools
+return WorldTools

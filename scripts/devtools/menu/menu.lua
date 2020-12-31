@@ -169,25 +169,25 @@ end
 -- @see AddMenu
 function Menu:AddSelectedPlayerSubmenus()
     local devtools = self.devtools
-    local playerdevtools = devtools.player
-    local craftingdevtools = playerdevtools.crafting
+    local playertools = devtools.player
+    local playercraftingtools = playertools.crafting
 
     if SDK.Player.IsAdmin() then
-        local player = playerdevtools:GetSelected()
+        local player = playertools:GetSelected()
         local prefix = #devtools:GetAllPlayers() > 1
             and string.format("[ %s ]  ", player:GetDisplayName())
             or ""
 
         self:AddToggleOption(
             { name = "God Mode", prefix = prefix },
-            { src = playerdevtools, name = "IsGodMode" },
-            { src = playerdevtools, name = "ToggleGodMode" }
+            { src = playertools, name = "IsGodMode" },
+            { src = playertools, name = "ToggleGodMode" }
         )
 
         self:AddToggleOption(
             { name = "Free Crafting", prefix = prefix },
-            { src = craftingdevtools, name = "IsFreeCrafting" },
-            { src = craftingdevtools, name = "ToggleFreeCrafting" },
+            { src = playercraftingtools, name = "IsFreeCrafting" },
+            { src = playercraftingtools, name = "ToggleFreeCrafting" },
             3
         )
 
@@ -256,10 +256,10 @@ function Menu:AddMenu()
     self.menu = TextMenu(self.screen, self.title)
 
     local devtools = self.devtools
-    local playerdevtools = devtools.player
-    local worlddevtools = devtools.world
+    local playertools = devtools.player
+    local worldtools = devtools.world
 
-    if devtools and worlddevtools and playerdevtools then
+    if devtools and worldtools and playertools then
         self:AddSelectSubmenu()
         self:AddSelectedPlayerSubmenus()
         self:AddPlayerSubmenus()

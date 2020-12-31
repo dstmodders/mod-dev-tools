@@ -1,7 +1,7 @@
 ----
 -- Save data tools.
 --
--- Extends `devtools.DevTools` and includes different savedata functionality. It is used mainly for
+-- Extends `tools.Tools` and includes different savedata functionality. It is used mainly for
 -- showing some additional data about the world.
 --
 -- When available, all (or most) methods can be accessed within `DevTools` global class:
@@ -14,10 +14,10 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.world.SaveDataDevTools
+-- @classmod tools.WorldSaveDataTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.WorldDevTools
+-- @see tools.Tools
+-- @see tools.WorldTools
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -26,7 +26,7 @@
 ----
 require "consolecommands"
 
-local DevTools = require "devtools/devtools/devtools"
+local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
 -- general
@@ -37,15 +37,15 @@ local _SAVEDATA
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.WorldDevTools worlddevtools
+-- @tparam WorldTools worldtools
 -- @tparam DevTools devtools
--- @usage local savedatadevtools = SaveDataDevTools(worlddevtools, devtools)
-local SaveDataDevTools = Class(DevTools, function(self, worlddevtools, devtools)
-    DevTools._ctor(self, "SaveDataDevTools", devtools)
+-- @usage local worldsavedatatools = WorldSaveDataTools(worldtools, devtools)
+local WorldSaveDataTools = Class(DevTools, function(self, worldtools, devtools)
+    DevTools._ctor(self, "WorldSaveDataTools", devtools)
 
     -- general
-    self.inst = worlddevtools.inst
-    self.worlddevtools = worlddevtools
+    self.inst = worldtools.inst
+    self.worldtools = worldtools
 
     -- walrus camps
     self.nr_of_walrus_camps = 0
@@ -196,7 +196,7 @@ end
 --   - `client_temp/server_save` (dedicated server)
 --
 -- @treturn string
-function SaveDataDevTools:GetPath() -- luacheck: only
+function WorldSaveDataTools:GetPath() -- luacheck: only
     return SDK.World.IsMasterSim() and "server_temp/server_save" or "client_temp/server_save"
 end
 
@@ -205,13 +205,13 @@ end
 -- Returns the save data loaded using the `Load`.
 --
 -- @treturn table
-function SaveDataDevTools:GetSaveData() -- luacheck: only
+function WorldSaveDataTools:GetSaveData() -- luacheck: only
     return _SAVEDATA
 end
 
 --- Gets the map persistdata.
 -- @treturn table
-function SaveDataDevTools:GetMapPersistData() -- luacheck: only
+function WorldSaveDataTools:GetMapPersistData() -- luacheck: only
     return _SAVEDATA and _SAVEDATA.map and _SAVEDATA.map.persistdata
 end
 
@@ -219,7 +219,7 @@ end
 -- @tparam[opt] string name Meta name
 -- @treturn[1] table Meta table, when no name passed
 -- @treturn[2] string Meta value, when the name is passed
-function SaveDataDevTools:GetMeta(name) -- luacheck: only
+function WorldSaveDataTools:GetMeta(name) -- luacheck: only
     local meta = _SAVEDATA and _SAVEDATA.meta
     if meta and name ~= nil then
         return meta and meta[name]
@@ -229,13 +229,13 @@ end
 
 --- Gets the meta seed.
 -- @treturn string
-function SaveDataDevTools:GetSeed()
+function WorldSaveDataTools:GetSeed()
     return self:GetMeta("seed")
 end
 
 --- Gets the meta version.
 -- @treturn string
-function SaveDataDevTools:GetVersion()
+function WorldSaveDataTools:GetVersion()
     return self:GetMeta("saveversion")
 end
 
@@ -245,7 +245,7 @@ end
 --
 -- @tparam string path
 -- @treturn boolean
-function SaveDataDevTools:Load(path)
+function WorldSaveDataTools:Load(path)
     path = path ~= nil and path or self:GetPath()
 
     DebugStringStart(self, "Path:", path)
@@ -284,7 +284,7 @@ end
 -- Uses the topology IDs data to predict how many Walrus Camps in the current world.
 --
 -- @treturn number
-function SaveDataDevTools:GuessNrOfWalrusCamps()
+function WorldSaveDataTools:GuessNrOfWalrusCamps()
     self.nr_of_walrus_camps = 0
     DebugStringStart(self, "Guessing the number of Walrus Camps...")
     for _, id in pairs(self.inst.topology.ids) do
@@ -304,7 +304,7 @@ end
 -- Returns the number of Walrus Camps guessed earlier by the `GuessNrOfWalrusCamps`.
 --
 -- @treturn number
-function SaveDataDevTools:GetNrOfWalrusCamps()
+function WorldSaveDataTools:GetNrOfWalrusCamps()
     return self.nr_of_walrus_camps
 end
 
@@ -312,7 +312,7 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function SaveDataDevTools:DoInit()
+function WorldSaveDataTools:DoInit()
     DevTools.DoInit(self, self.devtools, "world", {
         -- general
         GetSaveDataPath = "GetPath",
@@ -329,4 +329,4 @@ function SaveDataDevTools:DoInit()
     })
 end
 
-return SaveDataDevTools
+return WorldSaveDataTools

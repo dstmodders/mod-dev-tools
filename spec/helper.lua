@@ -142,21 +142,6 @@ function MockInventoryReplica()
     })
 end
 
-function MockPlayerDevTools()
-    local world = MockWorldDevTools()
-    return require("busted").mock({
-        console = {},
-        controller = nil,
-        crafting = {},
-        inst = MockPlayerInst("PlayerInst"),
-        inventory = MockInventoryReplica(),
-        ismastersim = world.inst.ismastersim,
-        name = "PlayerDevTools",
-        vision = {},
-        world = world,
-    })
-end
-
 function MockPlayerInst(name, userid, states, tags, position)
     userid = userid ~= nil and userid or "KU_admin"
     states = states ~= nil and states or { "idle" }
@@ -266,12 +251,18 @@ function MockPlayerInst(name, userid, states, tags, position)
     })
 end
 
-function MockWorldDevTools()
+function MockPlayerTools()
+    local world = MockWorldTools()
     return require("busted").mock({
-        inst = MockWorldInst(),
-        name = "WorldDevTools",
-        GetPrecipitationEnds = ReturnValueFn(90),
-        GetPrecipitationStarts = ReturnValueFn(30),
+        console = {},
+        controller = nil,
+        crafting = {},
+        inst = MockPlayerInst("PlayerInst"),
+        inventory = MockInventoryReplica(),
+        ismastersim = world.inst.ismastersim,
+        name = "PlayerTools",
+        vision = {},
+        world = world,
     })
 end
 
@@ -335,6 +326,15 @@ function MockWorldInst()
                 return not (x == 100 and y == 0 and z == 100) and true or false
             end,
         },
+    })
+end
+
+function MockWorldTools()
+    return require("busted").mock({
+        inst = MockWorldInst(),
+        name = "WorldTools",
+        GetPrecipitationEnds = ReturnValueFn(90),
+        GetPrecipitationStarts = ReturnValueFn(30),
     })
 end
 

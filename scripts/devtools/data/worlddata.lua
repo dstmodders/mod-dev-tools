@@ -21,15 +21,15 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam screens.DevToolsScreen screen
--- @tparam devtools.WorldDevTools worlddevtools
--- @usage local worlddata = WorldData(screen, worlddevtools)
-local WorldData = Class(Data, function(self, screen, worlddevtools)
+-- @tparam DevToolsScreen screen
+-- @tparam WorldTools worldtools
+-- @usage local worlddata = WorldData(screen, worldtools)
+local WorldData = Class(Data, function(self, screen, worldtools)
     Data._ctor(self, screen)
 
     -- general
-    self.savedatadevtools = worlddevtools and worlddevtools.savedata
-    self.worlddevtools = worlddevtools
+    self.worldsavedatatools = worldtools and worldtools.savedata
+    self.worldtools = worldtools
 
     -- self
     self:Update()
@@ -46,7 +46,7 @@ function WorldData:Update()
     self:PushEmptyLine()
     self:PushWorldData()
 
-    if self.savedatadevtools then
+    if self.worldsavedatatools then
         self:PushEmptyLine()
         self:PushTitleLine("Save Data")
         self:PushEmptyLine()
@@ -102,7 +102,7 @@ end
 
 --- Pushes world precipitation line.
 function WorldData:PushWorldPrecipitationLines()
-    local worlddevtools = self.worlddevtools
+    local worldtools = self.worldtools
 
     local precipitation_rate = SDK.World.GetState("precipitationrate")
     if precipitation_rate and precipitation_rate > 0 then
@@ -113,8 +113,8 @@ function WorldData:PushWorldPrecipitationLines()
     end
 
     local is_snowing = SDK.World.GetState("issnowing")
-    local precipitation_starts = worlddevtools:GetPrecipitationStarts()
-    local precipitation_ends = worlddevtools:GetPrecipitationEnds()
+    local precipitation_starts = worldtools:GetPrecipitationStarts()
+    local precipitation_ends = worldtools:GetPrecipitationEnds()
 
     if precipitation_starts and precipitation_ends then
         local label = is_snowing and "Snow" or "Rain"
@@ -162,7 +162,7 @@ end
 
 --- Pushes world data.
 function WorldData:PushWorldData()
-    SDK.Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
+    SDK.Utils.AssertRequiredField("WorldData.worldtools", self.worldtools)
 
     self:PushLine("Seed", SDK.World.GetSeed())
     self:PushLine("Season", SDK.World.GetState("season"))
@@ -173,9 +173,9 @@ function WorldData:PushWorldData()
     self:PushWorldWetnessLine()
 
     -- Commented out intentionally. Maybe will be uncommented later.
-    --local savedatadevtools = self.savedatadevtools
-    --if savedatadevtools and not SDK.World.IsCave() then
-    --    self:PushLine("Walrus Camps", savedatadevtools:GetNrOfWalrusCamps())
+    --local worldsavedatatools = self.worldsavedatatools
+    --if worldsavedatatools and not SDK.World.IsCave() then
+    --    self:PushLine("Walrus Camps", worldsavedatatools:GetNrOfWalrusCamps())
     --end
 end
 
@@ -186,7 +186,7 @@ end
 function WorldData:PushDeerclopsSpawnerLine()
     local value
 
-    local data = self.savedatadevtools:GetMapPersistData()
+    local data = self.worldsavedatatools:GetMapPersistData()
     if not data or type(data.deerclopsspawner) ~= "table" then
         value = "unavailable"
     end
@@ -207,7 +207,7 @@ end
 function WorldData:PushBeargerSpawnerLine()
     local value
 
-    local data = self.savedatadevtools:GetMapPersistData()
+    local data = self.worldsavedatatools:GetMapPersistData()
     if not data or type(data.beargerspawner) ~= "table" then
         value = "unavailable"
     end
@@ -234,7 +234,7 @@ end
 function WorldData:PushMalbatrossSpawnerLine()
     local value
 
-    local data = self.savedatadevtools:GetMapPersistData()
+    local data = self.worldsavedatatools:GetMapPersistData()
     if not data or type(data.malbatrossspawner) ~= "table" then
         value = "unavailable"
     end
@@ -264,7 +264,7 @@ end
 function WorldData:PushDeersSpawnerLine()
     local value
 
-    local data = self.savedatadevtools:GetMapPersistData()
+    local data = self.worldsavedatatools:GetMapPersistData()
     if not data or type(data.deerherdspawner) ~= "table" then
         value = "unavailable"
     end
@@ -287,7 +287,7 @@ end
 function WorldData:PushKlausSackSpawnerLine()
     local value
 
-    local data = self.savedatadevtools:GetMapPersistData()
+    local data = self.worldsavedatatools:GetMapPersistData()
     if not data or type(data.klaussackspawner) ~= "table" then
         value = "unavailable"
     end
@@ -310,7 +310,7 @@ end
 function WorldData:PushHoundedLine()
     local value
 
-    local data = self.savedatadevtools:GetMapPersistData()
+    local data = self.worldsavedatatools:GetMapPersistData()
     if not data or type(data.hounded) ~= "table" then
         value = "unavailable"
     end
@@ -334,7 +334,7 @@ end
 function WorldData:PushChessUnlocksLine()
     local value
 
-    local data = self.savedatadevtools:GetMapPersistData()
+    local data = self.worldsavedatatools:GetMapPersistData()
     if not data or type(data.chessunlocks) ~= "table" then
         value = "unavailable"
     end
@@ -353,14 +353,14 @@ end
 
 --- Pushes save data.
 function WorldData:PushSaveData()
-    SDK.Utils.AssertRequiredField("WorldData.savedatadevtools", self.savedatadevtools)
-    SDK.Utils.AssertRequiredField("WorldData.worlddevtools", self.worlddevtools)
+    SDK.Utils.AssertRequiredField("WorldData.worldsavedatatools", self.worldsavedatatools)
+    SDK.Utils.AssertRequiredField("WorldData.worldtools", self.worldtools)
 
-    self:PushLine("Seed", self.savedatadevtools:GetSeed())
-    self:PushLine("Save Version", self.savedatadevtools:GetVersion())
+    self:PushLine("Seed", self.worldsavedatatools:GetSeed())
+    self:PushLine("Save Version", self.worldsavedatatools:GetVersion())
 
     -- Commented out intentionally. Maybe will be uncommented later.
-    --if self.savedatadevtools:GetMapPersistData() then
+    --if self.worldsavedatatools:GetMapPersistData() then
     --    if not SDK.World.IsCave() then
     --        self:PushDeerclopsSpawnerLine()
     --        self:PushBeargerSpawnerLine()

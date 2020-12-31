@@ -1,9 +1,9 @@
 require "busted.runner"()
 
-describe("InventoryDevTools", function()
+describe("PlayerInventoryTools", function()
     -- initialization
-    local devtools, playerdevtools
-    local InventoryDevTools, inventorydevtools
+    local devtools, playertools
+    local PlayerInventoryTools, playerinventorytools
 
     setup(function()
         DebugSpyInit()
@@ -16,11 +16,11 @@ describe("InventoryDevTools", function()
     before_each(function()
         -- initialization
         devtools = MockDevTools()
-        playerdevtools = MockPlayerDevTools()
-        playerdevtools.inventory = nil
+        playertools = MockPlayerTools()
+        playertools.inventory = nil
 
-        InventoryDevTools = require "devtools/devtools/player/inventorydevtools"
-        inventorydevtools = InventoryDevTools(playerdevtools, devtools)
+        PlayerInventoryTools = require "devtools/tools/playerinventorytools"
+        playerinventorytools = PlayerInventoryTools(playertools, devtools)
 
         DebugSpyClear()
     end)
@@ -29,32 +29,32 @@ describe("InventoryDevTools", function()
         before_each(function()
             -- general
             devtools = MockDevTools()
-            playerdevtools = MockPlayerDevTools()
-            playerdevtools.inventory = nil
+            playertools = MockPlayerTools()
+            playertools.inventory = nil
 
             -- initialization
-            InventoryDevTools = require "devtools/devtools/player/inventorydevtools"
+            PlayerInventoryTools = require "devtools/tools/playerinventorytools"
         end)
 
         local function AssertDefaults(self)
             assert.is_equal(devtools, self.devtools)
-            assert.is_equal("InventoryDevTools", self.name)
+            assert.is_equal("PlayerInventoryTools", self.name)
 
             -- general
-            assert.is_equal(playerdevtools.inst, self.inst)
-            assert.is_equal(playerdevtools, self.playerdevtools)
+            assert.is_equal(playertools.inst, self.inst)
+            assert.is_equal(playertools, self.playertools)
 
             -- other
-            assert.is_equal(self, self.playerdevtools.inventory)
+            assert.is_equal(self, self.playertools.inventory)
         end
 
         describe("using the constructor", function()
             before_each(function()
-                inventorydevtools = InventoryDevTools(playerdevtools, devtools)
+                playerinventorytools = PlayerInventoryTools(playertools, devtools)
             end)
 
             it("should have the default fields", function()
-                AssertDefaults(inventorydevtools)
+                AssertDefaults(playerinventorytools)
             end)
         end)
 
@@ -72,19 +72,19 @@ describe("InventoryDevTools", function()
             }
 
             AssertAddedMethodsBefore(methods, devtools)
-            inventorydevtools = InventoryDevTools(playerdevtools, devtools)
-            AssertAddedMethodsAfter(methods, inventorydevtools, devtools)
+            playerinventorytools = PlayerInventoryTools(playertools, devtools)
+            AssertAddedMethodsAfter(methods, playerinventorytools, devtools)
         end)
 
-        describe("when the PlayerDevTools is missing", function()
+        describe("when the PlayerTools is missing", function()
             before_each(function()
-                playerdevtools = nil
+                playertools = nil
             end)
 
             it("should error", function()
                 assert.is_error(function()
-                    InventoryDevTools(playerdevtools, devtools)
-                end, "Required InventoryDevTools.playerdevtools is missing")
+                    PlayerInventoryTools(playertools, devtools)
+                end, "Required PlayerInventoryTools.playertools is missing")
             end)
         end)
 
@@ -93,15 +93,15 @@ describe("InventoryDevTools", function()
         }
 
         for _, _assert in pairs(asserts) do
-            describe("when the PlayerDevTools." .. _assert .. " is missing", function()
+            describe("when the PlayerTools." .. _assert .. " is missing", function()
                 before_each(function()
-                    playerdevtools[_assert] = nil
+                    playertools[_assert] = nil
                 end)
 
                 it("should error", function()
                     assert.is_error(function()
-                        InventoryDevTools(playerdevtools, devtools)
-                    end, "Required InventoryDevTools." .. _assert .. " is missing")
+                        PlayerInventoryTools(playertools, devtools)
+                    end, "Required PlayerInventoryTools." .. _assert .. " is missing")
                 end)
             end)
         end

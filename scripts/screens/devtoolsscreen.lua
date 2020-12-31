@@ -151,8 +151,8 @@ function DevToolsScreen:CanToggle() -- luacheck: only
     local devtools = self.devtools
 
     if InGamePlay() and devtools and not SDK.IsInCharacterSelect() then
-        local playerdevtools = devtools.player
-        if playerdevtools and SDK.Player.IsHUDChatInputScreenOpen() then
+        local playertools = devtools.player
+        if playertools and SDK.Player.IsHUDChatInputScreenOpen() then
             return false
         end
     end
@@ -380,30 +380,30 @@ end
 -- @treturn data.RecipeData|data.SelectedData|data.WorldData
 function DevToolsScreen:UpdateDataSidebar()
     local devtools = self.devtools
-    local playerdevtools = devtools.player
-    local worlddevtools = devtools.world
+    local playertools = devtools.player
+    local worldtools = devtools.world
 
     if self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.DUMPED then
         self:UpdateDumpedData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END then
         self:UpdateFrontEndData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE
-        and SDK.Utils.Chain.Get(playerdevtools, "crafting")
+        and SDK.Utils.Chain.Get(playertools, "crafting")
     then
         self:UpdateRecipeData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED
-        and worlddevtools
-        and SDK.Utils.Chain.Get(playerdevtools, "crafting")
+        and worldtools
+        and SDK.Utils.Chain.Get(playertools, "crafting")
     then
         self:UpdateSelectedData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS
-        and worlddevtools
-        and playerdevtools
+        and worldtools
+        and playertools
     then
         self:UpdateSelectedTagsData()
-    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD and worlddevtools then
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD and worldtools then
         self:UpdateWorldData()
-    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD_STATE and worlddevtools then
+    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD_STATE and worldtools then
         self:UpdateWorldStateData()
     end
 

@@ -96,10 +96,10 @@ end
 
 --- Adds prefix for the selected player.
 -- @tparam DevTools devtools
--- @tparam devtools.PlayerDevTools playerdevtools
-function Submenu:AddSelectedPlayerLabelPrefix(devtools, playerdevtools)
-    if type(self.label) == "string" and devtools and playerdevtools then
-        local player = playerdevtools:GetSelected()
+-- @tparam devtools.PlayerTools playertools
+function Submenu:AddSelectedPlayerLabelPrefix(devtools, playertools)
+    if type(self.label) == "string" and devtools and playertools then
+        local player = playertools:GetSelected()
         if player and #devtools:GetAllPlayers() > 1 then
             local prefix = string.format("[ %s ]  ", player:GetDisplayName()) or ""
             self.label = prefix .. self.label

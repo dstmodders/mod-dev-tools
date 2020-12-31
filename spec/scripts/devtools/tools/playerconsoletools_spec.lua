@@ -1,9 +1,9 @@
 require "busted.runner"()
 
-describe("ConsoleDevTools", function()
+describe("PlayerConsoleTools", function()
     -- before_each initialization
-    local ConsoleDevTools, consoledevtools
-    local devtools, playerdevtools
+    local PlayerConsoleTools, playerconsoletools
+    local devtools, playertools
 
     setup(function()
         DebugSpyInit()
@@ -23,7 +23,7 @@ describe("ConsoleDevTools", function()
     before_each(function()
         -- general
         devtools = MockDevTools()
-        playerdevtools = MockPlayerDevTools()
+        playertools = MockPlayerTools()
 
         -- globals
         _G.ConsoleRemote = spy.new(Empty)
@@ -36,8 +36,8 @@ describe("ConsoleDevTools", function()
         _G.SDK.World.IsCave = ReturnValueFn(false)
 
         -- initialization
-        ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
-        consoledevtools = ConsoleDevTools(playerdevtools, devtools)
+        PlayerConsoleTools = require "devtools/tools/playerconsoletools"
+        playerconsoletools = PlayerConsoleTools(playertools, devtools)
 
         DebugSpyClear()
     end)
@@ -46,32 +46,32 @@ describe("ConsoleDevTools", function()
         before_each(function()
             -- general
             devtools = MockDevTools()
-            playerdevtools = MockPlayerDevTools()
+            playertools = MockPlayerTools()
 
             -- initialization
-            ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
+            PlayerConsoleTools = require "devtools/tools/playerconsoletools"
         end)
 
         local function AssertDefaults(self)
             assert.is_equal(devtools, self.devtools)
-            assert.is_equal("ConsoleDevTools", self.name)
+            assert.is_equal("PlayerConsoleTools", self.name)
 
             -- general
-            assert.is_equal(playerdevtools.inst, self.inst)
-            assert.is_equal(playerdevtools, self.playerdevtools)
-            assert.is_equal(playerdevtools.world, self.worlddevtools)
+            assert.is_equal(playertools.inst, self.inst)
+            assert.is_equal(playertools, self.playertools)
+            assert.is_equal(playertools.world, self.worldtools)
 
             -- other
-            --assert.is_equal(self, self.playerdevtools.console)
+            --assert.is_equal(self, self.playertools.console)
         end
 
         describe("using the constructor", function()
             before_each(function()
-                consoledevtools = ConsoleDevTools(playerdevtools, devtools)
+                playerconsoletools = PlayerConsoleTools(playertools, devtools)
             end)
 
             it("should have the default fields", function()
-                AssertDefaults(consoledevtools)
+                AssertDefaults(playerconsoletools)
             end)
         end)
 
@@ -109,8 +109,8 @@ describe("ConsoleDevTools", function()
             }
 
             AssertAddedMethodsBefore(methods, devtools)
-            consoledevtools = ConsoleDevTools(playerdevtools, devtools)
-            AssertAddedMethodsAfter(methods, consoledevtools, devtools)
+            playerconsoletools = PlayerConsoleTools(playertools, devtools)
+            AssertAddedMethodsAfter(methods, playerconsoletools, devtools)
         end)
     end)
 
@@ -192,7 +192,7 @@ describe("ConsoleDevTools", function()
                 valid = {
                     100,
                     { 'TheWorld:PushEvent("ms_deltamoisture", %d)', { 100 } },
-                    { "ConsoleDevTools:DeltaMoisture():", "100" },
+                    { "PlayerConsoleTools:DeltaMoisture():", "100" },
                 },
             },
             DeltaWetness = {
@@ -200,7 +200,7 @@ describe("ConsoleDevTools", function()
                 valid = {
                     100,
                     { 'TheWorld:PushEvent("ms_deltawetness", %d)', { 100 } },
-                    { "ConsoleDevTools:DeltaWetness():", "100" },
+                    { "PlayerConsoleTools:DeltaWetness():", "100" },
                 },
             },
             ForcePrecipitation = {
@@ -208,7 +208,7 @@ describe("ConsoleDevTools", function()
                 valid = {
                     true,
                     { 'TheWorld:PushEvent("ms_forceprecipitation", %s)', { "true" } },
-                    { "ConsoleDevTools:ForcePrecipitation():", "true" },
+                    { "PlayerConsoleTools:ForcePrecipitation():", "true" },
                 },
             },
             PushWorldEvent = {
@@ -216,7 +216,7 @@ describe("ConsoleDevTools", function()
                 valid = {
                     "ms_nextcycle",
                     { 'TheWorld:PushEvent("%s")', { "ms_nextcycle" } },
-                    { "ConsoleDevTools:PushWorldEvent():", "ms_nextcycle" },
+                    { "PlayerConsoleTools:PushWorldEvent():", "ms_nextcycle" },
                 },
             },
             SendLightningStrike = {
@@ -229,7 +229,7 @@ describe("ConsoleDevTools", function()
                         { "Point(1.00, 2.00, 3.00)" },
                     },
                     {
-                        "ConsoleDevTools:SendLightningStrike():",
+                        "PlayerConsoleTools:SendLightningStrike():",
                         "(1.00, 2.00, 3.00)",
                     },
                 },
@@ -239,7 +239,7 @@ describe("ConsoleDevTools", function()
                 valid = {
                     "autumn",
                     { 'TheWorld:PushEvent("ms_setseason", "%s")', { "autumn" } },
-                    { "ConsoleDevTools:SetSeason():", "autumn" },
+                    { "PlayerConsoleTools:SetSeason():", "autumn" },
                 },
             },
             SetSeasonLength = {
@@ -250,7 +250,7 @@ describe("ConsoleDevTools", function()
                         'TheWorld:PushEvent("ms_setseasonlength", { season="%s", length=%d })',
                         { "autumn", 20 },
                     },
-                    { "ConsoleDevTools:SetSeasonLength():", "autumn, 20" },
+                    { "PlayerConsoleTools:SetSeasonLength():", "autumn, 20" },
                 },
             },
             SetSnowLevel = {
@@ -259,7 +259,7 @@ describe("ConsoleDevTools", function()
                 valid = {
                     .5,
                     { 'TheWorld:PushEvent("ms_setsnowlevel", %0.2f)', { .5 } },
-                    { "ConsoleDevTools:SetSnowLevel():", "0.5" },
+                    { "PlayerConsoleTools:SetSnowLevel():", "0.5" },
                 },
             },
         }
@@ -276,16 +276,16 @@ describe("ConsoleDevTools", function()
 
                     it("should debug error", function()
                         DebugSpyClear("DebugError")
-                        consoledevtools[remote](consoledevtools)
+                        playerconsoletools[remote](playerconsoletools)
                         AssertDebugSpyWasCalled("DebugError", 1, {
-                            string.format("ConsoleDevTools:%s():", remote),
+                            string.format("PlayerConsoleTools:%s():", remote),
                             "not an admin"
                         })
                     end)
 
                     it("should return false", function()
                         assert.is_false(
-                            consoledevtools[remote](consoledevtools),
+                            playerconsoletools[remote](playerconsoletools),
                             remote
                         )
                     end)
@@ -302,16 +302,16 @@ describe("ConsoleDevTools", function()
 
                             it("should debug error", function()
                                 DebugSpyClear("DebugError")
-                                consoledevtools[remote](consoledevtools)
+                                playerconsoletools[remote](playerconsoletools)
                                 AssertDebugSpyWasCalled("DebugError", 1, {
-                                    string.format("ConsoleDevTools:%s():", remote),
+                                    string.format("PlayerConsoleTools:%s():", remote),
                                     string.format("not in the %s world", world)
                                 })
                             end)
 
                             it("should return false", function()
                                 assert.is_false(
-                                    consoledevtools[remote](consoledevtools),
+                                    playerconsoletools[remote](playerconsoletools),
                                     remote
                                 )
                             end)
@@ -337,20 +337,20 @@ describe("ConsoleDevTools", function()
 
                         it("should send the corresponding remote console command", function()
                             assert.spy(_G.ConsoleRemote, remote).was_not_called()
-                            consoledevtools[remote](consoledevtools, unpack(value))
+                            playerconsoletools[remote](playerconsoletools, unpack(value))
                             assert.spy(_G.ConsoleRemote, remote).was_called(1)
                             assert.spy(_G.ConsoleRemote, remote).was_called_with(unpack(console))
                         end)
 
                         it("should debug string", function()
                             DebugSpyClear(debug_fn)
-                            consoledevtools[remote](consoledevtools, unpack(value))
+                            playerconsoletools[remote](playerconsoletools, unpack(value))
                             AssertDebugSpyWasCalled(debug_fn, 1, debug)
                         end)
 
                         it("should return true", function()
                             assert.is_true(
-                                consoledevtools[remote](consoledevtools, unpack(value)),
+                                playerconsoletools[remote](playerconsoletools, unpack(value)),
                                 remote
                             )
                         end)
@@ -363,9 +363,9 @@ describe("ConsoleDevTools", function()
                         describe("with an invalid passed value", function()
                             it("should debug error", function()
                                 DebugSpyClear("DebugError")
-                                consoledevtools[remote](consoledevtools, unpack(value))
+                                playerconsoletools[remote](playerconsoletools, unpack(value))
                                 AssertDebugSpyWasCalled("DebugError", 1, {
-                                    string.format("ConsoleDevTools:%s():", remote),
+                                    string.format("PlayerConsoleTools:%s():", remote),
                                     "invalid value",
                                     string.format("(%s)", error)
                                 })
@@ -373,7 +373,7 @@ describe("ConsoleDevTools", function()
 
                             it("should return false", function()
                                 assert.is_false(
-                                    consoledevtools[remote](consoledevtools),
+                                    playerconsoletools[remote](playerconsoletools),
                                     remote
                                 )
                             end)
@@ -391,15 +391,15 @@ describe("ConsoleDevTools", function()
 
                 it("should debug error", function()
                     DebugSpyClear("DebugError")
-                    consoledevtools:MiniQuake()
+                    playerconsoletools:MiniQuake()
                     AssertDebugSpyWasCalled("DebugError", 1, {
-                        "ConsoleDevTools:MiniQuake():",
+                        "PlayerConsoleTools:MiniQuake():",
                         "not in the cave world"
                     })
                 end)
 
                 it("should return false", function()
-                    assert.is_false(consoledevtools:MiniQuake())
+                    assert.is_false(playerconsoletools:MiniQuake())
                 end)
             end)
 
@@ -415,15 +415,15 @@ describe("ConsoleDevTools", function()
 
                     it("should debug error", function()
                         DebugSpyClear("DebugError")
-                        consoledevtools:MiniQuake()
+                        playerconsoletools:MiniQuake()
                         AssertDebugSpyWasCalled("DebugError", 1, {
-                            "ConsoleDevTools:MiniQuake():",
+                            "PlayerConsoleTools:MiniQuake():",
                             "not an admin"
                         })
                     end)
 
                     it("should return false", function()
-                        assert.is_false(consoledevtools:MiniQuake())
+                        assert.is_false(playerconsoletools:MiniQuake())
                     end)
                 end)
 
@@ -435,7 +435,7 @@ describe("ConsoleDevTools", function()
                     describe("with valid passed values", function()
                         it("should send the corresponding remote console command", function()
                             assert.spy(_G.ConsoleRemote).was_not_called()
-                            consoledevtools:MiniQuake(nil, 10, 10, 1)
+                            playerconsoletools:MiniQuake(nil, 10, 10, 1)
                             assert.spy(_G.ConsoleRemote).was_called(1)
                             assert.spy(_G.ConsoleRemote).was_called_with(
                                 'TheWorld:PushEvent("ms_miniquake", { target = LookupPlayerInstByUserID("%s"), rad = %d, num = %d, duration = %0.2f })', -- luacheck: only
@@ -445,24 +445,24 @@ describe("ConsoleDevTools", function()
 
                         it("should debug string", function()
                             DebugSpyClear("DebugString")
-                            consoledevtools:MiniQuake(nil, 10, 10, 1)
+                            playerconsoletools:MiniQuake(nil, 10, 10, 1)
                             AssertDebugSpyWasCalled("DebugString", 1, {
-                                "ConsoleDevTools:MiniQuake():",
+                                "PlayerConsoleTools:MiniQuake():",
                                 "KU_admin, 10, 10, 1"
                             })
                         end)
 
                         it("should return true", function()
-                            assert.is_true(consoledevtools:MiniQuake(nil, 10, 10, 1))
+                            assert.is_true(playerconsoletools:MiniQuake(nil, 10, 10, 1))
                         end)
                     end)
 
                     describe("with invalid passed values", function()
                         it("should debug error", function()
                             DebugSpyClear("DebugError")
-                            consoledevtools:MiniQuake(1, "test", "test", "test")
+                            playerconsoletools:MiniQuake(1, "test", "test", "test")
                             AssertDebugSpyWasCalled("DebugError", 1, {
-                                "ConsoleDevTools:MiniQuake():",
+                                "PlayerConsoleTools:MiniQuake():",
                                 "invalid value",
                                 "(1, test, test, test)"
                             })
@@ -470,7 +470,7 @@ describe("ConsoleDevTools", function()
 
                         it("should return false", function()
                             assert.is_false(
-                                consoledevtools:MiniQuake(1, "test", "test", "test")
+                                playerconsoletools:MiniQuake(1, "test", "test", "test")
                             )
                         end)
                     end)

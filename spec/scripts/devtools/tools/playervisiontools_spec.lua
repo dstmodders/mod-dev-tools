@@ -1,13 +1,13 @@
 require "busted.runner"()
 
-describe("VisionDevTools", function()
+describe("PlayerVisionTools", function()
     -- setup
     local match
     local NIGHTVISION_COLOUR_CUBES
 
     -- before_each initialization
-    local devtools, playerdevtools
-    local VisionDevTools, visiondevtools
+    local devtools, playertools
+    local PlayerVisionTools, playervisiontools
 
     setup(function()
         -- match
@@ -39,11 +39,11 @@ describe("VisionDevTools", function()
 
         -- initialization
         devtools = MockDevTools()
-        playerdevtools = MockPlayerDevTools()
-        playerdevtools.vision = nil
+        playertools = MockPlayerTools()
+        playertools.vision = nil
 
-        VisionDevTools = require "devtools/devtools/player/visiondevtools"
-        visiondevtools = VisionDevTools(playerdevtools, devtools)
+        PlayerVisionTools = require "devtools/tools/playervisiontools"
+        playervisiontools = PlayerVisionTools(playertools, devtools)
 
         DebugSpyClear()
     end)
@@ -52,22 +52,22 @@ describe("VisionDevTools", function()
         before_each(function()
             -- general
             devtools = MockDevTools()
-            playerdevtools = MockPlayerDevTools()
-            playerdevtools.vision = nil
+            playertools = MockPlayerTools()
+            playertools.vision = nil
 
             -- initialization
-            VisionDevTools = require "devtools/devtools/player/visiondevtools"
+            PlayerVisionTools = require "devtools/tools/playervisiontools"
         end)
 
         local function AssertDefaults(self)
             assert.is_equal(devtools, self.devtools)
-            assert.is_equal("VisionDevTools", self.name)
+            assert.is_equal("PlayerVisionTools", self.name)
 
             -- general
             assert.is_nil(self.cct)
-            assert.is_equal(playerdevtools.inst, self.inst)
-            assert.is_equal(playerdevtools.inventory, self.inventory)
-            assert.is_equal(playerdevtools, self.playerdevtools)
+            assert.is_equal(playertools.inst, self.inst)
+            assert.is_equal(playertools.inventory, self.inventory)
+            assert.is_equal(playertools, self.playertools)
 
             -- HUD
             assert.is_false(self.is_forced_hud_visibility)
@@ -76,16 +76,16 @@ describe("VisionDevTools", function()
             assert.is_false(self.is_forced_unfading)
 
             -- other
-            assert.is_equal(visiondevtools, visiondevtools.playerdevtools.vision)
+            assert.is_equal(playervisiontools, playervisiontools.playertools.vision)
         end
 
         describe("using the constructor", function()
             before_each(function()
-                visiondevtools = VisionDevTools(playerdevtools, devtools)
+                playervisiontools = PlayerVisionTools(playertools, devtools)
             end)
 
             it("should have the default fields", function()
-                AssertDefaults(visiondevtools)
+                AssertDefaults(playervisiontools)
             end)
         end)
 
@@ -107,8 +107,8 @@ describe("VisionDevTools", function()
             }
 
             AssertAddedMethodsBefore(methods, devtools)
-            visiondevtools = VisionDevTools(playerdevtools, devtools)
-            AssertAddedMethodsAfter(methods, visiondevtools, devtools)
+            playervisiontools = PlayerVisionTools(playertools, devtools)
+            AssertAddedMethodsAfter(methods, playervisiontools, devtools)
         end)
     end)
 
@@ -116,20 +116,20 @@ describe("VisionDevTools", function()
         local playervision
 
         before_each(function()
-            playervision = visiondevtools.inst.components.playervision
-            playervision.inst = visiondevtools.inst
+            playervision = playervisiontools.inst.components.playervision
+            playervision.inst = playervisiontools.inst
         end)
 
         describe("should have the", function()
             describe("setter", function()
                 it("SetCCT", function()
-                    AssertClassSetter(visiondevtools, "cct", "SetCCT")
+                    AssertClassSetter(playervisiontools, "cct", "SetCCT")
                 end)
             end)
 
             describe("getter", function()
                 it("GetCCT", function()
-                    AssertClassGetter(visiondevtools, "cct", "GetCCT")
+                    AssertClassGetter(playervisiontools, "cct", "GetCCT")
                 end)
             end)
         end)
@@ -145,21 +145,21 @@ describe("VisionDevTools", function()
 
                 it("should call the PlayerVision:GetCCTable()", function()
                     assert.spy(GetCCTable).was_not_called()
-                    visiondevtools:GetPlayerVisionCCT()
+                    playervisiontools:GetPlayerVisionCCT()
                     assert.spy(GetCCTable).was_called(1)
                     assert.spy(GetCCTable).was_called_with(match.is_ref(playervision))
                 end)
 
                 it("should return the colour cubes table", function()
-                    assert.is_equal(0, #visiondevtools:GetPlayerVisionCCT())
+                    assert.is_equal(0, #playervisiontools:GetPlayerVisionCCT())
                 end)
             end)
 
             describe("when some chain fields are missing", function()
                 it("should return nil", function()
                     AssertChainNil(function()
-                        assert.is_nil(visiondevtools:GetPlayerVisionCCT())
-                    end, visiondevtools, "inst", "components", "playervision", "GetCCTable")
+                        assert.is_nil(playervisiontools:GetPlayerVisionCCT())
+                    end, playervisiontools, "inst", "components", "playervision", "GetCCTable")
                 end)
             end)
         end)
@@ -173,7 +173,7 @@ describe("VisionDevTools", function()
                 it("should return the colour cubes table", function()
                     assert.is_equal(
                         NIGHTVISION_COLOUR_CUBES,
-                        visiondevtools:GetPlayerVisionCCT()
+                        playervisiontools:GetPlayerVisionCCT()
                     )
                 end)
             end)
@@ -182,9 +182,9 @@ describe("VisionDevTools", function()
                 it("should return nil", function()
                     AssertChainNil(
                         function()
-                            assert.is_nil(visiondevtools:GetPlayerVisionCCT())
+                            assert.is_nil(playervisiontools:GetPlayerVisionCCT())
                         end,
-                        visiondevtools,
+                        playervisiontools,
                         "inst",
                         "components",
                         "playervision",
@@ -204,7 +204,7 @@ describe("VisionDevTools", function()
 
                 it("should call the PushEvent()", function()
                     assert.spy(PushEvent).was_not_called()
-                    visiondevtools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
+                    playervisiontools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
                     assert.spy(PushEvent).was_called(1)
                     assert.spy(PushEvent).was_called_with(
                         match.is_ref(playervision.inst),
@@ -215,7 +215,7 @@ describe("VisionDevTools", function()
 
                 it("should return true", function()
                     assert.is_true(
-                        visiondevtools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
+                        playervisiontools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
                     )
                 end)
             end)
@@ -224,9 +224,9 @@ describe("VisionDevTools", function()
                 it("should return nil", function()
                     AssertChainNil(function()
                         assert.is_false(
-                            visiondevtools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
+                            playervisiontools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
                         )
-                    end, visiondevtools, "inst", "components", "playervision")
+                    end, playervisiontools, "inst", "components", "playervision")
                 end)
             end)
         end)

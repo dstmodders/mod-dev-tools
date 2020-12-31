@@ -1,8 +1,8 @@
 ----
 -- Player crafting tools.
 --
--- Extends `devtools.DevTools` and includes different crafting functionality some of which can be
--- accessed from the "Character Recipes..." submenu.
+-- Extends `tools.Tools` and includes different crafting functionality some of which can be accessed
+-- from the "Character Recipes..." submenu.
 --
 -- When available, all (or most) methods can be accessed within `DevTools` global class:
 --
@@ -14,17 +14,17 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.player.CraftingDevTools
+-- @classmod tools.PlayerCraftingTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.PlayerDevTools
+-- @see tools.PlayerTools
+-- @see tools.Tools
 --
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
 -- @release 0.7.0
 ----
-local DevTools = require "devtools/devtools/devtools"
+local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
@@ -32,24 +32,24 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.PlayerDevTools playerdevtools
+-- @tparam PlayerTools playertools
 -- @tparam DevTools devtools
--- @usage local craftingdevtools = CraftingDevTools(playerdevtools, devtools)
-local CraftingDevTools = Class(DevTools, function(self, playerdevtools, devtools)
-    DevTools._ctor(self, "CraftingDevTools", devtools)
+-- @usage local playercraftingtools = PlayerCraftingTools(playertools, devtools)
+local PlayerCraftingTools = Class(DevTools, function(self, playertools, devtools)
+    DevTools._ctor(self, "PlayerCraftingTools", devtools)
 
     -- asserts
-    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    SDK.Utils.AssertRequiredField(self.name .. ".console", playerdevtools.console)
-    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
-    SDK.Utils.AssertRequiredField(self.name .. ".inventory", playerdevtools.inventory)
+    SDK.Utils.AssertRequiredField(self.name .. ".playertools", playertools)
+    SDK.Utils.AssertRequiredField(self.name .. ".console", playertools.console)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playertools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".inventory", playertools.inventory)
 
     -- general
     self.character_recipes = {}
-    self.consoledevtools = playerdevtools.console
-    self.inst = playerdevtools.inst
-    self.inventory = playerdevtools.inventory
-    self.playerdevtools = playerdevtools
+    self.playerconsoletools = playertools.console
+    self.inst = playertools.inst
+    self.inventory = playertools.inventory
+    self.playertools = playertools
 
     -- selection
     self.selected_recipe = nil
@@ -63,17 +63,17 @@ end)
 
 --- Starts the buffered build placement.
 -- @tparam table recipe
-function CraftingDevTools:BufferBuildPlacer(recipe)
+function PlayerCraftingTools:BufferBuildPlacer(recipe)
     if recipe and recipe.rpc_id then
         SendRPCToServer(RPC.BufferBuild, recipe.rpc_id)
-        self.playerdevtools.controller:StartBuildPlacementMode(recipe)
+        self.playertools.controller:StartBuildPlacementMode(recipe)
     end
 end
 
 --- Makes a recipe from menu.
 -- @tparam table recipe Recipe
 -- @tparam[opt] number idx Skin index
-function CraftingDevTools:MakeRecipeFromMenu(recipe, idx) -- luacheck: only
+function PlayerCraftingTools:MakeRecipeFromMenu(recipe, idx) -- luacheck: only
     if recipe and recipe.rpc_id then
         SendRPCToServer(RPC.MakeRecipeFromMenu, recipe.rpc_id, idx)
     end
@@ -84,7 +84,7 @@ end
 -- Returns only recipes that only some characters can craft/build.
 --
 -- @treturn table Recipes
-function CraftingDevTools:GetCharacterRecipes()
+function PlayerCraftingTools:GetCharacterRecipes()
     if not self.inst
         or not self.inst.player_classified
         or not self.inst.player_classified.recipes
@@ -109,7 +109,7 @@ end
 -- was disabled.
 --
 -- @treturn table Recipes
-function CraftingDevTools:GetLearnedRecipes()
+function PlayerCraftingTools:GetLearnedRecipes()
     if not self.inst then
         return
     end
@@ -146,7 +146,7 @@ end
 --
 -- @tparam table recipes Recipes
 -- @treturn table Learned recipes
-function CraftingDevTools:GetLearnedForRecipes(recipes)
+function PlayerCraftingTools:GetLearnedForRecipes(recipes)
     local result = {}
     for _, v in pairs(recipes) do
         if self:IsRecipeLearned(v) then
@@ -162,7 +162,7 @@ end
 -- @tparam[opt] boolean sort Sort alphabetically
 -- @treturn table Names
 -- @treturn table Recipes
-function CraftingDevTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
+function PlayerCraftingTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
     recipes = sort and SDK.Utils.Table.SortAlphabetically(recipes) or recipes
 
     local result = {}
@@ -184,7 +184,7 @@ end
 --
 -- @tparam table recipes Recipes
 -- @treturn table Placers
-function CraftingDevTools:GetPlacersForRecipes(recipes) -- luacheck: only
+function PlayerCraftingTools:GetPlacersForRecipes(recipes) -- luacheck: only
     if type(recipes) ~= "table" then
         return
     end
@@ -208,7 +208,7 @@ end
 --
 -- @tparam table recipes Recipes
 -- @treturn table Placers
-function CraftingDevTools:GetNonPlacersForRecipes(recipes) -- luacheck: only
+function PlayerCraftingTools:GetNonPlacersForRecipes(recipes) -- luacheck: only
     if type(recipes) ~= "table" then
         return
     end
@@ -234,7 +234,7 @@ end
 --
 -- @tparam string name Item name
 -- @treturn boolean
-function CraftingDevTools:IsRecipeLearned(name)
+function PlayerCraftingTools:IsRecipeLearned(name)
     local recipes = self:GetLearnedRecipes()
     if type(recipes) == "table" and #recipes > 0 then
         return SDK.Utils.Table.HasValue(recipes, name)
@@ -249,7 +249,7 @@ end
 --
 -- @tparam string name Item name
 -- @treturn boolean
-function CraftingDevTools:CanCraftItem(name) -- luacheck: only
+function PlayerCraftingTools:CanCraftItem(name) -- luacheck: only
     if type(name) ~= "string" or not GetValidRecipe(name) then
         return false
     end
@@ -274,13 +274,13 @@ end
 
 --- Gets selected recipe.
 -- @treturn table
-function CraftingDevTools:GetSelectedRecipe()
+function PlayerCraftingTools:GetSelectedRecipe()
     return self.selected_recipe
 end
 
 --- Sets selected recipe.
 -- @tparam table recipe
-function CraftingDevTools:SetSelectedRecipe(recipe)
+function PlayerCraftingTools:SetSelectedRecipe(recipe)
     self.selected_recipe = recipe
 end
 
@@ -291,7 +291,7 @@ end
 --
 -- It stores the originally learned recipes in order to restore them when using the corresponding
 -- `LockCharacterRecipes` method and then unlocks all character-specific recipes.
-function CraftingDevTools:UnlockCharacterRecipes()
+function PlayerCraftingTools:UnlockCharacterRecipes()
     if #self.character_recipes == 0 then
         local recipes = self:GetCharacterRecipes()
         local learned = self:GetLearnedForRecipes(recipes)
@@ -304,7 +304,7 @@ function CraftingDevTools:UnlockCharacterRecipes()
         if type(recipes) == "table" and #recipes > 0 then
             self:DebugString("Unlocking character recipes...")
             for _, recipe in pairs(recipes) do
-                self.consoledevtools:UnlockRecipe(recipe, self.inst)
+                self.playerconsoletools:UnlockRecipe(recipe, self.inst)
             end
         end
     else
@@ -314,7 +314,7 @@ function CraftingDevTools:UnlockCharacterRecipes()
             (#self.character_recipes > 1 or #self.character_recipes == 0)
                 and "recipes are stored."
                 or "recipe is stored.",
-            "Use CraftingDevTools:LockCharacterRecipes() before unlocking"
+            "Use PlayerCraftingTools:LockCharacterRecipes() before unlocking"
         )
     end
 end
@@ -323,14 +323,14 @@ end
 --
 -- It locks all character-specific recipes except those stored earlier by the
 -- `UnlockCharacterRecipes` method.
-function CraftingDevTools:LockCharacterRecipes()
+function PlayerCraftingTools:LockCharacterRecipes()
     local recipes = self:GetCharacterRecipes()
 
     self:DebugString("Locking and restoring character recipes...")
     if type(recipes) == "table" and #recipes > 0 then
         for _, recipe in pairs(recipes) do
             if not SDK.Utils.Table.HasValue(self.character_recipes, recipe) then
-                self.consoledevtools:LockRecipe(recipe, self.inst)
+                self.playerconsoletools:LockRecipe(recipe, self.inst)
             end
         end
         self.character_recipes = {}
@@ -340,8 +340,8 @@ end
 --- Returns free crafting status.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn boolean
-function CraftingDevTools:IsFreeCrafting(player)
-    player = player == nil and self.playerdevtools:GetSelected() or player
+function PlayerCraftingTools:IsFreeCrafting(player)
+    player = player == nil and self.playertools:GetSelected() or player
     if player and player.player_classified and player.player_classified.isfreebuildmode then
         return player.player_classified.isfreebuildmode:value()
     end
@@ -350,8 +350,8 @@ end
 --- Toggles free crafting mode.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn boolean
-function CraftingDevTools:ToggleFreeCrafting(player)
-    player = player == nil and self.playerdevtools:GetSelected() or player
+function PlayerCraftingTools:ToggleFreeCrafting(player)
+    player = player == nil and self.playertools:GetSelected() or player
     if player and self:IsFreeCrafting(player) ~= nil then
         if SDK.Player.IsOwner(player) then
             if not self:IsFreeCrafting(player) then
@@ -361,7 +361,7 @@ function CraftingDevTools:ToggleFreeCrafting(player)
             end
         end
 
-        self.consoledevtools:ToggleFreeCrafting(player)
+        self.playerconsoletools:ToggleFreeCrafting(player)
 
         local is_free_crafting = self:IsFreeCrafting(player)
         self:DebugString(
@@ -378,8 +378,8 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function CraftingDevTools:DoInit()
-    DevTools.DoInit(self, self.playerdevtools, "crafting", {
+function PlayerCraftingTools:DoInit()
+    DevTools.DoInit(self, self.playertools, "crafting", {
         -- general
         "BufferBuildPlacer",
         "MakeRecipeFromMenu",
@@ -404,4 +404,4 @@ function CraftingDevTools:DoInit()
     })
 end
 
-return CraftingDevTools
+return PlayerCraftingTools

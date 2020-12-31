@@ -1,12 +1,12 @@
 require "busted.runner"()
 
-describe("WorldDevTools", function()
+describe("WorldTools", function()
     -- setup
     local match
 
     -- before_each initialization
     local devtools, inst
-    local WorldDevTools, worlddevtools
+    local WorldTools, worldtools
 
     setup(function()
         -- match
@@ -42,14 +42,14 @@ describe("WorldDevTools", function()
         devtools = MockDevTools()
         inst = MockWorldInst()
 
-        WorldDevTools = require "devtools/devtools/worlddevtools"
-        worlddevtools = WorldDevTools(inst, devtools)
+        WorldTools = require "devtools/tools/worldtools"
+        worldtools = WorldTools(inst, devtools)
 
-        WorldDevTools.StartPrecipitationThread = spy.new(Empty)
-        WorldDevTools.GuessMapKeyPositions = spy.new(Empty)
-        WorldDevTools.GuessNrOfWalrusCamps = spy.new(Empty)
-        WorldDevTools.LoadSaveData = spy.new(Empty)
-        WorldDevTools.StartPrecipitationThread = spy.new(Empty)
+        WorldTools.StartPrecipitationThread = spy.new(Empty)
+        WorldTools.GuessMapKeyPositions = spy.new(Empty)
+        WorldTools.GuessNrOfWalrusCamps = spy.new(Empty)
+        WorldTools.LoadSaveData = spy.new(Empty)
+        WorldTools.StartPrecipitationThread = spy.new(Empty)
 
         DebugSpyClear()
     end)
@@ -60,12 +60,12 @@ describe("WorldDevTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            WorldDevTools = require "devtools/devtools/worlddevtools"
+            WorldTools = require "devtools/tools/worldtools"
         end)
 
         local function AssertDefaults(self)
             assert.is_equal(devtools, self.devtools)
-            assert.is_equal("WorldDevTools", self.name)
+            assert.is_equal("WorldTools", self.name)
 
             -- general
             assert.is_equal(inst, self.inst)
@@ -92,11 +92,11 @@ describe("WorldDevTools", function()
 
         describe("using the constructor", function()
             before_each(function()
-                worlddevtools = WorldDevTools(inst, devtools)
+                worldtools = WorldTools(inst, devtools)
             end)
 
             it("should have the default fields", function()
-                AssertDefaults(worlddevtools)
+                AssertDefaults(worldtools)
             end)
         end)
 
@@ -127,26 +127,26 @@ describe("WorldDevTools", function()
             }
 
             AssertAddedMethodsBefore(methods, devtools)
-            worlddevtools = WorldDevTools(inst, devtools)
-            AssertAddedMethodsAfter(methods, worlddevtools, devtools)
+            worldtools = WorldTools(inst, devtools)
+            AssertAddedMethodsAfter(methods, worldtools, devtools)
         end)
     end)
 
     describe("general", function()
         it("should have the getter GetWorld", function()
-            AssertClassGetter(worlddevtools, "inst", "GetWorld")
+            AssertClassGetter(worldtools, "inst", "GetWorld")
         end)
 
         describe("GetWorldNet", function()
             it("should return TheWorld.net", function()
-                assert.is_equal(worlddevtools.inst.net, worlddevtools:GetWorldNet())
+                assert.is_equal(worldtools.inst.net, worldtools:GetWorldNet())
             end)
 
             describe("when some chain fields are missing", function()
                 it("should return nil", function()
                     AssertChainNil(function()
-                        assert.is_nil(worlddevtools:GetWorldNet())
-                    end, worlddevtools, "inst", "net")
+                        assert.is_nil(worldtools:GetWorldNet())
+                    end, worldtools, "inst", "net")
                 end)
             end)
         end)
@@ -156,53 +156,53 @@ describe("WorldDevTools", function()
         describe("GetSelectedEntity", function()
             it("should call the GetDebugEntity()", function()
                 assert.spy(GetDebugEntity).was_not_called()
-                worlddevtools:GetSelectedEntity()
+                worldtools:GetSelectedEntity()
                 assert.spy(GetDebugEntity).was_called(1)
                 assert.spy(GetDebugEntity).was_called_with()
             end)
 
             it("should return GetDebugEntity() value", function()
-                assert.is_equal("GetDebugEntity", worlddevtools:GetSelectedEntity())
+                assert.is_equal("GetDebugEntity", worldtools:GetSelectedEntity())
             end)
         end)
 
         describe("Select", function()
             it("should call the SetDebugEntity()", function()
                 assert.spy(SetDebugEntity).was_not_called()
-                worlddevtools:Select()
+                worldtools:Select()
                 assert.spy(SetDebugEntity).was_called(1)
-                assert.spy(SetDebugEntity).was_called_with(match.is_ref(worlddevtools.inst))
+                assert.spy(SetDebugEntity).was_called_with(match.is_ref(worldtools.inst))
             end)
 
             it("should debug string", function()
-                worlddevtools:Select()
+                worldtools:Select()
                 AssertDebugSpyWasCalled("DebugString", 1, {
                     "Selected TheWorld"
                 })
             end)
 
             it("should return true", function()
-                assert.is_true(worlddevtools:Select())
+                assert.is_true(worldtools:Select())
             end)
         end)
 
         describe("SelectNet", function()
             it("should call the SetDebugEntity()", function()
                 assert.spy(SetDebugEntity).was_not_called()
-                worlddevtools:SelectNet()
+                worldtools:SelectNet()
                 assert.spy(SetDebugEntity).was_called(1)
-                assert.spy(SetDebugEntity).was_called_with(match.is_ref(worlddevtools.inst.net))
+                assert.spy(SetDebugEntity).was_called_with(match.is_ref(worldtools.inst.net))
             end)
 
             it("should debug string", function()
-                worlddevtools:SelectNet()
+                worldtools:SelectNet()
                 AssertDebugSpyWasCalled("DebugString", 1, {
                     "Selected TheWorld.net"
                 })
             end)
 
             it("should return true", function()
-                assert.is_true(worlddevtools:SelectNet())
+                assert.is_true(worldtools:SelectNet())
             end)
         end)
 
@@ -219,14 +219,14 @@ describe("WorldDevTools", function()
 
             it("should call the TheInput:GetWorldEntityUnderMouse()", function()
                 assert.spy(GetWorldEntityUnderMouse).was_not_called()
-                worlddevtools:SelectEntityUnderMouse()
+                worldtools:SelectEntityUnderMouse()
                 assert.spy(GetWorldEntityUnderMouse).was_called(1)
                 assert.spy(GetWorldEntityUnderMouse).was_called_with(match.is_ref(TheInput))
             end)
 
             describe("when there is an entity under mouse", function()
                 it("should debug string", function()
-                    worlddevtools:SelectEntityUnderMouse()
+                    worldtools:SelectEntityUnderMouse()
                     AssertDebugSpyWasCalled("DebugString", 1, {
                         "Selected",
                         "Test"
@@ -234,7 +234,7 @@ describe("WorldDevTools", function()
                 end)
 
                 it("should return true", function()
-                    assert.is_true(worlddevtools:SelectEntityUnderMouse())
+                    assert.is_true(worldtools:SelectEntityUnderMouse())
                 end)
             end)
 
@@ -245,7 +245,7 @@ describe("WorldDevTools", function()
                 end)
 
                 it("should return false", function()
-                    assert.is_false(worlddevtools:SelectEntityUnderMouse())
+                    assert.is_false(worldtools:SelectEntityUnderMouse())
                 end)
             end)
         end)
@@ -260,7 +260,7 @@ describe("WorldDevTools", function()
 
             for field, getter in pairs(getters) do
                 it(getter, function()
-                    AssertClassGetter(worlddevtools, field, getter)
+                    AssertClassGetter(worldtools, field, getter)
                 end)
             end
         end)
@@ -276,7 +276,7 @@ describe("WorldDevTools", function()
 
                 for field, getter in pairs(getters) do
                     it(getter, function()
-                        AssertClassGetter(worlddevtools, field, getter)
+                        AssertClassGetter(worldtools, field, getter)
                     end)
                 end
             end)

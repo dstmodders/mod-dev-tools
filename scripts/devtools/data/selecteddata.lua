@@ -21,7 +21,7 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam screens.DevToolsScreen screen
+-- @tparam DevToolsScreen screen
 -- @tparam DevTools devtools
 -- @tparam EntityScript player
 -- @tparam boolean is_entity_visible
@@ -30,13 +30,13 @@ local SelectedData = Class(Data, function(self, screen, devtools, player, is_ent
     Data._ctor(self, screen)
 
     -- general
-    self.craftingdevtools = devtools.player.crafting
+    self.playercraftingtools = devtools.player.crafting
     self.devtools = devtools
     self.entity = devtools.world:GetSelectedEntity()
     self.is_entity_visible = is_entity_visible
     self.player = player
-    self.playerdevtools = devtools.player
-    self.worlddevtools = devtools.world
+    self.playertools = devtools.player
+    self.worldtools = devtools.world
 
     -- self
     self:Update()
@@ -68,7 +68,7 @@ end
 function SelectedData:Update()
     Data.Update(self)
 
-    local is_synced = SDK.World.IsMasterSim() or self.playerdevtools:IsSelectedInSync()
+    local is_synced = SDK.World.IsMasterSim() or self.playertools:IsSelectedInSync()
     self:PushTitleLine("Selected Player " .. (is_synced and "(Client/Server)" or "(Client)"))
     self:PushEmptyLine()
     self:PushPlayerData()
@@ -83,15 +83,15 @@ end
 
 --- Pushes player data.
 function SelectedData:PushPlayerData()
-    SDK.Utils.AssertRequiredField("SelectedData.craftingdevtools", self.craftingdevtools)
+    SDK.Utils.AssertRequiredField("SelectedData.playercraftingtools", self.playercraftingtools)
     SDK.Utils.AssertRequiredField("SelectedData.devtools", self.devtools)
     SDK.Utils.AssertRequiredField("SelectedData.player", self.player)
-    SDK.Utils.AssertRequiredField("SelectedData.playerdevtools", self.playerdevtools)
+    SDK.Utils.AssertRequiredField("SelectedData.playertools", self.playertools)
 
-    local craftingdevtools = self.craftingdevtools
+    local playercraftingtools = self.playercraftingtools
     local devtools = self.devtools
     local player = self.player
-    local playerdevtools = self.playerdevtools
+    local playertools = self.playertools
 
     self:PushLine("GUID", player.GUID)
     self:PushLine("Prefab", player.entity:GetPrefabName())
@@ -139,12 +139,12 @@ function SelectedData:PushPlayerData()
     end
 
     if SDK.World.IsMasterSim() or SDK.Player.IsAdmin() then
-        local is_god_mode = playerdevtools:IsGodMode(player)
+        local is_god_mode = playertools:IsGodMode(player)
         if is_god_mode ~= nil then
             self:PushLine("God Mode", (is_god_mode and "enabled" or "disabled"))
         end
 
-        local is_free_crafting = craftingdevtools:IsFreeCrafting(player)
+        local is_free_crafting = playercraftingtools:IsFreeCrafting(player)
         if is_free_crafting ~= nil then
             self:PushLine("Free Crafting", is_free_crafting and "enabled" or "disabled")
         end

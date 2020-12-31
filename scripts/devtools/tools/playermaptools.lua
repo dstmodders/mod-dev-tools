@@ -1,8 +1,8 @@
 ----
 -- Player map tools.
 --
--- Extends `devtools.DevTools` and includes different map functionality most of which can be
--- accessed from the "Map..." submenu.
+-- Extends `tools.Tools` and includes different map functionality most of which can be accessed from
+-- the "Map..." submenu.
 --
 -- When available, all (or most) methods can be accessed within `DevTools` global class:
 --
@@ -14,17 +14,17 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.player.MapDevTools
+-- @classmod tools.PlayerMapTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.PlayerDevTools
+-- @see tools.PlayerTools
+-- @see tools.Tools
 --
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
 -- @release 0.7.0
 ----
-local DevTools = require "devtools/devtools/devtools"
+local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
@@ -32,21 +32,21 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.PlayerDevTools playerdevtools
+-- @tparam PlayerTools playertools
 -- @tparam DevTools devtools
--- @usage local mapdevtools = MapDevTools(playerdevtools, devtools)
-local MapDevTools = Class(DevTools, function(self, playerdevtools, devtools)
-    DevTools._ctor(self, "MapDevTools", devtools)
+-- @usage local playermaptools = PlayerMapTools(playertools, devtools)
+local PlayerMapTools = Class(DevTools, function(self, playertools, devtools)
+    DevTools._ctor(self, "PlayerMapTools", devtools)
 
     -- asserts
-    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    SDK.Utils.AssertRequiredField(self.name .. ".world", playerdevtools.world)
-    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".playertools", playertools)
+    SDK.Utils.AssertRequiredField(self.name .. ".world", playertools.world)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playertools.inst)
 
     -- general
-    self.inst = playerdevtools.inst
-    self.playerdevtools = playerdevtools
-    self.world = playerdevtools.world
+    self.inst = playertools.inst
+    self.playertools = playertools
+    self.world = playertools.world
 
     -- self
     self:DoInit()
@@ -57,7 +57,7 @@ end)
 
 --- Checks if map screen is open.
 -- @treturn boolean
-function MapDevTools:IsMapScreenOpen() -- luacheck: only
+function PlayerMapTools:IsMapScreenOpen() -- luacheck: only
     if TheFrontEnd and TheFrontEnd.GetActiveScreen then
         local screen = TheFrontEnd:GetActiveScreen()
         if screen then
@@ -73,7 +73,7 @@ end
 -- moment.
 --
 -- @treturn boolean
-function MapDevTools:Reveal()
+function PlayerMapTools:Reveal()
     if self.inst
         and self.inst.player_classified
         and self.inst.player_classified.MapExplorer
@@ -96,12 +96,12 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function MapDevTools:DoInit()
-    DevTools.DoInit(self, self.playerdevtools, "map", {
+function PlayerMapTools:DoInit()
+    DevTools.DoInit(self, self.playertools, "map", {
         -- general
         "IsMapScreenOpen",
         "Reveal",
     })
 end
 
-return MapDevTools
+return PlayerMapTools

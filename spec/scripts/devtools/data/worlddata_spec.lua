@@ -2,7 +2,7 @@ require "busted.runner"()
 
 describe("WorldData", function()
     -- before_each initialization
-    local worlddevtools
+    local worldtools
     local WorldData, worlddata
 
     setup(function()
@@ -35,10 +35,10 @@ describe("WorldData", function()
         _G.SDK.World.IsPrecipitation = ReturnValueFn(true)
 
         -- initialization
-        worlddevtools = MockWorldDevTools()
+        worldtools = MockWorldTools()
 
         WorldData = require "devtools/data/worlddata"
-        worlddata = WorldData(nil, worlddevtools)
+        worlddata = WorldData(nil, worldtools)
         worlddata.stack = {}
     end)
 
@@ -53,12 +53,12 @@ describe("WorldData", function()
             assert.is_table(self.stack)
 
             -- general
-            assert.is_nil(self.savedatadevtools)
-            assert.is_equal(worlddevtools, self.worlddevtools)
+            assert.is_nil(self.worldsavedatatools)
+            assert.is_equal(worldtools, self.worldtools)
         end
 
         it("by using the constructor", function()
-            worlddata = WorldData(nil, worlddevtools)
+            worlddata = WorldData(nil, worldtools)
             AssertDefaults(worlddata)
         end)
     end)
@@ -225,8 +225,8 @@ describe("WorldData", function()
 
             describe("when the rain starts value is not available", function()
                 before_each(function()
-                    worlddevtools.GetPrecipitationStarts = ReturnValueFn(nil)
-                    worlddata.worlddevtools = worlddevtools
+                    worldtools.GetPrecipitationStarts = ReturnValueFn(nil)
+                    worlddata.worldtools = worldtools
                 end)
 
                 it("shouldn't push the world line", function()
@@ -238,8 +238,8 @@ describe("WorldData", function()
 
             describe("when the rain ends value is not available", function()
                 before_each(function()
-                    worlddevtools.GetPrecipitationEnds = ReturnValueFn(nil)
-                    worlddata.worlddevtools = worlddevtools
+                    worldtools.GetPrecipitationEnds = ReturnValueFn(nil)
+                    worlddata.worldtools = worldtools
                 end)
 
                 it("shouldn't push the world line", function()
@@ -250,9 +250,9 @@ describe("WorldData", function()
 
             describe("when both rain starts and ends values are available,", function()
                 before_each(function()
-                    worlddevtools.GetPrecipitationEnds = ReturnValueFn(90)
-                    worlddevtools.GetPrecipitationStarts = ReturnValueFn(30)
-                    worlddata.worlddevtools = worlddevtools
+                    worldtools.GetPrecipitationEnds = ReturnValueFn(90)
+                    worldtools.GetPrecipitationStarts = ReturnValueFn(30)
+                    worlddata.worldtools = worldtools
                 end)
 
                 describe("precipitation", function()
@@ -346,7 +346,7 @@ describe("WorldData", function()
         describe("PushDeerclopsSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -360,7 +360,7 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 deerclopsspawner = true,
                             }),
@@ -376,7 +376,7 @@ describe("WorldData", function()
                 describe("with spawner", function()
                     describe("and warning", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     deerclopsspawner = {
                                         warning = true,
@@ -393,7 +393,7 @@ describe("WorldData", function()
 
                     describe("and without warning", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     deerclopsspawner = {
                                         warning = false,
@@ -404,7 +404,7 @@ describe("WorldData", function()
 
                         describe("but with an activehassler", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         deerclopsspawner = {
                                             activehassler = 100000,
@@ -422,7 +422,7 @@ describe("WorldData", function()
 
                         describe("but without an activehassler", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         deerclopsspawner = {
                                             activehassler = nil,
@@ -445,7 +445,7 @@ describe("WorldData", function()
         describe("PushBeargerSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -459,7 +459,7 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 beargerspawner = nil,
                             }),
@@ -474,7 +474,7 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 beargerspawner = "test",
                             }),
@@ -490,7 +490,7 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and warning", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     beargerspawner = {
                                         warning = true,
@@ -507,7 +507,7 @@ describe("WorldData", function()
 
                     describe("and without warning", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     beargerspawner = {
                                         warning = false,
@@ -518,7 +518,7 @@ describe("WorldData", function()
 
                         describe("but with empty activehasslers and with lastKillDay", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         beargerspawner = {
                                             activehasslers = {},
@@ -537,7 +537,7 @@ describe("WorldData", function()
 
                         describe("but with activehasslers", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         beargerspawner = {
                                             activehasslers = { 100000, 100001 },
@@ -555,7 +555,7 @@ describe("WorldData", function()
 
                         describe("but with empty activehasslers", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         beargerspawner = {
                                             activehasslers = {},
@@ -574,7 +574,7 @@ describe("WorldData", function()
 
                     describe("but warning is invalid", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     beargerspawner = {
                                         warning = "test",
@@ -591,7 +591,7 @@ describe("WorldData", function()
 
                     describe("but activehasslers is invalid", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     beargerspawner = {
                                         activehasslers = "test",
@@ -612,7 +612,7 @@ describe("WorldData", function()
         describe("PushMalbatrossSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -626,7 +626,7 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 malbatrossspawner = nil,
                             }),
@@ -641,7 +641,7 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 malbatrossspawner = "test",
                             }),
@@ -657,7 +657,7 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and activeguid", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     malbatrossspawner = {
                                         activeguid = 100000,
@@ -674,7 +674,7 @@ describe("WorldData", function()
 
                     describe("and without activeguid", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     malbatrossspawner = {
                                         activeguid = nil,
@@ -685,7 +685,7 @@ describe("WorldData", function()
 
                         describe("but with both _firstspawn and _time_until_spawn", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         malbatrossspawner = {
                                             activeguid = nil,
@@ -705,7 +705,7 @@ describe("WorldData", function()
                         describe("and _firstspawn", function()
                             describe("but with a valid _time_until_spawn", function()
                                 before_each(function()
-                                    worlddata.savedatadevtools = {
+                                    worlddata.worldsavedatatools = {
                                         GetMapPersistData = ReturnValueFn({
                                             malbatrossspawner = {
                                                 activeguid = nil,
@@ -725,7 +725,7 @@ describe("WorldData", function()
 
                         describe("but _time_until_spawn is nil", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         malbatrossspawner = {
                                             _time_until_spawn = nil,
@@ -742,7 +742,7 @@ describe("WorldData", function()
 
                         describe("but _time_until_spawn is invalid", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         malbatrossspawner = {
                                             _time_until_spawn = "test",
@@ -764,7 +764,7 @@ describe("WorldData", function()
         describe("PushDeersSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -778,7 +778,7 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 deerherdspawner = nil,
                             }),
@@ -793,7 +793,7 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 deerherdspawner = "test",
                             }),
@@ -809,7 +809,7 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and _timetospawn value is <= 0", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     deerherdspawner = {
                                         _timetospawn = 0,
@@ -826,7 +826,7 @@ describe("WorldData", function()
 
                     describe("and _timetospawn value", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     deerherdspawner = {
                                         _timetospawn = 30,
@@ -844,7 +844,7 @@ describe("WorldData", function()
                     describe("and _timetospawn is not available", function()
                         describe("without _activedeer", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         deerherdspawner = {
                                             _timetospawn = nil,
@@ -862,7 +862,7 @@ describe("WorldData", function()
 
                         describe("with _activedeer", function()
                             before_each(function()
-                                worlddata.savedatadevtools = {
+                                worlddata.worldsavedatatools = {
                                     GetMapPersistData = ReturnValueFn({
                                         deerherdspawner = {
                                             _timetospawn = nil,
@@ -885,7 +885,7 @@ describe("WorldData", function()
         describe("PushKlausSackSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -899,7 +899,7 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 klaussackspawner = nil,
                             }),
@@ -914,7 +914,7 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 klaussackspawner = "test",
                             }),
@@ -930,7 +930,7 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and timetorespawn is a number > 0", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     klaussackspawner = {
                                         timetorespawn = 30,
@@ -947,7 +947,7 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is a number = 0", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     klaussackspawner = {
                                         timetorespawn = 0,
@@ -964,7 +964,7 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is a number < 0", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     klaussackspawner = {
                                         timetorespawn = -30,
@@ -981,7 +981,7 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is a boolean false", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     klaussackspawner = {
                                         timetorespawn = false,
@@ -998,7 +998,7 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is an invalid value", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     klaussackspawner = {
                                         timetorespawn = "test",
@@ -1019,7 +1019,7 @@ describe("WorldData", function()
         describe("PushHoundedLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -1033,7 +1033,7 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 hounded = nil,
                             }),
@@ -1048,7 +1048,7 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 hounded = "test",
                             }),
@@ -1064,7 +1064,7 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and timetoattack is a number > 0", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     hounded = {
                                         timetoattack = 30,
@@ -1081,7 +1081,7 @@ describe("WorldData", function()
 
                     describe("and timetoattack is a number = 0", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     hounded = {
                                         timetoattack = 0,
@@ -1098,7 +1098,7 @@ describe("WorldData", function()
 
                     describe("and timetoattack is a number < 0", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     hounded = {
                                         timetoattack = -30,
@@ -1115,7 +1115,7 @@ describe("WorldData", function()
 
                     describe("and timetoattack is an invalid value", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     hounded = {
                                         timetoattack = "test",
@@ -1135,7 +1135,7 @@ describe("WorldData", function()
             describe("when in the cave", function()
                 before_each(function()
                     _G.SDK.World.IsCave = ReturnValueFn(true)
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -1150,7 +1150,7 @@ describe("WorldData", function()
         describe("PushChessUnlocksLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.savedatadevtools = {
+                    worlddata.worldsavedatatools = {
                         GetMapPersistData = ReturnValueFn(nil),
                     }
                 end)
@@ -1164,7 +1164,7 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 chessunlocks = nil,
                             }),
@@ -1179,7 +1179,7 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.savedatadevtools = {
+                        worlddata.worldsavedatatools = {
                             GetMapPersistData = ReturnValueFn({
                                 chessunlocks = "test",
                             }),
@@ -1195,7 +1195,7 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and unlocks is an empty table", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     chessunlocks = {
                                         unlocks = {},
@@ -1212,7 +1212,7 @@ describe("WorldData", function()
 
                     describe("and unlocks is a table with a single value", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     chessunlocks = {
                                         unlocks = { "pawn" },
@@ -1229,7 +1229,7 @@ describe("WorldData", function()
 
                     describe("and unlocks is a table with values", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     chessunlocks = {
                                         unlocks = { "bishop", "pawn", "rook" },
@@ -1246,7 +1246,7 @@ describe("WorldData", function()
 
                     describe("and unlocks is an invalid value", function()
                         before_each(function()
-                            worlddata.savedatadevtools = {
+                            worlddata.worldsavedatatools = {
                                 GetMapPersistData = ReturnValueFn({
                                     chessunlocks = {
                                         unlocks = "test",

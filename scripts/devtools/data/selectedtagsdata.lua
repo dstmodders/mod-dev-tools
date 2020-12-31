@@ -21,19 +21,19 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam screens.DevToolsScreen screen
+-- @tparam DevToolsScreen screen
 -- @tparam DevTools devtools
--- @tparam devtools.WorldDevTools worlddevtools
+-- @tparam WorldTools worldtools
 -- @tparam EntityScript player
--- @usage local selectedtagsdata = SelectedTagsData(self, screen, devtools, worlddevtools, player)
-local SelectedTagsData = Class(Data, function(self, screen, devtools, worlddevtools, player)
+-- @usage local selectedtagsdata = SelectedTagsData(self, screen, devtools, worldtools, player)
+local SelectedTagsData = Class(Data, function(self, screen, devtools, worldtools, player)
     Data._ctor(self, screen)
 
     -- general
     self.devtools = devtools
-    self.entity = worlddevtools:GetSelectedEntity()
+    self.entity = worldtools:GetSelectedEntity()
     self.player = player
-    self.worlddevtools = worlddevtools
+    self.worldtools = worldtools
 
     -- self
     self:Update()

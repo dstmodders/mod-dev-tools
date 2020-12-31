@@ -1,21 +1,21 @@
 ----
 -- Base dev tools.
 --
--- Includes base dev tools functionality and must be extended by other related classes. Shouldn't
--- be used on its own.
+-- Includes base dev tools functionality and must be extended by other related classes. Shouldn't be
+-- used on its own.
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.DevTools
+-- @classmod tools.Tools
 -- @see DevTools
--- @see devtools.player.ConsoleDevTools
--- @see devtools.player.CraftingDevTools
--- @see devtools.player.InventoryDevTools
--- @see devtools.player.MapDevTools
--- @see devtools.player.VisionDevTools
--- @see devtools.PlayerDevTools
--- @see devtools.world.SaveDataDevTools
--- @see devtools.WorldDevTools
+-- @see tools.PlayerConsoleTools
+-- @see tools.PlayerCraftingTools
+-- @see tools.PlayerInventoryTools
+-- @see tools.PlayerMapTools
+-- @see tools.PlayerTools
+-- @see tools.PlayerVisionTools
+-- @see tools.WorldSaveDataTools
+-- @see tools.WorldTools
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -32,7 +32,7 @@ local SDK = require "devtools/sdk/sdk/sdk"
 -- @tparam[opt] string name
 -- @tparam[opt] DevTools devtools
 -- @usage local devtools = DevTools()
-local DevTools = Class(function(self, name, devtools)
+local Tools = Class(function(self, name, devtools)
     SDK.Debug.AddMethods(self)
 
     -- initialization
@@ -46,7 +46,7 @@ local DevTools = Class(function(self, name, devtools)
     self.devtools = devtools
     self.name = name ~= nil and name or "DevTools"
     self.owner = devtools.inst
-    self.worlddevtools = devtools.world
+    self.worldtools = devtools.world
 end)
 
 --- General
@@ -54,7 +54,7 @@ end)
 
 --- Gets name.
 -- @treturn string
-function DevTools:GetName()
+function Tools:GetName()
     return self.name
 end
 
@@ -67,15 +67,15 @@ end
 -- @usage local devtools = DevTools("YourDevTools")
 -- print(devtools:GetFnFullName("GetName")) -- prints: YourDevTools:GetName()
 --
-function DevTools:GetFnFullName(fn_name)
+function Tools:GetFnFullName(fn_name)
     return string.format("%s:%s()", self.name, fn_name)
 end
 
-function DevTools:AddGlobalDevToolsMethods(methods)
+function Tools:AddGlobalDevToolsMethods(methods)
     SDK.Method.AddToAnotherClass(self.devtools, methods, self)
 end
 
-function DevTools:RemoveGlobalDevToolsMethods(methods)
+function Tools:RemoveGlobalDevToolsMethods(methods)
     SDK.Method.Remove(methods, self.devtools)
 end
 
@@ -84,7 +84,7 @@ end
 
 --- __tostring
 -- @treturn string
-function DevTools:__tostring()
+function Tools:__tostring()
     return self.name
 end
 
@@ -98,7 +98,7 @@ end
 -- @tparam table dest Destination class
 -- @tparam string field Destination class field
 -- @tparam table methods Methods to add
-function DevTools:DoInit(dest, field, methods)
+function Tools:DoInit(dest, field, methods)
     methods = methods ~= nil and methods or {}
 
     SDK.Utils.AssertRequiredField(self.name .. ".devtools", self.devtools)
@@ -121,7 +121,7 @@ end
 --- Terminates.
 --
 -- Removes added methods and a field added earlier by `DoInit`.
-function DevTools:DoTerm()
+function Tools:DoTerm()
     SDK.Utils.AssertRequiredField(self.name .. ".devtools", self.devtools)
 
     local init = self._init
@@ -143,4 +143,4 @@ function DevTools:DoTerm()
     self:DebugTerm(self.name)
 end
 
-return DevTools
+return Tools

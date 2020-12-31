@@ -1,8 +1,8 @@
 ----
 -- Player vision tools.
 --
--- Extends `devtools.DevTools` and includes different vision functionality most of which can be
--- accessed from the "Player Vision..." submenu.
+-- Extends `tools.Tools` and includes different vision functionality most of which can be accessed
+-- from the "Player Vision..." submenu.
 --
 -- When available, all (or most) methods can be accessed within `DevTools` global class:
 --
@@ -19,17 +19,17 @@
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
--- @classmod devtools.player.VisionDevTools
+-- @classmod tools.PlayerVisionTools
 -- @see DevTools
--- @see devtools.DevTools
--- @see devtools.PlayerDevTools
+-- @see tools.PlayerTools
+-- @see tools.Tools
 --
 -- @author Victor Popkov
 -- @copyright 2020
 -- @license MIT
 -- @release 0.7.0
 ----
-local DevTools = require "devtools/devtools/devtools"
+local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Lifecycle
@@ -37,22 +37,22 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam devtools.PlayerDevTools playerdevtools
+-- @tparam PlayerTools playertools
 -- @tparam DevTools devtools
--- @usage local visiondevtools = VisionDevTools(playerdevtools, devtools)
-local VisionDevTools = Class(DevTools, function(self, playerdevtools, devtools)
-    DevTools._ctor(self, "VisionDevTools", devtools)
+-- @usage local playervisiontools = PlayerVisionTools(playertools, devtools)
+local PlayerVisionTools = Class(DevTools, function(self, playertools, devtools)
+    DevTools._ctor(self, "PlayerVisionTools", devtools)
 
     -- asserts
-    SDK.Utils.AssertRequiredField(self.name .. ".playerdevtools", playerdevtools)
-    SDK.Utils.AssertRequiredField(self.name .. ".inst", playerdevtools.inst)
-    SDK.Utils.AssertRequiredField(self.name .. ".inventory", playerdevtools.inventory)
+    SDK.Utils.AssertRequiredField(self.name .. ".playertools", playertools)
+    SDK.Utils.AssertRequiredField(self.name .. ".inst", playertools.inst)
+    SDK.Utils.AssertRequiredField(self.name .. ".inventory", playertools.inventory)
 
     -- general
     self.cct = nil
-    self.inst = playerdevtools.inst
-    self.inventory = playerdevtools.inventory
-    self.playerdevtools = playerdevtools
+    self.inst = playertools.inst
+    self.inventory = playertools.inventory
+    self.playertools = playertools
 
     -- HUD
     self.is_forced_hud_visibility = false
@@ -69,19 +69,19 @@ end)
 
 --- Gets the CCT.
 -- @treturn table
-function VisionDevTools:GetCCT()
+function PlayerVisionTools:GetCCT()
     return self.cct
 end
 
 --- Sets the CCT.
 -- @tparam table cct
-function VisionDevTools:SetCCT(cct)
+function PlayerVisionTools:SetCCT(cct)
     self.cct = cct
 end
 
 --- Gets the PlayerVision CCT.
 -- @treturn table
-function VisionDevTools:GetPlayerVisionCCT()
+function PlayerVisionTools:GetPlayerVisionCCT()
     if self.inst and self.inst.components and self.inst.components.playervision then
         local playervision = self.inst.components.playervision
         return playervision and playervision.GetCCTable and playervision:GetCCTable()
@@ -94,7 +94,7 @@ end
 --
 -- @tparam[opt] table|string cct
 -- @treturn boolean
-function VisionDevTools:UpdatePlayerVisionCCT(cct)
+function PlayerVisionTools:UpdatePlayerVisionCCT(cct)
     if self.inst and self.inst.components and self.inst.components.playervision then
         local playervision = self.inst.components.playervision
         if playervision then
@@ -121,7 +121,7 @@ end
 
 --- Gets the forced HUD visibility state.
 -- @treturn boolean
-function VisionDevTools:IsForcedHUDVisibility()
+function PlayerVisionTools:IsForcedHUDVisibility()
     return self.is_forced_hud_visibility
 end
 
@@ -129,9 +129,9 @@ end
 --
 -- When enabled, forces to show the HUD in some cases.
 --
--- @todo Improve the VisionDevTools:ToggleForcedHUDVisibility() behaviour
+-- @todo Improve the PlayerVisionTools:ToggleForcedHUDVisibility() behaviour
 -- @treturn boolean
-function VisionDevTools:ToggleForcedHUDVisibility()
+function PlayerVisionTools:ToggleForcedHUDVisibility()
     if not self.inst or not self.inst.player_classified then
         return
     end
@@ -170,7 +170,7 @@ end
 
 --- Gets the forced unfading state.
 -- @treturn boolean
-function VisionDevTools:IsForcedUnfading()
+function PlayerVisionTools:IsForcedUnfading()
     return self.is_forced_unfading
 end
 
@@ -179,7 +179,7 @@ end
 -- When enabled, disables the front-end black/white screen fading.
 --
 -- @treturn boolean
-function VisionDevTools:ToggleForcedUnfading()
+function PlayerVisionTools:ToggleForcedUnfading()
     if not self.inst or not self.inst.player_classified then
         return
     end
@@ -202,8 +202,8 @@ end
 -- @section lifecycle
 
 --- Initializes.
-function VisionDevTools:DoInit()
-    DevTools.DoInit(self, self.playerdevtools, "vision", {
+function PlayerVisionTools:DoInit()
+    DevTools.DoInit(self, self.playertools, "vision", {
         -- general
         "GetCCT",
         "SetCCT",
@@ -220,4 +220,4 @@ function VisionDevTools:DoInit()
     })
 end
 
-return VisionDevTools
+return PlayerVisionTools

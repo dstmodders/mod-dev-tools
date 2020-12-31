@@ -33,9 +33,9 @@
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod DevTools
--- @see devtools.PlayerDevTools
--- @see devtools.WorldDevTools
 -- @see Labels
+-- @see tools.PlayerTools
+-- @see tools.WorldTools
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -49,10 +49,10 @@ local API = require "devtools/api"
 local Config = require "devtools/config"
 local Debug = require "devtools/debug"
 local Labels = require "devtools/labels"
-local PlayerDevTools = require "devtools/devtools/playerdevtools"
+local PlayerTools = require "devtools/tools/playertools"
 local SDK = require "devtools/sdk/sdk/sdk"
 local Submenu = require "devtools/menu/submenu"
-local WorldDevTools = require "devtools/devtools/worlddevtools"
+local WorldTools = require "devtools/tools/worldtools"
 
 --- Lifecycle
 -- @section lifecycle
@@ -185,18 +185,18 @@ end
 --- Pauses world.
 -- @treturn boolean
 function DevTools:Pause()
-    local playerdevtools = self.player
-    if playerdevtools then
+    local playertools = self.player
+    if playertools then
         local fn_full_name = GetFnFullName("Pause")
         if self:IsPaused() then
             self:DebugError(fn_full_name .. ":", "Game is already paused")
             return false
         end
 
-        local consoledevtools = playerdevtools.console
-        if consoledevtools then
+        local playerconsoletools = playertools.console
+        if playerconsoletools then
             local timescale = TheSim:GetTimeScale()
-            if consoledevtools:SetTimeScale(0) then
+            if playerconsoletools:SetTimeScale(0) then
                 TheSim:SetTimeScale(0)
                 SetPause(true, "console")
                 self.timescale = timescale
@@ -212,18 +212,18 @@ end
 --- Unpauses world.
 -- @treturn boolean
 function DevTools:Unpause()
-    local playerdevtools = self.player
-    if playerdevtools then
+    local playertools = self.player
+    if playertools then
         local fn_full_name = GetFnFullName("Unpause")
         if not self:IsPaused() then
             self:DebugError(fn_full_name .. ":", "Game is already resumed")
             return false
         end
 
-        local consoledevtools = playerdevtools.console
-        if consoledevtools then
+        local playerconsoletools = playertools.console
+        if playerconsoletools then
             local timescale = self.timescale or 1
-            if consoledevtools:SetTimeScale(timescale) then
+            if playerconsoletools:SetTimeScale(timescale) then
                 TheSim:SetTimeScale(timescale)
                 SetPause(false, "console")
                 self:DebugString("Game is resumed")
@@ -418,7 +418,7 @@ end
 --- Initializes when the world is initialized.
 -- @tparam table inst World instance
 function DevTools:DoInitWorld(inst)
-    self.world = WorldDevTools(inst, self)
+    self.world = WorldTools(inst, self)
 end
 
 --- Initializes when the player is initialized.
@@ -426,7 +426,7 @@ end
 function DevTools:DoInitPlayer(inst)
     local msg = "Required DevTools.world is missing. Did you forget to DevTools:DoInitWorld()?"
     assert(self.world ~= nil, msg)
-    self.player = PlayerDevTools(inst, self.world, self)
+    self.player = PlayerTools(inst, self.world, self)
     self.debug:DoInitGame()
 end
 

@@ -21,7 +21,7 @@ local SDK = require "devtools/sdk/sdk/sdk"
 
 --- Constructor.
 -- @function _ctor
--- @tparam screens.DevToolsScreen screen
+-- @tparam DevToolsScreen screen
 -- @tparam DevTools devtools
 -- @usage local recipedata = RecipeData(screen, devtools)
 local RecipeData = Class(Data, function(self, screen, devtools)
@@ -29,7 +29,7 @@ local RecipeData = Class(Data, function(self, screen, devtools)
 
     -- general
     self.devtools = devtools
-    self.inventorydevtools = devtools.player.inventory
+    self.playerinventorytools = devtools.player.inventory
     self.recipe = devtools.player.crafting:GetSelectedRecipe()
 
     -- self
@@ -115,7 +115,7 @@ end
 
 --- Pushes ingredients data.
 function RecipeData:PushIngredientsData()
-    SDK.Utils.AssertRequiredField("RecipeData.inventorydevtools", self.inventorydevtools)
+    SDK.Utils.AssertRequiredField("RecipeData.playerinventorytools", self.playerinventorytools)
     SDK.Utils.AssertRequiredField("RecipeData.devtools", self.devtools)
     SDK.Utils.AssertRequiredField("RecipeData.recipe", self.recipe)
 
