@@ -3,6 +3,33 @@
 --
 -- Includes different console commands to be used inside the in-game console.
 --
+-- _Below is the list of console commands that are just some SDK functionality wrappers._
+--
+-- **Console Commands:**
+--
+--   - `d_dumpcomponents`
+--   - `d_dumpeventlisteners`
+--   - `d_dumpfields`
+--   - `d_dumpfunctions`
+--   - `d_dumpreplicas`
+--   - `d_getanim`
+--   - `d_getanimbank`
+--   - `d_getanimbuild`
+--   - `d_getcomponents`
+--   - `d_geteventlisteners`
+--   - `d_getfields`
+--   - `d_getfunctions`
+--   - `d_getreplicas`
+--   - `d_getsg`
+--   - `d_getsgstate`
+--   - `d_gettags`
+--   - `d_tablecompare`
+--   - `d_tablecount`
+--   - `d_tablehasvalue`
+--   - `d_tablekeybyvalue`
+--   - `d_tablemerge`
+--   - `dumptable`
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @module Console
@@ -308,270 +335,37 @@ function d_says(message, is_global)
     TheNet:Say(message, not is_global, true)
 end
 
---- Returns an entity tags.
--- @tparam EntityScript entity
--- @tparam boolean is_all
--- @treturn table
-function d_gettags(...)
-    return SDK.Entity.GetTags(...)
-end
+--- SDK
+-- @section sdk
 
---- AnimState
--- @section animstate
+_G.d_getanim = SDK.Entity.GetAnimStateAnim
+_G.d_getanimbank = SDK.Entity.GetAnimStateBank
+_G.d_getanimbuild = SDK.Entity.GetAnimStateBank
 
---- Returns an entity animation state animation.
--- @tparam EntityScript entity
--- @treturn string
-function d_getanim(...)
-    return SDK.Entity.GetAnimStateAnim(...)
-end
+_G.d_dumpcomponents = SDK.Dump.Components
+_G.d_dumpeventlisteners = SDK.Dump.EventListeners
+_G.d_dumpfields = SDK.Dump.Fields
+_G.d_dumpfunctions = SDK.Dump.Functions
+_G.d_dumpreplicas = SDK.Dump.Replicas
 
---- Returns an entity animation state bank.
--- @tparam EntityScript entity
--- @treturn string
--- @usage d_getanimbank(ThePlayer)
-function d_getanimbank(...)
-    return SDK.Entity.GetAnimStateBank(...)
-end
+_G.d_getcomponents = SDK.Dump.GetComponents
+_G.d_geteventlisteners = SDK.Dump.GetEventListeners
+_G.d_getfields = SDK.Dump.GetFields
+_G.d_getfunctions = SDK.Dump.GetFunctions
+_G.d_getreplicas = SDK.Dump.GetReplicas
 
---- Returns an entity animation state build.
--- @tparam EntityScript entity
--- @treturn string
-function d_getanimbuild(...)
-    return SDK.Entity.GetAnimStateBank(...)
-end
+_G.d_getsg = SDK.Entity.GetStateGraphName
+_G.d_getsgstate = SDK.Entity.GetStateGraphState
 
---- Dump
--- @section dump
+_G.d_gettags = SDK.Entity.GetTags
 
---- Dumps all entity components.
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
--- @usage d_dumpcomponents(ThePlayer)
-function d_dumpcomponents(...)
-    return SDK.Dump.Components(...)
-end
+_G.d_tablecompare = SDK.Utils.Table.Compare
+_G.d_tablecount = SDK.Utils.Table.Count
+_G.d_tablehasvalue = SDK.Utils.Table.HasValue
+_G.d_tablekeybyvalue = SDK.Utils.Table.KeyByValue
+_G.d_tablemerge = SDK.Utils.Table.Merge
 
---- Dumps all entity event listeners.
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
--- @usage d_dumpeventlisteners(ThePlayer)
-function d_dumpeventlisteners(...)
-    return SDK.Dump.EventListeners(...)
-end
-
---- Dumps all entity fields.
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
--- @usage d_dumpfields(ThePlayer)
-function d_dumpfields(...)
-    return SDK.Dump.Fields(...)
-end
-
---- Dumps all entity functions.
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
--- @usage d_dumpfunctions(ThePlayer)
-function d_dumpfunctions(...)
-    return SDK.Dump.Functions(...)
-end
-
---- Dumps all entity replicas.
--- @tparam EntityScript entity
--- @tparam[opt] string name The name of the dumped entity
--- @tparam[opt] string prepend The prepend string on each line
--- @treturn table
--- @usage d_dumpreplicas(ThePlayer)
-function d_dumpreplicas(...)
-    return SDK.Dump.Replicas(...)
-end
-
---- Returns a table on all entity components.
--- @tparam EntityScript entity
--- @treturn table
--- @usage dumptable(d_getcomponents(ThePlayer))
-function d_getcomponents(...)
-    return SDK.Dump.GetComponents(...)
-end
-
---- Returns a table on all entity event listeners.
--- @tparam EntityScript entity
--- @treturn table
--- @usage dumptable(d_geteventlisteners(ThePlayer))
-function d_geteventlisteners(...)
-    return SDK.Dump.GetEventListeners(...)
-end
-
---- Returns a table on all entity fields.
--- @tparam EntityScript entity
--- @treturn table
--- @usage dumptable(d_getfields(ThePlayer))
-function d_getfields(...)
-    return SDK.Dump.GetFields(...)
-end
-
---- Returns a table on all entity functions.
--- @tparam EntityScript entity
--- @treturn table
--- @usage dumptable(d_getfunctions(ThePlayer))
-function d_getfunctions(...)
-    return SDK.Dump.GetFunctions(...)
-end
-
---- Returns a table on all entity replicas.
--- @tparam EntityScript entity
--- @treturn table
--- @usage dumptable(d_getreplicas(ThePlayer))
-function d_getreplicas(...)
-    return SDK.Dump.GetReplicas(...)
-end
-
---- StateGraph
--- @section stategraph
-
---- Returns an entity state graph name.
--- @tparam EntityScript entity
--- @treturn string
-function d_getsg(...)
-    return SDK.Entity.GetStateGraphName(...)
-end
-
---- Returns an entity state graph state.
--- @tparam EntityScript entity
--- @treturn string
-function d_getsgstate(...)
-    return SDK.Entity.GetStateGraphState(...)
-end
-
---- Table
--- @section table
-
---- Compares two tables if they are the same.
--- @tparam table a Table A
--- @tparam table b Table B
--- @treturn boolean
-function d_tablecompare(...)
-    return SDK.Utils.Table.Compare(...)
-end
-
---- Counts the number of elements inside the table.
--- @tparam table t Table
--- @treturn number
-function d_tablecount(...)
-    return SDK.Utils.Table.Count(...)
-end
-
---- Checks if a table has the provided value.
--- @tparam table t Table
--- @tparam string value
--- @treturn boolean
-function d_tablehasvalue(...)
-    return SDK.Utils.Table.HasValue(...)
-end
-
---- Gets the table key based on the value.
--- @tparam table t Table
--- @param value Value to look for
--- @treturn number
-function d_tablekeybyvalue(...)
-    return SDK.Utils.Table.KeyByValue(...)
-end
-
---- Merges two tables.
--- @todo Add nested tables merging support for ipaired tables
--- @tparam table a Table A
--- @tparam table b Table B
--- @tparam[opt] boolean is_merge_nested Should nested tables be merged
--- @treturn table
-function d_tablemerge(...)
-    return SDK.Utils.Table.Merge(...)
-end
-
---- Klei
--- @section klei
-
-local function SortByTypeAndValue(a, b)
-    local a_type, b_type = type(a), type(b)
-    return a_type < b_type or (
-        a_type ~= "table"
-            and b_type ~= "table"
-            and a_type == b_type
-            and a < b
-    )
-end
-
---- Dumps table.
---
--- The same as the original `dumptable` from the `debugtools` module. The only difference is in the
--- local `SortByTypeAndValue` which avoids comparing tables to avoid non-sandbox crashes.
---
--- @tparam table obj
--- @tparam number indent
--- @tparam number recurse_levels
--- @tparam table visit_table
--- @tparam boolean is_terse
-function dumptable(obj, indent, recurse_levels, visit_table, is_terse)
-    local is_top_level = visit_table == nil
-    if visit_table == nil then
-        visit_table = {}
-    end
-
-    indent = indent or 1
-    local i_recurse_levels = recurse_levels or 5
-    if obj then
-        local dent = string.rep("\t", indent)
-
-        if type(obj) == type("") then
-            print(obj)
-            return
-        end
-
-        if type(obj) == "table" then
-            if visit_table[obj] ~= nil then
-                print(dent .. "(Already visited", obj, "-- skipping.)")
-                return
-            else
-                visit_table[obj] = true
-            end
-        end
-
-        local keys = {}
-
-        for k, _ in pairs(obj) do
-            table.insert(keys, k)
-        end
-
-        table.sort(keys, SortByTypeAndValue)
-
-        if not is_terse and is_top_level and #keys == 0 then
-            print(dent .. "(empty)")
-        end
-
-        for _, k in ipairs(keys) do
-            local v = obj[k]
-            if type(v) == "table" and i_recurse_levels > 0 then
-                if v.entity and v.entity:GetGUID() then
-                    print(dent .. "K: ", k, " V: ", v, "(Entity -- skipping.)")
-                else
-                    print(dent .. "K: ", k, " V: ", v)
-                    dumptable(v, indent + 1, i_recurse_levels - 1, visit_table)
-                end
-            else
-                print(dent .. "K: ", k, " V: ", v)
-            end
-        end
-    elseif not is_terse then
-        print("nil")
-    end
-end
+_G.dumptable = SDK.Dump.Table
 
 if _G.MOD_DEV_TOOLS_TEST then
     Console._DecodeFileLoad = DecodeFileLoad

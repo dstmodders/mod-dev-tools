@@ -13,8 +13,6 @@ local require = _G.require
 
 _G.MOD_DEV_TOOLS_TEST = false
 
-require "devtools/console"
-
 --- Globals
 -- @section globals
 
@@ -38,6 +36,8 @@ SDK.Debug.ModConfigs()
 
 --- Initialization
 -- @section initialization
+
+require "devtools/console"
 
 local devtools
 
