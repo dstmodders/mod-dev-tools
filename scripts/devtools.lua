@@ -21,6 +21,15 @@
 --
 --    DevTools.player
 --
+-- _Below is the list of some self-explanatory methods which have been added using SDK._
+--
+-- **Getters:**
+--
+--   - `GetAPI`
+--   - `GetDebug`
+--   - `GetScreen`
+--   - `GetSubmenusData`
+--
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
 --
 -- @classmod DevTools
@@ -53,7 +62,41 @@ local WorldDevTools = require "devtools/devtools/worlddevtools"
 -- @tparam string modname
 -- @usage local devtools = DevTools(modname)
 local DevTools = Class(function(self, modname)
-    self:DoInit(modname)
+    SDK.Debug.AddMethods(self)
+    SDK.Method
+        .SetClass(self)
+        .AddToString("DevTools")
+        .AddGetters({
+            api = "GetAPI",
+            debug = "GetDebug",
+            screen = "GetScreen",
+            submenus_data = "GetSubmenusData",
+        })
+
+    -- general
+    self.api = API(self)
+    self.config = Config()
+    self.debug = Debug(modname)
+    self.inst = nil
+    self.labels = Labels(self)
+    self.modname = modname
+    self.name = "DevTools"
+    self.player = nil
+    self.screen = nil -- set in DevToolsScreen:DoInit()
+    self.submenus_data = {}
+    self.world = nil
+
+    -- config
+    self.config:SetDefault("font", BODYTEXTFONT)
+    self.config:SetDefault("font_size", 16)
+    self.config:SetDefault("key_select", KEY_TAB)
+    self.config:SetDefault("key_switch_data", KEY_X)
+    self.config:SetDefault("locale_text_scale", false)
+    self.config:SetDefault("size_height", 26)
+    self.config:SetDefault("size_width", 1280)
+
+    -- other
+    self:DebugInit(tostring(self))
 end)
 
 --- Helpers
@@ -61,15 +104,6 @@ end)
 
 local function GetFnFullName(fn_name)
     return string.format("%s:%s()", "DevTools", fn_name)
-end
-
---- Debugging
--- @section debugging
-
---- Gets `Debug`.
--- @treturn Debug
-function DevTools:GetDebug()
-    return self.debug
 end
 
 --- General
@@ -90,12 +124,6 @@ end
 -- @tparam any value Config value
 function DevTools:SetConfig(name, value)
     self.config:SetValue(name, value)
-end
-
---- Gets `screens.DevToolsScreen`.
--- @treturn screens.DevToolsScreen
-function DevTools:GetScreen()
-    return self.screen
 end
 
 --- Resets config.
@@ -138,18 +166,6 @@ end
 
 --- API
 -- @section api
-
---- Gets API.
--- @treturn API
-function DevTools:GetAPI()
-    return self.api
-end
-
---- Gets submenu data.
--- @treturn table
-function DevTools:GetSubmenusData()
-    return self.submenus_data
-end
 
 --- Adds submenu data.
 -- @tparam table data
@@ -396,45 +412,8 @@ function DevTools:CreateSubmenuInstFromData(data, root)
     return submenu
 end
 
---- Other
--- @section other
-
---- __tostring
--- @treturn string
-function DevTools:__tostring()
-    return self.name
-end
-
 --- Lifecycle
 -- @section lifecycle
-
---- Initializes.
--- @tparam string modname
-function DevTools:DoInit(modname)
-    SDK.Debug.AddMethods(self)
-
-    -- general
-    self.api = API(self)
-    self.config = Config()
-    self.debug = Debug(modname)
-    self.inst = nil
-    self.labels = Labels(self)
-    self.modname = modname
-    self.name = "DevTools"
-    self.player = nil
-    self.screen = nil -- set in DevToolsScreen:DoInit()
-    self.submenus_data = {}
-    self.world = nil
-
-    -- config
-    self.config:SetDefault("font", BODYTEXTFONT)
-    self.config:SetDefault("font_size", 16)
-    self.config:SetDefault("key_select", KEY_TAB)
-    self.config:SetDefault("key_switch_data", KEY_X)
-    self.config:SetDefault("locale_text_scale", false)
-    self.config:SetDefault("size_height", 26)
-    self.config:SetDefault("size_width", 1280)
-end
 
 --- Initializes when the world is initialized.
 -- @tparam table inst World instance
