@@ -305,14 +305,6 @@ end
 --- World
 -- @section world
 
---- Sets world delta moisture.
--- @tparam number delta
--- @treturn boolean
-function PlayerConsoleTools:DeltaMoisture(delta)
-    local console = delta ~= nil and { 'TheWorld:PushEvent("ms_deltamoisture", %d)', { delta } }
-    return Remote(self, "DeltaMoisture", console, delta, IsNumber)
-end
-
 --- Sets world delta wetness.
 -- @tparam number delta
 -- @treturn boolean
@@ -494,7 +486,6 @@ function PlayerConsoleTools:DoInit()
         "GatherPlayers",
 
         -- world
-        "DeltaMoisture",
         "DeltaWetness",
         "MiniQuake",
         "PushWorldEvent",
