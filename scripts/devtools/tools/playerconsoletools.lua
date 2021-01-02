@@ -305,14 +305,6 @@ end
 --- World
 -- @section world
 
---- Sets world delta wetness.
--- @tparam number delta
--- @treturn boolean
-function PlayerConsoleTools:DeltaWetness(delta)
-    local console = delta ~= nil and { 'TheWorld:PushEvent("ms_deltawetness", %d)', { delta } }
-    return Remote(self, "DeltaWetness", console, delta, IsNumber)
-end
-
 --- Summons mini earthquake.
 -- @tparam table|string target Player instance or his/her ID
 -- @tparam number rad Radius
@@ -486,7 +478,6 @@ function PlayerConsoleTools:DoInit()
         "GatherPlayers",
 
         -- world
-        "DeltaWetness",
         "MiniQuake",
         "PushWorldEvent",
         "SetSeason",

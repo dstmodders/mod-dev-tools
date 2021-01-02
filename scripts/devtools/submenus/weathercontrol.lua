@@ -109,7 +109,7 @@ return {
                     return math.floor(SDK.World.GetState("wetness"))
                 end,
                 on_set_fn = function(_, submenu, value)
-                    submenu.console:DeltaWetness(math.floor(value)
+                    SDK.Remote.SetWorldDeltaWetness(math.floor(value)
                         - math.floor(SDK.World.GetState("wetness")))
                     submenu:UpdateScreen(nil, true)
                 end,

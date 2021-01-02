@@ -91,7 +91,6 @@ describe("PlayerConsoleTools", function()
                 "GatherPlayers",
 
                 -- world
-                "DeltaWetness",
                 "MiniQuake",
                 "PushWorldEvent",
                 "SetSeason",
@@ -182,14 +181,6 @@ describe("PlayerConsoleTools", function()
                     {},
                     { "c_gatherplayers()" },
                     { "Gathered players" },
-                },
-            },
-            DeltaWetness = {
-                invalid = { "test", "test" },
-                valid = {
-                    100,
-                    { 'TheWorld:PushEvent("ms_deltawetness", %d)', { 100 } },
-                    { "PlayerConsoleTools:DeltaWetness():", "100" },
                 },
             },
             PushWorldEvent = {
