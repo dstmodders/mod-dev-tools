@@ -43,7 +43,7 @@ return {
             options = {
                 label = "Send Lightning Strike",
                 on_accept_fn = function(_, submenu)
-                    submenu.console:SendLightningStrike(TheInput:GetWorldPosition())
+                    SDK.Remote.SendLightningStrike(TheInput:GetWorldPosition())
                     submenu:UpdateScreen(nil, true)
                 end,
             },

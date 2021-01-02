@@ -364,21 +364,6 @@ function PlayerConsoleTools:PushWorldEvent(event)
     return Remote(self, "PushWorldEvent", console, event, IsString)
 end
 
---- Sends lightning strike.
--- @tparam Point pos Position
--- @treturn boolean
-function PlayerConsoleTools:SendLightningStrike(pos)
-    local fn_name = "SendLightningStrike"
-
-    if SDK.World.IsCave() then
-        self:DebugError(self:GetFnFullName(fn_name) .. ":", "not in the forest world")
-        return false
-    end
-
-    local console = pos ~= nil and { 'TheWorld:PushEvent("ms_sendlightningstrike", %s)', { pos } }
-    return Remote(self, fn_name, console, pos, IsPosition)
-end
-
 --- Sets season.
 -- @tparam string season
 -- @treturn boolean
@@ -513,7 +498,6 @@ function PlayerConsoleTools:DoInit()
         "DeltaWetness",
         "MiniQuake",
         "PushWorldEvent",
-        "SendLightningStrike",
         "SetSeason",
         "SetSeasonLength",
         "SetSnowLevel",

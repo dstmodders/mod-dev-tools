@@ -95,7 +95,6 @@ describe("PlayerConsoleTools", function()
                 "DeltaWetness",
                 "MiniQuake",
                 "PushWorldEvent",
-                "SendLightningStrike",
                 "SetSeason",
                 "SetSeasonLength",
                 "SetSnowLevel",
@@ -208,21 +207,6 @@ describe("PlayerConsoleTools", function()
                     "ms_nextcycle",
                     { 'TheWorld:PushEvent("%s")', { "ms_nextcycle" } },
                     { "PlayerConsoleTools:PushWorldEvent():", "ms_nextcycle" },
-                },
-            },
-            SendLightningStrike = {
-                world = "forest",
-                invalid = { 1000, "1000" },
-                valid = {
-                    { x = 1, y = 2, z = 3 },
-                    {
-                        'TheWorld:PushEvent("ms_sendlightningstrike", %s)',
-                        { "Point(1.00, 2.00, 3.00)" },
-                    },
-                    {
-                        "PlayerConsoleTools:SendLightningStrike():",
-                        "(1.00, 2.00, 3.00)",
-                    },
                 },
             },
             SetSeason = {
