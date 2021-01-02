@@ -88,7 +88,6 @@ describe("PlayerConsoleTools", function()
 
                 -- teleport
                 "GoNext",
-                "GatherPlayers",
 
                 -- world
                 "MiniQuake",
@@ -172,13 +171,6 @@ describe("PlayerConsoleTools", function()
                     { "Bearger", "bearger" },
                     { 'c_gonext("%s")', { "bearger" } },
                     { "Teleported to", "Bearger" },
-                },
-            },
-            GatherPlayers = {
-                valid = {
-                    {},
-                    { "c_gatherplayers()" },
-                    { "Gathered players" },
                 },
             },
             PushWorldEvent = {

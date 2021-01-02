@@ -287,17 +287,6 @@ function PlayerConsoleTools:GoNext(name, value)
     return RemoteSelectedPlayer(self, "GoNext", console, value, IsString, debug)
 end
 
---- Gathers all players.
---
--- All players are teleported to the mouse pointer location.
---
--- @treturn boolean
-function PlayerConsoleTools:GatherPlayers()
-    local console = { "c_gatherplayers()" }
-    local debug = { "Gathered players" }
-    return Remote(self, "GatherPlayers", console, nil, nil, debug)
-end
-
 --- World
 -- @section world
 
@@ -452,7 +441,6 @@ function PlayerConsoleTools:DoInit()
 
         -- teleport
         "GoNext",
-        "GatherPlayers",
 
         -- world
         "MiniQuake",

@@ -50,7 +50,7 @@ function TeleportSubmenu:AddGatherPlayersOption()
     self:AddActionOption({
         label = "Gather Players",
         on_accept_fn = function()
-            self.console:GatherPlayers()
+            SDK.Remote.GatherPlayers()
             self:UpdateScreen()
         end,
     })
