@@ -94,7 +94,7 @@ return {
                     return math.floor(SDK.World.GetState("snowlevel") * 100)
                 end,
                 on_set_fn = function(_, submenu, value)
-                    submenu.console:SetSnowLevel(value / 100)
+                    SDK.Remote.SetSnowLevel(value / 100)
                     submenu:UpdateScreen(nil, true)
                 end,
             },

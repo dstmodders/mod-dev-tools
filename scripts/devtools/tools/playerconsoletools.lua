@@ -68,10 +68,6 @@ local function IsNumber(value)
     return type(value) == "number"
 end
 
-local function IsNumberBetweenZeroAndOne(value)
-    return IsNumber(value) and value >= 0 and value <= 1
-end
-
 local function IsMoisture(value)
     return IsNumber(value) and value >= 0 and value <= 100
 end
@@ -333,23 +329,6 @@ function PlayerConsoleTools:PushWorldEvent(event)
     return Remote(self, "PushWorldEvent", console, event, IsString)
 end
 
---- Sets snow level.
--- @tparam number delta
--- @treturn boolean
-function PlayerConsoleTools:SetSnowLevel(delta)
-    local fn_name = "SetSnowLevel"
-
-    if SDK.World.IsCave() then
-        self:DebugError(self:GetFnFullName(fn_name) .. ":", "not in the forest world")
-        return false
-    end
-
-    return Remote(self, fn_name, delta ~= nil and {
-        'TheWorld:PushEvent("ms_setsnowlevel", %0.2f)',
-        { delta }
-    }, delta, IsNumberBetweenZeroAndOne)
-end
-
 --- Sets time scale.
 -- @tparam string timescale
 -- @treturn boolean
@@ -445,7 +424,6 @@ function PlayerConsoleTools:DoInit()
         -- world
         "MiniQuake",
         "PushWorldEvent",
-        "SetSnowLevel",
         "SetTimeScale",
 
         -- crafting

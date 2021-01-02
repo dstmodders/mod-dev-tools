@@ -92,7 +92,6 @@ describe("PlayerConsoleTools", function()
                 -- world
                 "MiniQuake",
                 "PushWorldEvent",
-                "SetSnowLevel",
                 "SetTimeScale",
 
                 -- crafting
@@ -179,15 +178,6 @@ describe("PlayerConsoleTools", function()
                     "ms_nextcycle",
                     { 'TheWorld:PushEvent("%s")', { "ms_nextcycle" } },
                     { "PlayerConsoleTools:PushWorldEvent():", "ms_nextcycle" },
-                },
-            },
-            SetSnowLevel = {
-                world = "forest",
-                invalid = { "test", "test" },
-                valid = {
-                    .5,
-                    { 'TheWorld:PushEvent("ms_setsnowlevel", %0.2f)', { .5 } },
-                    { "PlayerConsoleTools:SetSnowLevel():", "0.5" },
                 },
             },
         }
