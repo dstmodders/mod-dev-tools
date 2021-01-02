@@ -348,14 +348,6 @@ function PlayerConsoleTools:PushWorldEvent(event)
     return Remote(self, "PushWorldEvent", console, event, IsString)
 end
 
---- Sets season.
--- @tparam string season
--- @treturn boolean
-function PlayerConsoleTools:SetSeason(season)
-    local console = season ~= nil and { 'TheWorld:PushEvent("ms_setseason", "%s")', { season } }
-    return Remote(self, "SetSeason", console, season, IsSeason)
-end
-
 --- Sets season length.
 -- @tparam string season
 -- @tparam number length
@@ -480,7 +472,6 @@ function PlayerConsoleTools:DoInit()
         -- world
         "MiniQuake",
         "PushWorldEvent",
-        "SetSeason",
         "SetSeasonLength",
         "SetSnowLevel",
         "SetTimeScale",

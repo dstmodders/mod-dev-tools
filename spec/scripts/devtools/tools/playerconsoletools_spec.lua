@@ -93,7 +93,6 @@ describe("PlayerConsoleTools", function()
                 -- world
                 "MiniQuake",
                 "PushWorldEvent",
-                "SetSeason",
                 "SetSeasonLength",
                 "SetSnowLevel",
                 "SetTimeScale",
@@ -189,14 +188,6 @@ describe("PlayerConsoleTools", function()
                     "ms_nextcycle",
                     { 'TheWorld:PushEvent("%s")', { "ms_nextcycle" } },
                     { "PlayerConsoleTools:PushWorldEvent():", "ms_nextcycle" },
-                },
-            },
-            SetSeason = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    "autumn",
-                    { 'TheWorld:PushEvent("ms_setseason", "%s")', { "autumn" } },
-                    { "PlayerConsoleTools:SetSeason():", "autumn" },
                 },
             },
             SetSeasonLength = {

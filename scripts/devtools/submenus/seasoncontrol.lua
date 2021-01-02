@@ -67,7 +67,7 @@ return {
                     return SDK.World.GetState("season")
                 end,
                 on_set_fn = function(_, submenu, value)
-                    submenu.console:SetSeason(value)
+                    SDK.Remote.SetSeason(value)
                     submenu:UpdateScreen(nil, true)
                 end,
             },
