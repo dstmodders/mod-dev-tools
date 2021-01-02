@@ -30,7 +30,7 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     if value ~= SDK.World.IsPrecipitation() then
-                        submenu.console:ForcePrecipitation(value)
+                        SDK.Remote.ForcePrecipitation(value)
                         submenu:UpdateScreen(nil, true)
                     end
                 end,

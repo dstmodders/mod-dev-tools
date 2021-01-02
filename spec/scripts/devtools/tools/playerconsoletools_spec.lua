@@ -93,7 +93,6 @@ describe("PlayerConsoleTools", function()
                 -- world
                 "DeltaMoisture",
                 "DeltaWetness",
-                "ForcePrecipitation",
                 "MiniQuake",
                 "PushWorldEvent",
                 "SendLightningStrike",
@@ -201,14 +200,6 @@ describe("PlayerConsoleTools", function()
                     100,
                     { 'TheWorld:PushEvent("ms_deltawetness", %d)', { 100 } },
                     { "PlayerConsoleTools:DeltaWetness():", "100" },
-                },
-            },
-            ForcePrecipitation = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    true,
-                    { 'TheWorld:PushEvent("ms_forceprecipitation", %s)', { "true" } },
-                    { "PlayerConsoleTools:ForcePrecipitation():", "true" },
                 },
             },
             PushWorldEvent = {

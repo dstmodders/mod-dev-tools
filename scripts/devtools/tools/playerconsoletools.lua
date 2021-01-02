@@ -64,10 +64,6 @@ end)
 --- Helpers
 -- @section helpers
 
-local function IsBoolean(value)
-    return type(value) == "boolean"
-end
-
 local function IsNumber(value)
     return type(value) == "number"
 end
@@ -325,16 +321,6 @@ function PlayerConsoleTools:DeltaWetness(delta)
     return Remote(self, "DeltaWetness", console, delta, IsNumber)
 end
 
---- Forces precipitation.
--- @tparam boolean value
--- @treturn boolean
-function PlayerConsoleTools:ForcePrecipitation(value)
-    return Remote(self, "ForcePrecipitation", value ~= nil and {
-        'TheWorld:PushEvent("ms_forceprecipitation", %s)',
-        { tostring(value) }
-    }, value, IsBoolean)
-end
-
 --- Summons mini earthquake.
 -- @tparam table|string target Player instance or his/her ID
 -- @tparam number rad Radius
@@ -525,7 +511,6 @@ function PlayerConsoleTools:DoInit()
         -- world
         "DeltaMoisture",
         "DeltaWetness",
-        "ForcePrecipitation",
         "MiniQuake",
         "PushWorldEvent",
         "SendLightningStrike",
