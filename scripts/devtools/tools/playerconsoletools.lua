@@ -29,7 +29,7 @@
 local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
-local _ConsoleRemote = SDK.Console.Remote
+local _RemoteSend = SDK.Remote.Send
 
 --- Lifecycle
 -- @section lifecycle
@@ -54,10 +54,10 @@ local PlayerConsoleTools = Class(DevTools, function(self, playertools, devtools)
 
     -- tests
     if _G.MOD_DEV_TOOLS_TEST then
-        _ConsoleRemote = _G.ConsoleRemote
+        _RemoteSend = _G.RemoteSend
     end
 
-    -- self
+    -- other
     self:DoInit()
 end)
 
@@ -192,7 +192,7 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
             end
         end
 
-        _ConsoleRemote(unpack(console))
+        _RemoteSend(unpack(console))
         debug_fn(self, unpack(debug))
         return true
     end

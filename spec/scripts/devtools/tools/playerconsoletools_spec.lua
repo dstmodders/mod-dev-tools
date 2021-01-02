@@ -14,8 +14,8 @@ describe("PlayerConsoleTools", function()
         DebugSpyTerm()
 
         -- globals
-        _G.ConsoleRemote = nil
         _G.MOD_DEV_TOOLS_TEST = nil
+        _G.RemoteSend = nil
         _G.TheNet = nil
         _G.TheSim = nil
     end)
@@ -26,8 +26,8 @@ describe("PlayerConsoleTools", function()
         playertools = MockPlayerTools()
 
         -- globals
-        _G.ConsoleRemote = spy.new(Empty)
         _G.MOD_DEV_TOOLS_TEST = true
+        _G.RemoteSend = spy.new(Empty)
         _G.TheNet = MockTheNet()
         _G.TheSim = MockTheSim()
 
@@ -336,10 +336,10 @@ describe("PlayerConsoleTools", function()
                         end)
 
                         it("should send the corresponding remote console command", function()
-                            assert.spy(_G.ConsoleRemote, remote).was_not_called()
+                            assert.spy(_G.RemoteSend, remote).was_not_called()
                             playerconsoletools[remote](playerconsoletools, unpack(value))
-                            assert.spy(_G.ConsoleRemote, remote).was_called(1)
-                            assert.spy(_G.ConsoleRemote, remote).was_called_with(unpack(console))
+                            assert.spy(_G.RemoteSend, remote).was_called(1)
+                            assert.spy(_G.RemoteSend, remote).was_called_with(unpack(console))
                         end)
 
                         it("should debug string", function()
@@ -434,10 +434,10 @@ describe("PlayerConsoleTools", function()
 
                     describe("with valid passed values", function()
                         it("should send the corresponding remote console command", function()
-                            assert.spy(_G.ConsoleRemote).was_not_called()
+                            assert.spy(_G.RemoteSend).was_not_called()
                             playerconsoletools:MiniQuake(nil, 10, 10, 1)
-                            assert.spy(_G.ConsoleRemote).was_called(1)
-                            assert.spy(_G.ConsoleRemote).was_called_with(
+                            assert.spy(_G.RemoteSend).was_called(1)
+                            assert.spy(_G.RemoteSend).was_called_with(
                                 'TheWorld:PushEvent("ms_miniquake", { target = LookupPlayerInstByUserID("%s"), rad = %d, num = %d, duration = %0.2f })', -- luacheck: only
                                 { "KU_admin", 10, 10, 1 }
                             )

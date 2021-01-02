@@ -48,7 +48,7 @@ local PlayerMapTools = Class(DevTools, function(self, playertools, devtools)
     self.playertools = playertools
     self.world = playertools.world
 
-    -- self
+    -- other
     self:DoInit()
 end)
 

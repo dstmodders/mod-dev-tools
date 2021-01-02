@@ -75,7 +75,7 @@ local Submenu = Class(function(self, devtools, root, label, name, data_sidebar)
     self.on_add_to_root_fn = nil
     self.on_init_fn = nil
 
-    -- self
+    -- other
     self:OnInit()
 end)
 

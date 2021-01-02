@@ -219,7 +219,7 @@ function Labels:UpdateSelected()
             if sg_name then
                 text = text
                     .. "StateGraph: "
-                    .. SDK.Utils.String.TableSplit({ sg_name, sg_state })
+                    .. table.concat({ sg_name, sg_state }, " | ")
                     .. "\n"
             end
         end
@@ -231,7 +231,7 @@ function Labels:UpdateSelected()
             if as_bank then
                 text = text
                     .. "AnimState: "
-                    .. SDK.Utils.String.TableSplit({ as_bank, as_build, as_anim })
+                    .. table.concat({ as_bank, as_build, as_anim }, " | ")
             end
         end
 

@@ -32,7 +32,7 @@ local RecipeData = Class(Data, function(self, screen, devtools)
     self.playerinventorytools = devtools.player.inventory
     self.recipe = devtools.player.crafting:GetSelectedRecipe()
 
-    -- self
+    -- other
     self:Update()
 end)
 
@@ -64,11 +64,10 @@ function RecipeData:PushIngredientLine(type, amount)
 
     if inventory then
         local state = inventory:Has(type, amount)
-        table.insert(self.stack, string.format(
-            "x%d %s",
-            amount,
-            SDK.Utils.String.TableSplit({ name, state and "yes" or "no" })
-        ))
+        table.insert(self.stack, string.format("x%d %s", amount, table.concat({
+            name,
+            state and "yes" or "no",
+        }, " | ")))
     else
         table.insert(self.stack, string.format("x%d %s", amount, name))
     end

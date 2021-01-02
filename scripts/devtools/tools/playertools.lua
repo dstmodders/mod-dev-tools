@@ -103,7 +103,7 @@ local PlayerTools = Class(DevTools, function(self, inst, worldtools, devtools)
         inst:ListenForEvent("weremodedirty", OnWereModeDirty)
     end
 
-    -- self
+    -- other
     self:DoInit()
 end)
 
@@ -226,7 +226,7 @@ function PlayerTools:ToggleGodMode(player)
         end
 
         if is_god_mode then
-            SDK.Console.Remote(
+            SDK.Remote.Send(
                 'LookupPlayerInstByUserID("%s").components.health:SetInvincible(false)',
                 { player.userid }
             )
@@ -238,7 +238,7 @@ function PlayerTools:ToggleGodMode(player)
 
             return false
         elseif is_god_mode == false then
-            SDK.Console.Remote(
+            SDK.Remote.Send(
                 'LookupPlayerInstByUserID("%s").components.health:SetInvincible(true)',
                 { player.userid }
             )
@@ -306,7 +306,7 @@ function PlayerTools:Select(player)
     if SDK.World.IsMasterSim() then
         self:DebugString("Selected", name)
     elseif SDK.Player.IsAdmin() then
-        SDK.Console.Remote('SetDebugEntity(LookupPlayerInstByUserID("%s"))', { player.userid })
+        SDK.Remote.Send('SetDebugEntity(LookupPlayerInstByUserID("%s"))', { player.userid })
         self.selected_server = player
         self:DebugString("[client]", "Selected", name)
         self:DebugString("[server]", "Selected", name)
@@ -366,7 +366,7 @@ function PlayerTools:Teleport()
                 player.Physics:Teleport(x, 0, y)
                 return true
             elseif SDK.Player.IsAdmin() then
-                SDK.Console.Remote(
+                SDK.Remote.Send(
                     'player = LookupPlayerInstByUserID("%s") player.Physics:Teleport(%d, 0, %d)',
                     { player.userid, x, y }
                 )
@@ -381,7 +381,7 @@ function PlayerTools:Teleport()
         return true
     elseif not self.is_fake_teleport and SDK.Player.IsAdmin() then
         local pos = TheInput:GetWorldPosition()
-        SDK.Console.Remote(
+        SDK.Remote.Send(
             'player = LookupPlayerInstByUserID("%s") player.Physics:Teleport(%d, 0, %d)',
             { player.userid, pos.x, pos.z }
         )

@@ -158,7 +158,7 @@ function DevTools:Reset()
         TheNet:SendWorldRollbackRequestToServer(0)
     else
         self:DebugString("Resetting remote game...")
-        SDK.Console.Remote("TheNet:SendWorldRollbackRequestToServer(0)")
+        SDK.Remote.Send("TheNet:SendWorldRollbackRequestToServer(0)")
     end
 
     return true

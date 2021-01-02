@@ -29,7 +29,7 @@ local FrontEndData = Class(Data, function(self, screen)
     -- general
     self.front_end = TheFrontEnd
 
-    -- self
+    -- other
     self:Update()
 end)
 
@@ -60,8 +60,8 @@ function FrontEndData:PushFrontEndData()
         self:PushLine("Mouse Position (X, Y)", string.format("%d, %d", pos.x, pos.y))
     end
 
-    self:PushLine("HUD Scale", SDK.Utils.String.ValueFloat(self.front_end:GetHUDScale()))
-    self:PushLine("Locale Text Scale", SDK.Utils.String.ValueFloat(LOC.GetTextScale()))
+    self:PushLine("HUD Scale", SDK.Utils.Value.ToFloatString(self.front_end:GetHUDScale()))
+    self:PushLine("Locale Text Scale", SDK.Utils.Value.ToFloatString(LOC.GetTextScale()))
 end
 
 --- Pushes screen data.

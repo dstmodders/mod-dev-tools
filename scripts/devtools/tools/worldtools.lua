@@ -63,7 +63,7 @@ local WorldTools = Class(DevTools, function(self, inst, devtools)
         self:StartPrecipitationThread()
     end
 
-    -- self
+    -- other
     self:DoInit()
 end)
 

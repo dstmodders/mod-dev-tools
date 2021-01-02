@@ -60,7 +60,7 @@ local PlayerVisionTools = Class(DevTools, function(self, playertools, devtools)
     -- unfading
     self.is_forced_unfading = false
 
-    -- self
+    -- other
     self:DoInit()
 end)
 

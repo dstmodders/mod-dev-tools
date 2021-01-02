@@ -37,7 +37,7 @@ local WorldStateData = Class(Data, function(self, screen, world)
         self.state_keys = SDK.Utils.Table.SortAlphabetically(self.state_keys)
     end
 
-    -- self
+    -- other
     self:Update()
 end)
 
@@ -62,7 +62,7 @@ function WorldStateData:PushWorldStateData()
             if type(state) == "number" and SDK.Utils.IsInteger(state) then
                 self:PushLine(v, tostring(state))
             elseif type(state) == "number" and not SDK.Utils.IsInteger(state) then
-                self:PushLine(v, SDK.Utils.String.ValueFloat(state))
+                self:PushLine(v, SDK.Utils.Value.ToFloatString(state))
             else
                 self:PushLine(v, tostring(state))
             end

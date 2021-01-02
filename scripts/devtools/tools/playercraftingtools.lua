@@ -54,7 +54,7 @@ local PlayerCraftingTools = Class(DevTools, function(self, playertools, devtools
     -- selection
     self.selected_recipe = nil
 
-    -- self
+    -- other
     self:DoInit()
 end)
 

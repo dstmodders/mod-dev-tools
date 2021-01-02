@@ -29,7 +29,7 @@ local DumpedData = Class(Data, function(self, screen)
     self.name = nil
     self.values = {}
 
-    -- self
+    -- other
     self:Update()
 end)
 

@@ -49,7 +49,7 @@ local PlayerInventoryTools = Class(DevTools, function(self, playertools, devtool
     self.inventory = inventory
     self.playertools = playertools
 
-    -- self
+    -- other
     self:DoInit()
 end)
 

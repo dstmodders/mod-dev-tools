@@ -92,7 +92,7 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.data:SetRegionSize(self.size_width / 2, self.size_height * self.font_size)
     self.data:SetScaleMode(SCALEMODE_PROPORTIONAL)
 
-    -- self
+    -- other
     self:DoInit(devtools)
 
     -- TheFrontEnd

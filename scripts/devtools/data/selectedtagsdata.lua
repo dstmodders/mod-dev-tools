@@ -35,7 +35,7 @@ local SelectedTagsData = Class(Data, function(self, screen, devtools, worldtools
     self.player = player
     self.worldtools = worldtools
 
-    -- self
+    -- other
     self:Update()
 end)
 

@@ -31,7 +31,7 @@ local WorldData = Class(Data, function(self, screen, worldtools)
     self.worldsavedatatools = worldtools and worldtools.savedata
     self.worldtools = worldtools
 
-    -- self
+    -- other
     self:Update()
 end)
 
@@ -65,7 +65,7 @@ function WorldData:PushWorldMoistureLine()
     local moisture_floor = SDK.World.GetMoistureFloor()
 
     if moisture ~= nil and moisture_ceil ~= nil and moisture_rate ~= nil then
-        local moisture_string = SDK.Utils.String.ValueFloat(moisture)
+        local moisture_string = SDK.Utils.Value.ToFloatString(moisture)
 
         if moisture_rate and moisture_rate > 0 then
             moisture_string = string.format(
@@ -76,9 +76,14 @@ function WorldData:PushWorldMoistureLine()
             )
         end
 
-        local value = moisture_floor
-            and SDK.Utils.String.TableSplit({ moisture_floor, moisture_string, moisture_ceil })
-            or SDK.Utils.String.TableSplit({ moisture_string, moisture_ceil })
+        local value = moisture_floor and table.concat({
+            SDK.Utils.Value.ToFloatString(moisture_floor),
+            moisture_string,
+            SDK.Utils.Value.ToFloatString(moisture_ceil),
+        }, " | ") or table.concat({
+            moisture_string,
+            SDK.Utils.Value.ToFloatString(moisture_ceil),
+        }, " | ")
 
         self:PushLine("Moisture", value)
     end
@@ -92,7 +97,7 @@ function WorldData:PushWorldPhaseLine()
         if next_phase then
             local seconds = SDK.World.GetTimeUntilPhase(next_phase)
             if seconds ~= nil then
-                self:PushLine("Phase", { phase, SDK.Utils.String.ValueClock(seconds, true) })
+                self:PushLine("Phase", { phase, SDK.Utils.Value.ToClockString(seconds, true) })
             else
                 self:PushLine("Phase", phase)
             end
@@ -107,9 +112,10 @@ function WorldData:PushWorldPrecipitationLines()
     local precipitation_rate = SDK.World.GetState("precipitationrate")
     if precipitation_rate and precipitation_rate > 0 then
         local peakprecipitationrate = SDK.World.GetPeakPrecipitationRate()
-        self:PushLine("Precipitation Rate", peakprecipitationrate ~= nil
-            and { precipitation_rate, peakprecipitationrate }
-            or SDK.Utils.String.ValueFloat(precipitation_rate))
+        self:PushLine("Precipitation Rate", peakprecipitationrate ~= nil and {
+            SDK.Utils.Value.ToFloatString(precipitation_rate),
+            SDK.Utils.Value.ToFloatString(peakprecipitationrate)
+        } or SDK.Utils.Value.ToFloatString(precipitation_rate))
     end
 
     local is_snowing = SDK.World.GetState("issnowing")
@@ -121,17 +127,20 @@ function WorldData:PushWorldPrecipitationLines()
         if not SDK.World.IsPrecipitation() then
             self:PushLine(
                 label .. " Starts",
-                "~" .. SDK.Utils.String.ValueClock(precipitation_starts)
+                "~" .. SDK.Utils.Value.ToClockString(precipitation_starts)
             )
         else
-            self:PushLine(label .. " Ends", "~" .. SDK.Utils.String.ValueClock(precipitation_ends))
+            self:PushLine(
+                label .. " Ends",
+                "~" .. SDK.Utils.Value.ToClockString(precipitation_ends)
+            )
         end
     end
 
     if is_snowing then
         self:PushLine(
             "Snow Level",
-            SDK.Utils.String.ValuePercent(SDK.World.GetState("snowlevel") * 100)
+            SDK.Utils.Value.ToPercentString(SDK.World.GetState("snowlevel") * 100)
         )
     end
 end
@@ -140,7 +149,7 @@ end
 function WorldData:PushWorldTemperatureLine()
     local temperature = SDK.World.GetState("temperature")
     if temperature ~= nil then
-        self:PushLine("Temperature", SDK.Utils.String.ValueScale(temperature))
+        self:PushLine("Temperature", SDK.Utils.Value.ToDegreeString(temperature))
     end
 end
 
@@ -150,7 +159,7 @@ function WorldData:PushWorldWetnessLine()
     local wetness_rate = SDK.World.GetWetnessRate()
 
     if wetness and wetness > 0 then
-        local value = SDK.Utils.String.ValuePercent(wetness)
+        local value = SDK.Utils.Value.ToPercentString(wetness)
         if wetness_rate and wetness_rate > 0 then
             value = string.format("%s (+%0.2f)", value, math.abs(wetness_rate))
         elseif wetness_rate and wetness_rate < 0 then
@@ -218,7 +227,7 @@ function WorldData:PushBeargerSpawnerLine()
             value = "warning"
         elseif spawner and type(spawner.activehasslers) == "table" then
             if #spawner.activehasslers == 0 and type(spawner.lastKillDay) == "number" then
-                value = SDK.Utils.String.TableSplit({ "killed", "day " .. spawner.lastKillDay })
+                value = table.concat({ "killed", "day " .. spawner.lastKillDay }, " | ")
             elseif #spawner.activehasslers > 0 then
                 value = "yes"
             else
@@ -249,7 +258,7 @@ function WorldData:PushMalbatrossSpawnerLine()
                 if spawner._firstspawn == true or timetospawn <= 0 then
                     value = "waiting"
                 elseif timetospawn > 0 then
-                    value = SDK.Utils.String.ValueClock(timetospawn - GetTime())
+                    value = SDK.Utils.Value.ToClockString(timetospawn - GetTime())
                 else
                     value = "no"
                 end
@@ -274,7 +283,7 @@ function WorldData:PushDeersSpawnerLine()
         if spawner and type(spawner._timetospawn) == "number" then
             value = spawner._timetospawn <= 0
                 and "waiting"
-                or SDK.Utils.String.ValueClock(spawner._timetospawn - GetTime())
+                or SDK.Utils.Value.ToClockString(spawner._timetospawn - GetTime())
         elseif spawner and type(spawner._activedeer) == "table" then
             value = #spawner._activedeer
         end
@@ -296,7 +305,7 @@ function WorldData:PushKlausSackSpawnerLine()
         local spawner = data.klaussackspawner
         if spawner and type(spawner.timetorespawn) == "number" then
             value = spawner.timetorespawn > 0
-                and SDK.Utils.String.ValueClock(spawner.timetorespawn - GetTime())
+                and SDK.Utils.Value.ToClockString(spawner.timetorespawn - GetTime())
                 or "no"
         elseif spawner and spawner.timetorespawn == false then
             value = "yes"
@@ -319,7 +328,7 @@ function WorldData:PushHoundedLine()
         local hounded = data.hounded
         if hounded and type(hounded.timetoattack) == "number" then
             value = hounded.timetoattack > 0
-                and SDK.Utils.String.ValueClock(hounded.timetoattack - GetTime())
+                and SDK.Utils.Value.ToClockString(hounded.timetoattack - GetTime())
                 or "no"
         end
     end

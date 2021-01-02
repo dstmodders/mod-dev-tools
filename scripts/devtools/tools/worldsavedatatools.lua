@@ -59,7 +59,7 @@ local WorldSaveDataTools = Class(DevTools, function(self, worldtools, devtools)
         end
     end
 
-    -- self
+    -- other
     self:DoInit()
 end)
 
