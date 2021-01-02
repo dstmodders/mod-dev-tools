@@ -88,10 +88,6 @@ local function IsTemperature(value)
     return IsNumber(value) and value >= -20 and value <= 90
 end
 
-local function IsSeason(value)
-    return value == "autumn" or value == "spring" or value == "summer" or value == "winter"
-end
-
 local function IsString(value)
     return type(value) == "string" and string.len(value) > 0
 end
@@ -348,17 +344,6 @@ function PlayerConsoleTools:PushWorldEvent(event)
     return Remote(self, "PushWorldEvent", console, event, IsString)
 end
 
---- Sets season length.
--- @tparam string season
--- @tparam number length
--- @treturn boolean
-function PlayerConsoleTools:SetSeasonLength(season, length)
-    return Remote(self, "SetSeasonLength", (season ~= nil and length ~= nil) and {
-        'TheWorld:PushEvent("ms_setseasonlength", { season="%s", length=%d })',
-        { season, length }
-    }, { season, length }, { IsSeason, IsNumber })
-end
-
 --- Sets snow level.
 -- @tparam number delta
 -- @treturn boolean
@@ -472,7 +457,6 @@ function PlayerConsoleTools:DoInit()
         -- world
         "MiniQuake",
         "PushWorldEvent",
-        "SetSeasonLength",
         "SetSnowLevel",
         "SetTimeScale",
 
