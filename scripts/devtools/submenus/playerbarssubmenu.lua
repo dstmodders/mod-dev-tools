@@ -74,36 +74,6 @@ end
 -- @tparam[opt] number min
 -- @tparam[opt] number max
 -- @tparam[opt] number step
-function PlayerBarsSubmenu:AddOldPlayerBarOption(label, getter, setter, min, max, step)
-    min = min ~= nil and min or 1
-    max = max ~= nil and max or 100
-    step = step ~= nil and step or 5
-
-    self:AddNumericOption({
-        label = label,
-        min = min,
-        max = max,
-        step = step,
-        on_cursor_fn = function()
-            self:UpdateScreen()
-        end,
-        on_get_fn = function()
-            return math.floor(self.player[getter](self.player))
-        end,
-        on_set_fn = function(_, _, value)
-            self.console[setter](self.console, value)
-            self:UpdateScreen()
-        end,
-    })
-end
-
---- Adds player bar option.
--- @tparam table|string label
--- @tparam string getter
--- @tparam string setter
--- @tparam[opt] number min
--- @tparam[opt] number max
--- @tparam[opt] number step
 function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, step)
     min = min ~= nil and min or 1
     max = max ~= nil and max or 100
@@ -118,10 +88,16 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
             self:UpdateScreen()
         end,
         on_get_fn = function()
-            return math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
+            return SDK.Player.Has(getter)
+                and math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
+                or math.floor(self.player[getter](self.player))
         end,
         on_set_fn = function(_, _, value)
-            self.console[setter](self.console, value)
+            if SDK.Remote.Has(setter) then
+                SDK.Remote[setter](value, ConsoleCommandPlayer())
+            elseif self.console[setter] then
+                self.console[setter](self.console, value)
+            end
             self:UpdateScreen()
         end,
     })
@@ -155,7 +131,7 @@ function PlayerBarsSubmenu:AddOptions()
         self:AddPlayerBarOption("Temperature", "GetTemperature", "SetTemperature", -20, 90)
 
         if is_inst_in_wereness_form then
-            self:AddOldPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
+            self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
         end
     end
 end
