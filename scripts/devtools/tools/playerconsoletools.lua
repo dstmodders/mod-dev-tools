@@ -68,10 +68,6 @@ local function IsNumber(value)
     return type(value) == "number"
 end
 
-local function IsPercent(value)
-    return IsNumber(value) and value >= 0 and value <= 100
-end
-
 local function IsPosition(value)
     return type(value) == "table" and value.x and value.y and value.z
 end
@@ -191,20 +187,6 @@ end
 
 local function RemoteSelectedPlayer(self, fn_name, console, value, check, debug)
     return Remote(self, fn_name, console, value, check, debug)
-end
-
---- Player
--- @section player
-
---- Sets player wereness level.
--- @tparam number value
--- @treturn boolean
-function PlayerConsoleTools:SetWerenessPercent(value)
-    local debug = value ~= nil and { "Wereness:", tostring(value) }
-    return RemoteSelectedPlayer(self, "SetWerenessPercent", value ~= nil and {
-        "ConsoleCommandPlayer().components.wereness:SetPercent(%0.2f)",
-        { value }
-    }, value, IsPercent, debug)
 end
 
 --- Teleport
@@ -346,9 +328,6 @@ end
 --- Initializes.
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
-        -- player
-        "SetWerenessPercent",
-
         -- teleport
         "GoNext",
 

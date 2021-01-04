@@ -60,7 +60,7 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
             SDK.Remote.SetPlayerTemperature(36, player)
 
             if is_inst_in_wereness_form then
-                self.console:SetWerenessPercent(100)
+                SDK.Remote.SetPlayerWerenessPercent(100, player)
             end
 
             self:UpdateScreen()
@@ -138,7 +138,7 @@ function PlayerBarsSubmenu:AddOptions()
         )
 
         if is_inst_in_wereness_form then
-            self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
+            self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetPlayerWerenessPercent")
         end
     end
 end

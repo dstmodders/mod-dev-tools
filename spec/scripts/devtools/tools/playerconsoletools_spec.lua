@@ -77,9 +77,6 @@ describe("PlayerConsoleTools", function()
 
         it("should add DevTools methods", function()
             local methods = {
-                -- player
-                "SetWerenessPercent",
-
                 -- teleport
                 "GoNext",
 
@@ -102,14 +99,6 @@ describe("PlayerConsoleTools", function()
 
     describe("remote", function()
         local remotes = {
-            SetWerenessPercent = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    40,
-                    { 'ConsoleCommandPlayer().components.wereness:SetPercent(%0.2f)', { 40 } },
-                    { "Wereness:", "40" },
-                },
-            },
             GoNext = {
                 invalid = { { "Bearger", 1000 }, "1000" },
                 valid = {
