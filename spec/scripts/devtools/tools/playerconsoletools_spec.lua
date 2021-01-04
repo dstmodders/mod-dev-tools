@@ -78,7 +78,6 @@ describe("PlayerConsoleTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- player
-                "SetTemperature",
                 "SetWerenessPercent",
 
                 -- teleport
@@ -103,14 +102,6 @@ describe("PlayerConsoleTools", function()
 
     describe("remote", function()
         local remotes = {
-            SetTemperature = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    40,
-                    { 'c_settemperature(%0.2f)', { 40 } },
-                    { "Temperature:", "40" },
-                },
-            },
             SetWerenessPercent = {
                 invalid = { 1000, "1000" },
                 valid = {

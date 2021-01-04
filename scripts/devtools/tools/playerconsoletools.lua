@@ -76,10 +76,6 @@ local function IsPosition(value)
     return type(value) == "table" and value.x and value.y and value.z
 end
 
-local function IsTemperature(value)
-    return IsNumber(value) and value >= -20 and value <= 90
-end
-
 local function IsString(value)
     return type(value) == "string" and string.len(value) > 0
 end
@@ -199,15 +195,6 @@ end
 
 --- Player
 -- @section player
-
---- Sets player temperature value.
--- @tparam number value
--- @treturn boolean
-function PlayerConsoleTools:SetTemperature(value)
-    local console = value ~= nil and { "c_settemperature(%0.2f)", { value } }
-    local debug = value ~= nil and { "Temperature:", tostring(value) }
-    return RemoteSelectedPlayer(self, "SetTemperature", console, value, IsTemperature, debug)
-end
 
 --- Sets player wereness level.
 -- @tparam number value
@@ -360,7 +347,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- player
-        "SetTemperature",
         "SetWerenessPercent",
 
         -- teleport

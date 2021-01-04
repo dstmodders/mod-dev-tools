@@ -57,7 +57,7 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
             SDK.Remote.SetPlayerHungerPercent(100, player)
             SDK.Remote.SetPlayerSanityPercent(100, player)
             SDK.Remote.SetPlayerMoisturePercent(0, player)
-            self.console:SetTemperature(20)
+            SDK.Remote.SetPlayerTemperature(36, player)
 
             if is_inst_in_wereness_form then
                 self.console:SetWerenessPercent(100)
@@ -129,7 +129,13 @@ function PlayerBarsSubmenu:AddOptions()
 
         self:AddDividerOption()
         self:AddPlayerBarOption("Moisture", "GetMoisturePercent", "SetPlayerMoisturePercent", 0)
-        self:AddPlayerBarOption("Temperature", "GetTemperature", "SetTemperature", -20, 90)
+        self:AddPlayerBarOption(
+            "Temperature",
+            "GetTemperature",
+            "SetPlayerTemperature",
+            TUNING.MIN_ENTITY_TEMP,
+            TUNING.MAX_ENTITY_TEMP
+        )
 
         if is_inst_in_wereness_form then
             self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
