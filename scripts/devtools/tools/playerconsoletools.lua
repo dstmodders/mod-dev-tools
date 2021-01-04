@@ -29,7 +29,7 @@
 local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
-local _RemoteSend = SDK.Remote.Send
+local _RemoteSend
 
 --- Lifecycle
 -- @section lifecycle
@@ -180,7 +180,12 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
             end
         end
 
-        _RemoteSend(unpack(console))
+        if _RemoteSend then
+            _RemoteSend(unpack(console))
+        else
+            SDK.Remote.Send(unpack(console))
+        end
+
         debug_fn(self, unpack(debug))
         return true
     end
