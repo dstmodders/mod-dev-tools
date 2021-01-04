@@ -205,41 +205,6 @@ end
 --- World
 -- @section world
 
---- Summons mini earthquake.
--- @tparam table|string target Player instance or his/her ID
--- @tparam number rad Radius
--- @tparam number num Amount
--- @tparam number time Duration
--- @treturn boolean
-function PlayerConsoleTools:MiniQuake(target, rad, num, time)
-    target = target ~= nil and target or self.inst
-    rad = rad ~= nil and rad or 20
-    num = num ~= nil and num or 20
-    time = time ~= nil and time or 2.5
-
-    local fn_name = "MiniQuake"
-
-    if not SDK.World.IsCave() then
-        self:DebugError(self:GetFnFullName(fn_name) .. ":", "not in the cave world")
-        return false
-    end
-
-    local check_values_fns, command, console, values
-
-    check_values_fns = { IsString, IsNumber, IsNumber, IsNumber }
-    command = 'TheWorld:PushEvent("ms_miniquake", { target = LookupPlayerInstByUserID("%s"), rad = %d, num = %d, duration = %0.2f })' -- luacheck: only
-    values = {
-        (type(target) == "table" and target.userid) and target.userid or target,
-        rad,
-        num,
-        time
-    }
-
-    console = { command, values }
-
-    return Remote(self, fn_name, console, values, check_values_fns)
-end
-
 --- Pushes world event.
 -- @tparam string event
 -- @treturn boolean
@@ -332,7 +297,6 @@ function PlayerConsoleTools:DoInit()
         "GoNext",
 
         -- world
-        "MiniQuake",
         "PushWorldEvent",
         "SetTimeScale",
 

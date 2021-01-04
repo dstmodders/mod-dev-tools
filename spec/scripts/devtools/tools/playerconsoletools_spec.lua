@@ -81,7 +81,6 @@ describe("PlayerConsoleTools", function()
                 "GoNext",
 
                 -- world
-                "MiniQuake",
                 "PushWorldEvent",
                 "SetTimeScale",
 
@@ -235,100 +234,5 @@ describe("PlayerConsoleTools", function()
                 end)
             end)
         end
-
-        describe("MiniQuake", function()
-            describe("when the owner is not in the cave", function()
-                before_each(function()
-                    _G.SDK.World.IsCave = ReturnValueFn(false)
-                end)
-
-                it("should debug error", function()
-                    DebugSpyClear("DebugError")
-                    playerconsoletools:MiniQuake()
-                    AssertDebugSpyWasCalled("DebugError", 1, {
-                        "PlayerConsoleTools:MiniQuake():",
-                        "not in the cave world"
-                    })
-                end)
-
-                it("should return false", function()
-                    assert.is_false(playerconsoletools:MiniQuake())
-                end)
-            end)
-
-            describe("when the owner is in the cave", function()
-                before_each(function()
-                    _G.SDK.World.IsCave = ReturnValueFn(true)
-                end)
-
-                describe("and the owner is not an admin", function()
-                    before_each(function()
-                        _G.SDK.Player.IsAdmin = ReturnValueFn(false)
-                    end)
-
-                    it("should debug error", function()
-                        DebugSpyClear("DebugError")
-                        playerconsoletools:MiniQuake()
-                        AssertDebugSpyWasCalled("DebugError", 1, {
-                            "PlayerConsoleTools:MiniQuake():",
-                            "not an admin"
-                        })
-                    end)
-
-                    it("should return false", function()
-                        assert.is_false(playerconsoletools:MiniQuake())
-                    end)
-                end)
-
-                describe("and the owner is an admin", function()
-                    before_each(function()
-                        _G.SDK.Player.IsAdmin = ReturnValueFn(true)
-                    end)
-
-                    describe("with valid passed values", function()
-                        it("should send the corresponding remote console command", function()
-                            assert.spy(_G.RemoteSend).was_not_called()
-                            playerconsoletools:MiniQuake(nil, 10, 10, 1)
-                            assert.spy(_G.RemoteSend).was_called(1)
-                            assert.spy(_G.RemoteSend).was_called_with(
-                                'TheWorld:PushEvent("ms_miniquake", { target = LookupPlayerInstByUserID("%s"), rad = %d, num = %d, duration = %0.2f })', -- luacheck: only
-                                { "KU_admin", 10, 10, 1 }
-                            )
-                        end)
-
-                        it("should debug string", function()
-                            DebugSpyClear("DebugString")
-                            playerconsoletools:MiniQuake(nil, 10, 10, 1)
-                            AssertDebugSpyWasCalled("DebugString", 1, {
-                                "PlayerConsoleTools:MiniQuake():",
-                                "KU_admin, 10, 10, 1"
-                            })
-                        end)
-
-                        it("should return true", function()
-                            assert.is_true(playerconsoletools:MiniQuake(nil, 10, 10, 1))
-                        end)
-                    end)
-
-                    describe("with invalid passed values", function()
-                        it("should debug error", function()
-                            DebugSpyClear("DebugError")
-                            playerconsoletools:MiniQuake(1, "test", "test", "test")
-                            AssertDebugSpyWasCalled("DebugError", 1, {
-                                "PlayerConsoleTools:MiniQuake():",
-                                "invalid value",
-                                "(1, test, test, test)"
-                            })
-                        end)
-
-                        it("should return false", function()
-                            assert.is_false(
-                                playerconsoletools:MiniQuake(1, "test", "test", "test")
-                            )
-                        end)
-                    end)
-                end)
-            end)
-        end)
     end)
 end)

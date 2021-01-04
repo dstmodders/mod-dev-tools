@@ -54,7 +54,7 @@ return {
             options = {
                 label = "Send Mini Earthquake",
                 on_accept_fn = function(_, submenu)
-                    submenu.console:MiniQuake()
+                    SDK.Remote.SendMiniEarthquake(ConsoleCommandPlayer())
                     submenu:UpdateScreen(nil, true)
                 end,
             },
