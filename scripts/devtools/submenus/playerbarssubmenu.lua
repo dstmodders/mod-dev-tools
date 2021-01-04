@@ -89,16 +89,10 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
             self:UpdateScreen()
         end,
         on_get_fn = function()
-            return SDK.Player.Has(getter)
-                and math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
-                or math.floor(self.player[getter](self.player))
+            return math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
         end,
         on_set_fn = function(_, _, value)
-            if SDK.Remote.Has(setter) then
-                SDK.Remote[setter](value, ConsoleCommandPlayer())
-            elseif self.console[setter] then
-                self.console[setter](self.console, value)
-            end
+            SDK.Remote[setter](value, ConsoleCommandPlayer())
             self:UpdateScreen()
         end,
     })
