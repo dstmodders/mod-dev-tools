@@ -52,7 +52,7 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
         label = "Full",
         on_accept_fn = function()
             local player = ConsoleCommandPlayer()
-            self.console:SetMaxHealthPercent(100)
+            SDK.Remote.SetPlayerHealthLimitPercent(100, player)
             SDK.Remote.SetPlayerHealthPercent(100, player)
             SDK.Remote.SetPlayerHungerPercent(100, player)
             SDK.Remote.SetPlayerSanityPercent(100, player)
@@ -123,7 +123,7 @@ function PlayerBarsSubmenu:AddOptions()
         self:AddPlayerBarOption(
             "Maximum Health",
             "GetHealthLimitPercent",
-            "SetMaxHealthPercent",
+            "SetPlayerHealthLimitPercent",
             25
         )
 

@@ -208,17 +208,6 @@ end
 --- Player
 -- @section player
 
---- Sets player max health value.
--- @tparam number value
--- @treturn boolean
-function PlayerConsoleTools:SetMaxHealthPercent(value)
-    local debug = value ~= nil and { "Maximum Health:", DebugPercent(value) }
-    return RemoteSelectedPlayer(self, "SetMaxHealthPercent", value ~= nil and {
-        "ConsoleCommandPlayer().components.health:SetPenalty(%0.2f)",
-        { 1 - (value / 100) },
-    }, value, IsPercent, debug)
-end
-
 --- Sets player moisture value.
 -- @tparam number value
 -- @treturn boolean
@@ -388,7 +377,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- player
-        "SetMaxHealthPercent",
         "SetMoisturePercent",
         "SetTemperature",
         "SetWerenessPercent",

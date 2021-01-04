@@ -78,7 +78,6 @@ describe("PlayerConsoleTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- player
-                "SetMaxHealthPercent",
                 "SetMoisturePercent",
                 "SetTemperature",
                 "SetWerenessPercent",
@@ -105,14 +104,6 @@ describe("PlayerConsoleTools", function()
 
     describe("remote", function()
         local remotes = {
-            SetMaxHealthPercent = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    40,
-                    { 'ConsoleCommandPlayer().components.health:SetPenalty(%0.2f)', { .6 } },
-                    { "Maximum Health:", "40%" },
-                },
-            },
             SetMoisturePercent = {
                 invalid = { 1000, "1000" },
                 valid = {
