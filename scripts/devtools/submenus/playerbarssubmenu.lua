@@ -51,8 +51,9 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
     self:AddActionOption({
         label = "Full",
         on_accept_fn = function()
+            local player = ConsoleCommandPlayer()
             self.console:SetMaxHealthPercent(100)
-            self.console:SetHealthPercent(100)
+            SDK.Remote.SetPlayerHealthPercent(100, player)
             self.console:SetHungerPercent(100)
             self.console:SetSanityPercent(100)
             self.console:SetMoisturePercent(0)
@@ -114,7 +115,7 @@ function PlayerBarsSubmenu:AddOptions()
 
     if SDK.Player.IsOwner(player) or not SDK.Player.IsReal(player) then
         self:AddDividerOption()
-        self:AddPlayerBarOption("Health", "GetHealthPercent", "SetHealthPercent")
+        self:AddPlayerBarOption("Health", "GetHealthPercent", "SetPlayerHealthPercent")
         self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
         self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
 

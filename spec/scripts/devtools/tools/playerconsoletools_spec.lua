@@ -78,7 +78,6 @@ describe("PlayerConsoleTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- player
-                "SetHealthPercent",
                 "SetHungerPercent",
                 "SetSanityPercent",
                 "SetMaxHealthPercent",
@@ -108,14 +107,6 @@ describe("PlayerConsoleTools", function()
 
     describe("remote", function()
         local remotes = {
-            SetHealthPercent = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    40,
-                    { 'c_sethealth(%0.2f)', { .4 } },
-                    { "Health:", "40%" },
-                },
-            },
             SetHungerPercent = {
                 invalid = { 1000, "1000" },
                 valid = {

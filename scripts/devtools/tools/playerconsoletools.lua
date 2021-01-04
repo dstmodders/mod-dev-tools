@@ -208,15 +208,6 @@ end
 --- Player
 -- @section player
 
---- Sets player health value.
--- @tparam number value
--- @treturn boolean
-function PlayerConsoleTools:SetHealthPercent(value)
-    local console = value ~= nil and { 'c_sethealth(%0.2f)', { value / 100 } }
-    local debug = value ~= nil and { "Health:", DebugPercent(value) }
-    return RemoteSelectedPlayer(self, "SetHealthPercent", console, value, IsPercent, debug)
-end
-
 --- Sets player hunger value.
 -- @tparam number value
 -- @treturn boolean
@@ -415,7 +406,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- player
-        "SetHealthPercent",
         "SetHungerPercent",
         "SetSanityPercent",
         "SetMaxHealthPercent",
