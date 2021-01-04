@@ -78,7 +78,6 @@ describe("PlayerConsoleTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- player
-                "SetSanityPercent",
                 "SetMaxHealthPercent",
                 "SetMoisturePercent",
                 "SetTemperature",
@@ -106,14 +105,6 @@ describe("PlayerConsoleTools", function()
 
     describe("remote", function()
         local remotes = {
-            SetSanityPercent = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    40,
-                    { 'c_setsanity(%0.2f)', { .4 } },
-                    { "Sanity:", "40%" },
-                },
-            },
             SetMaxHealthPercent = {
                 invalid = { 1000, "1000" },
                 valid = {

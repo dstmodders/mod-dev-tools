@@ -208,15 +208,6 @@ end
 --- Player
 -- @section player
 
---- Sets player sanity value.
--- @tparam number value
--- @treturn boolean
-function PlayerConsoleTools:SetSanityPercent(value)
-    local console = value ~= nil and { 'c_setsanity(%0.2f)', { value / 100 } }
-    local debug = value ~= nil and { "Sanity:", DebugPercent(value) }
-    return RemoteSelectedPlayer(self, "SetSanityPercent", console, value, IsPercent, debug)
-end
-
 --- Sets player max health value.
 -- @tparam number value
 -- @treturn boolean
@@ -397,7 +388,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- player
-        "SetSanityPercent",
         "SetMaxHealthPercent",
         "SetMoisturePercent",
         "SetTemperature",

@@ -55,7 +55,7 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
             self.console:SetMaxHealthPercent(100)
             SDK.Remote.SetPlayerHealthPercent(100, player)
             SDK.Remote.SetPlayerHungerPercent(100, player)
-            self.console:SetSanityPercent(100)
+            SDK.Remote.SetPlayerSanityPercent(100, player)
             self.console:SetMoisturePercent(0)
             self.console:SetTemperature(20)
 
@@ -117,7 +117,7 @@ function PlayerBarsSubmenu:AddOptions()
         self:AddDividerOption()
         self:AddPlayerBarOption("Health", "GetHealthPercent", "SetPlayerHealthPercent")
         self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetPlayerHungerPercent")
-        self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
+        self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetPlayerSanityPercent")
 
         self:AddDividerOption()
         self:AddPlayerBarOption(
