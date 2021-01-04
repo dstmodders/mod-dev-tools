@@ -78,7 +78,6 @@ describe("PlayerConsoleTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- player
-                "SetMoisturePercent",
                 "SetTemperature",
                 "SetWerenessPercent",
 
@@ -104,14 +103,6 @@ describe("PlayerConsoleTools", function()
 
     describe("remote", function()
         local remotes = {
-            SetMoisturePercent = {
-                invalid = { 1000, "1000" },
-                valid = {
-                    40,
-                    { 'c_setmoisture(%0.2f)', { .4 } },
-                    { "Moisture:", "40%" },
-                },
-            },
             SetTemperature = {
                 invalid = { 1000, "1000" },
                 valid = {

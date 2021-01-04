@@ -68,10 +68,6 @@ local function IsNumber(value)
     return type(value) == "number"
 end
 
-local function IsMoisture(value)
-    return IsNumber(value) and value >= 0 and value <= 100
-end
-
 local function IsPercent(value)
     return IsNumber(value) and value >= 0 and value <= 100
 end
@@ -95,10 +91,6 @@ local function PointToString(value)
         value.y,
         value.z
     )
-end
-
-local function DebugPercent(value)
-    return IsNumber(value) and string.format("%d", value) .. "%"
 end
 
 local function DebugPosition(value)
@@ -207,15 +199,6 @@ end
 
 --- Player
 -- @section player
-
---- Sets player moisture value.
--- @tparam number value
--- @treturn boolean
-function PlayerConsoleTools:SetMoisturePercent(value)
-    local console = value ~= nil and { 'c_setmoisture(%0.2f)', { value / 100 } }
-    local debug = value ~= nil and { "Moisture:", DebugPercent(value) }
-    return RemoteSelectedPlayer(self, "SetMoisturePercent", console, value, IsMoisture, debug)
-end
 
 --- Sets player temperature value.
 -- @tparam number value
@@ -377,7 +360,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- player
-        "SetMoisturePercent",
         "SetTemperature",
         "SetWerenessPercent",
 
