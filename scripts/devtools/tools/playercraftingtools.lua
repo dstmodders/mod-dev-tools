@@ -361,7 +361,7 @@ function PlayerCraftingTools:ToggleFreeCrafting(player)
             end
         end
 
-        self.playerconsoletools:ToggleFreeCrafting(player)
+        SDK.Remote.Player.ToggleFreeCrafting(player)
 
         local is_free_crafting = self:IsFreeCrafting(player)
         self:DebugString(

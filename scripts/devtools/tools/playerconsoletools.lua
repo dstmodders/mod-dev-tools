@@ -184,24 +184,6 @@ end
 --- Crafting
 -- @section crafting
 
---- Toggles free crafting mode.
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerConsoleTools:ToggleFreeCrafting(player)
-    player = player ~= nil and player or self.inst
-
-    local fn_name = "ToggleFreeCrafting"
-    local check_values_fns, command, console, userid, values
-
-    check_values_fns = { IsString }
-    command = 'player = LookupPlayerInstByUserID("%s") player.components.builder:GiveAllRecipes() player:PushEvent("techlevelchange")' -- luacheck: only
-    userid = (type(player) == "table" and player.userid) and player.userid or player
-    values = { userid }
-    console = { command, values }
-
-    return Remote(self, fn_name, console, values, check_values_fns)
-end
-
 --- Unlocks provided recipe.
 -- @tparam string recipe
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
@@ -247,7 +229,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- crafting
-        --"ToggleFreeCrafting",
         "UnlockRecipe",
         "LockRecipe",
     })

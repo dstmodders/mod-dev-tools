@@ -78,7 +78,6 @@ describe("PlayerConsoleTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- crafting
-                --"ToggleFreeCrafting",
                 "UnlockRecipe",
                 "LockRecipe",
             }
