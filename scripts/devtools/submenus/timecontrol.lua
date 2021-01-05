@@ -68,7 +68,7 @@ return {
             options = {
                 label = "Next Day",
                 on_accept_fn = function(_, submenu)
-                    submenu.console:PushWorldEvent("ms_nextcycle")
+                    SDK.Remote.World.PushEvent("ms_nextcycle")
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -78,7 +78,7 @@ return {
             options = {
                 label = "Next Phase",
                 on_accept_fn = function(_, submenu)
-                    submenu.console:PushWorldEvent("ms_nextphase")
+                    SDK.Remote.World.PushEvent("ms_nextphase")
                     submenu:UpdateScreen(nil, true)
                 end,
             },

@@ -34,7 +34,7 @@ return {
                 label = "Advance Season",
                 on_accept_fn = function(_, submenu)
                     for _ = 1, SDK.World.GetState("remainingdaysinseason") do
-                        submenu.console:PushWorldEvent("ms_advanceseason")
+                        SDK.Remote.World.PushEvent("ms_advanceseason")
                     end
                     submenu:UpdateScreen(nil, true)
                 end,
@@ -46,7 +46,7 @@ return {
                 label = "Retreat Season",
                 on_accept_fn = function(_, submenu)
                     for _ = 1, SDK.World.GetState("remainingdaysinseason") do
-                        submenu.console:PushWorldEvent("ms_retreatseason")
+                        SDK.Remote.World.PushEvent("ms_retreatseason")
                     end
                     submenu:UpdateScreen(nil, true)
                 end,

@@ -188,14 +188,6 @@ end
 --- World
 -- @section world
 
---- Pushes world event.
--- @tparam string event
--- @treturn boolean
-function PlayerConsoleTools:PushWorldEvent(event)
-    local console = event ~= nil and { 'TheWorld:PushEvent("%s")', { event } }
-    return Remote(self, "PushWorldEvent", console, event, IsString)
-end
-
 --- Sets time scale.
 -- @tparam string timescale
 -- @treturn boolean
@@ -277,7 +269,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- world
-        "PushWorldEvent",
         "SetTimeScale",
 
         -- crafting
