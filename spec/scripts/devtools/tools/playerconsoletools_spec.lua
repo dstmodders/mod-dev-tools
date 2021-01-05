@@ -76,10 +76,7 @@ describe("PlayerConsoleTools", function()
         end)
 
         it("should add DevTools methods", function()
-            local methods = {
-                -- crafting
-                "LockRecipe",
-            }
+            local methods = {}
 
             AssertAddedMethodsBefore(methods, devtools)
             playerconsoletools = PlayerConsoleTools(playertools, devtools)

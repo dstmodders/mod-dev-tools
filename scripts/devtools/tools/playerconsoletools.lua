@@ -29,8 +29,6 @@
 local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
-local _RemoteSend
-
 --- Lifecycle
 -- @section lifecycle
 
@@ -52,166 +50,16 @@ local PlayerConsoleTools = Class(DevTools, function(self, playertools, devtools)
     self.playertools = playertools
     self.worldtools = playertools.world
 
-    -- tests
-    if _G.MOD_DEV_TOOLS_TEST then
-        _RemoteSend = _G.RemoteSend
-    end
-
     -- other
     self:DoInit()
 end)
-
---- Helpers
--- @section helpers
-
-local function IsPosition(value)
-    return type(value) == "table" and value.x and value.y and value.z
-end
-
-local function IsString(value)
-    return type(value) == "string" and string.len(value) > 0
-end
-
-local function PointToString(value)
-    return IsPosition(value) and string.format(
-        "Point(%0.2f, %0.2f, %0.2f)",
-        value.x,
-        value.y,
-        value.z
-    )
-end
-
-local function DebugPosition(value)
-    return IsPosition(value) and string.format(
-        "(%0.2f, %0.2f, %0.2f)",
-        value.x,
-        value.y,
-        value.z
-    )
-end
-
-local function IsValidValues(values, check_fns)
-    if type(values) ~= "table" then
-        if type(check_fns) == "function" then
-            return check_fns(values)
-        elseif check_fns == nil then
-            return true
-        end
-    end
-
-    if type(values) ~= "table" and type(check_fns) ~= "table" then
-        return false
-    end
-
-    local check_fn, value
-    for i = 1, #values, 1 do
-        check_fn = check_fns[i]
-        value = values[i]
-        if type(check_fn) == "function" and not check_fns[i](value) then
-            return false
-        end
-    end
-
-    return true
-end
-
-local function DebugValues(values)
-    if type(values) ~= "table" then
-        return tostring(values)
-    end
-
-    if IsPosition(values) then
-        return DebugPosition(values)
-    end
-
-    local result = {}
-
-    for _, value in pairs(values) do
-        if IsPosition(value) then
-            value = DebugPosition(value)
-        end
-
-        table.insert(result, tostring(value))
-    end
-
-    return table.concat(result, ", ")
-end
-
-local function Remote(self, fn_name, console, values, check_values_fns, debug, debug_fn)
-    local fn_full_name = self:GetFnFullName(fn_name)
-    local debug_values = DebugValues(values)
-
-    debug = debug ~= nil and debug or { fn_full_name .. ":", debug_values }
-    debug_fn = debug_fn ~= nil and debug_fn or self.DebugString
-
-    if not SDK.Player.IsAdmin() then
-        self:DebugError(fn_full_name .. ":", "not an admin")
-        return false
-    end
-
-    if console and debug and IsValidValues(values, check_values_fns) then
-        if check_values_fns == IsPosition then
-            local command = console[1]
-            local args = console[2]
-            local pos = args[1]
-            if IsPosition(pos) then
-                args[1] = PointToString(pos)
-                console = { command, args }
-            end
-        end
-
-        if _RemoteSend then
-            _RemoteSend(unpack(console))
-        else
-            SDK.Remote.Send(unpack(console))
-        end
-
-        debug_fn(self, unpack(debug))
-        return true
-    end
-
-    self:DebugError(
-        fn_full_name .. ":",
-        "invalid value",
-        values ~= nil
-            and string.format("(%s)", debug_values)
-            or nil
-    )
-
-    return false
-end
-
---- Crafting
--- @section crafting
-
---- Locks provided recipe.
--- @tparam string recipe
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerConsoleTools:LockRecipe(recipe, player)
-    player = player ~= nil and player or self.inst
-
-    local fn_name = "LockRecipe"
-    local check_values_fns, command, console, userid, values
-
-    check_values_fns = { IsString, IsString, IsString }
-    command = 'player = LookupPlayerInstByUserID("%s") for k, v in pairs(player.components.builder.recipes) do if v == "%s" then table.remove(player.components.builder.recipes, k) end end player.replica.builder:RemoveRecipe("%s")' -- luacheck: only
-    userid = (type(player) == "table" and player.userid) and player.userid or player
-    values = { userid, recipe, recipe }
-    console = { command, values }
-
-    return Remote(self, fn_name, console, values, check_values_fns)
-end
 
 --- Lifecycle
 -- @section lifecycle
 
 --- Initializes.
 function PlayerConsoleTools:DoInit()
-    DevTools.DoInit(self, self.playertools, "console", {
-        -- crafting
-        "LockRecipe",
-    })
+    DevTools.DoInit(self, self.playertools, "console", {})
 end
 
 return PlayerConsoleTools

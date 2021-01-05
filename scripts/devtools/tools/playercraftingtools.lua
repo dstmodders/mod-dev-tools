@@ -330,7 +330,7 @@ function PlayerCraftingTools:LockCharacterRecipes()
     if type(recipes) == "table" and #recipes > 0 then
         for _, recipe in pairs(recipes) do
             if not SDK.Utils.Table.HasValue(self.character_recipes, recipe) then
-                self.playerconsoletools:LockRecipe(recipe, self.inst)
+                SDK.Remote.Player.LockRecipe(recipe, self.inst)
             end
         end
         self.character_recipes = {}
