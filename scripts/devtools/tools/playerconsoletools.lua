@@ -185,23 +185,6 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
     return false
 end
 
-local function RemoteSelectedPlayer(self, fn_name, console, value, check, debug)
-    return Remote(self, fn_name, console, value, check, debug)
-end
-
---- Teleport
--- @section teleport
-
---- Teleports to the specified entity.
--- @tparam string name Name of an entity
--- @tparam string value Entity (prefab)
--- @treturn boolean
-function PlayerConsoleTools:GoNext(name, value)
-    local console = value ~= nil and { 'c_gonext("%s")', { value } }
-    local debug = name ~= nil and { "Teleported to", name }
-    return RemoteSelectedPlayer(self, "GoNext", console, value, IsString, debug)
-end
-
 --- World
 -- @section world
 
@@ -293,9 +276,6 @@ end
 --- Initializes.
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
-        -- teleport
-        "GoNext",
-
         -- world
         "PushWorldEvent",
         "SetTimeScale",

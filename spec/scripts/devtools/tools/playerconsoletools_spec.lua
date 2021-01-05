@@ -77,9 +77,6 @@ describe("PlayerConsoleTools", function()
 
         it("should add DevTools methods", function()
             local methods = {
-                -- teleport
-                "GoNext",
-
                 -- world
                 "PushWorldEvent",
                 "SetTimeScale",
@@ -98,14 +95,6 @@ describe("PlayerConsoleTools", function()
 
     describe("remote", function()
         local remotes = {
-            GoNext = {
-                invalid = { { "Bearger", 1000 }, "1000" },
-                valid = {
-                    { "Bearger", "bearger" },
-                    { 'c_gonext("%s")', { "bearger" } },
-                    { "Teleported to", "Bearger" },
-                },
-            },
             PushWorldEvent = {
                 invalid = { 1000, "1000" },
                 valid = {

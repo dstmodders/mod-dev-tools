@@ -63,11 +63,9 @@ function TeleportSubmenu:AddGoNextOption(label, prefab)
     self:AddActionOption({
         label = label,
         on_accept_fn = function()
-            local gonext = prefab
-            if type(prefab) == "table" then
-                gonext = prefab[math.random(#prefab)]
-            end
-            self.console:GoNext(label, gonext)
+            SDK.Remote.Player.GoNext(type(prefab) == "table"
+                and prefab[math.random(#prefab)]
+                or prefab)
             self:UpdateScreen()
         end,
     })
