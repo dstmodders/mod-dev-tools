@@ -304,7 +304,7 @@ function PlayerCraftingTools:UnlockCharacterRecipes()
         if type(recipes) == "table" and #recipes > 0 then
             self:DebugString("Unlocking character recipes...")
             for _, recipe in pairs(recipes) do
-                self.playerconsoletools:UnlockRecipe(recipe, self.inst)
+                SDK.Remote.Player.UnlockRecipe(recipe, self.inst)
             end
         end
     else

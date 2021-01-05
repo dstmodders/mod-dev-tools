@@ -184,25 +184,6 @@ end
 --- Crafting
 -- @section crafting
 
---- Unlocks provided recipe.
--- @tparam string recipe
--- @tparam[opt] EntityScript player Player instance (the owner by default)
--- @treturn boolean
-function PlayerConsoleTools:UnlockRecipe(recipe, player)
-    player = player ~= nil and player or self.inst
-
-    local fn_name = "UnlockRecipe"
-    local check_values_fns, command, console, userid, values
-
-    check_values_fns = { IsString, IsString, IsString }
-    command = 'player = LookupPlayerInstByUserID("%s") player.components.builder:AddRecipe("%s") player:PushEvent("unlockrecipe", { recipe = "%s" })' -- luacheck: only
-    userid = (type(player) == "table" and player.userid) and player.userid or player
-    values = { userid, recipe, recipe }
-    console = { command, values }
-
-    return Remote(self, fn_name, console, values, check_values_fns)
-end
-
 --- Locks provided recipe.
 -- @tparam string recipe
 -- @tparam[opt] EntityScript player Player instance (the owner by default)
@@ -229,7 +210,6 @@ end
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
         -- crafting
-        "UnlockRecipe",
         "LockRecipe",
     })
 end
