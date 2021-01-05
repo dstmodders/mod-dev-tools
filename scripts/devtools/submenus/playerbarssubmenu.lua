@@ -52,15 +52,15 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
         label = "Full",
         on_accept_fn = function()
             local player = ConsoleCommandPlayer()
-            SDK.Remote.SetPlayerHealthLimitPercent(100, player)
-            SDK.Remote.SetPlayerHealthPercent(100, player)
-            SDK.Remote.SetPlayerHungerPercent(100, player)
-            SDK.Remote.SetPlayerSanityPercent(100, player)
-            SDK.Remote.SetPlayerMoisturePercent(0, player)
-            SDK.Remote.SetPlayerTemperature(36, player)
+            SDK.Remote.Player.SetHealthLimitPercent(100, player)
+            SDK.Remote.Player.SetHealthPercent(100, player)
+            SDK.Remote.Player.SetHungerPercent(100, player)
+            SDK.Remote.Player.SetSanityPercent(100, player)
+            SDK.Remote.Player.SetMoisturePercent(0, player)
+            SDK.Remote.Player.SetTemperature(36, player)
 
             if is_inst_in_wereness_form then
-                SDK.Remote.SetPlayerWerenessPercent(100, player)
+                SDK.Remote.Player.SetWerenessPercent(100, player)
             end
 
             self:UpdateScreen()
@@ -92,7 +92,7 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
             return math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
         end,
         on_set_fn = function(_, _, value)
-            SDK.Remote[setter](value, ConsoleCommandPlayer())
+            SDK.Remote.Player[setter](value, ConsoleCommandPlayer())
             self:UpdateScreen()
         end,
     })
@@ -109,30 +109,30 @@ function PlayerBarsSubmenu:AddOptions()
 
     if SDK.Player.IsOwner(player) or not SDK.Player.IsReal(player) then
         self:AddDividerOption()
-        self:AddPlayerBarOption("Health", "GetHealthPercent", "SetPlayerHealthPercent")
-        self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetPlayerHungerPercent")
-        self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetPlayerSanityPercent")
+        self:AddPlayerBarOption("Health", "GetHealthPercent", "SetHealthPercent")
+        self:AddPlayerBarOption("Hunger", "GetHungerPercent", "SetHungerPercent")
+        self:AddPlayerBarOption("Sanity", "GetSanityPercent", "SetSanityPercent")
 
         self:AddDividerOption()
         self:AddPlayerBarOption(
             "Maximum Health",
             "GetHealthLimitPercent",
-            "SetPlayerHealthLimitPercent",
+            "SetHealthLimitPercent",
             25
         )
 
         self:AddDividerOption()
-        self:AddPlayerBarOption("Moisture", "GetMoisturePercent", "SetPlayerMoisturePercent", 0)
+        self:AddPlayerBarOption("Moisture", "GetMoisturePercent", "SetMoisturePercent", 0)
         self:AddPlayerBarOption(
             "Temperature",
             "GetTemperature",
-            "SetPlayerTemperature",
+            "SetTemperature",
             TUNING.MIN_ENTITY_TEMP,
             TUNING.MAX_ENTITY_TEMP
         )
 
         if is_inst_in_wereness_form then
-            self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetPlayerWerenessPercent")
+            self:AddPlayerBarOption("Wereness", "GetWerenessPercent", "SetWerenessPercent")
         end
     end
 end

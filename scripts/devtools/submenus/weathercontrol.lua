@@ -30,7 +30,7 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     if value ~= SDK.World.IsPrecipitation() then
-                        SDK.Remote.ForcePrecipitation(value)
+                        SDK.Remote.World.ForcePrecipitation(value)
                         submenu:UpdateScreen(nil, true)
                     end
                 end,
@@ -43,7 +43,7 @@ return {
             options = {
                 label = "Send Lightning Strike",
                 on_accept_fn = function(_, submenu)
-                    SDK.Remote.SendLightningStrike(TheInput:GetWorldPosition())
+                    SDK.Remote.World.SendLightningStrike(TheInput:GetWorldPosition())
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -54,7 +54,7 @@ return {
             options = {
                 label = "Send Mini Earthquake",
                 on_accept_fn = function(_, submenu)
-                    SDK.Remote.SendMiniEarthquake(ConsoleCommandPlayer())
+                    SDK.Remote.Player.SendMiniEarthquake(nil, nil, nil, ConsoleCommandPlayer())
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -76,7 +76,7 @@ return {
                     return math.floor(SDK.World.GetState("moisture"))
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.SetWorldDeltaMoisture(math.floor(value)
+                    SDK.Remote.World.SetDeltaMoisture(math.floor(value)
                         - math.floor(SDK.World.GetState("moisture")))
                     submenu:UpdateScreen(nil, true)
                 end,
@@ -94,7 +94,7 @@ return {
                     return math.floor(SDK.World.GetState("snowlevel") * 100)
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.SetSnowLevel(value / 100)
+                    SDK.Remote.World.SetSnowLevel(value / 100)
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -109,7 +109,7 @@ return {
                     return math.floor(SDK.World.GetState("wetness"))
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.SetWorldDeltaWetness(math.floor(value)
+                    SDK.Remote.World.SetDeltaWetness(math.floor(value)
                         - math.floor(SDK.World.GetState("wetness")))
                     submenu:UpdateScreen(nil, true)
                 end,

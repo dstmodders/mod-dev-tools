@@ -67,7 +67,7 @@ return {
                     return SDK.World.GetState("season")
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.SetSeason(value)
+                    SDK.Remote.World.SetSeason(value)
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -89,14 +89,14 @@ return {
                                 min = 1,
                                 max = 100,
                                 on_accept_fn = function(_, submenu)
-                                    SDK.Remote.SetSeasonLength(season.value, season.default)
+                                    SDK.Remote.World.SetSeasonLength(season.value, season.default)
                                     submenu:UpdateScreen(nil, true)
                                 end,
                                 on_get_fn = function()
                                     return SDK.World.GetState(season.value .. "length")
                                 end,
                                 on_set_fn = function(_, submenu, value)
-                                    SDK.Remote.SetSeasonLength(season.value, value)
+                                    SDK.Remote.World.SetSeasonLength(season.value, value)
                                     submenu:UpdateScreen(nil, true)
                                 end,
                             },
