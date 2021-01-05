@@ -64,10 +64,6 @@ end)
 --- Helpers
 -- @section helpers
 
-local function IsNumber(value)
-    return type(value) == "number"
-end
-
 local function IsPosition(value)
     return type(value) == "table" and value.x and value.y and value.z
 end
@@ -185,24 +181,6 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
     return false
 end
 
---- World
--- @section world
-
---- Sets time scale.
--- @tparam string timescale
--- @treturn boolean
-function PlayerConsoleTools:SetTimeScale(timescale)
-    local fn_name = 'SetTimeScale'
-
-    if self.devtools and #SDK.Player.GetClientTable(nil, true) > 1 then
-        self:DebugError(fn_name .. ":", "There are other players on the server")
-        return false
-    end
-
-    local console = timescale ~= nil and { 'TheSim:SetTimeScale(%0.2f)', { timescale } }
-    return Remote(self, fn_name, console, timescale, IsNumber)
-end
-
 --- Crafting
 -- @section crafting
 
@@ -268,9 +246,6 @@ end
 --- Initializes.
 function PlayerConsoleTools:DoInit()
     DevTools.DoInit(self, self.playertools, "console", {
-        -- world
-        "SetTimeScale",
-
         -- crafting
         --"ToggleFreeCrafting",
         "UnlockRecipe",

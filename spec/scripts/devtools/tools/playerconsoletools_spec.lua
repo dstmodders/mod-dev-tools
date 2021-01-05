@@ -77,9 +77,6 @@ describe("PlayerConsoleTools", function()
 
         it("should add DevTools methods", function()
             local methods = {
-                -- world
-                "SetTimeScale",
-
                 -- crafting
                 --"ToggleFreeCrafting",
                 "UnlockRecipe",

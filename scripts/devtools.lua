@@ -196,7 +196,7 @@ function DevTools:Pause()
         local playerconsoletools = playertools.console
         if playerconsoletools then
             local timescale = TheSim:GetTimeScale()
-            if playerconsoletools:SetTimeScale(0) then
+            if SDK.Remote.World.SetTimeScale(0) then
                 TheSim:SetTimeScale(0)
                 SetPause(true, "console")
                 self.timescale = timescale
@@ -223,7 +223,7 @@ function DevTools:Unpause()
         local playerconsoletools = playertools.console
         if playerconsoletools then
             local timescale = self.timescale or 1
-            if playerconsoletools:SetTimeScale(timescale) then
+            if SDK.Remote.World.SetTimeScale(timescale) then
                 TheSim:SetTimeScale(timescale)
                 SetPause(false, "console")
                 self:DebugString("Game is resumed")

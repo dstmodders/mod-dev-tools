@@ -41,20 +41,20 @@ return {
                 min = 1,
                 max = 400,
                 step = 10,
-                on_accept_fn = function(_, submenu)
+                on_accept_fn = function()
                     TheSim:SetTimeScale(1)
                     if not SDK.World.IsMasterSim() then
-                        submenu.console:SetTimeScale(1)
+                        SDK.Remote.World.SetTimeScale(1)
                     end
                 end,
                 on_get_fn = function()
                     return math.ceil(TheSim:GetTimeScale() * 100)
                 end,
-                on_set_fn = function(_, submenu, value)
+                on_set_fn = function(_, _, value)
                     value = value / 100
                     TheSim:SetTimeScale(value)
                     if not SDK.World.IsMasterSim() then
-                        submenu.console:SetTimeScale(value)
+                        SDK.Remote.World.SetTimeScale(value)
                     end
                 end,
             },
