@@ -35,7 +35,7 @@ local PlayerBarsSubmenu = Class(Submenu, function(self, devtools, root)
     )
 
     -- options
-    if self.world and self.player and SDK.Player.IsAdmin() and self.console and self.screen then
+    if self.world and self.player and SDK.Player.IsAdmin() and self.screen then
         self:AddSelectedPlayerLabelPrefix(devtools, self.player)
         self:AddOptions()
         self:AddToRoot()

@@ -59,7 +59,6 @@ local Submenu = Class(function(self, devtools, root, label, name, data_sidebar)
     self.root = root
 
     -- devtools
-    self.console = devtools.player and devtools.player.console
     self.crafting = devtools.player and devtools.player.crafting
     self.debug = devtools.debug
     self.devtools = devtools

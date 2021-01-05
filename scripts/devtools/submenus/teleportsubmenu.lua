@@ -35,7 +35,7 @@ local TeleportSubmenu = Class(Submenu, function(self, devtools, root)
     )
 
     -- options
-    if self.world and self.player and self.console and self.screen and SDK.Player.IsAdmin() then
+    if self.world and self.player and self.screen and SDK.Player.IsAdmin() then
         self:AddSelectedPlayerLabelPrefix(devtools, self.player)
         self:AddOptions()
         self:AddToRoot()

@@ -40,13 +40,11 @@ local PlayerCraftingTools = Class(DevTools, function(self, playertools, devtools
 
     -- asserts
     SDK.Utils.AssertRequiredField(self.name .. ".playertools", playertools)
-    SDK.Utils.AssertRequiredField(self.name .. ".console", playertools.console)
     SDK.Utils.AssertRequiredField(self.name .. ".inst", playertools.inst)
     SDK.Utils.AssertRequiredField(self.name .. ".inventory", playertools.inventory)
 
     -- general
     self.character_recipes = {}
-    self.playerconsoletools = playertools.console
     self.inst = playertools.inst
     self.inventory = playertools.inventory
     self.playertools = playertools

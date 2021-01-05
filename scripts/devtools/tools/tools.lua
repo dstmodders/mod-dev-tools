@@ -8,7 +8,6 @@
 --
 -- @classmod tools.Tools
 -- @see DevTools
--- @see tools.PlayerConsoleTools
 -- @see tools.PlayerCraftingTools
 -- @see tools.PlayerInventoryTools
 -- @see tools.PlayerMapTools

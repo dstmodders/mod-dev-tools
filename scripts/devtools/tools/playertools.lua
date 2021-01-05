@@ -16,7 +16,6 @@
 -- During initialization it adds corresponding 5 subclasses which can be accessed directly through
 -- the global `DevTools` as well:
 --
---    DevTools.player.console
 --    DevTools.player.crafting
 --    DevTools.player.inventory
 --    DevTools.player.map
@@ -26,7 +25,6 @@
 --
 -- @classmod tools.PlayerTools
 -- @see DevTools
--- @see tools.PlayerConsoleTools
 -- @see tools.PlayerCraftingTools
 -- @see tools.PlayerInventoryTools
 -- @see tools.PlayerMapTools
@@ -41,7 +39,6 @@
 require "consolecommands"
 
 local DevTools = require "devtools/tools/tools"
-local PlayerConsoleTools = require "devtools/tools/playerconsoletools"
 local PlayerCraftingTools = require "devtools/tools/playercraftingtools"
 local PlayerInventoryTools = require "devtools/tools/playerinventorytools"
 local PlayerMapTools = require "devtools/tools/playermaptools"
@@ -88,7 +85,6 @@ local PlayerTools = Class(DevTools, function(self, inst, worldtools, devtools)
     end
 
     -- submodules (order-dependent)
-    self.console = PlayerConsoleTools(self, devtools)
     self.inventory = PlayerInventoryTools(self, devtools)
     self.crafting = PlayerCraftingTools(self, devtools)
     self.vision = PlayerVisionTools(self, devtools)
@@ -434,10 +430,6 @@ end
 function PlayerTools:DoTerm()
     if self.crafting then
         self.crafting.DoTerm(self.crafting)
-    end
-
-    if self.console then
-        self.console.DoTerm(self.console)
     end
 
     if self.map then

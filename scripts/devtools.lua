@@ -193,19 +193,16 @@ function DevTools:Pause()
             return false
         end
 
-        local playerconsoletools = playertools.console
-        if playerconsoletools then
-            local timescale = TheSim:GetTimeScale()
-            if SDK.Remote.World.SetTimeScale(0) then
-                TheSim:SetTimeScale(0)
-                SetPause(true, "console")
-                self.timescale = timescale
-                self:DebugString("Game is paused")
-                return true
-            end
-
-            return false
+        local timescale = TheSim:GetTimeScale()
+        if SDK.Remote.World.SetTimeScale(0) then
+            TheSim:SetTimeScale(0)
+            SetPause(true, "console")
+            self.timescale = timescale
+            self:DebugString("Game is paused")
+            return true
         end
+
+        return false
     end
 end
 
@@ -220,18 +217,15 @@ function DevTools:Unpause()
             return false
         end
 
-        local playerconsoletools = playertools.console
-        if playerconsoletools then
-            local timescale = self.timescale or 1
-            if SDK.Remote.World.SetTimeScale(timescale) then
-                TheSim:SetTimeScale(timescale)
-                SetPause(false, "console")
-                self:DebugString("Game is resumed")
-                return true
-            end
-
-            return false
+        local timescale = self.timescale or 1
+        if SDK.Remote.World.SetTimeScale(timescale) then
+            TheSim:SetTimeScale(timescale)
+            SetPause(false, "console")
+            self:DebugString("Game is resumed")
+            return true
         end
+
+        return false
     end
 end
 

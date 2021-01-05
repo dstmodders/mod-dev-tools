@@ -42,7 +42,6 @@ describe("PlayerCraftingTools", function()
 
             -- general
             assert.is_same({}, self.character_recipes)
-            assert.is_equal(playertools.console, self.playerconsoletools)
             assert.is_equal(playertools.inst, self.inst)
             assert.is_equal(playertools.inventory, self.inventory)
             assert.is_equal(playertools, self.playertools)

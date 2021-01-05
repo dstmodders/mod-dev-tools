@@ -152,7 +152,6 @@ describe("PlayerTools", function()
             assert.is_nil(self.selected_server)
 
             -- submodules
-            assert.is_not_nil(self.console)
             assert.is_not_nil(self.inventory)
             assert.is_not_nil(self.crafting)
             assert.is_not_nil(self.vision)
