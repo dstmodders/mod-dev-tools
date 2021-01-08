@@ -97,13 +97,6 @@ local DevTools = Class(function(self)
     self:DebugInit(tostring(self))
 end)
 
---- Helpers
--- @section helpers
-
-local function GetFnFullName(fn_name)
-    return string.format("%s:%s()", "DevTools", fn_name)
-end
-
 --- General
 -- @section general
 
@@ -180,30 +173,6 @@ end
 -- @treturn boolean
 function DevTools:IsPaused() -- luacheck: only
     return TheSim:GetTimeScale() == 0
-end
-
---- Pauses world.
--- @treturn boolean
-function DevTools:Pause()
-    local playertools = self.player
-    if playertools then
-        local fn_full_name = GetFnFullName("Pause")
-        if self:IsPaused() then
-            self:DebugError(fn_full_name .. ":", "Game is already paused")
-            return false
-        end
-
-        local timescale = TheSim:GetTimeScale()
-        if SDK.Remote.World.SetTimeScale(0) then
-            TheSim:SetTimeScale(0)
-            SetPause(true, "console")
-            self.timescale = timescale
-            self:DebugString("Game is paused")
-            return true
-        end
-
-        return false
-    end
 end
 
 --- Players
