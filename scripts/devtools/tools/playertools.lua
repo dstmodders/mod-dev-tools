@@ -161,10 +161,7 @@ function PlayerTools:ChangeTimeScale(amount, is_fixed) -- luacheck: only
     time_scale = is_fixed and amount or TheSim:GetTimeScale() + amount
     time_scale = time_scale < 0 and 0 or time_scale
     time_scale = time_scale >= 4 and 4 or time_scale
-    TheSim:SetTimeScale(time_scale)
-    if not SDK.World.IsMasterSim() then
-        SDK.Remote.World.SetTimeScale(time_scale)
-    end
+    SDK.World.SetTimeScale(time_scale)
 end
 
 --- God Mode
