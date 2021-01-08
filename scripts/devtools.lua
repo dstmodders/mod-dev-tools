@@ -126,12 +126,6 @@ function DevTools:ResetConfig(name)
     self.config:Save()
 end
 
---- Checks if it's a dedicated server game.
--- @treturn boolean
-function DevTools:IsDedicated() -- luacheck: only
-    return TheNet:IsDedicated()
-end
-
 --- Resets game.
 -- @treturn boolean
 function DevTools:Reset()
