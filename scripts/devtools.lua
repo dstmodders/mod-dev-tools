@@ -206,29 +206,6 @@ function DevTools:Pause()
     end
 end
 
---- Unpauses world.
--- @treturn boolean
-function DevTools:Unpause()
-    local playertools = self.player
-    if playertools then
-        local fn_full_name = GetFnFullName("Unpause")
-        if not self:IsPaused() then
-            self:DebugError(fn_full_name .. ":", "Game is already resumed")
-            return false
-        end
-
-        local timescale = self.timescale or 1
-        if SDK.Remote.World.SetTimeScale(timescale) then
-            TheSim:SetTimeScale(timescale)
-            SetPause(false, "console")
-            self:DebugString("Game is resumed")
-            return true
-        end
-
-        return false
-    end
-end
-
 --- Players
 -- @section players
 

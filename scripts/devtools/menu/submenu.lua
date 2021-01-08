@@ -128,8 +128,8 @@ end
 -- @see DevToolsScreen
 -- @see DevToolsScreen.ChangeDataSidebar
 -- @tparam[opt] number|table data_sidebar Data sidebar constant(s) (`MOD_DEV_TOOLS.DATA_SIDEBAR`)
--- @tparam[opt] boolean unpause Should the world be resumed if paused?
-function Submenu:UpdateScreen(data_sidebar, unpause)
+-- @tparam[opt] boolean is_resumed Should the world be resumed if paused?
+function Submenu:UpdateScreen(data_sidebar, is_resumed)
     data_sidebar = data_sidebar ~= nil and data_sidebar or self.data_sidebar
 
     if type(data_sidebar) == "table" then
@@ -146,9 +146,9 @@ function Submenu:UpdateScreen(data_sidebar, unpause)
         data_sidebar = not is_screen_data_sidebar and data_sidebar[1] or screen_data_sidebar
     end
 
-    if unpause and self.devtools then
-        if self.devtools:IsPaused() then
-            self.devtools:Unpause()
+    if is_resumed and SDK.World then
+        if SDK.World.IsPaused() then
+            SDK.World.Resume()
         end
     end
 
