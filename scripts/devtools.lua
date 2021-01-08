@@ -174,18 +174,6 @@ function DevTools:GetAllPlayers() -- luacheck: only
     return AllPlayers
 end
 
---- Gets a player by username.
--- @tparam string username
--- @treturn table
-function DevTools:GetPlayerByUsername(username)
-    for _, v in ipairs(self:GetAllPlayers()) do
-        if v:GetDisplayName() == username then
-            return v
-        end
-    end
-    return nil
-end
-
 --- Submenu
 -- @section submenu
 
