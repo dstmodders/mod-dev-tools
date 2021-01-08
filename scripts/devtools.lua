@@ -166,15 +166,6 @@ function DevTools:AddSubmenusData(data)
     table.insert(self.submenus_data, data)
 end
 
---- Pausing
--- @section pausing
-
---- Checks if the world is paused.
--- @treturn boolean
-function DevTools:IsPaused() -- luacheck: only
-    return TheSim:GetTimeScale() == 0
-end
-
 --- Players
 -- @section players
 

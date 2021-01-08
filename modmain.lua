@@ -196,7 +196,7 @@ SDK.OverrideComponentMethod("playercontroller", "OnControl", function(old, self,
     if devtools then
         -- screen
         if DevToolsScreen then
-            if devtools:IsPaused()
+            if SDK.World.IsPaused()
                 and not DevToolsScreen:IsOpen()
                 and control == CONTROL_ACCEPT
             then
