@@ -209,9 +209,6 @@ describe("PlayerTools", function()
                 -- lightwatcher
                 "CanGrueAttack",
 
-                -- player
-                "GetWerenessPercent",
-
                 -- selection
                 "IsSelectedInSync",
 

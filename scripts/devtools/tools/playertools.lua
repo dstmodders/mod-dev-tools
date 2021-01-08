@@ -259,19 +259,6 @@ function PlayerTools:CanGrueAttack()
         or SDK.Inventory.HasEquippedItemWithTag(EQUIPSLOTS.HEAD, "nightvision"))
 end
 
---- Player
--- @section player
-
---- Gets the Wereness value.
--- @tparam[opt] EntityScript player Player instance (the selected one by default)
--- @treturn number
-function PlayerTools:GetWerenessPercent(player)
-    player = player ~= nil and player or self:GetSelected()
-    if player.player_classified and player.player_classified.currentwereness then
-        return player.player_classified.currentwereness:value()
-    end
-end
-
 --- Selection
 -- @section selection
 
@@ -411,9 +398,6 @@ function PlayerTools:DoInit()
 
         -- lightwatcher
         "CanGrueAttack",
-
-        -- player
-        "GetWerenessPercent",
 
         -- selection
         "IsSelectedInSync",
