@@ -52,15 +52,15 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
         label = "Full",
         on_accept_fn = function()
             local player = ConsoleCommandPlayer()
-            SDK.Remote.Player.SetHealthLimitPercent(100, player)
-            SDK.Remote.Player.SetHealthPercent(100, player)
-            SDK.Remote.Player.SetHungerPercent(100, player)
-            SDK.Remote.Player.SetSanityPercent(100, player)
-            SDK.Remote.Player.SetMoisturePercent(0, player)
-            SDK.Remote.Player.SetTemperature(36, player)
+            SDK.Player.SetHealthLimitPercent(100, player)
+            SDK.Player.SetHealthPercent(100, player)
+            SDK.Player.SetHungerPercent(100, player)
+            SDK.Player.SetSanityPercent(100, player)
+            SDK.Player.SetMoisturePercent(0, player)
+            SDK.Player.SetTemperature(36, player)
 
             if is_inst_in_wereness_form then
-                SDK.Remote.Player.SetWerenessPercent(100, player)
+                SDK.Player.SetWerenessPercent(100, player)
             end
 
             self:UpdateScreen()
@@ -92,7 +92,7 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
             return math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
         end,
         on_set_fn = function(_, _, value)
-            SDK.Remote.Player[setter](value, ConsoleCommandPlayer())
+            SDK.Player[setter](value, ConsoleCommandPlayer())
             self:UpdateScreen()
         end,
     })
