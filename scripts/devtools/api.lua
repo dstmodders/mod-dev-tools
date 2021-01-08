@@ -24,19 +24,19 @@ local SDK = require "devtools/sdk/sdk/sdk"
 -- @tparam DevTools devtools
 local API = Class(function(self, devtools)
     SDK.Debug.AddMethods(self)
+    SDK.Method.SetClass(self).AddToString("API")
 
     -- general
     self.devtools = devtools
-    self.name = "API"
 
     -- other
-    self:DebugInit(self.name)
+    self:DebugInit(tostring(self))
 end)
 
 --- General
 -- @section general
 
---- Adds submenu.
+--- Adds a submenu.
 -- @tparam string|table submenu Require string or data table
 function API:AddSubmenu(submenu)
     if type(submenu) == "string" then
@@ -46,7 +46,7 @@ function API:AddSubmenu(submenu)
     end
 end
 
---- Gets API version.
+--- Gets an API version.
 -- @treturn string
 function API:GetAPIVersion() -- luacheck: only
     return MOD_DEV_TOOLS.API.VERSION
