@@ -229,16 +229,6 @@ function DevTools:Unpause()
     end
 end
 
---- Toggle pause.
--- @treturn boolean
-function DevTools:TogglePause()
-    if self:IsPaused() then
-        return self:Unpause()
-    else
-        return self:Pause()
-    end
-end
-
 --- Players
 -- @section players
 

@@ -75,14 +75,14 @@ SDK.OnPlayerActivated(function(world, player)
     devtools:DoInitPlayer(player)
 
     if devtools then
-        local playerdevtools = devtools.player
-        if playerdevtools then
-            local crafting = playerdevtools.crafting
-            local vision = playerdevtools.vision
+        local playertools = devtools.player
+        if playertools then
+            local crafting = playertools.crafting
+            local vision = playertools.vision
 
             if SDK.Player.IsAdmin() and GetModConfigData("default_god_mode") then
                 if GetModConfigData("default_god_mode") then
-                    playerdevtools:ToggleGodMode()
+                    playertools:ToggleGodMode()
                 end
             end
 
@@ -243,58 +243,58 @@ end)
 
 SDK.Input.AddConfigKeyUpHandler("key_pause", function()
     if devtools and SDK.Player.CanPressKeyInGamePlay() then
-        devtools:TogglePause()
+        SDK.World.TogglePause()
     end
 end)
 
 SDK.Input.AddConfigKeyUpHandler("key_god_mode", function()
     if devtools and SDK.Player.CanPressKeyInGamePlay() then
-        local playerdevtools = devtools.player
-        playerdevtools:ToggleGodMode()
+        local playertools = devtools.player
+        playertools:ToggleGodMode()
     end
 end)
 
 local _KEY_TELEPORT = SDK.Config.GetModKeyConfigData("key_teleport")
 SDK.Input.AddConfigKeyDownHandler("key_teleport", function()
     if devtools and SDK.Player.CanPressKeyInGamePlay() then
-        local playerdevtools = devtools.player
-        playerdevtools:Teleport(_KEY_TELEPORT)
+        local playertools = devtools.player
+        playertools:Teleport(_KEY_TELEPORT)
     end
 end)
 
 SDK.Input.AddConfigKeyUpHandler("key_select_entity", function()
-    local worlddevtools = SDK.Utils.Chain.Get(devtools, "world")
-    if worlddevtools and SDK.Player.CanPressKeyInGamePlay() then
-        worlddevtools:SelectEntityUnderMouse()
+    local worldtools = SDK.Utils.Chain.Get(devtools, "world")
+    if worldtools and SDK.Player.CanPressKeyInGamePlay() then
+        worldtools:SelectEntityUnderMouse()
     end
 end)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_increase", function()
-    local playerdevtools = SDK.Utils.Chain.Get(devtools, "player")
-    if playerdevtools and SDK.Player.CanPressKeyInGamePlay() then
+    local playertools = SDK.Utils.Chain.Get(devtools, "player")
+    if playertools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
-            playerdevtools:ChangeTimeScale(4, true)
+            playertools:ChangeTimeScale(4, true)
         else
-            playerdevtools:ChangeTimeScale(0.1)
+            playertools:ChangeTimeScale(0.1)
         end
     end
 end)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_decrease", function()
-    local playerdevtools = SDK.Utils.Chain.Get(devtools, "player")
-    if playerdevtools and SDK.Player.CanPressKeyInGamePlay() then
+    local playertools = SDK.Utils.Chain.Get(devtools, "player")
+    if playertools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
-            playerdevtools:ChangeTimeScale(0, true)
+            playertools:ChangeTimeScale(0, true)
         else
-            playerdevtools:ChangeTimeScale(-0.1)
+            playertools:ChangeTimeScale(-0.1)
         end
     end
 end)
 
 SDK.Input.AddConfigKeyUpHandler("key_time_scale_default", function()
-    local playerdevtools = SDK.Utils.Chain.Get(devtools, "player")
-    if playerdevtools and SDK.Player.CanPressKeyInGamePlay() then
-        playerdevtools:ChangeTimeScale(1, true)
+    local playertools = SDK.Utils.Chain.Get(devtools, "player")
+    if playertools and SDK.Player.CanPressKeyInGamePlay() then
+        playertools:ChangeTimeScale(1, true)
     end
 end)
 

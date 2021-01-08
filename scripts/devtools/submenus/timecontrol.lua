@@ -14,7 +14,6 @@
 require "devtools/constants"
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Toggle = require "devtools/submenus/option/toggle"
 
 return {
     label = "Time Control",
@@ -22,13 +21,23 @@ return {
     data_sidebar = MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD,
     on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.IS_ADMIN,
     options = {
-        Toggle(
-            "devtools",
-            "Pause",
-            "IsPaused",
-            "TogglePause",
-            MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.ONE_PLAYER
-        ),
+        {
+            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
+            on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.ONE_PLAYER,
+            options = {
+                label = "Pause",
+                get = {
+                    src = SDK.World,
+                    name = "IsPaused",
+                    args = {},
+                },
+                set = {
+                    src = SDK.World,
+                    name = "TogglePause",
+                    args = {},
+                },
+            },
+        },
         {
             type = MOD_DEV_TOOLS.OPTION.DIVIDER,
             on_add_to_root_fn = MOD_DEV_TOOLS.ON_ADD_TO_ROOT_FN.ONE_PLAYER,
