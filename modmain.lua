@@ -304,8 +304,8 @@ end)
 local KEY_R = _G.KEY_R
 
 local function Reset(key)
-    if devtools and TheInput:IsKeyDown(key) then
-        devtools:Reset()
+    if TheInput:IsKeyDown(key) then
+        SDK.Reload()
     end
 end
 

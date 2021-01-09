@@ -126,31 +126,6 @@ function DevTools:ResetConfig(name)
     self.config:Save()
 end
 
---- Resets game.
--- @treturn boolean
-function DevTools:Reset()
-    if not InGamePlay() or not self.world then
-        self:DebugString("Resetting...")
-        StartNextInstance()
-        return true
-    end
-
-    if self.player and not SDK.Player.IsAdmin() then
-        self:DebugError("DevTools:Reset():", "not an admin")
-        return false
-    end
-
-    if SDK.World.IsMasterSim() then
-        self:DebugString("Resetting local game...")
-        TheNet:SendWorldRollbackRequestToServer(0)
-    else
-        self:DebugString("Resetting remote game...")
-        SDK.Remote.Send("TheNet:SendWorldRollbackRequestToServer(0)")
-    end
-
-    return true
-end
-
 --- API
 -- @section api
 
