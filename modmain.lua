@@ -273,9 +273,9 @@ SDK.Input.AddConfigKeyDownHandler("key_time_scale_increase", function()
     local playertools = SDK.Utils.Chain.Get(devtools, "player")
     if playertools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
-            playertools:ChangeTimeScale(4, true)
+            SDK.World.SetTimeScale(4)
         else
-            playertools:ChangeTimeScale(0.1)
+            SDK.World.SetDeltaTimeScale(0.1)
         end
     end
 end)
@@ -284,9 +284,9 @@ SDK.Input.AddConfigKeyDownHandler("key_time_scale_decrease", function()
     local playertools = SDK.Utils.Chain.Get(devtools, "player")
     if playertools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
-            playertools:ChangeTimeScale(0, true)
+            SDK.World.SetTimeScale(0)
         else
-            playertools:ChangeTimeScale(-0.1)
+            SDK.World.SetDeltaTimeScale(-0.1)
         end
     end
 end)
@@ -294,7 +294,7 @@ end)
 SDK.Input.AddConfigKeyUpHandler("key_time_scale_default", function()
     local playertools = SDK.Utils.Chain.Get(devtools, "player")
     if playertools and SDK.Player.CanPressKeyInGamePlay() then
-        playertools:ChangeTimeScale(1, true)
+        SDK.World.SetTimeScale(1)
     end
 end)
 

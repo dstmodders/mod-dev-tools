@@ -153,17 +153,6 @@ function PlayerTools:IsPlatformJumping(player)
     return player and player.HasTag and player:HasTag("ignorewalkableplatforms")
 end
 
---- Changes current times cale.
--- @tparam number amount Amount to change between -4 to 4.
--- @tparam boolean is_fixed Should it be fixed without increasing/decreasing?
-function PlayerTools:ChangeTimeScale(amount, is_fixed) -- luacheck: only
-    local time_scale
-    time_scale = is_fixed and amount or TheSim:GetTimeScale() + amount
-    time_scale = time_scale < 0 and 0 or time_scale
-    time_scale = time_scale >= 4 and 4 or time_scale
-    SDK.World.SetTimeScale(time_scale)
-end
-
 --- God Mode
 -- @section god-mode
 
