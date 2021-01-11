@@ -249,7 +249,7 @@ end
 
 --- Updates username label.
 function Labels:UpdateUsername()
-    for _, inst in pairs(self.devtools:GetAllPlayers()) do
+    for _, inst in pairs(AllPlayers) do
         if inst:IsValid() and inst.Label then
             if self.is_username_enabled then
                 local client = SDK.Player.GetClientTable(inst)

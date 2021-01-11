@@ -135,20 +135,6 @@ function DevTools:AddSubmenusData(data)
     table.insert(self.submenus_data, data)
 end
 
---- Players
--- @section players
-
---- Gets all players.
---
--- This is a convenience method returning:
---
---    AllPlayers
---
--- @treturn table `AllPlayers`
-function DevTools:GetAllPlayers() -- luacheck: only
-    return AllPlayers
-end
-
 --- Submenu
 -- @section submenu
 

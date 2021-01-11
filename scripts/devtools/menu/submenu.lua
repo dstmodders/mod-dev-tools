@@ -99,7 +99,7 @@ end
 function Submenu:AddSelectedPlayerLabelPrefix(devtools, playertools)
     if type(self.label) == "string" and devtools and playertools then
         local player = playertools:GetSelected()
-        if player and #devtools:GetAllPlayers() > 1 then
+        if player and #AllPlayers > 1 then
             local prefix = string.format("[ %s ]  ", player:GetDisplayName()) or ""
             self.label = prefix .. self.label
         end

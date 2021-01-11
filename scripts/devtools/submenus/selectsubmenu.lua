@@ -79,7 +79,7 @@ end
 
 --- Adds select player options.
 function SelectSubmenu:AddSelectPlayerOptions()
-    for _, v in pairs(self.devtools:GetAllPlayers()) do
+    for _, v in pairs(AllPlayers) do
         self:AddActionOption({
             label = self:AppendSelected(v:GetDisplayName(), v, self.player:GetSelected()),
             on_accept_fn = function()

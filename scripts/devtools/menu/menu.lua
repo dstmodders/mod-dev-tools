@@ -174,7 +174,7 @@ function Menu:AddSelectedPlayerSubmenus()
 
     if SDK.Player.IsAdmin() then
         local player = playertools:GetSelected()
-        local prefix = #devtools:GetAllPlayers() > 1
+        local prefix = #AllPlayers > 1
             and string.format("[ %s ]  ", player:GetDisplayName())
             or ""
 
