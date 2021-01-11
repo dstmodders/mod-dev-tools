@@ -60,7 +60,6 @@ describe("PlayerMapTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- general
-                "IsMapScreenOpen",
                 "Reveal",
             }
 

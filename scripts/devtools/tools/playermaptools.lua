@@ -55,18 +55,6 @@ end)
 --- General
 -- @section general
 
---- Checks if map screen is open.
--- @treturn boolean
-function PlayerMapTools:IsMapScreenOpen() -- luacheck: only
-    if TheFrontEnd and TheFrontEnd.GetActiveScreen then
-        local screen = TheFrontEnd:GetActiveScreen()
-        if screen then
-            return screen.name == "MapScreen"
-        end
-    end
-    return false
-end
-
 --- Reveals the whole map.
 --
 -- Uses the player classified `MapExplorer` to reveal the map. Only works in a local game at the
@@ -99,7 +87,6 @@ end
 function PlayerMapTools:DoInit()
     DevTools.DoInit(self, self.playertools, "map", {
         -- general
-        "IsMapScreenOpen",
         "Reveal",
     })
 end
