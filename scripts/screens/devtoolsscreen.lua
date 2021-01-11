@@ -126,10 +126,7 @@ function DevToolsScreen:CanToggle() -- luacheck: only
         return false
     end
 
-    if SDK.FrontEnd.IsScreenOpen("ConsoleScreen")
-        or SDK.FrontEnd.HasTextFocus()
-        or SDK.FrontEnd.HasModConfigurationScreenInputFocus()
-    then
+    if SDK.FrontEnd.IsScreenOpen("ConsoleScreen") or SDK.FrontEnd.HasInputFocus() then
         return false
     end
 
