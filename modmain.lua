@@ -195,13 +195,12 @@ SDK.OverrideComponentMethod("playercontroller", "OnControl", function(old, self,
 
     if devtools then
         -- screen
-        if DevToolsScreen then
-            if SDK.World.IsPaused()
-                and not DevToolsScreen:IsOpen()
-                and control == CONTROL_ACCEPT
-            then
-                devtools:Unpause()
-            end
+        if DevToolsScreen
+            and not DevToolsScreen:IsOpen()
+            and control == CONTROL_ACCEPT
+            and SDK.IsPaused()
+        then
+            SDK.Resume()
         end
 
         -- player
@@ -242,8 +241,8 @@ SDK.Input.AddConfigKeyUpHandler("key_movement_prediction", function()
 end)
 
 SDK.Input.AddConfigKeyUpHandler("key_pause", function()
-    if devtools and SDK.Player.CanPressKeyInGamePlay() then
-        SDK.World.TogglePause()
+    if SDK.Player.CanPressKeyInGamePlay() then
+        SDK.TogglePause()
     end
 end)
 
@@ -273,9 +272,9 @@ SDK.Input.AddConfigKeyDownHandler("key_time_scale_increase", function()
     local playertools = SDK.Utils.Chain.Get(devtools, "player")
     if playertools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
-            SDK.World.SetTimeScale(4)
+            SDK.SetTimeScale(4)
         else
-            SDK.World.SetDeltaTimeScale(0.1)
+            SDK.SetDeltaTimeScale(0.1)
         end
     end
 end)
@@ -284,9 +283,9 @@ SDK.Input.AddConfigKeyDownHandler("key_time_scale_decrease", function()
     local playertools = SDK.Utils.Chain.Get(devtools, "player")
     if playertools and SDK.Player.CanPressKeyInGamePlay() then
         if TheInput:IsKeyDown(KEY_SHIFT) then
-            SDK.World.SetTimeScale(0)
+            SDK.SetTimeScale(0)
         else
-            SDK.World.SetDeltaTimeScale(-0.1)
+            SDK.SetDeltaTimeScale(-0.1)
         end
     end
 end)
@@ -294,7 +293,7 @@ end)
 SDK.Input.AddConfigKeyUpHandler("key_time_scale_default", function()
     local playertools = SDK.Utils.Chain.Get(devtools, "player")
     if playertools and SDK.Player.CanPressKeyInGamePlay() then
-        SDK.World.SetTimeScale(1)
+        SDK.SetTimeScale(1)
     end
 end)
 
