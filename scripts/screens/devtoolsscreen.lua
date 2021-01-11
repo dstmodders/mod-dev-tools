@@ -126,30 +126,14 @@ function DevToolsScreen:CanToggle() -- luacheck: only
         return false
     end
 
-    if TheFrontEnd and TheFrontEnd.GetActiveScreen then
-        local screen = TheFrontEnd:GetActiveScreen()
-        if screen then
-            if screen.name == "ConsoleScreen" then
-                return false
-            elseif screen.name == "ModConfigurationScreen" and TheFrontEnd.GetFocusWidget then
-                local focusWidget = TheFrontEnd:GetFocusWidget()
-                return focusWidget
-                    and focusWidget.texture
-                    and not (focusWidget.texture:find("spinner")
-                    or (focusWidget.texture:find("arrow")
-                    and not focusWidget.texture:find("scrollbar")))
-            elseif screen.name == "ServerListingScreen"
-                and screen.searchbox
-                and screen.searchbox.textbox
-                and screen.searchbox.textbox.editing
-            then
-                return false
-            end
-        end
+    if SDK.FrontEnd.IsScreenOpen("ConsoleScreen")
+        or SDK.FrontEnd.HasTextFocus()
+        or SDK.FrontEnd.HasModConfigurationScreenInputFocus()
+    then
+        return false
     end
 
     local devtools = self.devtools
-
     if InGamePlay() and devtools and not SDK.IsInCharacterSelect() then
         local playertools = devtools.player
         if playertools and SDK.Player.IsHUDChatInputScreenOpen() then
@@ -163,8 +147,7 @@ end
 --- Checks if screen is in open state.
 -- @treturn boolean
 function DevToolsScreen:IsOpen()
-    local screen = TheFrontEnd:GetActiveScreen()
-    return screen ~= nil and screen.name == self.name
+    return SDK.FrontEnd.IsScreenOpen(self.name)
 end
 
 --- Opens screen.
