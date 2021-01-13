@@ -88,7 +88,7 @@ SDK.OnPlayerActivated(function(world, player)
 
             if crafting and SDK.Player.IsAdmin() then
                 if GetModConfigData("default_free_crafting") then
-                    crafting:ToggleFreeCrafting()
+                    SDK.Player.Craft.ToggleFreeCrafting(player)
                 end
             end
 

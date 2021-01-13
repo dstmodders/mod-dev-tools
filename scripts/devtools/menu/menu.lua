@@ -170,7 +170,6 @@ end
 function Menu:AddSelectedPlayerSubmenus()
     local devtools = self.devtools
     local playertools = devtools.player
-    local playercraftingtools = playertools.crafting
 
     if SDK.Player.IsAdmin() then
         local player = playertools:GetSelected()
@@ -187,7 +186,7 @@ function Menu:AddSelectedPlayerSubmenus()
         self:AddToggleOption(
             { name = "Free Crafting", prefix = prefix },
             { src = SDK.Player.Craft, name = "HasFreeCrafting", args = { player } },
-            { src = playercraftingtools, name = "ToggleFreeCrafting" },
+            { src = SDK.Player.Craft, name = "ToggleFreeCrafting", args = { player } },
             3
         )
 
