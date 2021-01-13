@@ -77,30 +77,6 @@ function PlayerCraftingTools:MakeRecipeFromMenu(recipe, idx) -- luacheck: only
     end
 end
 
---- Gets character-specific recipes.
---
--- Returns only recipes that only some characters can craft/build.
---
--- @treturn table Recipes
-function PlayerCraftingTools:GetCharacterRecipes()
-    if not self.inst
-        or not self.inst.player_classified
-        or not self.inst.player_classified.recipes
-    then
-        return
-    end
-
-    local recipes = {}
-
-    for recipe, data in pairs(AllRecipes) do
-        if data.builder_tag then
-            table.insert(recipes, recipe)
-        end
-    end
-
-    return recipes
-end
-
 --- Gets learned recipes.
 --
 -- **NB!** Free crafting doesn't affect this as it contains only recipes that were learned when it
@@ -291,7 +267,6 @@ function PlayerCraftingTools:DoInit()
         -- general
         "BufferBuildPlacer",
         "MakeRecipeFromMenu",
-        "GetCharacterRecipes",
         "GetLearnedRecipes",
         "GetLearnedForRecipes",
         "GetNamesForRecipes",
