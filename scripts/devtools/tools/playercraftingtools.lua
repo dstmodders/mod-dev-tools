@@ -77,45 +77,6 @@ function PlayerCraftingTools:MakeRecipeFromMenu(recipe, idx) -- luacheck: only
     end
 end
 
---- Gets learned recipes.
---
--- **NB!** Free crafting doesn't affect this as it contains only recipes that were learned when it
--- was disabled.
---
--- @treturn table Recipes
-function PlayerCraftingTools:GetLearnedRecipes()
-    if not self.inst then
-        return
-    end
-
-    if SDK.World.IsMasterSim() then
-        if self.inst.components
-            and self.inst.components.builder
-            and self.inst.components.builder.recipes
-        then
-            return self.inst.components.builder.recipes
-        end
-    else
-        if self.inst.replica.builder
-            and self.inst.replica.builder.classified
-            and self.inst.replica.builder.classified.recipes
-        then
-            local result = {}
-            local recipe
-            local recipes = self.inst.replica.builder.classified.recipes
-            for name, v in pairs(recipes) do
-                if v:value() then
-                    recipe = GetValidRecipe(name)
-                    if recipe then
-                        table.insert(result, name)
-                    end
-                end
-            end
-            return result
-        end
-    end
-end
-
 --- Gets names for provided recipes.
 --
 -- @tparam table recipes Recipes
@@ -190,7 +151,6 @@ function PlayerCraftingTools:DoInit()
         -- general
         "BufferBuildPlacer",
         "MakeRecipeFromMenu",
-        "GetLearnedRecipes",
         "GetNamesForRecipes",
         "CanCraftItem",
 
