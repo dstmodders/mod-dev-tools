@@ -69,7 +69,6 @@ describe("PlayerCraftingTools", function()
                 "BufferBuildPlacer",
                 "MakeRecipeFromMenu",
                 "GetLearnedRecipes",
-                "GetLearnedForRecipes",
                 "GetNamesForRecipes",
                 "GetPlacersForRecipes",
                 "GetNonPlacersForRecipes",

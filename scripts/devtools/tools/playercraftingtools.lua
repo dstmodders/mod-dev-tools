@@ -116,20 +116,6 @@ function PlayerCraftingTools:GetLearnedRecipes()
     end
 end
 
---- Gets only learned recipes.
---
--- @tparam table recipes Recipes
--- @treturn table Learned recipes
-function PlayerCraftingTools:GetLearnedForRecipes(recipes)
-    local result = {}
-    for _, v in pairs(recipes) do
-        if self:IsRecipeLearned(v) then
-            table.insert(result, v)
-        end
-    end
-    return result
-end
-
 --- Gets names for provided recipes.
 --
 -- @tparam table recipes Recipes
@@ -268,7 +254,6 @@ function PlayerCraftingTools:DoInit()
         "BufferBuildPlacer",
         "MakeRecipeFromMenu",
         "GetLearnedRecipes",
-        "GetLearnedForRecipes",
         "GetNamesForRecipes",
         "GetPlacersForRecipes",
         "GetNonPlacersForRecipes",
