@@ -36,9 +36,9 @@ local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)
 
     -- options
     if self.devtools and self.crafting and devtools.screen then
-        local recipes = self.crafting:GetCharacterRecipes()
-        local learned = self.crafting:GetLearnedForRecipes(recipes)
-        if learned and #learned > 0 then
+        local recipes = SDK.Player.Craft.FilterRecipesWith("builder_tag")
+        local learned = SDK.Player.Craft.FilterRecipesByLearned(recipes)
+        if SDK.Utils.Table.Count(learned) > 0 then
             self:AddOptions()
             self:AddToRoot()
         end
@@ -130,18 +130,19 @@ end
 
 --- Adds options.
 function CharacterRecipesSubmenu:AddOptions()
-    local names, name, items, item, placers, placer, skins
+    local names, name, item, placer, skins
 
     local crafting = self.crafting
-    local recipes = crafting:GetCharacterRecipes()
-    local learned = crafting:GetLearnedForRecipes(recipes)
+    local recipes = SDK.Player.Craft.FilterRecipesWith("builder_tag")
+    local learned = SDK.Player.Craft.FilterRecipesByLearned(recipes)
+    local placers = SDK.Player.Craft.FilterRecipesWith("placer", learned)
+    local non_placers = SDK.Player.Craft.FilterRecipesWithout("placer", learned)
 
-    items = crafting:GetNonPlacersForRecipes(learned)
-    if type(items) == "table" and #items > 0 then
-        names, items = crafting:GetNamesForRecipes(items, true)
+    if SDK.Utils.Table.Count(non_placers) > 0 then
+        names, non_placers = crafting:GetNamesForRecipes(SDK.Utils.Table.Keys(non_placers), true)
         for i = 1, #names, 1 do
             name = names[i]
-            item = items[i]
+            item = non_placers[i]
             skins = Profile and Profile:GetSkinsForPrefab(item)
             if skins and #skins > 1 then
                 self:AddRecipeSkinsOption(name, item, skins)
@@ -151,10 +152,9 @@ function CharacterRecipesSubmenu:AddOptions()
         end
     end
 
-    placers = crafting:GetPlacersForRecipes(learned)
-    if type(placers) == "table" and #placers > 0 then
+    if SDK.Utils.Table.Count(placers) > 0 then
         self:AddDividerOption()
-        names, placers = crafting:GetNamesForRecipes(placers, true)
+        names, placers = crafting:GetNamesForRecipes(SDK.Utils.Table.Keys(placers), true)
         for i = 1, #names, 1 do
             name = names[i]
             placer = placers[i]
