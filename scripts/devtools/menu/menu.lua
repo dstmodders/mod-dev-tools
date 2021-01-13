@@ -186,7 +186,7 @@ function Menu:AddSelectedPlayerSubmenus()
 
         self:AddToggleOption(
             { name = "Free Crafting", prefix = prefix },
-            { src = playercraftingtools, name = "IsFreeCrafting" },
+            { src = SDK.Player.Craft, name = "HasFreeCrafting", args = { player } },
             { src = playercraftingtools, name = "ToggleFreeCrafting" },
             3
         )

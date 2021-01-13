@@ -88,7 +88,6 @@ function SelectedData:PushPlayerData()
     SDK.Utils.AssertRequiredField("SelectedData.player", self.player)
     SDK.Utils.AssertRequiredField("SelectedData.playertools", self.playertools)
 
-    local playercraftingtools = self.playercraftingtools
     local devtools = self.devtools
     local player = self.player
     local playertools = self.playertools
@@ -147,7 +146,7 @@ function SelectedData:PushPlayerData()
             self:PushLine("God Mode", (is_god_mode and "enabled" or "disabled"))
         end
 
-        local is_free_crafting = playercraftingtools:IsFreeCrafting(player)
+        local is_free_crafting = SDK.Player.Craft.HasFreeCrafting(player)
         if is_free_crafting ~= nil then
             self:PushLine("Free Crafting", is_free_crafting and "enabled" or "disabled")
         end

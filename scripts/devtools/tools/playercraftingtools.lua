@@ -335,24 +335,14 @@ function PlayerCraftingTools:LockCharacterRecipes()
     end
 end
 
---- Returns free crafting status.
--- @tparam[opt] EntityScript player Player instance (the selected one by default)
--- @treturn boolean
-function PlayerCraftingTools:IsFreeCrafting(player)
-    player = player == nil and self.playertools:GetSelected() or player
-    if player and player.player_classified and player.player_classified.isfreebuildmode then
-        return player.player_classified.isfreebuildmode:value()
-    end
-end
-
 --- Toggles free crafting mode.
 -- @tparam[opt] EntityScript player Player instance (the selected one by default)
 -- @treturn boolean
 function PlayerCraftingTools:ToggleFreeCrafting(player)
     player = player == nil and self.playertools:GetSelected() or player
-    if player and self:IsFreeCrafting(player) ~= nil then
+    if player and SDK.Player.Craft.HasFreeCrafting(player) ~= nil then
         if SDK.Player.IsOwner(player) then
-            if not self:IsFreeCrafting(player) then
+            if not SDK.Player.Craft.HasFreeCrafting(player) then
                 self:UnlockCharacterRecipes()
             else
                 self:LockCharacterRecipes()
@@ -361,7 +351,7 @@ function PlayerCraftingTools:ToggleFreeCrafting(player)
 
         SDK.Remote.Player.ToggleFreeCrafting(player)
 
-        local is_free_crafting = self:IsFreeCrafting(player)
+        local is_free_crafting = SDK.Player.Craft.HasFreeCrafting(player)
         self:DebugString(
             player and "(" .. player:GetDisplayName() .. ")",
             "Free Crafting is",
@@ -397,7 +387,6 @@ function PlayerCraftingTools:DoInit()
         -- free crafting
         "UnlockCharacterRecipes",
         "LockCharacterRecipes",
-        "IsFreeCrafting",
         "ToggleFreeCrafting",
     })
 end
