@@ -70,7 +70,6 @@ describe("PlayerCraftingTools", function()
                 "MakeRecipeFromMenu",
                 "GetLearnedRecipes",
                 "GetNamesForRecipes",
-                "GetNonPlacersForRecipes",
                 "IsRecipeLearned",
                 "CanCraftItem",
 

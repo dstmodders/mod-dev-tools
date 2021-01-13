@@ -138,30 +138,6 @@ function PlayerCraftingTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
     return result, recipes
 end
 
---- Gets only non-placers for recipes.
---
--- Returns only recipes for items and not for buildings.
---
--- @tparam table recipes Recipes
--- @treturn table Placers
-function PlayerCraftingTools:GetNonPlacersForRecipes(recipes) -- luacheck: only
-    if type(recipes) ~= "table" then
-        return
-    end
-
-    local result = {}
-    local recipe
-
-    for _, v in pairs(recipes) do
-        recipe = GetValidRecipe(v)
-        if recipe and not recipe.placer then
-            table.insert(result, v)
-        end
-    end
-
-    return result
-end
-
 --- Checks if a recipe is learned.
 --
 -- The learned recipes are retrieved using the `GetLearnedRecipes`.
@@ -231,7 +207,6 @@ function PlayerCraftingTools:DoInit()
         "MakeRecipeFromMenu",
         "GetLearnedRecipes",
         "GetNamesForRecipes",
-        "GetNonPlacersForRecipes",
         "IsRecipeLearned",
         "CanCraftItem",
 
