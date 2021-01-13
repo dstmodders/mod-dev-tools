@@ -253,7 +253,7 @@ function PlayerCraftingTools:CanCraftItem(name) -- luacheck: only
     end
 
     local recipe = GetValidRecipe(name)
-    local inventory = SDK.Inventory.GetInventory()
+    local inventory = SDK.Player.Inventory.GetInventory()
     if inventory and recipe then
         for _, ingredient in pairs(recipe.ingredients) do
             if not inventory:Has(ingredient.type, ingredient.amount) then

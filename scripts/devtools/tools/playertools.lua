@@ -245,7 +245,7 @@ function PlayerTools:CanGrueAttack()
     return not (self:IsGodMode()
         or SDK.Player.IsInLight()
         or SDK.Player.IsGhost()
-        or SDK.Inventory.HasEquippedItemWithTag(EQUIPSLOTS.HEAD, "nightvision"))
+        or SDK.Player.Inventory.HasEquippedItemWithTag(EQUIPSLOTS.HEAD, "nightvision"))
 end
 
 --- Selection

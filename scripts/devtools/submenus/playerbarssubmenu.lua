@@ -52,15 +52,15 @@ function PlayerBarsSubmenu:AddFullOption(is_inst_in_wereness_form)
         label = "Full",
         on_accept_fn = function()
             local player = ConsoleCommandPlayer()
-            SDK.Player.SetHealthLimitPercent(100, player)
-            SDK.Player.SetHealthPercent(100, player)
-            SDK.Player.SetHungerPercent(100, player)
-            SDK.Player.SetSanityPercent(100, player)
-            SDK.Player.SetMoisturePercent(0, player)
-            SDK.Player.SetTemperature(36, player)
+            SDK.Player.Attribute.SetHealthLimitPercent(100, player)
+            SDK.Player.Attribute.SetHealthPercent(100, player)
+            SDK.Player.Attribute.SetHungerPercent(100, player)
+            SDK.Player.Attribute.SetSanityPercent(100, player)
+            SDK.Player.Attribute.SetMoisturePercent(0, player)
+            SDK.Player.Attribute.SetTemperature(36, player)
 
             if is_inst_in_wereness_form then
-                SDK.Player.SetWerenessPercent(100, player)
+                SDK.Player.Attribute.SetWerenessPercent(100, player)
             end
 
             self:UpdateScreen()
@@ -89,10 +89,10 @@ function PlayerBarsSubmenu:AddPlayerBarOption(label, getter, setter, min, max, s
             self:UpdateScreen()
         end,
         on_get_fn = function()
-            return math.floor(SDK.Player[getter](ConsoleCommandPlayer()))
+            return math.floor(SDK.Player.Attribute[getter](ConsoleCommandPlayer()))
         end,
         on_set_fn = function(_, _, value)
-            SDK.Player[setter](value, ConsoleCommandPlayer())
+            SDK.Player.Attribute[setter](value, ConsoleCommandPlayer())
             self:UpdateScreen()
         end,
     })

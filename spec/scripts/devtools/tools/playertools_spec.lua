@@ -51,10 +51,11 @@ describe("PlayerTools", function()
         _G.ConsoleRemote = nil
         _G.EQUIPSLOTS = nil
         _G.GROUND = nil
+        _G.kleifileexists = nil
         _G.SetDebugEntity = nil
         _G.TheNet = nil
+        _G.ThePlayer = nil
         _G.TheSim = nil
-        _G.kleifileexists = nil
     end)
 
     before_each(function()
@@ -108,6 +109,7 @@ describe("PlayerTools", function()
         _G.ConsoleRemote = spy.new(Empty)
         _G.GROUND = { INVALID = 255 }
         _G.SetDebugEntity = spy.new(Empty)
+        _G.ThePlayer = inst
         _G.TheSim = MockTheSim()
 
         -- sdk
@@ -346,12 +348,12 @@ describe("PlayerTools", function()
                         local _HasEquippedItemWithTag
 
                         before_each(function()
-                            _HasEquippedItemWithTag = _G.SDK.Inventory.HasEquippedItemWithTag
-                            _G.SDK.Inventory.HasEquippedItemWithTag = spy.new(ReturnValueFn(true))
+                            _HasEquippedItemWithTag = _G.SDK.Player.Inventory.HasEquippedItemWithTag
+                            _G.SDK.Player.Inventory.HasEquippedItemWithTag = spy.new(ReturnValueFn(true))
                         end)
 
                         teardown(function()
-                            _G.SDK.Inventory.HasEquippedItemWithTag = _HasEquippedItemWithTag
+                            _G.SDK.Player.Inventory.HasEquippedItemWithTag = _HasEquippedItemWithTag
                         end)
 
                         it("should return false", function()

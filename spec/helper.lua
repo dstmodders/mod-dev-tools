@@ -138,6 +138,7 @@ end
 
 function MockInventoryReplica()
     return require("busted").mock({
+        GetEquippedItem = Empty,
         GetItems = Empty,
     })
 end

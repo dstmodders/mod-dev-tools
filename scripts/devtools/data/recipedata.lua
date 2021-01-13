@@ -59,7 +59,7 @@ end
 -- @tparam string type
 -- @tparam number amount
 function RecipeData:PushIngredientLine(type, amount)
-    local inventory = SDK.Inventory.GetInventory()
+    local inventory = SDK.Player.Inventory.GetInventory()
     local name = SDK.Constant.GetStringName(type)
 
     if inventory then

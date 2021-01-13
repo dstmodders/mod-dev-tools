@@ -97,7 +97,7 @@ end
 -- @tparam table item
 -- @treturn number
 function PlayerInventoryTools:GetBackpackSlotByItem(item) -- luacheck: only
-    local items = SDK.Inventory.GetEquippedBackpackItems()
+    local items = SDK.Player.Inventory.GetEquippedBackpackItems()
     if items and item then
         for k, v in pairs(items) do
             if v == item then
@@ -113,7 +113,7 @@ end
 --- Selects an equipped item.
 -- @treturn boolean Always true
 function PlayerInventoryTools:SelectEquippedItem(slot)
-    local item = SDK.Inventory.GetEquippedItem(slot)
+    local item = SDK.Player.Inventory.GetEquippedItem(slot)
     if item then
         SetDebugEntity(item)
         self.devtools.labels:AddSelected(item)

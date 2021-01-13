@@ -109,31 +109,34 @@ function SelectedData:PushPlayerData()
 
     if SDK.Player.IsOwner(player) or SDK.Player.IsReal(player) == false then
         if devtools.inst == player or (SDK.World.IsMasterSim() or SDK.Player.IsAdmin()) then
-            local health = SDK.Utils.Value.ToPercentString(SDK.Player.GetHealthPercent() or 0)
+            local health = SDK.Utils.Value.ToPercentString(
+                SDK.Player.Attribute.GetHealthPercent() or 0
+            )
+
             local health_max = SDK.Utils.Value.ToPercentString(
-                SDK.Player.GetHealthLimitPercent(player) or 0
+                SDK.Player.Attribute.GetHealthLimitPercent(player) or 0
             )
 
             self:PushLine("Health / Maximum", { health, health_max })
 
             self:PushLine(
                 "Hunger",
-                SDK.Utils.Value.ToPercentString(SDK.Player.GetHungerPercent(player))
+                SDK.Utils.Value.ToPercentString(SDK.Player.Attribute.GetHungerPercent(player))
             )
 
             self:PushLine(
                 "Sanity",
-                SDK.Utils.Value.ToPercentString(SDK.Player.GetSanityPercent(player))
+                SDK.Utils.Value.ToPercentString(SDK.Player.Attribute.GetSanityPercent(player))
             )
 
             self:PushLine(
                 "Moisture",
-                SDK.Utils.Value.ToPercentString(SDK.Player.GetMoisturePercent(player))
+                SDK.Utils.Value.ToPercentString(SDK.Player.Attribute.GetMoisturePercent(player))
             )
 
             self:PushLine(
                 "Temperature",
-                SDK.Utils.Value.ToDegreeString(SDK.Player.GetTemperature(player))
+                SDK.Utils.Value.ToDegreeString(SDK.Player.Attribute.GetTemperature(player))
             )
         end
     end
