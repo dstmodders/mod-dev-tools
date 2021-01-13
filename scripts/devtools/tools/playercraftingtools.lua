@@ -138,21 +138,6 @@ function PlayerCraftingTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
     return result, recipes
 end
 
---- Checks if a recipe is learned.
---
--- The learned recipes are retrieved using the `GetLearnedRecipes`.
---
--- **NB!** Free crafting doesn't affect this so it should be handled separately.
---
--- @tparam string name Item name
--- @treturn boolean
-function PlayerCraftingTools:IsRecipeLearned(name)
-    local recipes = self:GetLearnedRecipes()
-    if type(recipes) == "table" and #recipes > 0 then
-        return SDK.Utils.Table.HasValue(recipes, name)
-    end
-end
-
 --- Checks if an item can be crafted.
 --
 -- Verifies if an owner has enough ingredients to craft an item by checking the inventory.
@@ -207,7 +192,6 @@ function PlayerCraftingTools:DoInit()
         "MakeRecipeFromMenu",
         "GetLearnedRecipes",
         "GetNamesForRecipes",
-        "IsRecipeLearned",
         "CanCraftItem",
 
         -- selection
