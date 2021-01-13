@@ -282,24 +282,6 @@ function PlayerCraftingTools:SetSelectedRecipe(recipe)
     self.selected_recipe = recipe
 end
 
---- Free Crafting
--- @section free-crafting
-
---- Locks all character-specific recipes.
-function PlayerCraftingTools:LockCharacterRecipes()
-    local recipes = self:GetCharacterRecipes()
-
-    self:DebugString("Locking and restoring character recipes...")
-    if type(recipes) == "table" and #recipes > 0 then
-        for _, recipe in pairs(recipes) do
-            if not SDK.Utils.Table.HasValue(self.character_recipes, recipe) then
-                SDK.Remote.Player.LockRecipe(recipe, self.inst)
-            end
-        end
-        self.character_recipes = {}
-    end
-end
-
 --- Lifecycle
 -- @section lifecycle
 
@@ -321,9 +303,6 @@ function PlayerCraftingTools:DoInit()
         -- selection
         "GetSelectedRecipe",
         "SetSelectedRecipe",
-
-        -- free crafting
-        "LockCharacterRecipes",
     })
 end
 

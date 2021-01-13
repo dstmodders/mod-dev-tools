@@ -80,9 +80,6 @@ describe("PlayerCraftingTools", function()
                 -- selection
                 "GetSelectedRecipe",
                 "SetSelectedRecipe",
-
-                -- free crafting
-                "LockCharacterRecipes",
             }
 
             AssertAddedMethodsBefore(methods, devtools)
