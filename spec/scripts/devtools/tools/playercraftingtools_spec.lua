@@ -82,7 +82,6 @@ describe("PlayerCraftingTools", function()
                 "SetSelectedRecipe",
 
                 -- free crafting
-                "UnlockCharacterRecipes",
                 "LockCharacterRecipes",
             }
 

@@ -285,42 +285,7 @@ end
 --- Free Crafting
 -- @section free-crafting
 
---- Unlocks all character-specific recipes.
---
--- It stores the originally learned recipes in order to restore them when using the corresponding
--- `LockCharacterRecipes` method and then unlocks all character-specific recipes.
-function PlayerCraftingTools:UnlockCharacterRecipes()
-    if #self.character_recipes == 0 then
-        local recipes = self:GetCharacterRecipes()
-        local learned = self:GetLearnedForRecipes(recipes)
-
-        if #self.character_recipes == 0 and type(learned) == "table" then
-            self:DebugString("Storing", #learned, "learned character recipes...")
-            self.character_recipes = learned
-        end
-
-        if type(recipes) == "table" and #recipes > 0 then
-            self:DebugString("Unlocking character recipes...")
-            for _, recipe in pairs(recipes) do
-                SDK.Remote.Player.UnlockRecipe(recipe, self.inst)
-            end
-        end
-    else
-        self:DebugString(
-            "Already",
-            #self.character_recipes,
-            (#self.character_recipes > 1 or #self.character_recipes == 0)
-                and "recipes are stored."
-                or "recipe is stored.",
-            "Use PlayerCraftingTools:LockCharacterRecipes() before unlocking"
-        )
-    end
-end
-
 --- Locks all character-specific recipes.
---
--- It locks all character-specific recipes except those stored earlier by the
--- `UnlockCharacterRecipes` method.
 function PlayerCraftingTools:LockCharacterRecipes()
     local recipes = self:GetCharacterRecipes()
 
@@ -358,7 +323,6 @@ function PlayerCraftingTools:DoInit()
         "SetSelectedRecipe",
 
         -- free crafting
-        "UnlockCharacterRecipes",
         "LockCharacterRecipes",
     })
 end
