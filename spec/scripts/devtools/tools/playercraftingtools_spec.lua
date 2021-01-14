@@ -68,7 +68,6 @@ describe("PlayerCraftingTools", function()
                 -- general
                 "BufferBuildPlacer",
                 "MakeRecipeFromMenu",
-                "GetNamesForRecipes",
                 "CanCraftItem",
 
                 -- selection

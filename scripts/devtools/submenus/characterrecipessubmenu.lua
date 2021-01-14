@@ -36,9 +36,7 @@ local CharacterRecipesSubmenu = Class(Submenu, function(self, devtools, root)
 
     -- options
     if self.devtools and self.crafting and devtools.screen then
-        local recipes = SDK.Player.Craft.FilterRecipesWith("builder_tag")
-        local learned = SDK.Player.Craft.FilterRecipesByLearned(recipes)
-        if SDK.Utils.Table.Count(learned) > 0 then
+        if SDK.Utils.Table.Count(self:GetRecipes()) > 0 then
             self:AddOptions()
             self:AddToRoot()
         end
@@ -47,6 +45,17 @@ end)
 
 --- General
 -- @section general
+
+--- Gets recipes.
+-- @treturn table
+function CharacterRecipesSubmenu:GetRecipes() -- luacheck: only
+    local recipes
+    recipes = SDK.Player.Craft.FilterRecipesBy(function(_, data)
+        return data.builder_tag and data.tab and data.nounlock ~= true
+    end)
+    recipes = SDK.Player.Craft.FilterRecipesByLearned(recipes)
+    return recipes
+end
 
 --- Adds recipe option.
 -- @tparam table|string label
@@ -130,35 +139,31 @@ end
 
 --- Adds options.
 function CharacterRecipesSubmenu:AddOptions()
-    local names, name, item, placer, skins
+    local recipes, keys, keys_names, skins
 
-    local crafting = self.crafting
-    local recipes = SDK.Player.Craft.FilterRecipesWith("builder_tag")
-    local learned = SDK.Player.Craft.FilterRecipesByLearned(recipes)
-    local placers = SDK.Player.Craft.FilterRecipesWith("placer", learned)
-    local non_placers = SDK.Player.Craft.FilterRecipesWithout("placer", learned)
+    recipes = self:GetRecipes()
 
+    local non_placers = SDK.Player.Craft.FilterRecipesWithout("placer", recipes)
     if SDK.Utils.Table.Count(non_placers) > 0 then
-        names, non_placers = crafting:GetNamesForRecipes(SDK.Utils.Table.Keys(non_placers), true)
-        for i = 1, #names, 1 do
-            name = names[i]
-            item = non_placers[i]
-            skins = Profile and Profile:GetSkinsForPrefab(item)
+        keys = SDK.Utils.Table.Keys(non_placers)
+        keys_names = SDK.Constant.AddStringNamesToTable(keys, true)
+        for _, key in pairs(keys_names) do
+            skins = Profile and Profile:GetSkinsForPrefab(key.value)
             if skins and #skins > 1 then
-                self:AddRecipeSkinsOption(name, item, skins)
+                self:AddRecipeSkinsOption(key.name, key.value, skins)
             else
-                self:AddRecipeOption(name, item)
+                self:AddRecipeOption(key.name, key.value)
             end
         end
     end
 
+    local placers = SDK.Player.Craft.FilterRecipesWith("placer", recipes)
     if SDK.Utils.Table.Count(placers) > 0 then
         self:AddDividerOption()
-        names, placers = crafting:GetNamesForRecipes(SDK.Utils.Table.Keys(placers), true)
-        for i = 1, #names, 1 do
-            name = names[i]
-            placer = placers[i]
-            self:AddPlacerOption(name, placer)
+        keys = SDK.Utils.Table.Keys(placers)
+        keys_names = SDK.Constant.AddStringNamesToTable(keys, true)
+        for _, key in pairs(keys_names) do
+            self:AddPlacerOption(key.name, key.value)
         end
     end
 end

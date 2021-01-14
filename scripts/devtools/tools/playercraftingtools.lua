@@ -77,28 +77,6 @@ function PlayerCraftingTools:MakeRecipeFromMenu(recipe, idx) -- luacheck: only
     end
 end
 
---- Gets names for provided recipes.
---
--- @tparam table recipes Recipes
--- @tparam[opt] boolean sort Sort alphabetically
--- @treturn table Names
--- @treturn table Recipes
-function PlayerCraftingTools:GetNamesForRecipes(recipes, sort) -- luacheck: only
-    recipes = sort and SDK.Utils.Table.SortAlphabetically(recipes) or recipes
-
-    local result = {}
-    local recipe
-
-    for _, v in pairs(recipes) do
-        recipe = GetValidRecipe(v)
-        if recipe and recipe.name then
-            table.insert(result, SDK.Constant.GetStringName(recipe.name))
-        end
-    end
-
-    return result, recipes
-end
-
 --- Checks if an item can be crafted.
 --
 -- Verifies if an owner has enough ingredients to craft an item by checking the inventory.
@@ -151,7 +129,6 @@ function PlayerCraftingTools:DoInit()
         -- general
         "BufferBuildPlacer",
         "MakeRecipeFromMenu",
-        "GetNamesForRecipes",
         "CanCraftItem",
 
         -- selection
