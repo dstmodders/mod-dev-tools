@@ -132,6 +132,7 @@ uninstall:
 	@rm -rf "${DST_MODS}/dst-mod-dev-tools/"
 
 updatesdk:
+	@rm -rf scripts/devtools/sdk/*
 	@git submodule foreach git reset --hard origin/main
 	@git submodule foreach git pull
 	@git add scripts/devtools/sdk
