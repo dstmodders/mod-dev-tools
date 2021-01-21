@@ -24,13 +24,13 @@ return {
         {
             type = MOD_DEV_TOOLS.OPTION.CHECKBOX,
             options = {
-                label = "Toggle Force Precipitation",
+                label = "Toggle Precipitation",
                 on_get_fn = function()
-                    return SDK.World.IsPrecipitation()
+                    return SDK.World.Weather.HasPrecipitation()
                 end,
                 on_set_fn = function(_, submenu, value)
-                    if value ~= SDK.World.IsPrecipitation() then
-                        SDK.Remote.World.ForcePrecipitation(value)
+                    if value ~= SDK.World.Weather.HasPrecipitation() then
+                        SDK.Remote.World.SetPrecipitation(value)
                         submenu:UpdateScreen(nil, true)
                     end
                 end,
@@ -66,7 +66,7 @@ return {
             options = {
                 label = "Moisture",
                 min = function()
-                    return SDK.World.GetMoistureFloor()
+                    return SDK.World.Weather.GetMoistureFloor()
                 end,
                 max = function()
                     return SDK.World.GetState("moistureceil")

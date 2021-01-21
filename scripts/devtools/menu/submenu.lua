@@ -146,8 +146,8 @@ function Submenu:UpdateScreen(data_sidebar, is_resumed)
         data_sidebar = not is_screen_data_sidebar and data_sidebar[1] or screen_data_sidebar
     end
 
-    if is_resumed and SDK.IsPaused() then
-        SDK.Resume()
+    if is_resumed and SDK.Time.IsPaused() then
+        SDK.Time.Resume()
     end
 
     if self.screen then

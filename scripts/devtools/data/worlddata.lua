@@ -61,8 +61,8 @@ end
 function WorldData:PushWorldMoistureLine()
     local moisture = SDK.World.GetState("moisture")
     local moisture_ceil = SDK.World.GetState("moistureceil")
-    local moisture_rate = SDK.World.GetMoistureRate()
-    local moisture_floor = SDK.World.GetMoistureFloor()
+    local moisture_rate = SDK.World.Weather.GetMoistureRate()
+    local moisture_floor = SDK.World.Weather.GetMoistureFloor()
 
     if moisture ~= nil and moisture_ceil ~= nil and moisture_rate ~= nil then
         local moisture_string = SDK.Utils.Value.ToFloatString(moisture)
@@ -71,7 +71,7 @@ function WorldData:PushWorldMoistureLine()
             moisture_string = string.format(
                 "%0.2f (%s%0.2f)",
                 moisture,
-                SDK.World.IsPrecipitation() and "-" or "+",
+                SDK.World.Weather.HasPrecipitation() and "-" or "+",
                 math.abs(moisture_rate)
             )
         end
@@ -111,7 +111,7 @@ function WorldData:PushWorldPrecipitationLines()
 
     local precipitation_rate = SDK.World.GetState("precipitationrate")
     if precipitation_rate and precipitation_rate > 0 then
-        local peakprecipitationrate = SDK.World.GetPeakPrecipitationRate()
+        local peakprecipitationrate = SDK.World.Weather.GetPeakPrecipitationRate()
         self:PushLine("Precipitation Rate", peakprecipitationrate ~= nil and {
             SDK.Utils.Value.ToFloatString(precipitation_rate),
             SDK.Utils.Value.ToFloatString(peakprecipitationrate)
@@ -124,7 +124,7 @@ function WorldData:PushWorldPrecipitationLines()
 
     if precipitation_starts and precipitation_ends then
         local label = is_snowing and "Snow" or "Rain"
-        if not SDK.World.IsPrecipitation() then
+        if not SDK.World.Weather.HasPrecipitation() then
             self:PushLine(
                 label .. " Starts",
                 "~" .. SDK.Utils.Value.ToClockString(precipitation_starts)
@@ -156,7 +156,7 @@ end
 --- Pushes world wetness line.
 function WorldData:PushWorldWetnessLine()
     local wetness = SDK.World.GetState("wetness")
-    local wetness_rate = SDK.World.GetWetnessRate()
+    local wetness_rate = SDK.World.Weather.GetWetnessRate()
 
     if wetness and wetness > 0 then
         local value = SDK.Utils.Value.ToPercentString(wetness)

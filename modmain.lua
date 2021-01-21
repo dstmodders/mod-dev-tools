@@ -198,9 +198,9 @@ SDK.OverrideComponentMethod("playercontroller", "OnControl", function(old, self,
         if DevToolsScreen
             and not DevToolsScreen:IsOpen()
             and control == CONTROL_ACCEPT
-            and SDK.IsPaused()
+            and SDK.Time.IsPaused()
         then
-            SDK.Resume()
+            SDK.Time.Resume()
         end
 
         -- player
@@ -241,7 +241,7 @@ SDK.Input.AddConfigKeyUpHandler("key_movement_prediction", function()
 end, true)
 
 SDK.Input.AddConfigKeyUpHandler("key_pause", function()
-    SDK.TogglePause()
+    SDK.Time.TogglePause()
 end, true)
 
 SDK.Input.AddConfigKeyUpHandler("key_god_mode", function()
@@ -268,22 +268,22 @@ end, true)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_increase", function()
     if TheInput:IsKeyDown(KEY_SHIFT) then
-        SDK.SetTimeScale(4)
+        SDK.Time.SetTimeScale(4)
     else
-        SDK.SetDeltaTimeScale(0.1)
+        SDK.Time.SetDeltaTimeScale(0.1)
     end
 end, true)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_decrease", function()
     if TheInput:IsKeyDown(KEY_SHIFT) then
-        SDK.SetTimeScale(0)
+        SDK.Time.SetTimeScale(0)
     else
-        SDK.SetDeltaTimeScale(-0.1)
+        SDK.Time.SetDeltaTimeScale(-0.1)
     end
 end, true)
 
 SDK.Input.AddConfigKeyUpHandler("key_time_scale_default", function()
-    SDK.SetTimeScale(1)
+    SDK.Time.SetTimeScale(1)
 end, true)
 
 --- Reset

@@ -239,7 +239,7 @@ end
 
 --- Updates.
 function DevToolsScreen:Update()
-    if self:IsOpen() and self.devtools and not SDK.IsPaused() then
+    if self:IsOpen() and self.devtools and not SDK.Time.IsPaused() then
         self:UpdateDataSidebar()
         self:UpdateChildren(true)
     end

@@ -28,11 +28,11 @@ describe("WorldData", function()
         _G.TheWorld = MockWorldInst()
 
         -- sdk
-        _G.SDK.World.GetMoistureFloor = ReturnValueFn(250)
-        _G.SDK.World.GetMoistureRate = ReturnValueFn(1.5)
-        _G.SDK.World.GetPeakPrecipitationRate = ReturnValueFn(2)
         _G.SDK.World.IsCave = ReturnValueFn(false)
-        _G.SDK.World.IsPrecipitation = ReturnValueFn(true)
+        _G.SDK.World.Weather.GetMoistureFloor = ReturnValueFn(250)
+        _G.SDK.World.Weather.GetMoistureRate = ReturnValueFn(1.5)
+        _G.SDK.World.Weather.GetPeakPrecipitationRate = ReturnValueFn(2)
+        _G.SDK.World.Weather.HasPrecipitation = ReturnValueFn(true)
 
         -- initialization
         worldtools = MockWorldTools()
@@ -79,11 +79,11 @@ describe("WorldData", function()
                     worlddata:PushWorldMoistureLine()
                     assert.is_nil(worlddata.stack[1])
 
-                    _G.SDK.World.GetMoistureFloor = ReturnValueFn(nil)
+                    _G.SDK.World.Weather.GetMoistureFloor = ReturnValueFn(nil)
                     worlddata:PushWorldMoistureLine()
                     assert.is_nil(worlddata.stack[1])
 
-                    _G.SDK.World.GetMoistureRate = ReturnValueFn(nil)
+                    _G.SDK.World.Weather.GetMoistureRate = ReturnValueFn(nil)
                     worlddata:PushWorldMoistureLine()
                     assert.is_nil(worlddata.stack[1])
                 end)
@@ -91,7 +91,7 @@ describe("WorldData", function()
 
             describe("when precipitation", function()
                 before_each(function()
-                    _G.SDK.World.IsPrecipitation = ReturnValueFn(true)
+                    _G.SDK.World.Weather.HasPrecipitation = ReturnValueFn(true)
                 end)
 
                 it("should prepend + to the moisture rate", function()
@@ -105,7 +105,7 @@ describe("WorldData", function()
 
             describe("when no precipitation", function()
                 before_each(function()
-                    _G.SDK.World.IsPrecipitation = ReturnValueFn(false)
+                    _G.SDK.World.Weather.HasPrecipitation = ReturnValueFn(false)
                 end)
 
                 it("should prepend + to the moisture rate", function()
@@ -119,7 +119,7 @@ describe("WorldData", function()
 
             describe("when the moisture floor is available", function()
                 before_each(function()
-                    _G.SDK.World.GetMoistureFloor = ReturnValueFn(250)
+                    _G.SDK.World.Weather.GetMoistureFloor = ReturnValueFn(250)
                 end)
 
                 it("should push the world line", function()
@@ -133,7 +133,7 @@ describe("WorldData", function()
 
             describe("when the moisture floor is not available", function()
                 before_each(function()
-                    _G.SDK.World.GetMoistureFloor = ReturnValueFn(nil)
+                    _G.SDK.World.Weather.GetMoistureFloor = ReturnValueFn(nil)
                 end)
 
                 it("should push the world line", function()
@@ -202,7 +202,7 @@ describe("WorldData", function()
 
                 describe("and the peak precipitation rate is also available", function()
                     before_each(function()
-                        _G.SDK.World.GetPeakPrecipitationRate = ReturnValueFn(2)
+                        _G.SDK.World.Weather.GetPeakPrecipitationRate = ReturnValueFn(2)
                     end)
 
                     it("should push the world line", function()
@@ -213,7 +213,7 @@ describe("WorldData", function()
 
                 describe("and the peak precipitation rate is not available", function()
                     before_each(function()
-                        _G.SDK.World.GetPeakPrecipitationRate = ReturnValueFn(nil)
+                        _G.SDK.World.Weather.GetPeakPrecipitationRate = ReturnValueFn(nil)
                     end)
 
                     it("should push the world line", function()
@@ -257,7 +257,7 @@ describe("WorldData", function()
 
                 describe("precipitation", function()
                     before_each(function()
-                        _G.SDK.World.IsPrecipitation = ReturnValueFn(true)
+                        _G.SDK.World.Weather.HasPrecipitation = ReturnValueFn(true)
                     end)
 
                     describe("and it is snowing", function()
@@ -285,7 +285,7 @@ describe("WorldData", function()
 
                 describe("no precipitation", function()
                     before_each(function()
-                        _G.SDK.World.IsPrecipitation = ReturnValueFn(false)
+                        _G.SDK.World.Weather.HasPrecipitation = ReturnValueFn(false)
                     end)
 
                     describe("and it is snowing", function()
