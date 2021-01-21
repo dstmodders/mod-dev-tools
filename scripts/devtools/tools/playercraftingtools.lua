@@ -77,34 +77,6 @@ function PlayerCraftingTools:MakeRecipeFromMenu(recipe, idx) -- luacheck: only
     end
 end
 
---- Checks if an item can be crafted.
---
--- Verifies if an owner has enough ingredients to craft an item by checking the inventory.
---
--- **NB!** Free crafting doesn't affect this so it should be handled separately.
---
--- @tparam string name Item name
--- @treturn boolean
-function PlayerCraftingTools:CanCraftItem(name) -- luacheck: only
-    if type(name) ~= "string" or not GetValidRecipe(name) then
-        return false
-    end
-
-    local recipe = GetValidRecipe(name)
-    local inventory = SDK.Player.Inventory.GetInventory()
-    if inventory and recipe then
-        for _, ingredient in pairs(recipe.ingredients) do
-            if not inventory:Has(ingredient.type, ingredient.amount) then
-                return false
-            end
-        end
-
-        return true
-    end
-
-    return false
-end
-
 --- Selection
 -- @section selection
 
@@ -129,7 +101,6 @@ function PlayerCraftingTools:DoInit()
         -- general
         "BufferBuildPlacer",
         "MakeRecipeFromMenu",
-        "CanCraftItem",
 
         -- selection
         "GetSelectedRecipe",
