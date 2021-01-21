@@ -33,9 +33,7 @@ return {
             options = {
                 label = "Advance Season",
                 on_accept_fn = function(_, submenu)
-                    for _ = 1, SDK.World.GetState("remainingdaysinseason") do
-                        SDK.Remote.World.PushEvent("ms_advanceseason")
-                    end
+                    SDK.World.Season.AdvanceSeason(SDK.World.GetState("remainingdaysinseason"))
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -45,9 +43,7 @@ return {
             options = {
                 label = "Retreat Season",
                 on_accept_fn = function(_, submenu)
-                    for _ = 1, SDK.World.GetState("remainingdaysinseason") do
-                        SDK.Remote.World.PushEvent("ms_retreatseason")
-                    end
+                    SDK.World.Season.RetreatSeason(SDK.World.GetState("remainingdaysinseason"))
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -64,10 +60,10 @@ return {
                     { name = "Winter", value = "winter" },
                 },
                 on_get_fn = function()
-                    return SDK.World.GetState("season")
+                    return SDK.World.Season.GetSeason()
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.World.SetSeason(value)
+                    SDK.World.Season.SetSeason(value)
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -89,14 +85,14 @@ return {
                                 min = 1,
                                 max = 100,
                                 on_accept_fn = function(_, submenu)
-                                    SDK.Remote.World.SetSeasonLength(season.value, season.default)
+                                    SDK.World.Season.SetSeasonLength(season.value, season.default)
                                     submenu:UpdateScreen(nil, true)
                                 end,
                                 on_get_fn = function()
-                                    return SDK.World.GetState(season.value .. "length")
+                                    return SDK.World.Season.GetSeasonLength(season.value)
                                 end,
                                 on_set_fn = function(_, submenu, value)
-                                    SDK.Remote.World.SetSeasonLength(season.value, value)
+                                    SDK.World.Season.SetSeasonLength(season.value, value)
                                     submenu:UpdateScreen(nil, true)
                                 end,
                             },
