@@ -232,8 +232,8 @@ function WorldTools:StartPrecipitationThread()
     local frames
 
     self.precipitation_thread = SDK.Thread.Start(_PRECIPITATION_THREAD_ID, function()
-        moisture = SDK.World.GetState("moisture")
-        moisture_ceil = SDK.World.GetState("moistureceil")
+        moisture = SDK.World.Weather.GetMoisture()
+        moisture_ceil = SDK.World.Weather.GetMoistureCeil()
         moisture_floor = SDK.World.Weather.GetMoistureFloor() or 0
 
         current_ceil = math.abs(moisture_ceil - moisture)

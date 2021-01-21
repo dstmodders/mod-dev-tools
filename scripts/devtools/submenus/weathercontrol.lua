@@ -30,7 +30,7 @@ return {
                 end,
                 on_set_fn = function(_, submenu, value)
                     if value ~= SDK.World.Weather.HasPrecipitation() then
-                        SDK.Remote.World.SetPrecipitation(value)
+                        SDK.World.Weather.SetPrecipitation(value)
                         submenu:UpdateScreen(nil, true)
                     end
                 end,
@@ -43,7 +43,7 @@ return {
             options = {
                 label = "Send Lightning Strike",
                 on_accept_fn = function(_, submenu)
-                    SDK.Remote.World.SendLightningStrike(TheInput:GetWorldPosition())
+                    SDK.World.Weather.SendLightningStrike(TheInput:GetWorldPosition())
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -54,7 +54,7 @@ return {
             options = {
                 label = "Send Mini Earthquake",
                 on_accept_fn = function(_, submenu)
-                    SDK.Remote.Player.SendMiniEarthquake(nil, nil, nil, ConsoleCommandPlayer())
+                    SDK.World.Weather.SendMiniEarthquake(nil, nil, nil, ConsoleCommandPlayer())
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -69,15 +69,15 @@ return {
                     return SDK.World.Weather.GetMoistureFloor()
                 end,
                 max = function()
-                    return SDK.World.GetState("moistureceil")
+                    return SDK.World.Weather.GetMoistureCeil()
                 end,
                 step = 25,
                 on_get_fn = function()
-                    return math.floor(SDK.World.GetState("moisture"))
+                    return math.floor(SDK.World.Weather.GetMoisture())
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.World.SetDeltaMoisture(math.floor(value)
-                        - math.floor(SDK.World.GetState("moisture")))
+                    value = (value - SDK.World.Weather.GetMoisture())
+                    SDK.World.Weather.SetDeltaMoisture(math.floor(value))
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -91,10 +91,10 @@ return {
                 max = 100,
                 step = 10,
                 on_get_fn = function()
-                    return math.floor(SDK.World.GetState("snowlevel") * 100)
+                    return math.floor(SDK.World.Weather.GetSnowLevel() * 100)
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.World.SetSnowLevel(value / 100)
+                    SDK.World.Weather.SetSnowLevel(value / 100)
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -106,11 +106,11 @@ return {
                 min = 0,
                 max = 100,
                 on_get_fn = function()
-                    return math.floor(SDK.World.GetState("wetness"))
+                    return math.floor(SDK.World.Weather.GetWetness())
                 end,
                 on_set_fn = function(_, submenu, value)
-                    SDK.Remote.World.SetDeltaWetness(math.floor(value)
-                        - math.floor(SDK.World.GetState("wetness")))
+                    value = (value - SDK.World.Weather.GetWetness())
+                    SDK.World.Weather.SetDeltaWetness(math.floor(value))
                     submenu:UpdateScreen(nil, true)
                 end,
             },

@@ -59,8 +59,8 @@ end
 
 --- Pushes world moisture line.
 function WorldData:PushWorldMoistureLine()
-    local moisture = SDK.World.GetState("moisture")
-    local moisture_ceil = SDK.World.GetState("moistureceil")
+    local moisture = SDK.World.Weather.GetMoisture()
+    local moisture_ceil = SDK.World.Weather.GetMoistureCeil()
     local moisture_rate = SDK.World.Weather.GetMoistureRate()
     local moisture_floor = SDK.World.Weather.GetMoistureFloor()
 
@@ -140,7 +140,7 @@ function WorldData:PushWorldPrecipitationLines()
     if is_snowing then
         self:PushLine(
             "Snow Level",
-            SDK.Utils.Value.ToPercentString(SDK.World.GetState("snowlevel") * 100)
+            SDK.Utils.Value.ToPercentString(SDK.World.Weather.GetSnowLevel() * 100)
         )
     end
 end
@@ -155,7 +155,7 @@ end
 
 --- Pushes world wetness line.
 function WorldData:PushWorldWetnessLine()
-    local wetness = SDK.World.GetState("wetness")
+    local wetness = SDK.World.Weather.GetWetness()
     local wetness_rate = SDK.World.Weather.GetWetnessRate()
 
     if wetness and wetness > 0 then
