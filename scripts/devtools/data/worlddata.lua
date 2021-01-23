@@ -28,7 +28,6 @@ local WorldData = Class(Data, function(self, screen, worldtools)
     Data._ctor(self, screen)
 
     -- general
-    self.worldsavedatatools = worldtools and worldtools.savedata
     self.worldtools = worldtools
 
     -- other
@@ -46,7 +45,7 @@ function WorldData:Update()
     self:PushEmptyLine()
     self:PushWorldData()
 
-    if self.worldsavedatatools then
+    if SDK.IsLoaded("World") and type(SDK.World.SaveData) == "table" then
         self:PushEmptyLine()
         self:PushTitleLine("Save Data")
         self:PushEmptyLine()
@@ -171,10 +170,8 @@ end
 
 --- Pushes world data.
 function WorldData:PushWorldData()
-    SDK.Utils.AssertRequiredField("WorldData.worldtools", self.worldtools)
-
     self:PushLine("Seed", SDK.World.GetSeed())
-    self:PushLine("Season", SDK.World.GetState("season"))
+    self:PushLine("Season", SDK.World.Season.GetSeason())
     self:PushWorldPhaseLine()
     self:PushWorldTemperatureLine()
     self:PushWorldMoistureLine()
@@ -182,9 +179,8 @@ function WorldData:PushWorldData()
     self:PushWorldWetnessLine()
 
     -- Commented out intentionally. Maybe will be uncommented later.
-    --local worldsavedatatools = self.worldsavedatatools
-    --if worldsavedatatools and not SDK.World.IsCave() then
-    --    self:PushLine("Walrus Camps", worldsavedatatools:GetNrOfWalrusCamps())
+    --if not SDK.World.IsCave() then
+    --    self:PushLine("Walrus Camps", SDK.World.GetNrOfWalrusCamps())
     --end
 end
 
@@ -195,7 +191,7 @@ end
 function WorldData:PushDeerclopsSpawnerLine()
     local value
 
-    local data = self.worldsavedatatools:GetMapPersistData()
+    local data = SDK.World.SaveData.GetMapPersistData()
     if not data or type(data.deerclopsspawner) ~= "table" then
         value = "unavailable"
     end
@@ -216,7 +212,7 @@ end
 function WorldData:PushBeargerSpawnerLine()
     local value
 
-    local data = self.worldsavedatatools:GetMapPersistData()
+    local data = SDK.World.SaveData.GetMapPersistData()
     if not data or type(data.beargerspawner) ~= "table" then
         value = "unavailable"
     end
@@ -243,7 +239,7 @@ end
 function WorldData:PushMalbatrossSpawnerLine()
     local value
 
-    local data = self.worldsavedatatools:GetMapPersistData()
+    local data = SDK.World.SaveData.GetMapPersistData()
     if not data or type(data.malbatrossspawner) ~= "table" then
         value = "unavailable"
     end
@@ -273,7 +269,7 @@ end
 function WorldData:PushDeersSpawnerLine()
     local value
 
-    local data = self.worldsavedatatools:GetMapPersistData()
+    local data = SDK.World.SaveData.GetMapPersistData()
     if not data or type(data.deerherdspawner) ~= "table" then
         value = "unavailable"
     end
@@ -296,7 +292,7 @@ end
 function WorldData:PushKlausSackSpawnerLine()
     local value
 
-    local data = self.worldsavedatatools:GetMapPersistData()
+    local data = SDK.World.SaveData.GetMapPersistData()
     if not data or type(data.klaussackspawner) ~= "table" then
         value = "unavailable"
     end
@@ -319,7 +315,7 @@ end
 function WorldData:PushHoundedLine()
     local value
 
-    local data = self.worldsavedatatools:GetMapPersistData()
+    local data = SDK.World.SaveData.GetMapPersistData()
     if not data or type(data.hounded) ~= "table" then
         value = "unavailable"
     end
@@ -343,7 +339,7 @@ end
 function WorldData:PushChessUnlocksLine()
     local value
 
-    local data = self.worldsavedatatools:GetMapPersistData()
+    local data = SDK.World.SaveData.GetMapPersistData()
     if not data or type(data.chessunlocks) ~= "table" then
         value = "unavailable"
     end
@@ -362,14 +358,11 @@ end
 
 --- Pushes save data.
 function WorldData:PushSaveData()
-    SDK.Utils.AssertRequiredField("WorldData.worldsavedatatools", self.worldsavedatatools)
-    SDK.Utils.AssertRequiredField("WorldData.worldtools", self.worldtools)
-
-    self:PushLine("Seed", self.worldsavedatatools:GetSeed())
-    self:PushLine("Save Version", self.worldsavedatatools:GetVersion())
+    self:PushLine("Seed", SDK.World.SaveData.GetSeed())
+    self:PushLine("Save Version", SDK.World.SaveData.GetVersion())
 
     -- Commented out intentionally. Maybe will be uncommented later.
-    --if self.worldsavedatatools:GetMapPersistData() then
+    --if SDK.World.SaveData.GetMapPersistData() then
     --    if not SDK.World.IsCave() then
     --        self:PushDeerclopsSpawnerLine()
     --        self:PushBeargerSpawnerLine()

@@ -346,9 +346,7 @@ describe("WorldData", function()
         describe("PushDeerclopsSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -360,11 +358,9 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                deerclopsspawner = true,
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            deerclopsspawner = true,
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -376,13 +372,11 @@ describe("WorldData", function()
                 describe("with spawner", function()
                     describe("and warning", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    deerclopsspawner = {
-                                        warning = true,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                deerclopsspawner = {
+                                    warning = true,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -393,25 +387,21 @@ describe("WorldData", function()
 
                     describe("and without warning", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    deerclopsspawner = {
-                                        warning = false,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                deerclopsspawner = {
+                                    warning = false,
+                                },
+                            })
                         end)
 
                         describe("but with an activehassler", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        deerclopsspawner = {
-                                            activehassler = 100000,
-                                            warning = false,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    deerclopsspawner = {
+                                        activehassler = 100000,
+                                        warning = false,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -422,14 +412,12 @@ describe("WorldData", function()
 
                         describe("but without an activehassler", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        deerclopsspawner = {
-                                            activehassler = nil,
-                                            warning = false,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    deerclopsspawner = {
+                                        activehassler = nil,
+                                        warning = false,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -445,9 +433,7 @@ describe("WorldData", function()
         describe("PushBeargerSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -459,11 +445,9 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                beargerspawner = nil,
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            beargerspawner = nil,
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -474,11 +458,9 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                beargerspawner = "test",
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            beargerspawner = "test",
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -490,13 +472,11 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and warning", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    beargerspawner = {
-                                        warning = true,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                beargerspawner = {
+                                    warning = true,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -507,26 +487,22 @@ describe("WorldData", function()
 
                     describe("and without warning", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    beargerspawner = {
-                                        warning = false,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                beargerspawner = {
+                                    warning = false,
+                                },
+                            })
                         end)
 
                         describe("but with empty activehasslers and with lastKillDay", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        beargerspawner = {
-                                            activehasslers = {},
-                                            lastKillDay = 10,
-                                            warning = false,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    beargerspawner = {
+                                        activehasslers = {},
+                                        lastKillDay = 10,
+                                        warning = false,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -537,14 +513,12 @@ describe("WorldData", function()
 
                         describe("but with activehasslers", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        beargerspawner = {
-                                            activehasslers = { 100000, 100001 },
-                                            warning = false,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    beargerspawner = {
+                                        activehasslers = { 100000, 100001 },
+                                        warning = false,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -555,14 +529,12 @@ describe("WorldData", function()
 
                         describe("but with empty activehasslers", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        beargerspawner = {
-                                            activehasslers = {},
-                                            warning = false,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    beargerspawner = {
+                                        activehasslers = {},
+                                        warning = false,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -574,13 +546,11 @@ describe("WorldData", function()
 
                     describe("but warning is invalid", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    beargerspawner = {
-                                        warning = "test",
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                beargerspawner = {
+                                    warning = "test",
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -591,13 +561,11 @@ describe("WorldData", function()
 
                     describe("but activehasslers is invalid", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    beargerspawner = {
-                                        activehasslers = "test",
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                beargerspawner = {
+                                    activehasslers = "test",
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -612,9 +580,7 @@ describe("WorldData", function()
         describe("PushMalbatrossSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -626,11 +592,9 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                malbatrossspawner = nil,
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            malbatrossspawner = nil,
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -641,11 +605,9 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                malbatrossspawner = "test",
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            malbatrossspawner = "test",
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -657,13 +619,11 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and activeguid", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    malbatrossspawner = {
-                                        activeguid = 100000,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                malbatrossspawner = {
+                                    activeguid = 100000,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -674,26 +634,22 @@ describe("WorldData", function()
 
                     describe("and without activeguid", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    malbatrossspawner = {
-                                        activeguid = nil,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                malbatrossspawner = {
+                                    activeguid = nil,
+                                },
+                            })
                         end)
 
                         describe("but with both _firstspawn and _time_until_spawn", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        malbatrossspawner = {
-                                            activeguid = nil,
-                                            _firstspawn = true,
-                                            _time_until_spawn = 30,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    malbatrossspawner = {
+                                        activeguid = nil,
+                                        _firstspawn = true,
+                                        _time_until_spawn = 30,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -705,15 +661,13 @@ describe("WorldData", function()
                         describe("and _firstspawn", function()
                             describe("but with a valid _time_until_spawn", function()
                                 before_each(function()
-                                    worlddata.worldsavedatatools = {
-                                        GetMapPersistData = ReturnValueFn({
-                                            malbatrossspawner = {
-                                                activeguid = nil,
-                                                _firstspawn = false,
-                                                _time_until_spawn = 30,
-                                            },
-                                        }),
-                                    }
+                                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                        malbatrossspawner = {
+                                            activeguid = nil,
+                                            _firstspawn = false,
+                                            _time_until_spawn = 30,
+                                        },
+                                    })
                                 end)
 
                                 it("should push the save data line", function()
@@ -725,13 +679,11 @@ describe("WorldData", function()
 
                         describe("but _time_until_spawn is nil", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        malbatrossspawner = {
-                                            _time_until_spawn = nil,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    malbatrossspawner = {
+                                        _time_until_spawn = nil,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -742,13 +694,11 @@ describe("WorldData", function()
 
                         describe("but _time_until_spawn is invalid", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        malbatrossspawner = {
-                                            _time_until_spawn = "test",
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    malbatrossspawner = {
+                                        _time_until_spawn = "test",
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -764,9 +714,7 @@ describe("WorldData", function()
         describe("PushDeersSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -778,11 +726,9 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                deerherdspawner = nil,
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            deerherdspawner = nil,
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -793,11 +739,9 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                deerherdspawner = "test",
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            deerherdspawner = "test",
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -809,13 +753,11 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and _timetospawn value is <= 0", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    deerherdspawner = {
-                                        _timetospawn = 0,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                deerherdspawner = {
+                                    _timetospawn = 0,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -826,13 +768,11 @@ describe("WorldData", function()
 
                     describe("and _timetospawn value", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    deerherdspawner = {
-                                        _timetospawn = 30,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                deerherdspawner = {
+                                    _timetospawn = 30,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -844,14 +784,12 @@ describe("WorldData", function()
                     describe("and _timetospawn is not available", function()
                         describe("without _activedeer", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        deerherdspawner = {
-                                            _timetospawn = nil,
-                                            _activedeer = nil,
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    deerherdspawner = {
+                                        _timetospawn = nil,
+                                        _activedeer = nil,
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -862,14 +800,12 @@ describe("WorldData", function()
 
                         describe("with _activedeer", function()
                             before_each(function()
-                                worlddata.worldsavedatatools = {
-                                    GetMapPersistData = ReturnValueFn({
-                                        deerherdspawner = {
-                                            _timetospawn = nil,
-                                            _activedeer = { 1, 2, 3 },
-                                        },
-                                    }),
-                                }
+                                _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                    deerherdspawner = {
+                                        _timetospawn = nil,
+                                        _activedeer = { 1, 2, 3 },
+                                    },
+                                })
                             end)
 
                             it("should push the save data line", function()
@@ -885,9 +821,7 @@ describe("WorldData", function()
         describe("PushKlausSackSpawnerLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -899,11 +833,9 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                klaussackspawner = nil,
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            klaussackspawner = nil,
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -914,11 +846,9 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                klaussackspawner = "test",
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            klaussackspawner = "test",
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -930,13 +860,11 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and timetorespawn is a number > 0", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    klaussackspawner = {
-                                        timetorespawn = 30,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                klaussackspawner = {
+                                    timetorespawn = 30,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -947,13 +875,11 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is a number = 0", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    klaussackspawner = {
-                                        timetorespawn = 0,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                klaussackspawner = {
+                                    timetorespawn = 0,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -964,13 +890,11 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is a number < 0", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    klaussackspawner = {
-                                        timetorespawn = -30,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                klaussackspawner = {
+                                    timetorespawn = -30,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -981,13 +905,11 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is a boolean false", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    klaussackspawner = {
-                                        timetorespawn = false,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                klaussackspawner = {
+                                    timetorespawn = false,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -998,13 +920,11 @@ describe("WorldData", function()
 
                     describe("and timetorespawn is an invalid value", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    klaussackspawner = {
-                                        timetorespawn = "test",
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                klaussackspawner = {
+                                    timetorespawn = "test",
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1019,9 +939,7 @@ describe("WorldData", function()
         describe("PushHoundedLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -1033,11 +951,9 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                hounded = nil,
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            hounded = nil,
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -1048,11 +964,9 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                hounded = "test",
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            hounded = "test",
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -1064,13 +978,11 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and timetoattack is a number > 0", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    hounded = {
-                                        timetoattack = 30,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                hounded = {
+                                    timetoattack = 30,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1081,13 +993,11 @@ describe("WorldData", function()
 
                     describe("and timetoattack is a number = 0", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    hounded = {
-                                        timetoattack = 0,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                hounded = {
+                                    timetoattack = 0,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1098,13 +1008,11 @@ describe("WorldData", function()
 
                     describe("and timetoattack is a number < 0", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    hounded = {
-                                        timetoattack = -30,
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                hounded = {
+                                    timetoattack = -30,
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1115,13 +1023,11 @@ describe("WorldData", function()
 
                     describe("and timetoattack is an invalid value", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    hounded = {
-                                        timetoattack = "test",
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                hounded = {
+                                    timetoattack = "test",
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1135,9 +1041,7 @@ describe("WorldData", function()
             describe("when in the cave", function()
                 before_each(function()
                     _G.SDK.World.IsCave = ReturnValueFn(true)
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -1150,9 +1054,7 @@ describe("WorldData", function()
         describe("PushChessUnlocksLine", function()
             describe("when the persistdata is not passed", function()
                 before_each(function()
-                    worlddata.worldsavedatatools = {
-                        GetMapPersistData = ReturnValueFn(nil),
-                    }
+                    _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn(nil)
                 end)
 
                 it("should push the save data line", function()
@@ -1164,11 +1066,9 @@ describe("WorldData", function()
             describe("when the persistdata is passed", function()
                 describe("without spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                chessunlocks = nil,
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            chessunlocks = nil,
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -1179,11 +1079,9 @@ describe("WorldData", function()
 
                 describe("with an invalid spawner", function()
                     before_each(function()
-                        worlddata.worldsavedatatools = {
-                            GetMapPersistData = ReturnValueFn({
-                                chessunlocks = "test",
-                            }),
-                        }
+                        _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                            chessunlocks = "test",
+                        })
                     end)
 
                     it("should push the save data line", function()
@@ -1195,13 +1093,11 @@ describe("WorldData", function()
                 describe("with a valid spawner", function()
                     describe("and unlocks is an empty table", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    chessunlocks = {
-                                        unlocks = {},
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                chessunlocks = {
+                                    unlocks = {},
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1212,13 +1108,11 @@ describe("WorldData", function()
 
                     describe("and unlocks is a table with a single value", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    chessunlocks = {
-                                        unlocks = { "pawn" },
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                chessunlocks = {
+                                    unlocks = { "pawn" },
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1229,13 +1123,11 @@ describe("WorldData", function()
 
                     describe("and unlocks is a table with values", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    chessunlocks = {
-                                        unlocks = { "bishop", "pawn", "rook" },
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                chessunlocks = {
+                                    unlocks = { "bishop", "pawn", "rook" },
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
@@ -1246,13 +1138,11 @@ describe("WorldData", function()
 
                     describe("and unlocks is an invalid value", function()
                         before_each(function()
-                            worlddata.worldsavedatatools = {
-                                GetMapPersistData = ReturnValueFn({
-                                    chessunlocks = {
-                                        unlocks = "test",
-                                    },
-                                }),
-                            }
+                            _G.SDK.World.SaveData.GetMapPersistData = ReturnValueFn({
+                                chessunlocks = {
+                                    unlocks = "test",
+                                },
+                            })
                         end)
 
                         it("should push the save data line", function()
