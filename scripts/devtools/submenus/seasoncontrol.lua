@@ -33,7 +33,7 @@ return {
             options = {
                 label = "Advance Season",
                 on_accept_fn = function(_, submenu)
-                    SDK.World.Season.AdvanceSeason(SDK.World.GetState("remainingdaysinseason"))
+                    SDK.World.Season.AdvanceSeason()
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -43,7 +43,7 @@ return {
             options = {
                 label = "Retreat Season",
                 on_accept_fn = function(_, submenu)
-                    SDK.World.Season.RetreatSeason(SDK.World.GetState("remainingdaysinseason"))
+                    SDK.World.Season.RetreatSeason()
                     submenu:UpdateScreen(nil, true)
                 end,
             },
