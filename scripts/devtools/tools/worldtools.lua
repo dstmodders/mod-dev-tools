@@ -19,7 +19,6 @@
 -- @classmod tools.WorldTools
 -- @see DevTools
 -- @see tools.Tools
--- @see tools.WorldSaveDataTools
 --
 -- @author Victor Popkov
 -- @copyright 2020
@@ -30,7 +29,6 @@ require "consolecommands"
 
 local DevTools = require "devtools/tools/tools"
 local SDK = require "devtools/sdk/sdk/sdk"
-local WorldSaveDataTools = require "devtools/tools/worldsavedatatools"
 
 -- threads
 local _PRECIPITATION_THREAD_ID = "mod_dev_tools_precipitation_thread"
@@ -48,7 +46,6 @@ local WorldTools = Class(DevTools, function(self, inst, devtools)
 
     -- general
     self.inst = inst
-    self.savedata = WorldSaveDataTools(self, self.devtools)
 
     -- map
     self.is_map_clearing = false
@@ -304,9 +301,6 @@ end
 
 --- Terminates.
 function WorldTools:DoTerm()
-    if self.savedata then
-        self.savedata.DoTerm(self.savedata)
-    end
     DevTools.DoTerm(self)
 end
 

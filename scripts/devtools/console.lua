@@ -129,9 +129,9 @@ function d_decodefile(path)
     end)
 end
 
---- Decodes a savedata file.
+--- Decodes a save data file.
 --
--- It decodes the appropriate savedata file:
+-- It decodes the appropriate save data file:
 --
 --   * `client_save/client_temp/server_save`
 --   * `client_save/server_temp/server_save`

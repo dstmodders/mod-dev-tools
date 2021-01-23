@@ -13,7 +13,6 @@
 -- @see tools.PlayerMapTools
 -- @see tools.PlayerTools
 -- @see tools.PlayerVisionTools
--- @see tools.WorldSaveDataTools
 -- @see tools.WorldTools
 --
 -- @author Victor Popkov
