@@ -13,12 +13,11 @@
 --
 --    DevTools.player
 --
--- During initialization it adds corresponding 5 subclasses which can be accessed directly through
+-- During initialization it adds corresponding 3 subclasses which can be accessed directly through
 -- the global `DevTools` as well:
 --
 --    DevTools.player.crafting
 --    DevTools.player.inventory
---    DevTools.player.map
 --    DevTools.player.vision
 --
 -- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
@@ -27,7 +26,6 @@
 -- @see DevTools
 -- @see tools.PlayerCraftingTools
 -- @see tools.PlayerInventoryTools
--- @see tools.PlayerMapTools
 -- @see tools.PlayerVisionTools
 -- @see tools.Tools
 --
@@ -41,7 +39,6 @@ require "consolecommands"
 local DevTools = require "devtools/tools/tools"
 local PlayerCraftingTools = require "devtools/tools/playercraftingtools"
 local PlayerInventoryTools = require "devtools/tools/playerinventorytools"
-local PlayerMapTools = require "devtools/tools/playermaptools"
 local PlayerVisionTools = require "devtools/tools/playervisiontools"
 local SDK = require "devtools/sdk/sdk/sdk"
 
@@ -88,7 +85,6 @@ local PlayerTools = Class(DevTools, function(self, inst, worldtools, devtools)
     self.inventory = PlayerInventoryTools(self, devtools)
     self.crafting = PlayerCraftingTools(self, devtools)
     self.vision = PlayerVisionTools(self, devtools)
-    self.map = PlayerMapTools(self, devtools)
 
     if inst and inst:HasTag("wereness") then
         OnWereModeDirty = function(_inst)
@@ -400,10 +396,6 @@ end
 function PlayerTools:DoTerm()
     if self.crafting then
         self.crafting.DoTerm(self.crafting)
-    end
-
-    if self.map then
-        self.map.DoTerm(self.map)
     end
 
     if self.vision then

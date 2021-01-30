@@ -28,7 +28,7 @@ return {
             options = {
                 label = "Reveal",
                 on_accept_fn = function(_, submenu)
-                    submenu.map:Reveal()
+                    SDK.Player.Reveal()
                     submenu.screen:Close()
                 end,
             },

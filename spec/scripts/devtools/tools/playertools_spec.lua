@@ -157,7 +157,6 @@ describe("PlayerTools", function()
             assert.is_not_nil(self.inventory)
             assert.is_not_nil(self.crafting)
             assert.is_not_nil(self.vision)
-            assert.is_not_nil(self.map)
 
             -- other
             assert.is_equal(self, self.devtools.player)

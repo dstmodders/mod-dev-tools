@@ -173,7 +173,6 @@ end
 --     label = "Map",
 --     name = "MapSubmenu",
 --     on_init_fn = function(self, devtools)
---         self.map = devtools.player and devtools.player.map
 --         self.player = devtools.player
 --         self.world = devtools.world
 --     end,
@@ -187,7 +186,7 @@ end
 --             options = {
 --                 label = "Reveal",
 --                 on_accept_fn = function(_, submenu)
---                     submenu.map:Reveal()
+--                     SDK.Player.Reveal()
 --                     submenu.screen:Close()
 --                 end,
 --             },
@@ -198,16 +197,12 @@ end
 --             options = {
 --                 label = "Clearing",
 --                 get = {
---                     src = function(_, submenu)
---                         return submenu.world
---                     end,
---                     name = "IsMapClearing",
+--                     src = SDK.MiniMap,
+--                     name = "IsClearing",
 --                 },
 --                 set = {
---                     src = function(_, submenu)
---                         return submenu.world
---                     end,
---                     name = "ToggleMapClearing",
+--                     src = SDK.MiniMap,
+--                     name = "ToggleClearing",
 --                 },
 --             },
 --         },
@@ -216,16 +211,12 @@ end
 --             options = {
 --                 label = "Fog of War",
 --                 get = {
---                     src = function(_, submenu)
---                         return submenu.world
---                     end,
---                     name = "IsMapFogOfWar",
+--                     src = SDK.MiniMap,
+--                     name = "IsFogOfWar",
 --                 },
 --                 set = {
---                     src = function(_, submenu)
---                         return submenu.world
---                     end,
---                     name = "ToggleMapFogOfWar",
+--                     src = SDK.MiniMap,
+--                     name = "ToggleFogOfWar",
 --                 },
 --             },
 --         },

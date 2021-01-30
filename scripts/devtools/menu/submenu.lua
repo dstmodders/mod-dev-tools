@@ -64,7 +64,6 @@ local Submenu = Class(function(self, devtools, root, label, name, data_sidebar)
     self.devtools = devtools
     self.inventory = devtools.player and devtools.player.inventory
     self.labels = devtools.labels
-    self.map = devtools.player and devtools.player.map
     self.player = devtools.player
     self.screen = devtools.screen
     self.vision = devtools.player and devtools.player.vision

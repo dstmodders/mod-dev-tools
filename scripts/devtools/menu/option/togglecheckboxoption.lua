@@ -5,18 +5,18 @@
 -- auto-adds `on_get_fn` and `on_set_fn` based on the provided `get` and `src` values.
 --
 --    local togglecheckboxoption = ToggleCheckboxOption({
---        name = "fog_of_war", -- optional
---        label = "Fog of War",
+--        name = "foo_bar", -- optional
+--        label = "Foo",
 --        get = {
 --            src = worldtools, -- can be a function, see "set" as a reference
---            name = "IsMapFogOfWar",
+--            name = "IsFooBar",
 --            args = {}, -- optional, to customize passed arguments
 --        },
 --        set = {
 --            src = function(self, submenu) -- can be a field, see "get" as a reference
 --                return submenu.devtools.world
 --            end,
---            name = "ToggleMapFogOfWar",
+--            name = "ToggleFooBar",
 --            args = {}, -- optional, to customize passed arguments
 --        },
 --        on_accept_fn = function(self, submenu, textmenu)

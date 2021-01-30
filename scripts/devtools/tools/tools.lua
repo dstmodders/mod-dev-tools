@@ -10,7 +10,6 @@
 -- @see DevTools
 -- @see tools.PlayerCraftingTools
 -- @see tools.PlayerInventoryTools
--- @see tools.PlayerMapTools
 -- @see tools.PlayerTools
 -- @see tools.PlayerVisionTools
 -- @see tools.WorldTools
