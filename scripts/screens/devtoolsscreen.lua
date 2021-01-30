@@ -117,7 +117,7 @@ end
 
 --- Checks if screen can be toggled.
 -- @treturn boolean
-function DevToolsScreen:CanToggle() -- luacheck: only
+function DevToolsScreen:CanToggle()
     if global_error_widget then
         return false
     end
@@ -126,7 +126,7 @@ function DevToolsScreen:CanToggle() -- luacheck: only
         return false
     end
 
-    if SDK.FrontEnd.IsScreenOpen("ConsoleScreen") or SDK.FrontEnd.HasInputFocus() then
+    if SDK.FrontEnd.IsScreenOpen("ConsoleScreen") then
         return false
     end
 
