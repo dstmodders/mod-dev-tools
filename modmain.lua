@@ -98,7 +98,7 @@ SDK.OnPlayerActivated(function(world, player)
                 end
 
                 if GetModConfigData("default_forced_unfading") then
-                    vision:ToggleForcedUnfading()
+                    SDK.Vision.ToggleUnfading()
                 end
             end
         end

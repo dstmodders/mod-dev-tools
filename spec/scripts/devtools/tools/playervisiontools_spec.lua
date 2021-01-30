@@ -100,10 +100,6 @@ describe("PlayerVisionTools", function()
                 -- forced HUD visibility
                 "IsForcedHUDVisibility",
                 "ToggleForcedHUDVisibility",
-
-                -- forced unfading
-                "IsForcedUnfading",
-                "ToggleForcedUnfading",
             }
 
             AssertAddedMethodsBefore(methods, devtools)

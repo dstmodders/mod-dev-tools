@@ -150,54 +150,6 @@ function PlayerVisionTools:ToggleForcedHUDVisibility()
     end
 end
 
---- Unfading
--- @section unfading
-
-local function OnPlayerFadeDirty(inst)
-    if inst
-        and inst._parent
-        and inst._parent.HUD
-        and type(inst.isfadein) == "userdata"
-        and type(inst.fadetime) == "userdata"
-    then
-        TheFrontEnd:Fade(true, 0)
-        TheFrontEnd:SetFadeLevel(0)
-        -- the lines below are not really needed
-        inst.isfadein:set_local(true)
-        inst.fadetime:set_local(0)
-    end
-end
-
---- Gets the forced unfading state.
--- @treturn boolean
-function PlayerVisionTools:IsForcedUnfading()
-    return self.is_forced_unfading
-end
-
---- Toggles the forced unfading state.
---
--- When enabled, disables the front-end black/white screen fading.
---
--- @treturn boolean
-function PlayerVisionTools:ToggleForcedUnfading()
-    if not self.inst or not self.inst.player_classified then
-        return
-    end
-
-    local classified = self.inst.player_classified
-
-    self.is_forced_unfading = not self.is_forced_unfading
-    if self.is_forced_unfading then
-        self:DebugString("[event]", "[playerfadedirty]", "Activated")
-        classified:ListenForEvent("playerfadedirty", OnPlayerFadeDirty)
-        return true
-    else
-        self:DebugString("[event]", "[playerfadedirty]", "Deactivated")
-        classified:RemoveEventCallback("playerfadedirty", OnPlayerFadeDirty)
-        return false
-    end
-end
-
 --- Lifecycle
 -- @section lifecycle
 
@@ -213,10 +165,6 @@ function PlayerVisionTools:DoInit()
         -- forced HUD visibility
         "IsForcedHUDVisibility",
         "ToggleForcedHUDVisibility",
-
-        -- forced unfading
-        "IsForcedUnfading",
-        "ToggleForcedUnfading",
     })
 end
 

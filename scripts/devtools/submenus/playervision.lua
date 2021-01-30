@@ -13,6 +13,7 @@
 ----
 require "devtools/constants"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Toggle = require "devtools/submenus/option/toggle"
 
 return {
@@ -25,7 +26,22 @@ return {
             "IsForcedHUDVisibility",
             "ToggleForcedHUDVisibility"
         ),
-        Toggle("vision", "Forced Unfading", "IsForcedUnfading", "ToggleForcedUnfading"),
+        {
+            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
+            options = {
+                label = "Unfading",
+                get = {
+                    src = SDK.Vision,
+                    name = "IsUnfading",
+                    args = {},
+                },
+                set = {
+                    src = SDK.Vision,
+                    name = "ToggleUnfading",
+                    args = {},
+                },
+            },
+        },
         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
         {
             type = MOD_DEV_TOOLS.OPTION.CHOICES,
