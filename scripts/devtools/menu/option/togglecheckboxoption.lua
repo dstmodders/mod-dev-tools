@@ -83,9 +83,11 @@ local ToggleCheckboxOption = Class(CheckboxOption, function(self, options, subme
         end
 
         if value ~= state then
-            return type(options.set.args) == "table"
-                and set_src[options.set.name](unpack(options.set.args))
-                or set_src[options.set.name](set_src)
+            if type(options.set.args) == "table" then
+                return set_src[options.set.name](unpack(options.set.args))
+            else
+                return set_src[options.set.name](set_src)
+            end
         end
     end
 
