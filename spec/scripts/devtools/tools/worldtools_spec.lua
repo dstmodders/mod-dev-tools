@@ -114,9 +114,7 @@ describe("WorldTools", function()
                 "SelectEntityUnderMouse",
 
                 -- map
-                "IsMapClearing",
                 "IsMapFogOfWar",
-                "ToggleMapClearing",
                 "ToggleMapFogOfWar",
 
                 -- weather
@@ -254,7 +252,6 @@ describe("WorldTools", function()
     describe("map", function()
         describe("should have the getter", function()
             local getters = {
-                is_map_clearing = "IsMapClearing",
                 is_map_fog_of_war = "IsMapFogOfWar",
             }
 

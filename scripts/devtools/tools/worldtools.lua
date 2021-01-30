@@ -158,33 +158,10 @@ end
 --- Map
 -- @section map
 
---- Checks if the map clearing state.
--- @treturn boolean
-function WorldTools:IsMapClearing()
-    return self.is_map_clearing
-end
-
 --- Checks if the map for of war state.
 -- @treturn boolean
 function WorldTools:IsMapFogOfWar()
     return self.is_map_fog_of_war
-end
-
---- Toggles map clearing.
--- @treturn boolean
-function WorldTools:ToggleMapClearing()
-    if not SDK.World.IsMasterSim() then
-        return false
-    end
-
-    self.is_map_clearing = not self.is_map_clearing
-    self.inst.minimap.MiniMap:ContinuouslyClearRevealedAreas(self.is_map_clearing)
-    self:DebugString(
-        "Continuous revealed areas clearing is",
-        (self.is_map_clearing and "enabled" or "disabled")
-    )
-
-    return self.is_map_clearing
 end
 
 --- Toggles fog of war.
@@ -286,9 +263,7 @@ function WorldTools:DoInit()
         "SelectEntityUnderMouse",
 
         -- map
-        "IsMapClearing",
         "IsMapFogOfWar",
-        "ToggleMapClearing",
         "ToggleMapFogOfWar",
 
         -- weather

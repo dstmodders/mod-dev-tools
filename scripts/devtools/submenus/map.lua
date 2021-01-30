@@ -13,6 +13,7 @@
 ----
 require "devtools/constants"
 
+local SDK = require "devtools/sdk/sdk/sdk"
 local Toggle = require "devtools/submenus/option/toggle"
 
 return {
@@ -34,7 +35,22 @@ return {
             },
         },
         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
-        Toggle("world", "Clearing", "IsMapClearing", "ToggleMapClearing"),
+        {
+            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
+            options = {
+                label = "Clearing",
+                get = {
+                    src = SDK.MiniMap,
+                    name = "IsClearing",
+                    args = {},
+                },
+                set = {
+                    src = SDK.MiniMap,
+                    name = "ToggleClearing",
+                    args = {},
+                },
+            },
+        },
         Toggle("world", "Fog of War", "IsMapFogOfWar", "ToggleMapFogOfWar"),
     },
 }
