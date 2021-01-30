@@ -113,10 +113,6 @@ describe("WorldTools", function()
                 "GetSelectedEntity",
                 "SelectEntityUnderMouse",
 
-                -- map
-                "IsMapFogOfWar",
-                "ToggleMapFogOfWar",
-
                 -- weather
                 "GetPrecipitationStarts",
                 "GetPrecipitationEnds",
@@ -246,20 +242,6 @@ describe("WorldTools", function()
                     assert.is_false(worldtools:SelectEntityUnderMouse())
                 end)
             end)
-        end)
-    end)
-
-    describe("map", function()
-        describe("should have the getter", function()
-            local getters = {
-                is_map_fog_of_war = "IsMapFogOfWar",
-            }
-
-            for field, getter in pairs(getters) do
-                it(getter, function()
-                    AssertClassGetter(worldtools, field, getter)
-                end)
-            end
         end)
     end)
 

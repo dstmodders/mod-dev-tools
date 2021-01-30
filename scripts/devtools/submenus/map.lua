@@ -14,7 +14,6 @@
 require "devtools/constants"
 
 local SDK = require "devtools/sdk/sdk/sdk"
-local Toggle = require "devtools/submenus/option/toggle"
 
 return {
     label = "Map",
@@ -51,6 +50,21 @@ return {
                 },
             },
         },
-        Toggle("world", "Fog of War", "IsMapFogOfWar", "ToggleMapFogOfWar"),
+        {
+            type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
+            options = {
+                label = "Fog of War",
+                get = {
+                    src = SDK.MiniMap,
+                    name = "IsFogOfWar",
+                    args = {},
+                },
+                set = {
+                    src = SDK.MiniMap,
+                    name = "ToggleFogOfWar",
+                    args = {},
+                },
+            },
+        },
     },
 }

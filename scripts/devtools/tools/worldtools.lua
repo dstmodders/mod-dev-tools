@@ -155,29 +155,6 @@ function WorldTools:SelectEntityUnderMouse()
     return false
 end
 
---- Map
--- @section map
-
---- Checks if the map for of war state.
--- @treturn boolean
-function WorldTools:IsMapFogOfWar()
-    return self.is_map_fog_of_war
-end
-
---- Toggles fog of war.
--- @treturn boolean
-function WorldTools:ToggleMapFogOfWar()
-    if not SDK.World.IsMasterSim() then
-        return false
-    end
-
-    self.is_map_fog_of_war = not self.is_map_fog_of_war
-    self.inst.minimap.MiniMap:EnableFogOfWar(self.is_map_fog_of_war)
-    self:DebugString("Fog of War is", (self.is_map_fog_of_war and "enabled" or "disabled"))
-
-    return self.is_map_fog_of_war
-end
-
 --- Weather
 -- @section weather
 
@@ -261,10 +238,6 @@ function WorldTools:DoInit()
         -- selection
         "GetSelectedEntity",
         "SelectEntityUnderMouse",
-
-        -- map
-        "IsMapFogOfWar",
-        "ToggleMapFogOfWar",
 
         -- weather
         "GetPrecipitationStarts",
