@@ -134,6 +134,13 @@ function CharacterRecipesSubmenu:AddPlacerOption(label, placer)
             end
             self.screen:Close()
         end,
+        on_cursor_fn = function()
+            recipe = GetValidRecipe(placer)
+            if recipe then
+                SDK.TemporaryData.Set("selected_recipe", recipe)
+                self:UpdateScreen()
+            end
+        end,
     })
 end
 
