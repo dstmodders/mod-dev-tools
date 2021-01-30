@@ -74,7 +74,7 @@ function CharacterRecipesSubmenu:AddRecipeOption(label, item)
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
-                self.crafting:SetSelectedRecipe(recipe)
+                SDK.TemporaryData.Set("selected_recipe", recipe)
                 self:UpdateScreen()
             end
         end,
@@ -107,7 +107,7 @@ function CharacterRecipesSubmenu:AddRecipeSkinsOption(label, item, skins)
         on_cursor_fn = function()
             recipe = GetValidRecipe(item)
             if recipe then
-                self.crafting:SetSelectedRecipe(recipe)
+                SDK.TemporaryData.Set("selected_recipe", recipe)
                 self:UpdateScreen()
             end
         end,

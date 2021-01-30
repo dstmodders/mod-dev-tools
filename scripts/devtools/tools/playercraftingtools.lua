@@ -77,21 +77,6 @@ function PlayerCraftingTools:MakeRecipeFromMenu(recipe, idx) -- luacheck: only
     end
 end
 
---- Selection
--- @section selection
-
---- Gets selected recipe.
--- @treturn table
-function PlayerCraftingTools:GetSelectedRecipe()
-    return self.selected_recipe
-end
-
---- Sets selected recipe.
--- @tparam table recipe
-function PlayerCraftingTools:SetSelectedRecipe(recipe)
-    self.selected_recipe = recipe
-end
-
 --- Lifecycle
 -- @section lifecycle
 
@@ -101,10 +86,6 @@ function PlayerCraftingTools:DoInit()
         -- general
         "BufferBuildPlacer",
         "MakeRecipeFromMenu",
-
-        -- selection
-        "GetSelectedRecipe",
-        "SetSelectedRecipe",
     })
 end
 

@@ -68,31 +68,11 @@ describe("PlayerCraftingTools", function()
                 -- general
                 "BufferBuildPlacer",
                 "MakeRecipeFromMenu",
-
-                -- selection
-                "GetSelectedRecipe",
-                "SetSelectedRecipe",
             }
 
             AssertAddedMethodsBefore(methods, devtools)
             playercraftingtools = PlayerCraftingTools(playertools, devtools)
             AssertAddedMethodsAfter(methods, playercraftingtools, devtools)
-        end)
-    end)
-
-    describe("selection", function()
-        describe("should have the", function()
-            describe("setter", function()
-                it("SetSelectedRecipe", function()
-                    AssertClassSetter(playercraftingtools, "selected_recipe", "SetSelectedRecipe")
-                end)
-            end)
-
-            describe("getter", function()
-                it("GetSelectedRecipe", function()
-                    AssertClassGetter(playercraftingtools, "selected_recipe", "GetSelectedRecipe")
-                end)
-            end)
         end)
     end)
 end)

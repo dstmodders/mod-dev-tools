@@ -30,7 +30,7 @@ local RecipeData = Class(Data, function(self, screen, devtools)
     -- general
     self.devtools = devtools
     self.playerinventorytools = devtools.player.inventory
-    self.recipe = devtools.player.crafting:GetSelectedRecipe()
+    self.recipe = SDK.TemporaryData.Get("selected_recipe")
 
     -- other
     self:Update()
