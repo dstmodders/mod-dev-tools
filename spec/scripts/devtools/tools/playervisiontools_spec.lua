@@ -92,8 +92,6 @@ describe("PlayerVisionTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- general
-                "GetCCT",
-                "SetCCT",
                 "GetPlayerVisionCCT",
                 "UpdatePlayerVisionCCT",
 
@@ -114,20 +112,6 @@ describe("PlayerVisionTools", function()
         before_each(function()
             playervision = playervisiontools.inst.components.playervision
             playervision.inst = playervisiontools.inst
-        end)
-
-        describe("should have the", function()
-            describe("setter", function()
-                it("SetCCT", function()
-                    AssertClassSetter(playervisiontools, "cct", "SetCCT")
-                end)
-            end)
-
-            describe("getter", function()
-                it("GetCCT", function()
-                    AssertClassGetter(playervisiontools, "cct", "GetCCT")
-                end)
-            end)
         end)
 
         describe("GetPlayerVisionCCT", function()

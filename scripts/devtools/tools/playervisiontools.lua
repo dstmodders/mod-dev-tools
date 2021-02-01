@@ -67,18 +67,6 @@ end)
 --- General
 -- @section general
 
---- Gets the CCT.
--- @treturn table
-function PlayerVisionTools:GetCCT()
-    return self.cct
-end
-
---- Sets the CCT.
--- @tparam table cct
-function PlayerVisionTools:SetCCT(cct)
-    self.cct = cct
-end
-
 --- Gets the PlayerVision CCT.
 -- @treturn table
 function PlayerVisionTools:GetPlayerVisionCCT()
@@ -157,8 +145,6 @@ end
 function PlayerVisionTools:DoInit()
     DevTools.DoInit(self, self.playertools, "vision", {
         -- general
-        "GetCCT",
-        "SetCCT",
         "GetPlayerVisionCCT",
         "UpdatePlayerVisionCCT",
 
