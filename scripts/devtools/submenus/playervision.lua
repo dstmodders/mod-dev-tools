@@ -49,20 +49,17 @@ return {
                 label = "CCT",
                 choices = {
                     { name = "Default", value = tostring(MOD_DEV_TOOLS.CCT.DEFAULT) },
-                    --{ name = "Empty", value = {} },
+                    { name = "Empty", value = {} },
                     { name = "Beaver-Vision", value = MOD_DEV_TOOLS.CCT.BEAVER_VISION },
                     { name = "Ghost-Vision", value = MOD_DEV_TOOLS.CCT.GHOST_VISION },
                     { name = "Nightmare", value = MOD_DEV_TOOLS.CCT.NIGHTMARE },
                     { name = "Night-Vision", value = MOD_DEV_TOOLS.CCT.NIGHT_VISION },
                 },
-                on_get_fn = function(_, submenu)
-                    local override = submenu.vision:GetCCT()
-                    return override and override or "nil"
+                on_get_fn = function()
+                    return SDK.Player.Vision.GetCCTableOverride() or "nil"
                 end,
-                on_set_fn = function(_, submenu, value)
-                    submenu.vision:SetCCT(value)
-                    value = value ~= nil and value or "nil"
-                    submenu.vision:UpdatePlayerVisionCCT(value)
+                on_set_fn = function(_, _, value)
+                    SDK.Player.Vision.SetCCTableOverride(value)
                 end,
             },
         },
