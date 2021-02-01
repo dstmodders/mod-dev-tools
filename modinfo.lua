@@ -6,6 +6,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[as an alternative to debugkeys.]] .. "\n\n" ..
 
     [[v]] .. version .. [[:]] .. "\n" ..
+    [[- Added support for args in the toggle checkbox option]] .. "\n" ..
     [[- Migrated to the new mod SDK]] .. "\n" ..
     [[- Renamed and restructured some classes]]
 author = "Demonblink"
