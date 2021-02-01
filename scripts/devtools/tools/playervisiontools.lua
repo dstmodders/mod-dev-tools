@@ -63,29 +63,6 @@ local PlayerVisionTools = Class(DevTools, function(self, playertools, devtools)
     self:DoInit()
 end)
 
---- General
--- @section general
-
---- Updates the PlayerVision CCT.
---
--- Instead of the table, the parameter can be the "nil" string which will set the custom PlayerVision CCT to nil.
---
--- @tparam[opt] table|string cct
--- @treturn boolean
-function PlayerVisionTools:UpdatePlayerVisionCCT(cct)
-    if self.inst and self.inst.components and self.inst.components.playervision then
-        local playervision = self.inst.components.playervision
-        if playervision then
-            local cct_table = cct ~= "nil" and cct or nil
-            playervision.currentcctable = cct_table
-            playervision.overridecctable = cct_table
-            self.inst:PushEvent("ccoverrides", cct_table)
-            return true
-        end
-    end
-    return false
-end
-
 --- HUD
 -- @section hud
 
@@ -134,9 +111,6 @@ end
 --- Initializes.
 function PlayerVisionTools:DoInit()
     DevTools.DoInit(self, self.playertools, "vision", {
-        -- general
-        "UpdatePlayerVisionCCT",
-
         -- forced HUD visibility
         "IsForcedHUDVisibility",
         "ToggleForcedHUDVisibility",
