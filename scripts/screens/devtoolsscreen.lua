@@ -150,15 +150,13 @@ end
 --- Opens screen.
 -- @treturn boolean
 function DevToolsScreen:Open()
-    self:DebugString(self.name, "opened")
     TheFrontEnd:PushScreen(self(self.devtools))
     return true
 end
 
 --- Closes screen.
 -- @treturn boolean
-function DevToolsScreen:Close()
-    self:DebugString(self.name, "closed")
+function DevToolsScreen:Close() -- luacheck: only
     TheFrontEnd:PopScreen()
     return true
 end
@@ -187,7 +185,7 @@ end
 function DevToolsScreen:ResetDataSidebarIndex()
     self.data_sidebar_idx = 1
     self:UpdateDataSidebar()
-    self:UpdateChildren(true)
+    self:UpdateChildren()
 end
 
 --- Changes data sidebar.
@@ -241,7 +239,7 @@ end
 function DevToolsScreen:Update()
     if self:IsOpen() and self.devtools and not SDK.Time.IsPaused() then
         self:UpdateDataSidebar()
-        self:UpdateChildren(true)
+        self:UpdateChildren()
     end
 end
 
@@ -251,8 +249,7 @@ function DevToolsScreen:OnUpdate()
 end
 
 --- Updates children.
--- @tparam boolean silent
-function DevToolsScreen:UpdateChildren(silent)
+function DevToolsScreen:UpdateChildren()
     local selected = "[SELECTED]"
     local unselected = string.format(
         "[PRESS %s TO SELECT]",
@@ -285,10 +282,6 @@ function DevToolsScreen:UpdateChildren(silent)
             .. number
             .. "\n\n"
             .. tostring(self.data_text))
-    end
-
-    if silent ~= true then
-        self:DebugString("DevToolsScreen children updated")
     end
 end
 
@@ -410,7 +403,7 @@ function DevToolsScreen:OnAccept()
     end
 
     self:UpdateDataSidebar()
-    self:UpdateChildren(true)
+    self:UpdateChildren()
 end
 
 --- Triggers when escape raw key is pressed.
@@ -429,7 +422,7 @@ function DevToolsScreen:OnEscape()
             self:ChangeDataSidebar(self.data_sidebar_root)
         end
 
-        self:UpdateChildren(true)
+        self:UpdateChildren()
     end
 end
 
@@ -440,7 +433,7 @@ function DevToolsScreen:OnSelect()
         MOD_DEV_TOOLS.SELECT.MENU,
         MOD_DEV_TOOLS.SELECT.DATA,
     }, self.selected)
-    self:UpdateChildren(true)
+    self:UpdateChildren()
 end
 
 --- Triggers when control key is pressed.
@@ -451,11 +444,11 @@ function DevToolsScreen:OnControl(control, down)
     if control == CONTROL_SCROLLBACK and down then
         self.data_sidebar_idx = self.data_text:Up(self.data_sidebar_idx)
         self:UpdateDataSidebar()
-        self:UpdateChildren(true)
+        self:UpdateChildren()
     elseif control == CONTROL_SCROLLFWD and down then
         self.data_sidebar_idx = self.data_text:Down(self.data_sidebar_idx)
         self:UpdateDataSidebar()
-        self:UpdateChildren(true)
+        self:UpdateChildren()
     end
 end
 
@@ -488,11 +481,11 @@ function DevToolsScreen:OnRawKey(key, down)
             if key == KEY_UP then
                 self.data_sidebar_idx = self.data_text:Up(self.data_sidebar_idx)
                 self:UpdateDataSidebar()
-                self:UpdateChildren(true)
+                self:UpdateChildren()
             elseif key == KEY_DOWN then
                 self.data_sidebar_idx = self.data_text:Down(self.data_sidebar_idx)
                 self:UpdateDataSidebar()
-                self:UpdateChildren(true)
+                self:UpdateChildren()
             elseif key == KEY_LEFT then
                 self:SwitchData(-1)
             elseif key == KEY_RIGHT then
@@ -504,18 +497,18 @@ function DevToolsScreen:OnRawKey(key, down)
             local menu = self.menu_text:GetMenu()
             if key == KEY_UP then
                 menu:Up()
-                self:UpdateChildren(true)
+                self:UpdateChildren()
             elseif key == KEY_DOWN then
                 menu:Down()
-                self:UpdateChildren(true)
+                self:UpdateChildren()
             elseif key == KEY_LEFT then
                 menu:Left()
                 self:UpdateDataSidebar()
-                self:UpdateChildren(true)
+                self:UpdateChildren()
             elseif key == KEY_RIGHT then
                 menu:Right()
                 self:UpdateDataSidebar()
-                self:UpdateChildren(true)
+                self:UpdateChildren()
             else
                 return false
             end
@@ -545,8 +538,6 @@ end
 --- Initializes.
 -- @tparam DevTools devtools
 function DevToolsScreen:DoInit(devtools)
-    SDK.Debug.AddMethods(self)
-
     -- general
     self.data_text = nil
     self.devtools = devtools
