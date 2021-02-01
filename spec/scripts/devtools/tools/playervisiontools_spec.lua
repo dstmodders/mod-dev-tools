@@ -92,7 +92,6 @@ describe("PlayerVisionTools", function()
         it("should add DevTools methods", function()
             local methods = {
                 -- general
-                "GetPlayerVisionCCT",
                 "UpdatePlayerVisionCCT",
 
                 -- forced HUD visibility
@@ -112,66 +111,6 @@ describe("PlayerVisionTools", function()
         before_each(function()
             playervision = playervisiontools.inst.components.playervision
             playervision.inst = playervisiontools.inst
-        end)
-
-        describe("GetPlayerVisionCCT", function()
-            local GetCCTable
-
-            describe("when the colour cubes table is available", function()
-                before_each(function()
-                    GetCCTable = spy.new(ReturnValueFn({}))
-                    playervision.GetCCTable = GetCCTable
-                end)
-
-                it("should call the PlayerVision:GetCCTable()", function()
-                    assert.spy(GetCCTable).was_not_called()
-                    playervisiontools:GetPlayerVisionCCT()
-                    assert.spy(GetCCTable).was_called(1)
-                    assert.spy(GetCCTable).was_called_with(match.is_ref(playervision))
-                end)
-
-                it("should return the colour cubes table", function()
-                    assert.is_equal(0, #playervisiontools:GetPlayerVisionCCT())
-                end)
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(function()
-                        assert.is_nil(playervisiontools:GetPlayerVisionCCT())
-                    end, playervisiontools, "inst", "components", "playervision", "GetCCTable")
-                end)
-            end)
-        end)
-
-        describe("GetPlayerVisionCCT", function()
-            describe("when the colour cubes table is available", function()
-                before_each(function()
-                    playervision.currentcctable = NIGHTVISION_COLOUR_CUBES
-                end)
-
-                it("should return the colour cubes table", function()
-                    assert.is_equal(
-                        NIGHTVISION_COLOUR_CUBES,
-                        playervisiontools:GetPlayerVisionCCT()
-                    )
-                end)
-            end)
-
-            describe("when some chain fields are missing", function()
-                it("should return nil", function()
-                    AssertChainNil(
-                        function()
-                            assert.is_nil(playervisiontools:GetPlayerVisionCCT())
-                        end,
-                        playervisiontools,
-                        "inst",
-                        "components",
-                        "playervision",
-                        "currentcctable"
-                    )
-                end)
-            end)
         end)
 
         describe("UpdatePlayerVisionCCT", function()

@@ -49,7 +49,6 @@ local PlayerVisionTools = Class(DevTools, function(self, playertools, devtools)
     SDK.Utils.AssertRequiredField(self.name .. ".inventory", playertools.inventory)
 
     -- general
-    self.cct = nil
     self.inst = playertools.inst
     self.inventory = playertools.inventory
     self.playertools = playertools
@@ -66,15 +65,6 @@ end)
 
 --- General
 -- @section general
-
---- Gets the PlayerVision CCT.
--- @treturn table
-function PlayerVisionTools:GetPlayerVisionCCT()
-    if self.inst and self.inst.components and self.inst.components.playervision then
-        local playervision = self.inst.components.playervision
-        return playervision and playervision.GetCCTable and playervision:GetCCTable()
-    end
-end
 
 --- Updates the PlayerVision CCT.
 --
@@ -145,7 +135,6 @@ end
 function PlayerVisionTools:DoInit()
     DevTools.DoInit(self, self.playertools, "vision", {
         -- general
-        "GetPlayerVisionCCT",
         "UpdatePlayerVisionCCT",
 
         -- forced HUD visibility
