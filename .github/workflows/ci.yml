@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop
-      - master
+      - main
 
 jobs:
   lint:
@@ -51,18 +51,18 @@ jobs:
         shell: sh
         run: echo "::set-env name=SLACK_CUSTOM_PAYLOAD::${SLACK_CUSTOM_PAYLOAD}"
         env:
-          SLACK_CUSTOM_PAYLOAD: '{"channel":"dst-mod-dev-tools","attachments":[{"color":"#2eb886","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has passed with no issues","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has passed with no issues"}}]}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#2eb886","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has passed with no issues","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has passed with no issues"}}]}]}'
       - name: Prepare failure Slack notification
         if: failure()
         shell: sh
         run: echo "::set-env name=SLACK_CUSTOM_PAYLOAD::${SLACK_CUSTOM_PAYLOAD}"
         env:
-          SLACK_CUSTOM_PAYLOAD: '{"channel":"dst-mod-dev-tools","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed with {{ LINT_ISSUES }} issues","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed with *{{ LINT_ISSUES }}* issues"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Luacheck*:\n{{ LINT_ISSUES_LUACHECK }}"},{"type":"mrkdwn","text":"*Prettier*:\n{{ LINT_ISSUES_PRETTIER }}"}]}]}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed with {{ LINT_ISSUES }} issues","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed with *{{ LINT_ISSUES }}* issues"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Luacheck*:\n{{ LINT_ISSUES_LUACHECK }}"},{"type":"mrkdwn","text":"*Prettier*:\n{{ LINT_ISSUES_PRETTIER }}"}]}]}]}'
       - name: Send Slack notification
-        if: always()
-        uses: Ilshidur/action-slack@master
+        if: ${{ !env.ACT && always() }}
+        uses: Ilshidur/action-slack@2.1.0
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_CODEDSOLAR }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   test:
     runs-on: ubuntu-latest
@@ -107,7 +107,7 @@ jobs:
             exit 1
           fi
       - name: Upload coverage to Codecov
-        if: success()
+        if: ${{ !env.ACT && success() }}
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -115,14 +115,14 @@ jobs:
         if: success()
         run: echo "::set-env name=SLACK_CUSTOM_PAYLOAD::${SLACK_CUSTOM_PAYLOAD}"
         env:
-          SLACK_CUSTOM_PAYLOAD: '{"channel":"dst-mod-dev-tools","attachments":[{"color":"#2eb886","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has passed {{ TESTS }} tests. Coverage: {{ COVERAGE }}","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has passed *{{ TESTS }}* tests. Coverage: *{{ COVERAGE }}*"}}]}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#2eb886","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has passed {{ TESTS }} tests. Coverage: {{ COVERAGE }}","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has passed *{{ TESTS }}* tests. Coverage: *{{ COVERAGE }}*"}}]}]}'
       - name: Prepare failure Slack notification
         if: failure()
         run: echo "::set-env name=SLACK_CUSTOM_PAYLOAD::${SLACK_CUSTOM_PAYLOAD}"
         env:
-          SLACK_CUSTOM_PAYLOAD: '{"channel":"dst-mod-dev-tools","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed {{ TESTS_FAILURES }}/{{ TESTS }} tests","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed *{{ TESTS_FAILURES }}/{{ TESTS }}* tests"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Total*:\n{{ TESTS }}"},{"type":"mrkdwn","text":"*Successes*:\n{{ TESTS_SUCCESSES }}"},{"type":"mrkdwn","text":"*Failures*:\n{{ TESTS_FAILURES }}"},{"type":"mrkdwn","text":"*Errors*:\n{{ TESTS_ERRORS }}"}]}]}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed {{ TESTS_FAILURES }}/{{ TESTS }} tests","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed *{{ TESTS_FAILURES }}/{{ TESTS }}* tests"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Total*:\n{{ TESTS }}"},{"type":"mrkdwn","text":"*Successes*:\n{{ TESTS_SUCCESSES }}"},{"type":"mrkdwn","text":"*Failures*:\n{{ TESTS_FAILURES }}"},{"type":"mrkdwn","text":"*Errors*:\n{{ TESTS_ERRORS }}"}]}]}]}'
       - name: Send Slack notification
-        if: always()
-        uses: Ilshidur/action-slack@master
+        if: ${{ !env.ACT && always() }}
+        uses: Ilshidur/action-slack@2.1.0
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_CODEDSOLAR }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
