@@ -186,7 +186,7 @@ end
 --             options = {
 --                 label = "Reveal",
 --                 on_accept_fn = function(_, submenu)
---                     SDK.Player.Reveal()
+--                     SDK.Player.MiniMap.Reveal()
 --                     submenu.screen:Close()
 --                 end,
 --             },
