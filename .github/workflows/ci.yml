@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: viktorpopkov/dst-mod:alpine
+      image: viktorpopkov/dst-mod:debian
     steps:
       - name: Check out
         uses: actions/checkout@v2
