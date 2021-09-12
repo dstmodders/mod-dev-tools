@@ -29,9 +29,16 @@ To learn more, consider checking out the corresponding [Docker Hub][] image:
 ```shell script
 $ git clone https://github.com/victorpopkov/dst-mod-dev-tools
 $ cd ./dst-mod-dev-tools/
-$ export DST_MODS="${HOME}/.steam/steam/steamapps/common/Don't Starve Together/mods/"
+$ git submodule init
+$ git submodule update
+$ export DST="${HOME}/.steam/steam/steamapps/common/Don't Starve Together"
 $ docker pull viktorpopkov/dst-mod
-$ docker run --rm -u 'dst-mod' -itv "$(pwd):/mod/" -v "${DST_MODS}:/mods/" viktorpopkov/dst-mod
+$ docker run --rm -itu dst-mod \
+    -v "${DST}:/opt/dont_starve/" \
+    -v "$(pwd):/opt/$(basename $(pwd))" \
+    -w "/opt/$(basename $(pwd))" \
+    viktorpopkov/dst-mod \
+    /bin/bash
 ```
 
 ### PowerShell (Windows)
@@ -39,9 +46,16 @@ $ docker run --rm -u 'dst-mod' -itv "$(pwd):/mod/" -v "${DST_MODS}:/mods/" vikto
 ```powershell
 PS C:\> git clone https://github.com/victorpopkov/dst-mod-dev-tools
 PS C:\> cd .\dst-mod-dev-tools\
-PS C:\> $Env:DST_MODS = "C:\Program Files (x86)\Steam\steamapps\common\Don't Starve Together\mods\"
+PS C:\> git submodule init
+PS C:\> git submodule update
+PS C:\> $Env:DST = "C:\Program Files (x86)\Steam\steamapps\common\Don't Starve Together"
 PS C:\> docker pull viktorpopkov/dst-mod
-PS C:\> docker run --rm -u 'dst-mod' -itv "${PWD}:/mod/" -v "$($Env:DST_MODS):/mods/" viktorpopkov/dst-mod
+PS C:\> $basename = (Get-Item "${PWD}").Basename; docker run --rm -itu dst-mod `
+    -v "$($Env:DST):/opt/dont_starve/" `
+    -v "${PWD}:/opt/${basename}" `
+    -w "/opt/${basename}" `
+    viktorpopkov/dst-mod `
+    /bin/bash
 ```
 
 ## Environment
@@ -115,17 +129,6 @@ $ sudo luarocks install luacov-reporter-lcov
 $ sudo luarocks install cluacov
 ```
 
-##### [ds-mod-tools][]
-
-```shell script
-$ sudo apt install premake4
-$ git clone https://github.com/kleientertainment/ds_mod_tools
-$ cd ds_mod_tools/src/
-$ ./premake.sh
-$ cd ../build/proj/
-$ make
-```
-
 ##### [LCOV][]
 
 ```shell script
@@ -142,23 +145,13 @@ $ npm install -g prettier @prettier/plugin-xml
 $ yarn global add prettier @prettier/plugin-xml
 ```
 
+##### [ds-mod-tools][]
+
+See: https://github.com/victorpopkov/ds-mod-tools#compilation-instructions
+
 ##### [ktools][]
 
-```shell script
-$ sudo apt install pkg-config imagemagick=8:6.9.10.23+dfsg-2.1
-$ git clone https://github.com/victorpopkov/ktools.git
-$ cd ktools/
-$ cmake \
-    -DImageMagick_Magick++_LIBRARY="$(pkg-config --variable=libdir Magick++)/lib$(pkg-config --variable=libname Magick++).so" \
-    -DImageMagick_MagickCore_INCLUDE_DIR="$(pkg-config --cflags-only-I MagickCore | tail -c+3)" \
-    -DImageMagick_MagickCore_LIBRARY="$(pkg-config --variable=libdir MagickCore)/lib$(pkg-config --variable=libname MagickCore).so" \
-    -DImageMagick_MagickWand_INCLUDE_DIR="$(pkg-config --cflags-only-I MagickWand | tail -c+3)" \
-    -DImageMagick_MagickWand_LIBRARY="$(pkg-config --variable=libdir MagickWand)/lib$(pkg-config --variable=libname MagickWand).so" \
-    .
-$ ./configure
-$ make
-$ make install
-```
+See: https://github.com/victorpopkov/ktools#linux
 
 ## Code Style
 
