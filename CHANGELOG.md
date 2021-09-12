@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Add support for "Dumped" data sidebar
-- Add support for "World State" data sidebar
+- Add new "Dumped" data sidebar
+- Add new "World State" data sidebar
 
 ### Changed
 
@@ -27,9 +27,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- Add new "Selected Entity Tags" data sidebar
 - Add support for "data_sidebar" in submenu data tables
-- Add support for "Selected Entity Tags" data sidebar
-- Add support for the number of data sidebars
+- Add support for showing the number of data sidebars
 
 ### Changed
 
@@ -65,10 +65,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Add locale text scale in the front-end data sidebar
+- Add "Locale Text Scale" in the front-end data sidebar
+- Add "Toggle Locale Text Scale" in "Dev Tools" submenu
 - Add new "Dev Tools" submenu
 - Add new font option
-- Add support for ignoring the locale text scale in tools
 
 ### Changed
 
