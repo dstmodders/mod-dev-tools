@@ -1,4 +1,4 @@
-FROM nginx:1.19.2 AS nginx
+FROM nginx:1.21.3 AS nginx
 
 # Project
 COPY ./ /usr/share/nginx/html/
