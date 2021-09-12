@@ -134,7 +134,7 @@ uninstall:
 updatesdk:
 	@rm -rf scripts/devtools/sdk/*
 	@git submodule foreach git reset --hard origin/main
-	@git submodule foreach git pull
+	@git submodule foreach git pull --ff-only origin main
 	@git add scripts/devtools/sdk
 	@git commit -m "Update SDK: ${GIT_SUBMODULE_COMMIT}"
 
