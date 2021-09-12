@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+### Added
+
+- Add support for args in the toggle checkbox option
+
+### Changed
+
+- Migrate to the new mod SDK
+- Rename and restructure some classes
+
 ## [0.7.0][] - 2020-10-06
 
 ### Added
