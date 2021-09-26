@@ -17,12 +17,45 @@ jobs:
       - name: Set a job-wide environment variables
         run: |
           echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=${{ secrets.PRIVATE_REGISTRY }}/dst-mod-dev-tools/doc" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
           echo "GITHUB_JOB_NAME=docs" >> $GITHUB_ENV
       - name: Generate documentation
         uses: docker://viktorpopkov/dst-mod:alpine
         with:
           args: make ldoc
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to the private registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.PRIVATE_REGISTRY }}
+          username: ${{ secrets.PRIVATE_REGISTRY_USERNAME }}
+          password: ${{ secrets.PRIVATE_REGISTRY_PASSWORD }}
+      - name: Generate an image metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          flavor: latest=true
+          labels: maintainer=victor@popkov.me
+      - name: Build an image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm/v7
+          pull: true
+          push: ${{ !env.ACT && github.ref == 'refs/heads/main' }}
+          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_IMAGE_TAG }}
+          cache-to: type=inline
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       - name: Add Docker certificates to access the remote host
+        if: ${{ !env.ACT }}
         run: |
           mkdir -p "${DOCKER_CERT_PATH}"
           echo "${DOCKER_TLS_CA}" > "${DOCKER_CERT_PATH}/ca.pem"
@@ -32,23 +65,12 @@ jobs:
           chmod 400 "${DOCKER_CERT_PATH}/cert.pem"
           chmod 400 "${DOCKER_CERT_PATH}/key.pem"
         env:
-          DOCKER_CERT_PATH: /home/runner/.docker/deploy
+          DOCKER_CERT_PATH: /home/runner/.docker/deploy/
           DOCKER_TLS_CA: ${{ secrets.DOCKER_TLS_CA }}
           DOCKER_TLS_CERT: ${{ secrets.DOCKER_TLS_CERT }}
           DOCKER_TLS_KEY: ${{ secrets.DOCKER_TLS_KEY }}
-      - name: Build Docker image
-        working-directory: ./doc/
-        run: |
-          docker build --tag "${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}" .
-          echo "DOCKER_IMAGE=${DOCKER_IMAGE}" >> $GITHUB_ENV
-          echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG}" >> $GITHUB_ENV
-        env:
-          DOCKER_CERT_PATH: /home/runner/.docker/deploy
-          DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          DOCKER_IMAGE: victorpopkov/dst-mod-dev-tools/doc
-          DOCKER_IMAGE_TAG: latest
-          DOCKER_TLS_VERIFY: 1
       - name: Deploy Docker Stack
+        if: ${{ !env.ACT }}
         working-directory: ./doc/
         run: |
           docker stack rm "${DOCKER_STACK_NAME}"
@@ -59,13 +81,22 @@ jobs:
             --prune \
             "${DOCKER_STACK_NAME}"
         env:
-          DOCKER_CERT_PATH: /home/runner/.docker/deploy
+          # docker
+          DOCKER_CERT_PATH: /home/runner/.docker/deploy/
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          DOCKER_STACK_NAME: github_dst_mod_dev_tools_doc
-          DOCKER_STACK_TRAEFIK_HOST: github.victorpopkov.com
-          DOCKER_STACK_TRAEFIK_NAME: github-dst-mod-dev-tools-doc
-          DOCKER_STACK_TRAEFIK_PATH_PREFIX: /dst-mod-dev-tools/
           DOCKER_TLS_VERIFY: 1
+          # docker stack
+          DOCKER_STACK_NAME: github_dst_mod_dev_tools
+          DOCKER_STACK_NODE_HOSTNAME: ${{ secrets.DOCKER_STACK_NODE_HOSTNAME }}
+          # loki
+          LOKI_PIPELINE_STAGE_FILE: /etc/loki/pipelines/nginx.yml
+          LOKI_URL: ${{ secrets.LOKI_URL }}
+          # nginx
+          NGINX_CONF: /etc/nginx/nginx.conf
+          # traefik
+          TRAEFIK_HOSTNAME: github.victorpopkov.com
+          TRAEFIK_NAME: github-dst-mod-dev-tools-doc
+          TRAEFIK_PATH_PREFIX: /dst-mod-dev-tools/
       - name: Prepare success Slack notification
         if: success()
         run: echo "SLACK_CUSTOM_PAYLOAD=${SLACK_CUSTOM_PAYLOAD}" >> $GITHUB_ENV
