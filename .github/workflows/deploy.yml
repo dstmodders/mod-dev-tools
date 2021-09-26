@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile
+          file: ./doc/Dockerfile
           platforms: linux/amd64,linux/arm/v7
           pull: true
           push: ${{ !env.ACT && github.ref == 'refs/heads/main' }}
