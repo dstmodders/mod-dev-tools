@@ -17,7 +17,7 @@ jobs:
       - name: Set a job-wide environment variables
         run: |
           echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "DOCKER_IMAGE=${{ secrets.PRIVATE_REGISTRY }}/dst-mod-dev-tools/doc" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=${{ secrets.PRIVATE_REGISTRY }}/dst-mod-dev-tools/docs" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
           echo "GITHUB_JOB_NAME=docs" >> $GITHUB_ENV
       - name: Generate documentation
