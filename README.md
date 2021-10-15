@@ -48,7 +48,7 @@ was designed as an alternative to _debugkeys_.
 
 The [LDoc][] documentation generator has been used for generating documentation,
 and the most recent version can be found here:
-http://github.victorpopkov.com/dst-mod-dev-tools/
+https://docs.dstmodders.com/dev-tools/
 
 - [Installation](readme/01-installation.md)
 - [API](readme/02-api.md)
