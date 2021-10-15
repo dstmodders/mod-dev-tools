@@ -80,7 +80,7 @@ install:
 		"${DST_MODS}/dst-mod-dev-tools/"
 
 ldoc:
-	@find ./doc/* -type f -not -name Dockerfile -not -name docker-stack.yml -not -wholename ./doc/ldoc/ldoc.css -delete
+	@find ./docs/* -type f -not -name Dockerfile -not -name docker-stack.yml -not -wholename ./docs/ldoc/ldoc.css -delete
 	@ldoc .
 
 lint:

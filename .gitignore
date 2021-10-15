@@ -18,12 +18,12 @@ core
 # general
 description.txt
 
-# doc
-doc/*
-!doc/.dockerignore
-!doc/docker-stack.yml
-!doc/Dockerfile
-!doc/ldoc/
+# docs
+docs/*
+!docs/.dockerignore
+!docs/docker-stack.yml
+!docs/Dockerfile
+!docs/ldoc/
 
 # steam workshop
 steam-workshop.zip

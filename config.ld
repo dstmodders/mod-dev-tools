@@ -12,11 +12,11 @@ file = {
     },
 }
 
-dir = "doc"
+dir = "docs"
 format = "markdown"
 readme = "readme"
 sort_modules = true
-style = "./doc/ldoc/"
+style = "./docs/ldoc/"
 use_markdown_titles = true
 
 custom_see_handler("^MOD_DEV_TOOLS\.(.*)$", function(name)
