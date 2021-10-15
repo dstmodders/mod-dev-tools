@@ -9,7 +9,7 @@ description = [[Version: ]] .. version .. "\n\n" ..
     [[- Added support for args in the toggle checkbox option]] .. "\n" ..
     [[- Migrated to the new mod SDK]] .. "\n" ..
     [[- Renamed and restructured some classes]]
-author = "Demonblink"
+author = "Depressed DST Modders"
 api_version = 10
 forumthread = ""
 
