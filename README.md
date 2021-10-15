@@ -51,14 +51,8 @@ and the most recent version can be found here:
 http://github.victorpopkov.com/dst-mod-dev-tools/
 
 - [Installation](readme/01-installation.md)
-- [Development](readme/02-development.md)
-- [API](readme/03-api.md)
-- [Extending](readme/04-extending.md)
-
-## Roadmap
-
-You can always find and track the current states of the upcoming features/fixes
-on the following [Trello][] board: https://trello.com/b/3JtDZFJG
+- [API](readme/02-api.md)
+- [Extending](readme/03-extending.md)
 
 ## License
 
