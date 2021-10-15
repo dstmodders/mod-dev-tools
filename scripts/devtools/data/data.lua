@@ -4,7 +4,7 @@
 -- Includes base data functionality and must be extended by other data classes. Shouldn't be used
 -- on its own.
 --
--- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
 --
 -- @classmod data.Data
 -- @see data.FrontEndData

@@ -17,7 +17,7 @@
 --   - **CC** (Colour Cubes)
 --   - **CCT** (Colour Cubes Table)
 --
--- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
 --
 -- @classmod tools.PlayerVisionTools
 -- @see DevTools

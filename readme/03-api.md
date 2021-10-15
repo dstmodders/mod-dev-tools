@@ -13,7 +13,7 @@ You can see how this API can be used from another mod by checking out my
 [Auto-Join](https://steamcommunity.com/sharedfiles/filedetails/?id=1903101575)
 mod as a real example:
 
-- **Source Code**: [https://github.com/victorpopkov/dst-mod-auto-join/blob/master/scripts/autojoin/devtoolssubmenu.lua](https://github.com/victorpopkov/dst-mod-auto-join/blob/master/scripts/autojoin/devtoolssubmenu.lua)
+- **Source Code**: [https://github.com/dstmodders/dst-mod-auto-join/blob/master/scripts/autojoin/devtoolssubmenu.lua](https://github.com/dstmodders/dst-mod-auto-join/blob/master/scripts/autojoin/devtoolssubmenu.lua)
 - **Steam Workshop**: [https://steamcommunity.com/sharedfiles/filedetails/?id=1903101575](https://steamcommunity.com/sharedfiles/filedetails/?id=1903101575)
 
 ## Example
@@ -109,4 +109,4 @@ API:AddSubmenu({
 
 You can find plenty of examples just by exploring the current mod submenus:
 
-[https://github.com/victorpopkov/dst-mod-dev-tools/tree/master/scripts/devtools/submenus](https://github.com/victorpopkov/dst-mod-dev-tools/tree/master/scripts/devtools/submenus)
+[https://github.com/dstmodders/dst-mod-dev-tools/tree/master/scripts/devtools/submenus](https://github.com/dstmodders/dst-mod-dev-tools/tree/master/scripts/devtools/submenus)

@@ -3,7 +3,7 @@
 --
 -- Includes front-end data in data sidebar.
 --
--- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
 --
 -- @classmod data.FrontEndData
 -- @see data.Data

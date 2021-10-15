@@ -3,7 +3,7 @@
 --
 -- Includes base submenu functionality and must be extended by other submenu classes.
 --
--- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
 --
 -- @classmod menu.Submenu
 -- @see submenus.CharacterRecipesSubmenu
