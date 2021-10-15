@@ -35,12 +35,12 @@ services:
         # Traefik (Routers - HTTP)
         - 'traefik.http.routers.${TRAEFIK_NAME}-http.entrypoints=web'
         - 'traefik.http.routers.${TRAEFIK_NAME}-http.middlewares=http-to-https,real-ip'
-        - 'traefik.http.routers.${TRAEFIK_NAME}-http.rule=Host(`${TRAEFIK_HOSTNAME}`) && PathPrefix(`${TRAEFIK_PATH_PREFIX}`)'
+        - 'traefik.http.routers.${TRAEFIK_NAME}-http.rule=Host(`${TRAEFIK_HOST}`) && PathPrefix(`${TRAEFIK_PATH_PREFIX}`)'
         - 'traefik.http.routers.${TRAEFIK_NAME}-http.service=${TRAEFIK_NAME}'
         # Traefik (Routers - HTTPS)
         - 'traefik.http.routers.${TRAEFIK_NAME}-https.entrypoints=websecure'
         - 'traefik.http.routers.${TRAEFIK_NAME}-https.middlewares=real-ip,${TRAEFIK_NAME}-stripprefix'
-        - 'traefik.http.routers.${TRAEFIK_NAME}-https.rule=Host(`${TRAEFIK_HOSTNAME}`) && PathPrefix(`${TRAEFIK_PATH_PREFIX}`)'
+        - 'traefik.http.routers.${TRAEFIK_NAME}-https.rule=Host(`${TRAEFIK_HOST}`) && PathPrefix(`${TRAEFIK_PATH_PREFIX}`)'
         - 'traefik.http.routers.${TRAEFIK_NAME}-https.service=${TRAEFIK_NAME}'
 
 networks:
