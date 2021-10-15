@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: viktorpopkov/dst-mod:debian
+      image: dstmodders/dst-mod:debian
     steps:
       - name: Check out
         uses: actions/checkout@v2
@@ -69,7 +69,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: viktorpopkov/dst-mod:debian
+      image: dstmodders/dst-mod:debian
     steps:
       - name: Check out
         uses: actions/checkout@v2
