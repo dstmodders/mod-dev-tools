@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  doc:
+  docs:
     image: '${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}'
     networks:
       - cluster
