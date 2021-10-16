@@ -50,9 +50,8 @@ The [LDoc][] documentation generator has been used for generating documentation,
 and the most recent version can be found here:
 https://docs.dstmodders.com/dev-tools/
 
-- [Installation](readme/01-installation.md)
-- [API](readme/02-api.md)
-- [Extending](readme/03-extending.md)
+- [API](readme/01-api.md)
+- [Extending](readme/02-extending.md)
 
 ## License
 
@@ -61,4 +60,3 @@ Released under the [MIT License](https://opensource.org/licenses/MIT).
 [don't starve together]: https://www.klei.com/games/dont-starve-together
 [ldoc]: https://stevedonovan.github.io/ldoc/
 [steam workshop]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
-[trello]: https://trello.com/
