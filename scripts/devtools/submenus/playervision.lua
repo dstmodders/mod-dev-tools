@@ -44,6 +44,18 @@ return {
         },
         { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
         {
+            type = MOD_DEV_TOOLS.OPTION.ACTION,
+            options = {
+                label = "Hide Ground Overlay",
+                on_accept_fn = function()
+                    for i = 0, 2 do
+                        TheWorld.Map["SetOverlayColor" .. i](TheWorld.Map, 0, 0, 0, 0)
+                    end
+                end,
+            },
+        },
+        { type = MOD_DEV_TOOLS.OPTION.DIVIDER },
+        {
             type = MOD_DEV_TOOLS.OPTION.CHOICES,
             options = {
                 label = "CCT",
