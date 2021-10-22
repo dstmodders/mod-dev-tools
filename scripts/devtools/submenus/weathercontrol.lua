@@ -103,14 +103,14 @@ return {
             type = MOD_DEV_TOOLS.OPTION.NUMERIC,
             options = {
                 label = "Wetness",
-                min = 0,
+                min = -100,
                 max = 100,
                 on_get_fn = function()
                     return math.floor(SDK.World.Weather.GetWetness())
                 end,
                 on_set_fn = function(_, submenu, value)
-                    value = (value - SDK.World.Weather.GetWetness())
-                    SDK.World.Weather.SetDeltaWetness(math.floor(value))
+                    value = (value - math.floor(SDK.World.Weather.GetWetness()))
+                    SDK.World.Weather.SetDeltaWetness(value)
                     submenu:UpdateScreen(nil, true)
                 end,
             },
