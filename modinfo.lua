@@ -3,12 +3,7 @@ version = "0.8.0-alpha"
 description = [[Version: ]] .. version .. "\n\n" ..
 
     [[An extendable mod, that simplifies the most common tasks for both developers and testers ]] ..
-    [[as an alternative to debugkeys.]] .. "\n\n" ..
-
-    [[v]] .. version .. [[:]] .. "\n" ..
-    [[- Added support for args in the toggle checkbox option]] .. "\n" ..
-    [[- Migrated to the new mod SDK]] .. "\n" ..
-    [[- Renamed and restructured some classes]]
+    [[as an alternative to debugkeys.]]
 author = "Depressed DST Modders"
 api_version = 10
 forumthread = ""
@@ -426,13 +421,6 @@ configuration_options = {
         "default_mod_warning",
         "Disable mod warning",
         "When enabled, disables the mod warning when starting the game"
-    ),
-
-    AddBooleanConfig(
-        "hide_changelog",
-        "Hide changelog",
-        [[When enabled, hides the changelog in the mod description.]] .. "\n" ..
-            [[Mods should be reloaded to take effect]]
     ),
 
     AddBooleanConfig(
