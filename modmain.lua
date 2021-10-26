@@ -228,28 +228,33 @@ end)
 --- Keybinds
 -- @section keybinds
 
+local key_options = {
+    ignore_has_input_focus = { "ModDevToolsScreen" },
+    ignore_screens = { "ConsoleScreen", "MapScreen" },
+}
+
 SDK.Input.AddConfigKeyUpHandler("key_toggle_tools", function()
     if DevToolsScreen and DevToolsScreen:CanToggle() then
         DevToolsScreen:Toggle()
     end
-end)
+end, key_options)
 
 SDK.Input.AddConfigKeyUpHandler("key_movement_prediction", function()
     if _G.ThePlayer and not SDK.World.IsMasterSim() then
         SDK.Player.ToggleMovementPrediction()
     end
-end, true)
+end, key_options)
 
 SDK.Input.AddConfigKeyUpHandler("key_pause", function()
     SDK.Time.TogglePause()
-end, true)
+end, key_options)
 
 SDK.Input.AddConfigKeyUpHandler("key_god_mode", function()
     local playertools = SDK.Utils.Chain.Get(devtools, "player")
     if playertools then
         playertools:ToggleGodMode()
     end
-end, true)
+end, key_options)
 
 local _KEY_TELEPORT = SDK.Config.GetModKeyConfigData("key_teleport")
 SDK.Input.AddConfigKeyDownHandler("key_teleport", function()
@@ -257,14 +262,17 @@ SDK.Input.AddConfigKeyDownHandler("key_teleport", function()
     if playertools then
         playertools:Teleport(_KEY_TELEPORT)
     end
-end, true)
+end, {
+    ignore_has_input_focus = { "MapScreen", "ModDevToolsScreen" },
+    ignore_screens = { "ConsoleScreen" },
+})
 
 SDK.Input.AddConfigKeyUpHandler("key_select_entity", function()
     local worldtools = SDK.Utils.Chain.Get(devtools, "world")
     if worldtools then
         worldtools:SelectEntityUnderMouse()
     end
-end, true)
+end, key_options)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_increase", function()
     if TheInput:IsKeyDown(KEY_SHIFT) then
@@ -272,7 +280,7 @@ SDK.Input.AddConfigKeyDownHandler("key_time_scale_increase", function()
     else
         SDK.Time.SetDeltaTimeScale(0.1)
     end
-end, true)
+end, key_options)
 
 SDK.Input.AddConfigKeyDownHandler("key_time_scale_decrease", function()
     if TheInput:IsKeyDown(KEY_SHIFT) then
@@ -280,11 +288,11 @@ SDK.Input.AddConfigKeyDownHandler("key_time_scale_decrease", function()
     else
         SDK.Time.SetDeltaTimeScale(-0.1)
     end
-end, true)
+end, key_options)
 
 SDK.Input.AddConfigKeyUpHandler("key_time_scale_default", function()
     SDK.Time.SetTimeScale(1)
-end, true)
+end, key_options)
 
 --- Reset
 -- @section reset
