@@ -26,6 +26,12 @@ return {
             "IsForcedHUDVisibility",
             "ToggleForcedHUDVisibility"
         ),
+        Toggle(
+            "vision",
+            "Spawners Visibility",
+            "IsSpawnersVisibility",
+            "ToggleSpawnersVisibility"
+        ),
         {
             type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
             options = {
