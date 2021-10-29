@@ -10,11 +10,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Add support for args in the toggle checkbox option
+- Add support for pause and time scale keys outside of gameplay
 
 ### Changed
 
+- Change author
 - Migrate to the new mod SDK
 - Rename and restructure some classes
+
+### Removed
+
+- Remove "Hide changelog" configuration
+- Remove changelog from modinfo
 
 ## [0.7.0][] - 2020-10-06
 
