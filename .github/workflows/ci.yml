@@ -28,30 +28,27 @@ jobs:
       - name: Lint
         shell: sh
         run: |
-          # Lua
-          export LINT_ISSUES_LUACHECK=$(luacheck . --exclude-files="here/" --formatter plain | wc -l)
-
-          # Prettier
-          export LINT_ISSUES_PRETTIER=$(prettier --list-different ./**/*.md ./**/*.xml ./**/*.yml | wc -l)
-          export LINT_ISSUES_PRETTIER=$((LINT_ISSUES_PRETTIER < 0 ? 0 : LINT_ISSUES_PRETTIER))
-
-          # Issues
-          export LINT_ISSUES=$((LINT_ISSUES_LUACHECK + LINT_ISSUES_PRETTIER))
+          export_env() {
+            echo "$1=${2}"
+            echo "$1=${2}" >> $GITHUB_ENV
+          }
 
           # env
-          echo "LINT_ISSUES=${LINT_ISSUES}" >> $GITHUB_ENV
-          echo "LINT_ISSUES_LUACHECK=${LINT_ISSUES_LUACHECK}" >> $GITHUB_ENV
-          echo "LINT_ISSUES_PRETTIER=${LINT_ISSUES_PRETTIER}" >> $GITHUB_ENV
+          export LINT_ISSUES_LUACHECK=$(luacheck . --exclude-files="here/" --formatter plain | wc -l)
+          export LINT_ISSUES_PRETTIER=$(prettier --list-different ./**/*.md ./**/*.xml ./**/*.yml | wc -l)
+          export LINT_ISSUES_PRETTIER=$((LINT_ISSUES_PRETTIER < 0 ? 0 : LINT_ISSUES_PRETTIER))
+          export LINT_ISSUES_TOTAL=$((LINT_ISSUES_LUACHECK + LINT_ISSUES_PRETTIER))
+
+          export_env 'LINT_ISSUES_LUACHECK' "${LINT_ISSUES_LUACHECK}"
+          export_env 'LINT_ISSUES_PRETTIER' "${LINT_ISSUES_PRETTIER}"
+          export_env 'LINT_ISSUES_TOTAL' "${LINT_ISSUES_TOTAL}"
 
           # lint
+          echo '---'
           make lint || true
 
           # status
-          if [ "${LINT_ISSUES}" -eq 0 ]; then
-            exit 0
-          else
-            exit 1
-          fi
+          if [ "${LINT_ISSUES_TOTAL}" -eq 0 ]; then exit 0; else exit 1; fi
       - name: Prepare success Slack notification
         if: success()
         shell: sh
@@ -63,7 +60,7 @@ jobs:
         shell: sh
         run: echo "SLACK_CUSTOM_PAYLOAD=${SLACK_CUSTOM_PAYLOAD}" >> $GITHUB_ENV
         env:
-          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed with {{ LINT_ISSUES }} issues","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed with *{{ LINT_ISSUES }}* issues"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Luacheck*:\n{{ LINT_ISSUES_LUACHECK }}"},{"type":"mrkdwn","text":"*Prettier*:\n{{ LINT_ISSUES_PRETTIER }}"}]}]}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed with {{ LINT_ISSUES_TOTAL }} issues","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed with *{{ LINT_ISSUES_TOTAL }}* issues"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Luacheck*:\n{{ LINT_ISSUES_LUACHECK }}"},{"type":"mrkdwn","text":"*Prettier*:\n{{ LINT_ISSUES_PRETTIER }}"}]}]}]}'
       - name: Send Slack notification
         if: ${{ !env.ACT && always() }}
         uses: Ilshidur/action-slack@2.1.0
@@ -85,35 +82,37 @@ jobs:
           echo "GITHUB_JOB_NAME=test" >> $GITHUB_ENV
       - name: Test
         run: |
-          # test
-          make citest > busted.out || true
-          cat busted.out
+          export_env() {
+            echo "$1=${2}"
+            echo "$1=${2}" >> $GITHUB_ENV
+          }
 
-          # data
           extract_number() {
             echo "$1" | grep -E -o '[0-9]+' | sed -n "$2p"
           }
 
+          # test
+          make citest > busted.out || true
+          cat busted.out
+
           # env
           LINE=$(sed -n 2p < busted.out)
-          export COVERAGE=$(tail -1 < busted.out | grep -o '[^ ]*%')
-          export TESTS_SUCCESSES=$(extract_number "${LINE}" 1)
-          export TESTS_FAILURES=$(extract_number "${LINE}" 2)
+          export COVERAGE=$(tail -1 < busted.out | grep -o '[^ ]*%' || echo '0.00%')
           export TESTS_ERRORS=$(extract_number "${LINE}" 3)
-          export TESTS=$(sed -n 1p < busted.out | wc -c)
+          export TESTS_FAILURES=$(extract_number "${LINE}" 2)
+          export TESTS_SUCCESSES=$(extract_number "${LINE}" 1)
+          export TESTS_TOTAL=$(sed -n 1p < busted.out | wc -c)
+          export TESTS_TOTAL=$((TESTS_TOTAL - 1))
 
-          echo "COVERAGE=${COVERAGE}" >> $GITHUB_ENV
-          echo "TESTS_SUCCESSES=${TESTS_SUCCESSES}" >> $GITHUB_ENV
-          echo "TESTS_FAILURES=${TESTS_FAILURES}" >> $GITHUB_ENV
-          echo "TESTS_ERRORS=${TESTS_ERRORS}" >> $GITHUB_ENV
-          echo "TESTS=${TESTS}" >> $GITHUB_ENV
+          echo '---'
+          export_env 'COVERAGE' "${COVERAGE}"
+          export_env 'TESTS_ERRORS' "${TESTS_ERRORS}"
+          export_env 'TESTS_FAILURES' "${TESTS_FAILURES}"
+          export_env 'TESTS_SUCCESSES' "${TESTS_SUCCESSES}"
+          export_env 'TESTS_TOTAL' "${TESTS_TOTAL}"
 
           # status
-          if [ "${TESTS_FAILURES}" -eq 0 ] && [ "${TESTS_ERRORS}" -eq 0 ]; then
-            exit 0
-          else
-            exit 1
-          fi
+          if [ "${TESTS_FAILURES}" -eq 0 ] && [ "${TESTS_ERRORS}" -eq 0 ]; then exit 0; else exit 1; fi
       - name: Upload coverage to Codecov
         if: ${{ !env.ACT && success() }}
         uses: codecov/codecov-action@v1
@@ -123,12 +122,12 @@ jobs:
         if: success()
         run: echo "SLACK_CUSTOM_PAYLOAD=${SLACK_CUSTOM_PAYLOAD}" >> $GITHUB_ENV
         env:
-          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#2eb886","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has passed {{ TESTS }} tests. Coverage: {{ COVERAGE }}","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has passed *{{ TESTS }}* tests. Coverage: *{{ COVERAGE }}*"}}]}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#2eb886","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has passed {{ TESTS_TOTAL }} tests. Coverage: {{ COVERAGE }}","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has passed *{{ TESTS_TOTAL }}* tests. Coverage: *{{ COVERAGE }}*"}}]}]}'
       - name: Prepare failure Slack notification
         if: failure()
         run: echo "SLACK_CUSTOM_PAYLOAD=${SLACK_CUSTOM_PAYLOAD}" >> $GITHUB_ENV
         env:
-          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed {{ TESTS_FAILURES }}/{{ TESTS }} tests","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed *{{ TESTS_FAILURES }}/{{ TESTS }}* tests"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Total*:\n{{ TESTS }}"},{"type":"mrkdwn","text":"*Successes*:\n{{ TESTS_SUCCESSES }}"},{"type":"mrkdwn","text":"*Failures*:\n{{ TESTS_FAILURES }}"},{"type":"mrkdwn","text":"*Errors*:\n{{ TESTS_ERRORS }}"}]}]}]}'
+          SLACK_CUSTOM_PAYLOAD: '{"channel":"${{ secrets.SLACK_CHANNEL }}","attachments":[{"color":"#ed2f00","fallback":"GitHub Actions {{ GITHUB_WORKFLOW }} workflow {{ GITHUB_JOB_NAME }} job of {{ GITHUB_REPOSITORY }}@{{ BRANCH_NAME }} by {{ GITHUB_ACTOR }} has failed {{ TESTS_FAILURES }}/{{ TESTS_TOTAL }} tests","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"GitHub Actions *<https://github.com/{{ GITHUB_REPOSITORY }}/actions/runs/{{ GITHUB_RUN_ID }}|{{ GITHUB_WORKFLOW }}>* workflow *{{ GITHUB_JOB_NAME }}* job of *<https://github.com/{{ GITHUB_REPOSITORY }}|{{ GITHUB_REPOSITORY }}>@<https://github.com/{{ GITHUB_REPOSITORY }}/tree/{{ BRANCH_NAME }}|{{ BRANCH_NAME }}>* by *{{ GITHUB_ACTOR }}* has failed *{{ TESTS_FAILURES }}/{{ TESTS_TOTAL }}* tests"}},{"type":"section","fields":[{"type":"mrkdwn","text":"*Total*:\n{{ TESTS_TOTAL }}"},{"type":"mrkdwn","text":"*Successes*:\n{{ TESTS_SUCCESSES }}"},{"type":"mrkdwn","text":"*Failures*:\n{{ TESTS_FAILURES }}"},{"type":"mrkdwn","text":"*Errors*:\n{{ TESTS_ERRORS }}"}]}]}]}'
       - name: Send Slack notification
         if: ${{ !env.ACT && always() }}
         uses: Ilshidur/action-slack@2.1.0
