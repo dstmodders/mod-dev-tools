@@ -23,7 +23,7 @@ local SDK
 
 SDK = require "devtools/sdk/sdk/sdk"
 SDK.SetIsSilent(true).Load({
-    modname = "dst-mod-dev-tools",
+    modname = "mod-dev-tools",
     AddPrefabPostInit = function() end
 }, "devtools/sdk")
 

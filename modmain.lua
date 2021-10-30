@@ -1,7 +1,7 @@
 ----
 -- Modmain.
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @author [Depressed DST Modders](https://github.com/dstmodders)
 -- @copyright 2020

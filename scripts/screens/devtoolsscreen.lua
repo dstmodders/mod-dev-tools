@@ -4,7 +4,7 @@
 -- Includes a mod screen overlay holding both main menu and data widgets both of which are just
 -- plain text ones.
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @classmod DevToolsScreen
 -- @see data.FrontEndData

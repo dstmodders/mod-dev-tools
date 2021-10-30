@@ -3,7 +3,7 @@
 --
 -- Includes events debugging functionality as a part of `Debug`. Shouldn't be used on its own.
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @classmod DebugEvents
 -- @see Debug

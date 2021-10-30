@@ -1,8 +1,8 @@
-# dst-mod-dev-tools
+# mod-dev-tools
 
-[![CI](https://img.shields.io/github/workflow/status/dstmodders/dst-mod-dev-tools/CI?label=ci)](https://github.com/dstmodders/dst-mod-dev-tools/actions/workflows/ci.yml)
-[![Deploy](https://img.shields.io/github/workflow/status/dstmodders/dst-mod-dev-tools/Deploy?label=deploy)](https://github.com/dstmodders/dst-mod-dev-tools/actions/workflows/deploy.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/dstmodders/dst-mod-dev-tools.svg)](https://codecov.io/gh/dstmodders/dst-mod-dev-tools)
+[![CI](https://img.shields.io/github/workflow/status/dstmodders/mod-dev-tools/CI?label=ci)](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
+[![Deploy](https://img.shields.io/github/workflow/status/dstmodders/mod-dev-tools/Deploy?label=deploy)](https://github.com/dstmodders/mod-dev-tools/actions/workflows/deploy.yml)
+[![Codecov](https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools.svg)](https://codecov.io/gh/dstmodders/mod-dev-tools)
 
 [![Dev Tools](preview.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)
 

@@ -17,7 +17,7 @@ jobs:
       - name: Set a job-wide environment variables
         run: |
           echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "DOCKER_IMAGE=${{ secrets.PRIVATE_REGISTRY }}/dst-mod-dev-tools/docs" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=${{ secrets.PRIVATE_REGISTRY }}/mod-dev-tools/docs" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
           echo "GITHUB_JOB_NAME=docs" >> $GITHUB_ENV
       - name: Generate documentation
@@ -86,7 +86,7 @@ jobs:
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
           DOCKER_TLS_VERIFY: 1
           # docker stack
-          DOCKER_STACK_NAME: dstmodders_dst_mod_dev_tools
+          DOCKER_STACK_NAME: dstmodders_mod_dev_tools
           DOCKER_STACK_NODE_HOSTNAME: ${{ secrets.DOCKER_STACK_NODE_HOSTNAME }}
           # loki
           LOKI_PIPELINE_STAGE_FILE: /etc/loki/pipelines/nginx.yml
@@ -95,7 +95,7 @@ jobs:
           NGINX_CONF: /etc/nginx/nginx.conf
           # traefik
           TRAEFIK_HOST: docs.dstmodders.com
-          TRAEFIK_NAME: dstmodders-dst-mod-dev-tools-docs
+          TRAEFIK_NAME: dstmodders-mod-dev-tools-docs
           TRAEFIK_PATH_PREFIX: /dev-tools/
       - name: Prepare success Slack notification
         if: success()

@@ -22,7 +22,7 @@ dst_compatible = true
 reign_of_giants_compatible = false
 shipwrecked_compatible = false
 
-folder_name = folder_name or "dst-mod-dev-tools"
+folder_name = folder_name or "mod-dev-tools"
 if not folder_name:find("workshop-") then
     name = name .. " (dev)"
 end

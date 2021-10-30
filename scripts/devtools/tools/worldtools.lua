@@ -14,7 +14,7 @@
 --
 --    DevTools.world
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @classmod tools.WorldTools
 -- @see DevTools

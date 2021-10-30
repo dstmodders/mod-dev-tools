@@ -3,7 +3,7 @@
 --
 -- Includes world state data in data sidebar.
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @classmod data.WorldStateData
 -- @see data.Data

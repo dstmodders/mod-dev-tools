@@ -1,7 +1,7 @@
 ----
 -- Weather control submenu.
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @module submenus.WeatherControl
 -- @see menu.Submenu

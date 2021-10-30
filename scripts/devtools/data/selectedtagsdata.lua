@@ -3,7 +3,7 @@
 --
 -- Includes selected entity tags in data sidebar.
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @classmod data.SelectedTagsData
 -- @see data.Data

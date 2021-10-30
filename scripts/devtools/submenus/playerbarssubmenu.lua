@@ -3,7 +3,7 @@
 --
 -- Extends `menu.Submenu`.
 --
--- **Source Code:** [https://github.com/dstmodders/dst-mod-dev-tools](https://github.com/dstmodders/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @classmod submenus.PlayerBarsSubmenu
 -- @see menu.Submenu
