@@ -59,6 +59,9 @@ local PlayerVisionTools = Class(DevTools, function(self, playertools, devtools)
     -- unfading
     self.is_forced_unfading = false
 
+    -- spawners
+    self.is_spawners_visibility = false
+
     -- other
     self:DoInit()
 end)
@@ -105,6 +108,101 @@ function PlayerVisionTools:ToggleForcedHUDVisibility()
     end
 end
 
+--- Checks if an instance is a spawner.
+-- @tparam EntityScript inst
+-- @treturn boolean
+function PlayerVisionTools:IsSpawner(inst) -- luacheck: only
+    if not inst or not inst.prefab then
+        return false
+    end
+    if inst.components.childspawner then
+        return true
+    end
+    if string.find(inst.prefab, "spawner") or inst.prefab == "dropperweb" then
+        return true
+    end
+    return false
+end
+
+--- Gets the spawners visibility state.
+-- @treturn boolean
+function PlayerVisionTools:IsSpawnersVisibility()
+    return self.is_spawners_visibility
+end
+
+--- Shows a spawner for an instance.
+-- @tparam EntityScript inst
+-- @treturn boolean
+function PlayerVisionTools:ShowSpawner(inst)
+    if not self:IsSpawner(inst) then
+        return
+    end
+
+    if inst.AnimState and inst.AnimState:GetBuild() and inst.entity:IsVisible() then
+        return
+    end
+
+    if not inst.AnimState then
+        inst.entity:AddTransform()
+        inst.entity:AddAnimState()
+    end
+
+    local build = "star_cold"
+    inst.AnimState:SetBuild(build)
+    inst.AnimState:SetBank(build)
+    inst.AnimState:PlayAnimation("idle_loop", true)
+
+    if inst.components.childspawner then
+        inst.AnimState:SetAddColour(1.0, 0.5, 0.0, 1.0) -- Orange
+    else
+        inst.AnimState:SetAddColour(0.0, 1.0, 0.0, 1.0) -- Green
+    end
+
+    inst.entity:Show()
+end
+
+--- Hides a spawner for an instance.
+-- @tparam EntityScript inst
+-- @treturn boolean
+function PlayerVisionTools:HideSpawner(inst)
+    if not self:IsSpawner(inst) then
+        return
+    end
+    if not inst.AnimState or inst.AnimState:GetBuild() ~= "star_cold" or not inst.entity:IsVisible() then
+        return
+    end
+    inst.AnimState:SetAddColour(0.0, 0.0, 0.0, 0.0)
+    inst.entity:Hide()
+end
+
+--- Toggles the spawners visibility state.
+--
+-- When enabled, spawners become visible and clickable.
+--
+-- @treturn boolean
+function PlayerVisionTools:ToggleSpawnersVisibility()
+    if not self.inst or not self.inst.player_classified then
+        return
+    end
+
+    self.is_spawners_visibility = not self.is_spawners_visibility
+    if self.is_spawners_visibility then
+        for _, obj in pairs(Ents) do
+            if self:IsSpawner(obj) then
+                self:ShowSpawner(obj)
+            end
+        end
+        return true
+    else
+        for _, obj in pairs(Ents) do
+            if self:IsSpawner(obj) then
+                self:HideSpawner(obj)
+            end
+        end
+        return false
+    end
+end
+
 --- Lifecycle
 -- @section lifecycle
 
@@ -114,6 +212,10 @@ function PlayerVisionTools:DoInit()
         -- forced HUD visibility
         "IsForcedHUDVisibility",
         "ToggleForcedHUDVisibility",
+        "IsSpawnersVisibility",
+        "IsSpawner",
+        "ShowSpawner",
+        "HideSpawner",
     })
 end
 

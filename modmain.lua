@@ -225,6 +225,16 @@ env.AddPlayerPostInit(function(inst)
     end)
 end)
 
+env.AddPrefabPostInitAny(function(inst)
+    if devtools and devtools.IsSpawnersVisibility then
+        if devtools:IsSpawnersVisibility() and devtools:IsSpawner(inst) then
+            inst:DoTaskInTime(0.1, function()
+                devtools:ShowSpawner(inst)
+            end)
+        end
+    end
+end)
+
 --- Keybinds
 -- @section keybinds
 

@@ -150,6 +150,7 @@ files["**/*.lua"] = {
         "Empty",
         "Entity",
         "EntityScript",
+        "Ents",
         "EnvelopeManager",
         "EQUIPSLOTS",
         "EventLeaderboardProxy",
