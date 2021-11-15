@@ -8,9 +8,6 @@ check_defined = $(strip $(foreach 1,$1, $(call __check_defined,$1,$(strip $(valu
 
 help:
 	@printf "Please use 'make <target>' where '<target>' is one of:\n\n"
-	@echo "   ciluacheck            to get the number of Luacheck issues for CI"
-	@echo "   ciprettier            to get the number of Prettier issues for CI"
-	@echo "   citest                to run Busted tests for CI"
 	@echo "   dev                   to run reinstall + ldoc + lint + testclean + test"
 	@echo "   gitrelease            to commit modinfo.lua and CHANGELOG.md + add a new tag"
 	@echo "   install               to install the mod"
@@ -31,24 +28,6 @@ help:
 	@echo "   updatesdk             to update SDK to the latest version"
 	@echo "   workshop              to prepare the Steam Workshop directory + archive"
 	@echo "   workshopclean         to clean up Steam Workshop directory + archive"
-
-ciluacheck:
-	@luacheck . --exclude-files="here/" --formatter plain | wc -l
-
-ciprettier:
-	@total=$$(prettier --list-different './**/*.md' './**/*.xml' './**/*.yml' | wc -l) \
-		&& echo "$$((total < 0 ? 0 : total))" \
-		|| echo '0'
-
-citest:
-	@busted .; \
-		luacov-console .; \
-		cp luacov.report.out luacov.report.out.bak > /dev/null 2>&1 \
-			&& luacov -r lcov > /dev/null 2>&1 \
-			&& cp luacov.report.out lcov.info > /dev/null 2>&1 \
-			&& cp luacov.report.out.bak luacov.report.out > /dev/null 2>&1 \
-			&& rm luacov.report.out.bak > /dev/null 2>&1; \
-		awk '/^Summary$$/{if (a) print a;if (b) print b}{a=b;b=$$0;} /^Summary$$/,f' luacov.report.out 2> /dev/null || true
 
 dev: reinstall ldoc lint testclean test
 
