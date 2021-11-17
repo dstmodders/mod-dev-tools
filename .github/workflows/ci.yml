@@ -43,3 +43,8 @@ jobs:
         with:
           busted: true
           slack: true
+      - name: Upload coverage to Codecov
+        if: ${{ !env.ACT && success() }}
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
