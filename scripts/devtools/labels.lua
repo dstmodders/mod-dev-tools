@@ -281,7 +281,7 @@ function Labels:UpdateUsername()
                 inst.Label:Enable(true)
                 inst.Label:SetFont(self.font)
                 inst.Label:SetFontSize(self.font_size)
-                inst.Label:SetText(inst.name)
+                inst.Label:SetText(inst.name or inst.prefab)
                 inst.Label:SetWorldOffset(0, 2.3, 0)
 
                 if self.username_mode == "default" then
