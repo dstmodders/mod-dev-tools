@@ -1,7 +1,6 @@
-# dst-mod-dev-tools
+# mod-dev-tools
 
-[![GitHub Workflow CI Status][]](https://github.com/dstmodders/mod-dev-tools/actions?query=workflow%3ACI)
-[![GitHub Workflow Documentation Status][]](https://github.com/dstmodders/mod-dev-tools/actions?query=workflow%3ADocumentation)
+[![CI][]](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
 [![Codecov][]](https://codecov.io/gh/dstmodders/mod-dev-tools)
 
 [![Dev Tools](preview.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)
@@ -64,10 +63,9 @@ on the following [Trello][] board: https://trello.com/b/3JtDZFJG
 
 Released under the [MIT License](https://opensource.org/licenses/MIT).
 
-[codecov]: https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools.svg
+[ci]: https://img.shields.io/github/actions/workflow/status/dstmodders/mod-dev-tools/ci.yml?branch=no-sdk&label=ci
+[codecov]: https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools?token=i1KIj2t9iH
 [don't starve together]: https://www.klei.com/games/dont-starve-together
-[github workflow ci status]: https://img.shields.io/github/workflow/status/dstmodders/mod-dev-tools/CI?label=CI
-[github workflow documentation status]: https://img.shields.io/github/workflow/status/dstmodders/mod-dev-tools/Documentation?label=Documentation
 [ldoc]: https://stevedonovan.github.io/ldoc/
 [steam workshop]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
 [trello]: https://trello.com/
