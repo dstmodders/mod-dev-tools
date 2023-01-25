@@ -2,7 +2,7 @@ project = "Dev Tools"
 title = "DST Mod Dev Tools | LDoc"
 description = "dst-mod-dev-tools"
 full_description = "Mod for the game [Don\'t Starve Together](https://www.klei.com/games/dont-starve-together) to improve the development/testing experience." .. "\n\n" ..
-    [[- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)]] .. "\n" ..
+    [[- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)]] .. "\n" ..
     [[- **Steam Workshop:** [https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)]]
 
 dir = "doc"

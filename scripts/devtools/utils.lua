@@ -8,7 +8,7 @@
 -- 1. Be a non-mod specific and isolated which can be reused in my other mods.
 -- 2. Be a mod specific and isolated which can be used between classes/modules.
 --
--- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @module Utils
 -- @see Utils.Chain

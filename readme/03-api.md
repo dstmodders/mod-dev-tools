@@ -109,4 +109,4 @@ API:AddSubmenu({
 
 You can find plenty of examples just by exploring the current mod submenus:
 
-[https://github.com/victorpopkov/dst-mod-dev-tools/tree/master/scripts/devtools/submenus](https://github.com/victorpopkov/dst-mod-dev-tools/tree/master/scripts/devtools/submenus)
+[https://github.com/dstmodders/mod-dev-tools/tree/master/scripts/devtools/submenus](https://github.com/dstmodders/mod-dev-tools/tree/master/scripts/devtools/submenus)

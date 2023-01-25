@@ -8,7 +8,7 @@
 --
 -- **NB!** Should be used with caution and only as a last resort.
 --
--- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @module DebugUpvalue
 --

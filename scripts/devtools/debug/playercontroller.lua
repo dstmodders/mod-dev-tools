@@ -4,7 +4,7 @@
 -- Includes player controller (`PlayerController`) debugging functionality as a part of `Debug`.
 -- Shouldn't be used on its own.
 --
--- **Source Code:** [https://github.com/victorpopkov/dst-mod-dev-tools](https://github.com/victorpopkov/dst-mod-dev-tools)
+-- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)
 --
 -- @classmod debug.PlayerController
 -- @see Debug

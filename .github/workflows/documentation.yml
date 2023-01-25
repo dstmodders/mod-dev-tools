@@ -42,7 +42,7 @@ jobs:
         env:
           DOCKER_CERT_PATH: /home/runner/.docker/deploy/
           DOCKER_HOST: tcp://codedsolar.com:2376
-          DOCKER_IMAGE: victorpopkov/dst-mod-dev-tools/doc
+          DOCKER_IMAGE: dstmodders/mod-dev-tools/doc
           DOCKER_IMAGE_TAG: latest
           DOCKER_TLS_VERIFY: 1
       - name: Deploy Docker Stack

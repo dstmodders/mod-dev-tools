@@ -51,6 +51,6 @@ $ make install
 [https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
 [makefile]: https://en.wikipedia.org/wiki/Makefile
 [nmake]: https://msdn.microsoft.com/en-us/library/dd9y37ha.aspx
-[releases]: https://github.com/victorpopkov/dst-mod-dev-tools/releases
+[releases]: https://github.com/dstmodders/mod-dev-tools/releases
 [steam workshop]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
 [steam]: https://store.steampowered.com/
