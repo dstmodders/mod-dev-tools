@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+### Fixed
+
+- Issue with crashing when changing the character
+
 ## [0.7.0][] - 2020-10-06
 
 ### Added
