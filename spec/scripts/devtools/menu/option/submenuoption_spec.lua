@@ -83,6 +83,7 @@ describe("SubmenuOption", function()
                     assert.spy(options.on_accept_fn).was_called(1)
                     assert
                         .spy(options.on_accept_fn)
+                        -- luacheck: only
                         .was_called_with(match.is_ref(submenuoption), match.is_ref(submenu), match.is_ref(menu))
                 end)
 
@@ -92,6 +93,7 @@ describe("SubmenuOption", function()
                     assert.spy(menu.PushOptions).was_called(1)
                     assert
                         .spy(menu.PushOptions)
+                        -- luacheck: only
                         .was_called_with(match.is_ref(menu), match.is_table(options), submenuoption.name)
                 end)
             end)

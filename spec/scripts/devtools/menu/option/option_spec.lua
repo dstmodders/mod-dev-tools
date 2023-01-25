@@ -122,6 +122,7 @@ describe("Option", function()
                     assert.spy(options.on_accept_fn).was_called(1)
                     assert
                         .spy(options.on_accept_fn)
+                        -- luacheck: only
                         .was_called_with(match.is_ref(option), match.is_ref(submenu), match.is_ref(menu))
                 end)
             end)
@@ -135,6 +136,7 @@ describe("Option", function()
                     assert.spy(options.on_cursor_fn).was_called(1)
                     assert
                         .spy(options.on_cursor_fn)
+                        -- luacheck: only
                         .was_called_with(match.is_ref(option), match.is_ref(submenu), match.is_ref(menu))
                 end)
             end)

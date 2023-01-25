@@ -586,11 +586,13 @@ describe("PlayerDevTools", function()
                 assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called(1)
                 assert
                     .spy(world.inst.Map.IsVisualGroundAtPoint)
+                    -- luacheck: only
                     .was_called_with(match.is_ref(world.inst.Map), player.Transform.GetWorldPosition())
 
                 assert.spy(world.inst.Map.GetTileAtPoint).was_called(1)
                 assert
                     .spy(world.inst.Map.GetTileAtPoint)
+                    -- luacheck: only
                     .was_called_with(match.is_ref(world.inst.Map), player.Transform.GetWorldPosition())
 
                 assert.spy(player.GetCurrentPlatform).was_called(1)
@@ -619,6 +621,7 @@ describe("PlayerDevTools", function()
                 assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called(1)
                 assert
                     .spy(world.inst.Map.IsVisualGroundAtPoint)
+                    -- luacheck: only
                     .was_called_with(match.is_ref(world.inst.Map), player.Transform.GetWorldPosition())
 
                 assert.spy(world.inst.Map.GetTileAtPoint).was_not_called()

@@ -69,6 +69,7 @@ describe("Utils", function()
                 assert.spy(SendRemoteExecute).was_called(1)
                 assert
                     .spy(SendRemoteExecute)
+                    -- luacheck: only
                     .was_called_with(match.is_ref(TheNet), 'TheWorld:PushEvent("ms_setseason", "autumn")', 1, 3)
             end)
 

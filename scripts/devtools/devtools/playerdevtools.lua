@@ -97,8 +97,8 @@ local PlayerDevTools = Class(DevTools, function(self, inst, world, devtools)
     self.map = MapPlayerDevTools(self, devtools)
 
     if inst and inst:HasTag("wereness") then
-        OnWereModeDirty = function(_inst)
-            self.wereness_mode = _inst.weremode:value()
+        OnWereModeDirty = function(player_inst)
+            self.wereness_mode = player_inst.weremode:value()
         end
 
         self:DebugActivateEventListener("weremodedirty")

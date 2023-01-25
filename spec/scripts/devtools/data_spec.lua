@@ -325,6 +325,7 @@ describe("Data", function()
                 assert.spy(GetPersistentString).was_called(1)
                 assert
                     .spy(GetPersistentString)
+                    -- luacheck: only
                     .was_called_with(match.is_ref(TheSim), data:GetSaveName(), match.is_function(), false)
             end)
         end)
@@ -401,6 +402,7 @@ describe("Data", function()
                     assert.spy(TrackedAssert).was_called(1)
                     assert
                         .spy(TrackedAssert)
+                        -- luacheck: only
                         .was_called_with("TheSim:GetPersistentString " .. data.name, match.is_ref(json.decode), str)
                 end)
 

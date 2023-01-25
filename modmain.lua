@@ -164,22 +164,22 @@ end
 local function AddPlayerPostInit(onActivatedFn, onDeactivatedFn)
     DebugString("Game ID -", TheSim:GetGameID())
     if IsDST() then
-        env.AddPrefabPostInit("world", function(_world)
+        env.AddPrefabPostInit("world", function(world_prefab)
             if not devtools.world then
-                devtools:DoInitWorld(_world)
+                devtools:DoInitWorld(world_prefab)
             end
 
-            _world:ListenForEvent("entercharacterselect", function(world)
+            world_prefab:ListenForEvent("entercharacterselect", function(world)
                 OnEnterCharacterSelect(world)
             end)
 
-            _world:ListenForEvent("playeractivated", function(world, player)
+            world_prefab:ListenForEvent("playeractivated", function(world, player)
                 if player == _G.ThePlayer then
                     onActivatedFn(world, player)
                 end
             end)
 
-            _world:ListenForEvent("playerdeactivated", function(world, player)
+            world_prefab:ListenForEvent("playerdeactivated", function(world, player)
                 if player == _G.ThePlayer then
                     onDeactivatedFn(world, player)
                 end

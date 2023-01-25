@@ -199,6 +199,7 @@ describe("VisionDevTools", function()
                     assert.spy(PushEvent).was_called(1)
                     assert
                         .spy(PushEvent)
+                        -- luacheck: only
                         .was_called_with(match.is_ref(playervision.inst), "ccoverrides", NIGHTVISION_COLOUR_CUBES)
                 end)
 

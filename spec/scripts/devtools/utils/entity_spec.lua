@@ -12,12 +12,14 @@ describe("Utils.Entity", function()
     setup(function()
         test_debug_string = [[117500 - wendy age 7.43]]
             .. "\n"
+            -- luacheck: only
             .. [[GUID:117500 Name:  Tags: _sheltered trader _health inspectable freezable player idle _builder]]
-            .. "\n" -- luacheck: only
+            .. "\n"
             .. [[Prefab: wendy]]
             .. "\n"
+            -- luacheck: only
             .. [[AnimState: bank: wilson build: wendy_rose anim: idle_loop anim/player_idles.zip:idle_loop Frame: 47.00/66 Facing: 3]]
-            .. "\n" -- luacheck: only
+            .. "\n"
             .. [[Transform: Pos=(-59.07,0.00,179.48) Scale=(1.00,1.00,1.00) Heading=-45.00]]
     end)
 

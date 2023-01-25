@@ -415,6 +415,7 @@ describe("ConsoleDevTools", function()
                     assert.spy(DebugErrorNotInCave).was_called(1)
                     assert
                         .spy(DebugErrorNotInCave)
+                        -- luacheck: only
                         .was_called_with(match.is_ref(consoledevtools), "ConsoleDevTools:MiniQuake()")
                 end)
 
@@ -439,6 +440,7 @@ describe("ConsoleDevTools", function()
                         assert.spy(DebugErrorNotAdmin).was_called(1)
                         assert
                             .spy(DebugErrorNotAdmin)
+                            -- luacheck: only
                             .was_called_with(match.is_ref(consoledevtools), "ConsoleDevTools:MiniQuake()")
                     end)
 

@@ -27,15 +27,15 @@ local BaseGetModInfo
 function Modmain.HideChangelog(modname, enable)
     if modname and enable and not BaseGetModInfo then
         BaseGetModInfo = _G.KnownModIndex.GetModInfo
-        _G.KnownModIndex.GetModInfo = function(_self, _modname)
+        _G.KnownModIndex.GetModInfo = function(get_mod_info, mod_name)
             if
-                _modname == modname
-                and _self.savedata
-                and _self.savedata.known_mods
-                and _self.savedata.known_mods[modname]
+                mod_name == modname
+                and get_mod_info.savedata
+                and get_mod_info.savedata.known_mods
+                and get_mod_info.savedata.known_mods[modname]
             then
                 local TrimString = _G.TrimString
-                local modinfo = _self.savedata.known_mods[modname].modinfo
+                local modinfo = get_mod_info.savedata.known_mods[modname].modinfo
                 if modinfo and type(modinfo.description) == "string" then
                     local changelog = modinfo.description:find("v" .. modinfo.version, 0, true)
                     if type(changelog) == "number" then
@@ -43,7 +43,7 @@ function Modmain.HideChangelog(modname, enable)
                     end
                 end
             end
-            return BaseGetModInfo(_self, _modname)
+            return BaseGetModInfo(get_mod_info, mod_name)
         end
         return true
     elseif BaseGetModInfo then
