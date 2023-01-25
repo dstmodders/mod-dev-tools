@@ -1,5 +1,5 @@
 name = "Dev Tools"
-version = "0.7.0"
+version = "0.7.1"
 description = [[Version: ]]
     .. version
     .. "\n\n"
@@ -10,15 +10,7 @@ description = [[Version: ]]
     .. version
     .. [[:]]
     .. "\n"
-    .. [[- Added support for the dumped data sidebar]]
-    .. "\n"
-    .. [[- Added support for the world state data sidebar]]
-    .. "\n"
-    .. [[- Changed dump submenu]]
-    .. "\n"
-    .. [[- Fixed issue with menu update when selecting player]]
-    .. "\n"
-    .. [[- Refactored modinfo]]
+    .. [[- Fixed issue with crashing when changing the character]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
