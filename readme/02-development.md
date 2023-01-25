@@ -28,7 +28,7 @@ To learn more, consider checking out the corresponding [Docker Hub][] image:
 
 ```shell script
 $ git clone https://github.com/dstmodders/mod-dev-tools
-$ cd ./dst-mod-dev-tools/
+$ cd ./mod-dev-tools/
 $ export DST_MODS="${HOME}/.steam/steam/steamapps/common/Don't Starve Together/mods/"
 $ docker pull viktorpopkov/dst-mod
 $ docker run --rm -u 'dst-mod' -itv "$(pwd):/mod/" -v "${DST_MODS}:/mods/" viktorpopkov/dst-mod
@@ -38,7 +38,7 @@ $ docker run --rm -u 'dst-mod' -itv "$(pwd):/mod/" -v "${DST_MODS}:/mods/" vikto
 
 ```powershell
 PS C:\> git clone https://github.com/dstmodders/mod-dev-tools
-PS C:\> cd .\dst-mod-dev-tools\
+PS C:\> cd .\mod-dev-tools\
 PS C:\> $Env:DST_MODS = "C:\Program Files (x86)\Steam\steamapps\common\Don't Starve Together\mods\"
 PS C:\> docker pull viktorpopkov/dst-mod
 PS C:\> docker run --rm -u 'dst-mod' -itv "${PWD}:/mod/" -v "$($Env:DST_MODS):/mods/" viktorpopkov/dst-mod

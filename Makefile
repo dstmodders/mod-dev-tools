@@ -73,7 +73,7 @@ install:
 		--exclude 'spec/' \
 		--exclude 'workshop*' \
 		. \
-		"${DST_MODS}/dst-mod-dev-tools/"
+		"${DST_MODS}/mod-dev-tools/"
 
 ldoc:
 	@find ./doc/* -type f -not -name Dockerfile -not -name docker-stack.yml -not -wholename ./doc/ldoc/ldoc.css -delete
@@ -119,7 +119,7 @@ testlist:
 
 uninstall:
 	@:$(call check_defined, DST_MODS)
-	@rm -Rf "${DST_MODS}/dst-mod-dev-tools/"
+	@rm -Rf "${DST_MODS}/mod-dev-tools/"
 
 workshop:
 	@rm -Rf ./workshop*
