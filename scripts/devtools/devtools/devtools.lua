@@ -22,9 +22,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle

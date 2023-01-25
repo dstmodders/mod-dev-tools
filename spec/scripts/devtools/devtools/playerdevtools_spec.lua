@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("PlayerDevTools", function()
     -- setup
@@ -23,7 +23,7 @@ describe("PlayerDevTools", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyTerm()
@@ -39,7 +39,7 @@ describe("PlayerDevTools", function()
 
         _G.TUNING = {
             MINERHAT_LIGHTTIME = 468,
-            TORCH_DAMAGE = 34 * .5,
+            TORCH_DAMAGE = 34 * 0.5,
         }
     end)
 
@@ -80,27 +80,27 @@ describe("PlayerDevTools", function()
         _G.TheNet = MockTheNet({
             {
                 userid = inst.userid,
-                admin = true
+                admin = true,
             },
             {
                 userid = "KU_one",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_two",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_three",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_four",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_five",
-                admin = false
+                admin = false,
             },
         })
 
@@ -115,7 +115,7 @@ describe("PlayerDevTools", function()
         devtools = MockDevTools()
         world = MockWorldDevTools()
 
-        PlayerDevTools = require "devtools/devtools/playerdevtools"
+        PlayerDevTools = require("devtools/devtools/playerdevtools")
         playerdevtools = PlayerDevTools(inst, world, devtools)
 
         DebugSpyClear()
@@ -127,7 +127,7 @@ describe("PlayerDevTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            PlayerDevTools = require "devtools/devtools/playerdevtools"
+            PlayerDevTools = require("devtools/devtools/playerdevtools")
         end)
 
         local function AssertDefaults(self)
@@ -180,11 +180,9 @@ describe("PlayerDevTools", function()
 
             it("should call the instance ListenForEvent()", function()
                 assert.spy(inst.ListenForEvent).was_called(1)
-                assert.spy(inst.ListenForEvent).was_called_with(
-                    match.is_ref(inst),
-                    "weremodedirty",
-                    match.is_function()
-                )
+                assert
+                    .spy(inst.ListenForEvent)
+                    .was_called_with(match.is_ref(inst), "weremodedirty", match.is_function())
             end)
         end)
 
@@ -356,15 +354,13 @@ describe("PlayerDevTools", function()
                 )
 
                 assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "sink"
-                )
+                assert
+                    .spy(player.AnimState.IsCurrentAnimation)
+                    .was_called_with(match.is_ref(player.AnimState), "sink")
 
-                assert.spy(player.AnimState.IsCurrentAnimation).was_not_called_with(
-                    match.is_ref(player.AnimState),
-                    "plank_hop"
-                )
+                assert
+                    .spy(player.AnimState.IsCurrentAnimation)
+                    .was_not_called_with(match.is_ref(player.AnimState), "plank_hop")
             end
 
             local function AssertNotSinking(player)
@@ -376,15 +372,13 @@ describe("PlayerDevTools", function()
                 )
 
                 assert.spy(player.AnimState.IsCurrentAnimation).was_called(2)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "sink"
-                )
+                assert
+                    .spy(player.AnimState.IsCurrentAnimation)
+                    .was_called_with(match.is_ref(player.AnimState), "sink")
 
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "plank_hop"
-                )
+                assert
+                    .spy(player.AnimState.IsCurrentAnimation)
+                    .was_called_with(match.is_ref(player.AnimState), "plank_hop")
             end
 
             local function AssertNilChain(player)
@@ -422,10 +416,9 @@ describe("PlayerDevTools", function()
                 )
 
                 assert.spy(player_dead.HasTag).was_called(1)
-                assert.spy(player_dead.HasTag).was_called_with(
-                    match.is_ref(player_dead),
-                    "playerghost"
-                )
+                assert
+                    .spy(player_dead.HasTag)
+                    .was_called_with(match.is_ref(player_dead), "playerghost")
             end
 
             local function AssertNotDead(player, calls)
@@ -492,10 +485,9 @@ describe("PlayerDevTools", function()
                 )
 
                 assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "idle_loop"
-                )
+                assert
+                    .spy(player.AnimState.IsCurrentAnimation)
+                    .was_called_with(match.is_ref(player.AnimState), "idle_loop")
             end
 
             local function AssertNotIdleStateGraph(player)
@@ -510,10 +502,9 @@ describe("PlayerDevTools", function()
                 assert.spy(player.sg.HasStateTag).was_called(1)
                 assert.spy(player.sg.HasStateTag).was_called_with(match.is_ref(player.sg), "idle")
                 assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "idle_loop"
-                )
+                assert
+                    .spy(player.AnimState.IsCurrentAnimation)
+                    .was_called_with(match.is_ref(player.AnimState), "idle_loop")
             end
 
             local function AssertNotIdleAnimation(player)
@@ -527,10 +518,9 @@ describe("PlayerDevTools", function()
                 )
 
                 assert.spy(player.AnimState.IsCurrentAnimation).was_called(1)
-                assert.spy(player.AnimState.IsCurrentAnimation).was_called_with(
-                    match.is_ref(player.AnimState),
-                    "idle_loop"
-                )
+                assert
+                    .spy(player.AnimState.IsCurrentAnimation)
+                    .was_called_with(match.is_ref(player.AnimState), "idle_loop")
             end
 
             local function AssertNilChain(player)
@@ -589,21 +579,19 @@ describe("PlayerDevTools", function()
                 )
 
                 assert.spy(player.Transform.GetWorldPosition).was_called(1)
-                assert.spy(player.Transform.GetWorldPosition).was_called_with(
-                    match.is_ref(player.Transform)
-                )
+                assert
+                    .spy(player.Transform.GetWorldPosition)
+                    .was_called_with(match.is_ref(player.Transform))
 
                 assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called(1)
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called_with(
-                    match.is_ref(world.inst.Map),
-                    player.Transform.GetWorldPosition()
-                )
+                assert
+                    .spy(world.inst.Map.IsVisualGroundAtPoint)
+                    .was_called_with(match.is_ref(world.inst.Map), player.Transform.GetWorldPosition())
 
                 assert.spy(world.inst.Map.GetTileAtPoint).was_called(1)
-                assert.spy(world.inst.Map.GetTileAtPoint).was_called_with(
-                    match.is_ref(world.inst.Map),
-                    player.Transform.GetWorldPosition()
-                )
+                assert
+                    .spy(world.inst.Map.GetTileAtPoint)
+                    .was_called_with(match.is_ref(world.inst.Map), player.Transform.GetWorldPosition())
 
                 assert.spy(player.GetCurrentPlatform).was_called(1)
                 assert.spy(player.GetCurrentPlatform).was_called_with(match.is_ref(player))
@@ -624,15 +612,14 @@ describe("PlayerDevTools", function()
                 )
 
                 assert.spy(player.Transform.GetWorldPosition).was_called(1)
-                assert.spy(player.Transform.GetWorldPosition).was_called_with(
-                    match.is_ref(player.Transform)
-                )
+                assert
+                    .spy(player.Transform.GetWorldPosition)
+                    .was_called_with(match.is_ref(player.Transform))
 
                 assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called(1)
-                assert.spy(world.inst.Map.IsVisualGroundAtPoint).was_called_with(
-                    match.is_ref(world.inst.Map),
-                    player.Transform.GetWorldPosition()
-                )
+                assert
+                    .spy(world.inst.Map.IsVisualGroundAtPoint)
+                    .was_called_with(match.is_ref(world.inst.Map), player.Transform.GetWorldPosition())
 
                 assert.spy(world.inst.Map.GetTileAtPoint).was_not_called()
                 assert.spy(player.GetCurrentPlatform).was_not_called()
@@ -816,15 +803,13 @@ describe("PlayerDevTools", function()
                     it("should call the animation state IsCurrentAnimation", function()
                         playerdevtools:IsRunning(player_running)
                         assert.spy(IsCurrentAnimation).was_called(2)
-                        assert.spy(IsCurrentAnimation).was_called_with(
-                            match.is_ref(AnimState),
-                            "run_pre"
-                        )
+                        assert
+                            .spy(IsCurrentAnimation)
+                            .was_called_with(match.is_ref(AnimState), "run_pre")
 
-                        assert.spy(IsCurrentAnimation).was_called_with(
-                            match.is_ref(AnimState),
-                            "run_loop"
-                        )
+                        assert
+                            .spy(IsCurrentAnimation)
+                            .was_called_with(match.is_ref(AnimState), "run_loop")
                     end)
 
                     it("should return true", function()
@@ -857,24 +842,19 @@ describe("PlayerDevTools", function()
 
                             playerdevtools:IsRunning(player)
 
-                            assert.spy(IsCurrentAnimation, player:GetDisplayName()).was_called(
-                                3
-                            )
+                            assert.spy(IsCurrentAnimation, player:GetDisplayName()).was_called(3)
 
-                            assert.spy(IsCurrentAnimation).was_called_with(
-                                match.is_ref(AnimState),
-                                "run_pre"
-                            )
+                            assert
+                                .spy(IsCurrentAnimation)
+                                .was_called_with(match.is_ref(AnimState), "run_pre")
 
-                            assert.spy(IsCurrentAnimation).was_called_with(
-                                match.is_ref(AnimState),
-                                "run_loop"
-                            )
+                            assert
+                                .spy(IsCurrentAnimation)
+                                .was_called_with(match.is_ref(AnimState), "run_loop")
 
-                            assert.spy(IsCurrentAnimation).was_called_with(
-                                match.is_ref(AnimState),
-                                "run_pst"
-                            )
+                            assert
+                                .spy(IsCurrentAnimation)
+                                .was_called_with(match.is_ref(AnimState), "run_pst")
                         end, { player_running })
                     end)
 
@@ -903,24 +883,19 @@ describe("PlayerDevTools", function()
 
                             playerdevtools:IsRunning(player)
 
-                            assert.spy(IsCurrentAnimation, player:GetDisplayName()).was_called(
-                                3
-                            )
+                            assert.spy(IsCurrentAnimation, player:GetDisplayName()).was_called(3)
 
-                            assert.spy(IsCurrentAnimation).was_called_with(
-                                match.is_ref(AnimState),
-                                "run_pre"
-                            )
+                            assert
+                                .spy(IsCurrentAnimation)
+                                .was_called_with(match.is_ref(AnimState), "run_pre")
 
-                            assert.spy(IsCurrentAnimation).was_called_with(
-                                match.is_ref(AnimState),
-                                "run_loop"
-                            )
+                            assert
+                                .spy(IsCurrentAnimation)
+                                .was_called_with(match.is_ref(AnimState), "run_loop")
 
-                            assert.spy(IsCurrentAnimation).was_called_with(
-                                match.is_ref(AnimState),
-                                "run_pst"
-                            )
+                            assert
+                                .spy(IsCurrentAnimation)
+                                .was_called_with(match.is_ref(AnimState), "run_pst")
                         end, { player_running })
                     end)
 
@@ -1088,7 +1063,7 @@ describe("PlayerDevTools", function()
                         playerdevtools:Select(player)
                         DebugSpyAssertWasCalled("DebugString", 1, {
                             "Selected",
-                            player:GetDisplayName()
+                            player:GetDisplayName(),
                         })
                     end)
                 end)
@@ -1134,13 +1109,13 @@ describe("PlayerDevTools", function()
                         DebugSpyAssertWasCalled("DebugString", 2, {
                             "[client]",
                             "Selected",
-                            name
+                            name,
                         })
 
                         DebugSpyAssertWasCalled("DebugString", 2, {
                             "[server]",
                             "Selected",
-                            name
+                            name,
                         })
                     end)
                 end)
@@ -1409,7 +1384,7 @@ describe("PlayerDevTools", function()
                         DebugSpyClear("DebugErrorNotAdmin")
                         playerdevtools:ToggleGodMode(player)
                         DebugSpyAssertWasCalled("DebugErrorNotAdmin", 1, {
-                            "PlayerDevTools:ToggleGodMode()"
+                            "PlayerDevTools:ToggleGodMode()",
                         })
                     end)
                 end)
@@ -1459,7 +1434,7 @@ describe("PlayerDevTools", function()
                             DebugSpyClear("DebugSelectedPlayerString")
                             playerdevtools:ToggleGodMode(player)
                             DebugSpyAssertWasCalled("DebugSelectedPlayerString", 1, {
-                                "God Mode is enabled"
+                                "God Mode is enabled",
                             })
                         end)
                     end)
@@ -1511,7 +1486,7 @@ describe("PlayerDevTools", function()
                             DebugSpyClear("DebugSelectedPlayerString")
                             playerdevtools:ToggleGodMode(player)
                             DebugSpyAssertWasCalled("DebugSelectedPlayerString", 1, {
-                                "God Mode is disabled"
+                                "God Mode is disabled",
                             })
                         end)
                     end)
@@ -1572,9 +1547,9 @@ describe("PlayerDevTools", function()
                                 assert.spy(GetPercent).was_not_called()
                                 playerdevtools:GetHealthPercent(player)
                                 assert.spy(GetPercent).was_called(1)
-                                assert.spy(GetPercent).was_called_with(
-                                    match.is_ref(player.replica.health)
-                                )
+                                assert
+                                    .spy(GetPercent)
+                                    .was_called_with(match.is_ref(player.replica.health))
                             end)
                         end)
 
@@ -1616,9 +1591,9 @@ describe("PlayerDevTools", function()
                                 assert.spy(GetPercent).was_not_called()
                                 playerdevtools:GetHungerPercent(player)
                                 assert.spy(GetPercent).was_called(1)
-                                assert.spy(GetPercent).was_called_with(
-                                    match.is_ref(player.replica.hunger)
-                                )
+                                assert
+                                    .spy(GetPercent)
+                                    .was_called_with(match.is_ref(player.replica.hunger))
                             end)
                         end)
 
@@ -1660,9 +1635,9 @@ describe("PlayerDevTools", function()
                                 assert.spy(GetPercent).was_not_called()
                                 playerdevtools:GetSanityPercent(player)
                                 assert.spy(GetPercent).was_called(1)
-                                assert.spy(GetPercent).was_called_with(
-                                    match.is_ref(player.replica.sanity)
-                                )
+                                assert
+                                    .spy(GetPercent)
+                                    .was_called_with(match.is_ref(player.replica.sanity))
                             end)
                         end)
 
@@ -1695,7 +1670,7 @@ describe("PlayerDevTools", function()
                         before_each(function()
                             EachPlayer(function(player)
                                 player.replica.health = {
-                                    GetPenaltyPercent = spy.new(ReturnValueFn(.4)),
+                                    GetPenaltyPercent = spy.new(ReturnValueFn(0.4)),
                                 }
                             end)
                         end)
@@ -1706,9 +1681,9 @@ describe("PlayerDevTools", function()
                                 assert.spy(GetPenaltyPercent).was_not_called()
                                 playerdevtools:GetMaxHealthPercent(player)
                                 assert.spy(GetPenaltyPercent).was_called(1)
-                                assert.spy(GetPenaltyPercent).was_called_with(
-                                    match.is_ref(player.replica.health)
-                                )
+                                assert
+                                    .spy(GetPenaltyPercent)
+                                    .was_called_with(match.is_ref(player.replica.health))
                             end)
                         end)
 

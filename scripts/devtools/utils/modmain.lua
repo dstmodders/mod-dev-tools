@@ -26,9 +26,10 @@ local BaseGetModInfo
 -- @treturn boolean
 function Modmain.HideChangelog(modname, enable)
     if modname and enable and not BaseGetModInfo then
-        BaseGetModInfo =  _G.KnownModIndex.GetModInfo
+        BaseGetModInfo = _G.KnownModIndex.GetModInfo
         _G.KnownModIndex.GetModInfo = function(_self, _modname)
-            if _modname == modname
+            if
+                _modname == modname
                 and _self.savedata
                 and _self.savedata.known_mods
                 and _self.savedata.known_mods[modname]

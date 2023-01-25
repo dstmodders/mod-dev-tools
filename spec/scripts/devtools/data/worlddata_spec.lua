@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("WorldData", function()
     -- before_each initialization
@@ -30,14 +30,14 @@ describe("WorldData", function()
         -- initialization
         worlddevtools = MockWorldDevTools()
 
-        WorldData = require "devtools/data/worlddata"
+        WorldData = require("devtools/data/worlddata")
         worlddata = WorldData(nil, worlddevtools)
         worlddata.stack = {}
     end)
 
     insulate("should be initialized with the default values", function()
         before_each(function()
-            WorldData = require "devtools/data/worlddata"
+            WorldData = require("devtools/data/worlddata")
         end)
 
         local function AssertDefaults(self)
@@ -327,7 +327,7 @@ describe("WorldData", function()
             describe("when it is snowing", function()
                 before_each(function()
                     worlddevtools.GetStateIsSnowing = ReturnValueFn(true)
-                    worlddevtools.GetStatePrecipitationRate = ReturnValueFn(.5)
+                    worlddevtools.GetStatePrecipitationRate = ReturnValueFn(0.5)
                     worlddata.worlddevtools = worlddevtools
                 end)
 

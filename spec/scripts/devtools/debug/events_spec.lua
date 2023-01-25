@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("Events", function()
     -- setup
@@ -10,7 +10,7 @@ describe("Events", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyTerm()
@@ -50,7 +50,7 @@ describe("Events", function()
         DebugError = debug.DebugError
         DebugString = debug.DebugString
 
-        Events = require "devtools/debug/events"
+        Events = require("devtools/debug/events")
         events = Events(debug)
 
         DebugSpyClear()
@@ -58,7 +58,7 @@ describe("Events", function()
 
     insulate("initialization", function()
         before_each(function()
-            Events = require "devtools/debug/events"
+            Events = require("devtools/debug/events")
         end)
 
         local function AssertDefaults(self)
@@ -136,11 +136,13 @@ describe("Events", function()
                     assert.spy(DebugError).was_not_called()
                     CheckIfAlreadyActivated(events, "Test", activated)
                     assert.spy(DebugError).was_called(1)
-                    assert.spy(DebugError).was_called_with(
-                        match.is_ref(debug),
-                        "Events:Test():",
-                        "already 2 activated, deactivate first"
-                    )
+                    assert
+                        .spy(DebugError)
+                        .was_called_with(
+                            match.is_ref(debug),
+                            "Events:Test():",
+                            "already 2 activated, deactivate first"
+                        )
                 end)
 
                 it("should return true", function()
@@ -213,11 +215,13 @@ describe("Events", function()
                     assert.spy(DebugError).was_not_called()
                     CheckIfAlreadyDeactivated(events, "Test", activated)
                     assert.spy(DebugError).was_called(1)
-                    assert.spy(DebugError).was_called_with(
-                        match.is_ref(debug),
-                        "Events:Test():",
-                        "already deactivated, activate first"
-                    )
+                    assert
+                        .spy(DebugError)
+                        .was_called_with(
+                            match.is_ref(debug),
+                            "Events:Test():",
+                            "already deactivated, activate first"
+                        )
                 end)
 
                 it("should return true", function()
@@ -244,24 +248,28 @@ describe("Events", function()
                 assert.spy(ListenForEvent).was_not_called()
                 Activate(events, "Test", entity)
                 assert.spy(ListenForEvent).was_called(2)
-                assert.spy(ListenForEvent)
-                      .was_called_with(match.is_ref(entity), "one", match.is_function())
+                assert
+                    .spy(ListenForEvent)
+                    .was_called_with(match.is_ref(entity), "one", match.is_function())
 
-                assert.spy(ListenForEvent)
-                      .was_called_with(match.is_ref(entity), "two", match.is_function())
+                assert
+                    .spy(ListenForEvent)
+                    .was_called_with(match.is_ref(entity), "two", match.is_function())
             end)
 
             it("should debug string", function()
                 assert.spy(DebugString).was_not_called()
                 Activate(events, "Test", entity)
                 assert.spy(DebugString).was_called(1)
-                assert.spy(DebugString).was_called_with(
-                    match.is_ref(debug),
-                    "Activated debugging of the",
-                    2,
-                    "Test",
-                    "event listeners"
-                )
+                assert
+                    .spy(DebugString)
+                    .was_called_with(
+                        match.is_ref(debug),
+                        "Activated debugging of the",
+                        2,
+                        "Test",
+                        "event listeners"
+                    )
             end)
 
             it("should return the activated table with added events", function()
@@ -285,24 +293,28 @@ describe("Events", function()
                 assert.spy(RemoveEventCallback).was_not_called()
                 Deactivate(events, "Test", entity, activated)
                 assert.spy(RemoveEventCallback).was_called(2)
-                assert.spy(RemoveEventCallback)
-                      .was_called_with(match.is_ref(entity), "one", match.is_function())
+                assert
+                    .spy(RemoveEventCallback)
+                    .was_called_with(match.is_ref(entity), "one", match.is_function())
 
-                assert.spy(RemoveEventCallback)
-                      .was_called_with(match.is_ref(entity), "two", match.is_function())
+                assert
+                    .spy(RemoveEventCallback)
+                    .was_called_with(match.is_ref(entity), "two", match.is_function())
             end)
 
             it("should debug string", function()
                 assert.spy(DebugString).was_not_called()
                 Deactivate(events, "Test", entity, activated)
                 assert.spy(DebugString).was_called(1)
-                assert.spy(DebugString).was_called_with(
-                    match.is_ref(debug),
-                    "Deactivated debugging of the",
-                    2,
-                    "Test",
-                    "event listeners"
-                )
+                assert
+                    .spy(DebugString)
+                    .was_called_with(
+                        match.is_ref(debug),
+                        "Deactivated debugging of the",
+                        2,
+                        "Test",
+                        "event listeners"
+                    )
             end)
 
             it("should return the cleared activated table", function()

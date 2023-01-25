@@ -26,10 +26,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local DevTools = require "devtools/devtools/devtools"
-local Utils = require "devtools/utils"
+local DevTools = require("devtools/devtools/devtools")
+local Utils = require("devtools/utils")
 
 local _ConsoleRemote = Utils.ConsoleRemote
 
@@ -103,12 +103,8 @@ local function IsString(value)
 end
 
 local function PointToString(value)
-    return IsPosition(value) and string.format(
-        "Point(%0.2f, %0.2f, %0.2f)",
-        value.x,
-        value.y,
-        value.z
-    )
+    return IsPosition(value)
+        and string.format("Point(%0.2f, %0.2f, %0.2f)", value.x, value.y, value.z)
 end
 
 local function DebugPercent(value)
@@ -116,12 +112,7 @@ local function DebugPercent(value)
 end
 
 local function DebugPosition(value)
-    return IsPosition(value) and string.format(
-        "(%0.2f, %0.2f, %0.2f)",
-        value.x,
-        value.y,
-        value.z
-    )
+    return IsPosition(value) and string.format("(%0.2f, %0.2f, %0.2f)", value.x, value.y, value.z)
 end
 
 local function IsValidValues(values, check_fns)
@@ -200,9 +191,8 @@ local function Remote(self, fn_name, console, values, check_values_fns, debug, d
     end
 
     self:DebugError(
-        fn_full_name .. ": invalid value", values ~= nil
-            and string.format("(%s)", debug_values)
-            or nil
+        fn_full_name .. ": invalid value",
+        values ~= nil and string.format("(%s)", debug_values) or nil
     )
 
     return false
@@ -219,7 +209,7 @@ end
 -- @tparam number value
 -- @treturn boolean
 function ConsoleDevTools:SetHealthPercent(value)
-    local console = value ~= nil and { 'c_sethealth(%0.2f)', { value / 100 } }
+    local console = value ~= nil and { "c_sethealth(%0.2f)", { value / 100 } }
     local debug = value ~= nil and { "Health:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetHealthPercent", console, value, IsPercent, debug)
 end
@@ -228,7 +218,7 @@ end
 -- @tparam number value
 -- @treturn boolean
 function ConsoleDevTools:SetHungerPercent(value)
-    local console = value ~= nil and { 'c_sethunger(%0.2f)', { value / 100 } }
+    local console = value ~= nil and { "c_sethunger(%0.2f)", { value / 100 } }
     local debug = value ~= nil and { "Hunger:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetHungerPercent", console, value, IsPercent, debug)
 end
@@ -237,7 +227,7 @@ end
 -- @tparam number value
 -- @treturn boolean
 function ConsoleDevTools:SetSanityPercent(value)
-    local console = value ~= nil and { 'c_setsanity(%0.2f)', { value / 100 } }
+    local console = value ~= nil and { "c_setsanity(%0.2f)", { value / 100 } }
     local debug = value ~= nil and { "Sanity:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetSanityPercent", console, value, IsPercent, debug)
 end
@@ -257,7 +247,7 @@ end
 -- @tparam number value
 -- @treturn boolean
 function ConsoleDevTools:SetMoisturePercent(value)
-    local console = value ~= nil and { 'c_setmoisture(%0.2f)', { value / 100 } }
+    local console = value ~= nil and { "c_setmoisture(%0.2f)", { value / 100 } }
     local debug = value ~= nil and { "Moisture:", DebugPercent(value) }
     return RemoteSelectedPlayer(self, "SetMoisturePercent", console, value, IsMoisture, debug)
 end
@@ -278,7 +268,7 @@ function ConsoleDevTools:SetWerenessPercent(value)
     local debug = value ~= nil and { "Wereness:", tostring(value) }
     return RemoteSelectedPlayer(self, "SetWerenessPercent", value ~= nil and {
         "ConsoleCommandPlayer().components.wereness:SetPercent(%0.2f)",
-        { value }
+        { value },
     }, value, IsPercent, debug)
 end
 
@@ -331,7 +321,7 @@ end
 function ConsoleDevTools:ForcePrecipitation(value)
     return Remote(self, "ForcePrecipitation", value ~= nil and {
         'TheWorld:PushEvent("ms_forceprecipitation", %s)',
-        { tostring(value) }
+        { tostring(value) },
     }, value, IsBoolean)
 end
 
@@ -357,12 +347,13 @@ function ConsoleDevTools:MiniQuake(target, rad, num, time)
     local check_values_fns, command, console, values
 
     check_values_fns = { IsString, IsNumber, IsNumber, IsNumber }
-    command = 'TheWorld:PushEvent("ms_miniquake", { target = LookupPlayerInstByUserID("%s"), rad = %d, num = %d, duration = %0.2f })' -- luacheck: only
+    command =
+        'TheWorld:PushEvent("ms_miniquake", { target = LookupPlayerInstByUserID("%s"), rad = %d, num = %d, duration = %0.2f })' -- luacheck: only
     values = {
         (type(target) == "table" and target.userid) and target.userid or target,
         rad,
         num,
-        time
+        time,
     }
 
     console = { command, values }
@@ -408,7 +399,7 @@ end
 function ConsoleDevTools:SetSeasonLength(season, length)
     return Remote(self, "SetSeasonLength", (season ~= nil and length ~= nil) and {
         'TheWorld:PushEvent("ms_setseasonlength", { season="%s", length=%d })',
-        { season, length }
+        { season, length },
     }, { season, length }, { IsSeason, IsNumber })
 end
 
@@ -425,7 +416,7 @@ function ConsoleDevTools:SetSnowLevel(delta)
 
     return Remote(self, fn_name, delta ~= nil and {
         'TheWorld:PushEvent("ms_setsnowlevel", %0.2f)',
-        { delta }
+        { delta },
     }, delta, IsNumberBetweenZeroAndOne)
 end
 
@@ -433,14 +424,14 @@ end
 -- @tparam string timescale
 -- @treturn boolean
 function ConsoleDevTools:SetTimeScale(timescale)
-    local fn_name = 'SetTimeScale'
+    local fn_name = "SetTimeScale"
 
     if self.devtools and #self.devtools:GetPlayersClientTable() > 1 then
         self:DebugError(fn_name .. ": There are other players on the server")
         return false
     end
 
-    local console = timescale ~= nil and { 'TheSim:SetTimeScale(%0.2f)', { timescale } }
+    local console = timescale ~= nil and { "TheSim:SetTimeScale(%0.2f)", { timescale } }
     return Remote(self, fn_name, console, timescale, IsNumber)
 end
 
@@ -457,7 +448,8 @@ function ConsoleDevTools:ToggleFreeCrafting(player)
     local check_values_fns, command, console, userid, values
 
     check_values_fns = { IsString }
-    command = 'player = LookupPlayerInstByUserID("%s") player.components.builder:GiveAllRecipes() player:PushEvent("techlevelchange")' -- luacheck: only
+    command =
+        'player = LookupPlayerInstByUserID("%s") player.components.builder:GiveAllRecipes() player:PushEvent("techlevelchange")' -- luacheck: only
     userid = (type(player) == "table" and player.userid) and player.userid or player
     values = { userid }
     console = { command, values }
@@ -476,7 +468,8 @@ function ConsoleDevTools:UnlockRecipe(recipe, player)
     local check_values_fns, command, console, userid, values
 
     check_values_fns = { IsString, IsString, IsString }
-    command = 'player = LookupPlayerInstByUserID("%s") player.components.builder:AddRecipe("%s") player:PushEvent("unlockrecipe", { recipe = "%s" })' -- luacheck: only
+    command =
+        'player = LookupPlayerInstByUserID("%s") player.components.builder:AddRecipe("%s") player:PushEvent("unlockrecipe", { recipe = "%s" })' -- luacheck: only
     userid = (type(player) == "table" and player.userid) and player.userid or player
     values = { userid, recipe, recipe }
     console = { command, values }
@@ -495,7 +488,8 @@ function ConsoleDevTools:LockRecipe(recipe, player)
     local check_values_fns, command, console, userid, values
 
     check_values_fns = { IsString, IsString, IsString }
-    command = 'player = LookupPlayerInstByUserID("%s") for k, v in pairs(player.components.builder.recipes) do if v == "%s" then table.remove(player.components.builder.recipes, k) end end player.replica.builder:RemoveRecipe("%s")' -- luacheck: only
+    command =
+        'player = LookupPlayerInstByUserID("%s") for k, v in pairs(player.components.builder.recipes) do if v == "%s" then table.remove(player.components.builder.recipes, k) end end player.replica.builder:RemoveRecipe("%s")' -- luacheck: only
     userid = (type(player) == "table" and player.userid) and player.userid or player
     values = { userid, recipe, recipe }
     console = { command, values }

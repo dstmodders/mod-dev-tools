@@ -4,8 +4,7 @@ ClassRegistry = {}
 -- Helpers
 --
 
-local function __dummy()
-end
+local function __dummy() end
 
 local function __index(t, k)
     local p = rawget(t, "_")[k]

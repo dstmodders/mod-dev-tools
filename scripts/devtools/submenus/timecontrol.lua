@@ -11,9 +11,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "devtools/constants"
+require("devtools/constants")
 
-local Toggle = require "devtools/submenus/option/toggle"
+local Toggle = require("devtools/submenus/option/toggle")
 
 return {
     label = "Time Control",

@@ -20,11 +20,11 @@ local String = {}
 function String.ValueClock(seconds, is_hour_disabled)
     seconds = tonumber(seconds)
     if seconds <= 0 then
-        return is_hour_disabled and "00:00" or "00:00:00";
+        return is_hour_disabled and "00:00" or "00:00:00"
     end
-    local h = string.format("%02.f", math.floor(seconds / 3600));
-    local m = string.format("%02.f", math.floor(seconds / 60 - (h * 60)));
-    local s = string.format("%02.f", math.floor(seconds - h * 3600 - m * 60));
+    local h = string.format("%02.f", math.floor(seconds / 3600))
+    local m = string.format("%02.f", math.floor(seconds / 60 - (h * 60)))
+    local s = string.format("%02.f", math.floor(seconds - h * 3600 - m * 60))
     return is_hour_disabled and m .. ":" .. s or h .. ":" .. m .. ":" .. s
 end
 

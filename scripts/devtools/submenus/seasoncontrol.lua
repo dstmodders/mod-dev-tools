@@ -11,7 +11,7 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "devtools/constants"
+require("devtools/constants")
 
 local _SEASONS = {
     { name = "Autumn", value = "autumn", default = TUNING.AUTUMN_LENGTH },

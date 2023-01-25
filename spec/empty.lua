@@ -1,6 +1,5 @@
-require "class"
+require("class")
 
-local Empty = Class(function()
-end)
+local Empty = Class(function() end)
 
 return Empty

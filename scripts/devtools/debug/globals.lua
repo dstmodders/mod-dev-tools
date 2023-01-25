@@ -12,7 +12,7 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
 --- Lifecycle
 -- @section lifecycle

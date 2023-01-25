@@ -13,7 +13,7 @@
 ----
 local Thread = {}
 
-local Debug = require "devtools/utils/debug"
+local Debug = require("devtools/utils/debug")
 
 --- Starts a new thread.
 --

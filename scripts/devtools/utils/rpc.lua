@@ -15,7 +15,7 @@ local RPC = {}
 
 local _SendRPCToServer
 
-local Debug = require "devtools/utils/debug"
+local Debug = require("devtools/utils/debug")
 
 --- Checks if `SendRPCToServer()` is enabled.
 -- @treturn boolean

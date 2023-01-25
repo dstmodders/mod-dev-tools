@@ -13,9 +13,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Submenu = require "devtools/menu/submenu"
+local Submenu = require("devtools/menu/submenu")
 
 --- Lifecycle
 -- @section lifecycle

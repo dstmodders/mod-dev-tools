@@ -27,11 +27,11 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local DividerOption = require "devtools/menu/option/divideroption"
-local ActionOption = require "devtools/menu/option/actionoption"
-local Option = require "devtools/menu/option/option"
+local DividerOption = require("devtools/menu/option/divideroption")
+local ActionOption = require("devtools/menu/option/actionoption")
+local Option = require("devtools/menu/option/option")
 
 --- Lifecycle
 -- @section lifecycle
@@ -59,13 +59,16 @@ end)
 function SubmenuOption:OnAccept(textmenu)
     local options = shallowcopy(self.options)
     table.insert(options, DividerOption(self.submenu))
-    table.insert(options, ActionOption({
-        label = "Back",
-        data_sidebar = self.data_sidebar,
-        on_accept_fn = function()
-            textmenu:Pop()
-        end,
-    }, self.submenu))
+    table.insert(
+        options,
+        ActionOption({
+            label = "Back",
+            data_sidebar = self.data_sidebar,
+            on_accept_fn = function()
+                textmenu:Pop()
+            end,
+        }, self.submenu)
+    )
     textmenu:PushOptions(options, self.name)
     Option.OnAccept(self, textmenu)
 end

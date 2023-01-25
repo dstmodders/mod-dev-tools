@@ -24,10 +24,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local DevTools = require "devtools/devtools/devtools"
-local Utils = require "devtools/utils"
+local DevTools = require("devtools/devtools/devtools")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -76,11 +76,15 @@ end
 --
 -- @treturn boolean
 function MapDevTools:Reveal()
-    if self.inst
+    if
+        self.inst
         and self.inst.player_classified
         and self.inst.player_classified.MapExplorer
         and self.inst.player_classified.MapExplorer.RevealArea
-        and self.world and self.world.inst and self.world.inst.Map and self.world.inst.Map.GetSize
+        and self.world
+        and self.world.inst
+        and self.world.inst.Map
+        and self.world.inst.Map.GetSize
     then
         self:DebugString("Revealing map...")
         local width, height = self.world.inst.Map:GetSize()

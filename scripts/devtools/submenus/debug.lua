@@ -11,7 +11,7 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "devtools/constants"
+require("devtools/constants")
 
 local _TOGGLE_ALL_MOUSE_CLICKS = { "lmb", "rmb" }
 

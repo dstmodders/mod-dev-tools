@@ -19,19 +19,19 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-local Image = require "widgets/image"
-local Menu = require "devtools/menu/menu"
-local Screen = require "widgets/screen"
-local Text = require "widgets/text"
-local Utils = require "devtools/utils"
+local Image = require("widgets/image")
+local Menu = require("devtools/menu/menu")
+local Screen = require("widgets/screen")
+local Text = require("widgets/text")
+local Utils = require("devtools/utils")
 
-local DumpedData = require "devtools/data/dumpeddata"
-local FrontEndData = require "devtools/data/frontenddata"
-local RecipeData = require "devtools/data/recipedata"
-local SelectedData = require "devtools/data/selecteddata"
-local SelectedTagsData = require "devtools/data/selectedtagsdata"
-local WorldData = require "devtools/data/worlddata"
-local WorldStateData = require "devtools/data/worldstatedata"
+local DumpedData = require("devtools/data/dumpeddata")
+local FrontEndData = require("devtools/data/frontenddata")
+local RecipeData = require("devtools/data/recipedata")
+local SelectedData = require("devtools/data/selecteddata")
+local SelectedTagsData = require("devtools/data/selectedtagsdata")
+local WorldData = require("devtools/data/worlddata")
+local WorldStateData = require("devtools/data/worldstatedata")
 
 local _SCREEN_NAME = "ModDevToolsScreen"
 
@@ -60,29 +60,25 @@ local DevToolsScreen = Class(Screen, function(self, devtools)
     self.overlay:SetHAnchor(ANCHOR_MIDDLE)
     self.overlay:SetClickable(false)
     self.overlay:SetScaleMode(SCALEMODE_FILLSCREEN)
-    self.overlay:SetTint(0, 0, 0, .75)
+    self.overlay:SetTint(0, 0, 0, 0.75)
 
     -- menu
-    self.menu = self:AddChild(Text(
-        self.font,
-        self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()),
-        ""
-    ))
+    self.menu = self:AddChild(
+        Text(self.font, self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()), "")
+    )
 
     self.menu:SetHAlign(ANCHOR_LEFT)
     self.menu:SetHAnchor(ANCHOR_MIDDLE)
     self.menu:SetVAlign(ANCHOR_TOP)
     self.menu:SetVAnchor(ANCHOR_MIDDLE)
     self.menu:SetPosition(0, 0, 0)
-    self.menu:SetRegionSize(self.size_width / 2 , self.size_height * self.font_size)
+    self.menu:SetRegionSize(self.size_width / 2, self.size_height * self.font_size)
     self.menu:SetScaleMode(SCALEMODE_PROPORTIONAL)
 
     -- data
-    self.data = self:AddChild(Text(
-        self.font,
-        self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()),
-        ""
-    ))
+    self.data = self:AddChild(
+        Text(self.font, self.font_size / (self.locale_text_scale and 1 or LOC.GetTextScale()), "")
+    )
 
     self.data:SetHAlign(ANCHOR_RIGHT)
     self.data:SetHAnchor(ANCHOR_MIDDLE)
@@ -135,10 +131,15 @@ function DevToolsScreen:CanToggle() -- luacheck: only
                 local focusWidget = TheFrontEnd:GetFocusWidget()
                 return focusWidget
                     and focusWidget.texture
-                    and not (focusWidget.texture:find("spinner")
-                    or (focusWidget.texture:find("arrow")
-                    and not focusWidget.texture:find("scrollbar")))
-            elseif screen.name == "ServerListingScreen"
+                    and not (
+                        focusWidget.texture:find("spinner")
+                        or (
+                            focusWidget.texture:find("arrow")
+                            and not focusWidget.texture:find("scrollbar")
+                        )
+                    )
+            elseif
+                screen.name == "ServerListingScreen"
                 and screen.searchbox
                 and screen.searchbox.textbox
                 and screen.searchbox.textbox.editing
@@ -150,10 +151,7 @@ function DevToolsScreen:CanToggle() -- luacheck: only
 
     local devtools = self.devtools
 
-    if InGamePlay()
-        and devtools
-        and not devtools:IsInCharacterSelect()
-    then
+    if InGamePlay() and devtools and not devtools:IsInCharacterSelect() then
         local playerdevtools = devtools.player
         if playerdevtools and playerdevtools:IsHUDChatInputScreenOpen() then
             return false
@@ -232,7 +230,7 @@ function DevToolsScreen:SwitchData(dir)
     if InGamePlay() then
         self.data_sidebar_idx = 1
         self.data_sidebar = dir > 0
-            and Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
+                and Utils.Table.NextValue(self.in_game_play_data_sidebars, self.data_sidebar)
             or Utils.Table.PrevValue(self.in_game_play_data_sidebars, self.data_sidebar)
         self:ResetDataSidebarIndex()
     end
@@ -283,9 +281,11 @@ function DevToolsScreen:UpdateChildren(silent)
     )
 
     if self.menu_text ~= nil and self.menu then
-        self.menu:SetString((self.selected == MOD_DEV_TOOLS.SELECT.MENU and selected or unselected)
-            .. "\n\n"
-            .. tostring(self.menu_text))
+        self.menu:SetString(
+            (self.selected == MOD_DEV_TOOLS.SELECT.MENU and selected or unselected)
+                .. "\n\n"
+                .. tostring(self.menu_text)
+        )
     end
 
     if self.data_text ~= nil and self.data then
@@ -294,20 +294,20 @@ function DevToolsScreen:UpdateChildren(silent)
 
         if InGamePlay() then
             total_sidebar_data = #self.in_game_play_data_sidebars
-            sidebar_data_idx = Utils.Table.KeyByValue(
-                self.in_game_play_data_sidebars,
-                self.data_sidebar
-            )
+            sidebar_data_idx =
+                Utils.Table.KeyByValue(self.in_game_play_data_sidebars, self.data_sidebar)
         end
 
         local number = (total_sidebar_data and sidebar_data_idx)
-            and string.format(" [%d/%d]", sidebar_data_idx, total_sidebar_data)
+                and string.format(" [%d/%d]", sidebar_data_idx, total_sidebar_data)
             or ""
 
-        self.data:SetString((self.selected == MOD_DEV_TOOLS.SELECT.DATA and selected or unselected)
-            .. number
-            .. "\n\n"
-            .. tostring(self.data_text))
+        self.data:SetString(
+            (self.selected == MOD_DEV_TOOLS.SELECT.DATA and selected or unselected)
+                .. number
+                .. "\n\n"
+                .. tostring(self.data_text)
+        )
     end
 
     if silent ~= true then
@@ -390,16 +390,19 @@ function DevToolsScreen:UpdateDataSidebar()
         self:UpdateDumpedData()
     elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END then
         self:UpdateFrontEndData()
-    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE
+    elseif
+        self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.RECIPE
         and Utils.Chain.Get(playerdevtools, "crafting")
     then
         self:UpdateRecipeData()
-    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED
+    elseif
+        self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED
         and worlddevtools
         and Utils.Chain.Get(playerdevtools, "crafting")
     then
         self:UpdateSelectedData()
-    elseif self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS
+    elseif
+        self.data_sidebar == MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS
         and worlddevtools
         and playerdevtools
     then
@@ -581,8 +584,7 @@ function DevToolsScreen:DoInit(devtools)
     self.selected = MOD_DEV_TOOLS.SELECT.MENU
 
     -- data sidebar
-    self.data_sidebar = InGamePlay()
-        and MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD
+    self.data_sidebar = InGamePlay() and MOD_DEV_TOOLS.DATA_SIDEBAR.WORLD
         or MOD_DEV_TOOLS.DATA_SIDEBAR.FRONT_END
 
     self.in_game_play_data_sidebars = {

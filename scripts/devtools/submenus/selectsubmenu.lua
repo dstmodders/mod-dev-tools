@@ -13,9 +13,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Submenu = require "devtools/menu/submenu"
+local Submenu = require("devtools/menu/submenu")
 
 --- Lifecycle
 -- @section lifecycle
@@ -26,17 +26,10 @@ local Submenu = require "devtools/menu/submenu"
 -- @tparam Widget root
 -- @usage local selectsubmenu = SelectSubmenu(devtools, root)
 local SelectSubmenu = Class(Submenu, function(self, devtools, root)
-    Submenu._ctor(
-        self,
-        devtools,
-        root,
-        "Select",
-        "SelectSubmenu",
-        {
-            MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
-            MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS,
-        }
-    )
+    Submenu._ctor(self, devtools, root, "Select", "SelectSubmenu", {
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED,
+        MOD_DEV_TOOLS.DATA_SIDEBAR.SELECTED_TAGS,
+    })
 
     -- options
     if self.devtools and self.world and self.player and self.inventory and self.screen then

@@ -13,10 +13,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Data = require "devtools/data/data"
-local Utils = require "devtools/utils"
+local Data = require("devtools/data/data")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -66,11 +66,14 @@ function RecipeData:PushIngredientLine(type, amount)
 
     if inventory then
         local state = inventory:Has(type, amount)
-        table.insert(self.stack, string.format(
-            "x%d %s",
-            amount,
-            Utils.String.TableSplit({ name, state and "yes" or "no" })
-        ))
+        table.insert(
+            self.stack,
+            string.format(
+                "x%d %s",
+                amount,
+                Utils.String.TableSplit({ name, state and "yes" or "no" })
+            )
+        )
     else
         table.insert(self.stack, string.format("x%d %s", amount, name))
     end

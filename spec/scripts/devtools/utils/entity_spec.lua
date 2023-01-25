@@ -1,6 +1,6 @@
-require "busted.runner"()
-require "class"
-require "devtools/utils"
+require("busted.runner")()
+require("class")
+require("devtools/utils")
 
 describe("Utils.Entity", function()
     -- setup
@@ -10,15 +10,19 @@ describe("Utils.Entity", function()
     local Entity
 
     setup(function()
-        test_debug_string = [[117500 - wendy age 7.43]] .. "\n" ..
-            [[GUID:117500 Name:  Tags: _sheltered trader _health inspectable freezable player idle _builder]] .. "\n" .. -- luacheck: only
-            [[Prefab: wendy]] .. "\n" ..
-            [[AnimState: bank: wilson build: wendy_rose anim: idle_loop anim/player_idles.zip:idle_loop Frame: 47.00/66 Facing: 3]] .. "\n" .. -- luacheck: only
-            [[Transform: Pos=(-59.07,0.00,179.48) Scale=(1.00,1.00,1.00) Heading=-45.00]]
+        test_debug_string = [[117500 - wendy age 7.43]]
+            .. "\n"
+            .. [[GUID:117500 Name:  Tags: _sheltered trader _health inspectable freezable player idle _builder]]
+            .. "\n" -- luacheck: only
+            .. [[Prefab: wendy]]
+            .. "\n"
+            .. [[AnimState: bank: wilson build: wendy_rose anim: idle_loop anim/player_idles.zip:idle_loop Frame: 47.00/66 Facing: 3]]
+            .. "\n" -- luacheck: only
+            .. [[Transform: Pos=(-59.07,0.00,179.48) Scale=(1.00,1.00,1.00) Heading=-45.00]]
     end)
 
     before_each(function()
-        Entity = require "devtools/utils/entity"
+        Entity = require("devtools/utils/entity")
     end)
 
     describe("AnimState", function()

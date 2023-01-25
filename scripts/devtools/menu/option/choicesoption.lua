@@ -35,19 +35,19 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Option = require "devtools/menu/option/option"
-local Utils = require "devtools/utils"
+local Option = require("devtools/menu/option/option")
+local Utils = require("devtools/utils")
 
 --- Helpers
 -- @section helpers
 
 local function GetTableKeyByValue(list, value)
     for k, v in pairs(list) do
-        if v.value == value
-            or (type(v.value) == "table"
-            and Utils.Table.Compare(v.value, value))
+        if
+            v.value == value
+            or (type(v.value) == "table" and Utils.Table.Compare(v.value, value))
         then
             return k
         end

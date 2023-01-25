@@ -1,13 +1,13 @@
-require "busted.runner"()
-require "class"
-require "devtools/utils"
+require("busted.runner")()
+require("class")
+require("devtools/utils")
 
 describe("Utils.Table", function()
     -- before_each initialization
     local Table
 
     before_each(function()
-        Table = require "devtools/utils/table"
+        Table = require("devtools/utils/table")
     end)
 
     describe("TableCompare", function()
@@ -106,10 +106,7 @@ describe("Utils.Table", function()
         it("should return two combined simple tables", function()
             local a = { a = "a", b = "b", c = "c" }
             local b = { d = "d", e = "e", a = "f" }
-            assert.is_same(
-                { a = "f", b = "b", c = "c", d = "d", e = "e" },
-                Table.Merge(a, b)
-            )
+            assert.is_same({ a = "f", b = "b", c = "c", d = "d", e = "e" }, Table.Merge(a, b))
         end)
 
         it("should return two combined simple ipaired tables", function()

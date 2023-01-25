@@ -26,13 +26,13 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
-require "consolecommands"
+require("class")
+require("consolecommands")
 
-local DebugUpvalue = require "devtools/debugupvalue"
-local DevTools = require "devtools/devtools/devtools"
-local SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
-local Utils = require "devtools/utils"
+local DebugUpvalue = require("devtools/debugupvalue")
+local DevTools = require("devtools/devtools/devtools")
+local SaveDataDevTools = require("devtools/devtools/world/savedatadevtools")
+local Utils = require("devtools/utils")
 
 -- threads
 local _PRECIPITATION_THREAD_ID = "mod_dev_tools_precipitation_thread"
@@ -425,9 +425,7 @@ end
 --- Gets precipitation state.
 -- @treturn boolean
 function WorldDevTools:IsPrecipitation()
-    return self.inst
-        and self.inst.state
-        and self.inst.state.precipitation ~= "none"
+    return self.inst and self.inst.state and self.inst.state.precipitation ~= "none"
         or self.inst.state.moisture >= self.inst.state.moistureceil
 end
 
@@ -493,20 +491,14 @@ function WorldDevTools:WeatherOnUpdate(weather)
     local _moisturerate = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_moisturerate")
     local _temperature = DebugUpvalue.GetUpvalue(weather.GetDebugString, "_temperature")
 
-    local _peakprecipitationrate = DebugUpvalue.GetUpvalue(
-        weather.GetDebugString,
-        "_peakprecipitationrate"
-    )
+    local _peakprecipitationrate =
+        DebugUpvalue.GetUpvalue(weather.GetDebugString, "_peakprecipitationrate")
 
-    local CalculatePrecipitationRate = DebugUpvalue.GetUpvalue(
-        weather.GetDebugString,
-        "CalculatePrecipitationRate"
-    )
+    local CalculatePrecipitationRate =
+        DebugUpvalue.GetUpvalue(weather.GetDebugString, "CalculatePrecipitationRate")
 
-    local CalculateWetnessRate = DebugUpvalue.GetUpvalue(
-        weather.GetDebugString,
-        "CalculateWetnessRate"
-    )
+    local CalculateWetnessRate =
+        DebugUpvalue.GetUpvalue(weather.GetDebugString, "CalculateWetnessRate")
 
     local precipitation_rate, wetness_rate
 
@@ -514,8 +506,11 @@ function WorldDevTools:WeatherOnUpdate(weather)
         precipitation_rate = CalculatePrecipitationRate()
     end
 
-    if CalculatePrecipitationRate and type(CalculatePrecipitationRate) == "function"
-        and _temperature and type(_temperature) == "number"
+    if
+        CalculatePrecipitationRate
+        and type(CalculatePrecipitationRate) == "function"
+        and _temperature
+        and type(_temperature) == "number"
     then
         wetness_rate = CalculateWetnessRate(_temperature, precipitation_rate)
     end

@@ -16,9 +16,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
 -- general
 local _DEFAULT_PERSIST_DATA = { general = {}, servers = {} }
@@ -144,10 +144,7 @@ end
 -- @tparam[opt] string name Debug name
 function Data:Save(cb, name)
     if self.dirty then
-        DebugString(self, "[save]", name ~= nil
-            and string.format("Saved (%s)", name)
-            or "Saved"
-        )
+        DebugString(self, "[save]", name ~= nil and string.format("Saved (%s)", name) or "Saved")
 
         SavePersistentString(self:GetSaveName(), json.encode(self.persist_data), _ENCODE_SAVES, cb)
         self.dirty = false
@@ -190,11 +187,8 @@ function Data:OnLoad(str, cb)
     else
         DebugStringStop(self, "[load]", "Success", "(length: " .. #str .. ")")
 
-        local persist_data = TrackedAssert(
-            "TheSim:GetPersistentString " .. self.name,
-            json.decode,
-            str
-        )
+        local persist_data =
+            TrackedAssert("TheSim:GetPersistentString " .. self.name, json.decode, str)
 
         if not persist_data then
             self.dirty = true

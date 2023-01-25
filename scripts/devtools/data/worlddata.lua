@@ -13,10 +13,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Data = require "devtools/data/data"
-local Utils = require "devtools/utils"
+local Data = require("devtools/data/data")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -80,7 +80,7 @@ function WorldData:PushWorldMoistureLine()
         end
 
         local value = moisture_floor
-            and Utils.String.TableSplit({ moisture_floor, moisture_string, moisture_ceil })
+                and Utils.String.TableSplit({ moisture_floor, moisture_string, moisture_ceil })
             or Utils.String.TableSplit({ moisture_string, moisture_ceil })
 
         self:PushLine("Moisture", value)
@@ -111,9 +111,11 @@ function WorldData:PushWorldPrecipitationLines()
     local precipitation_rate = worlddevtools:GetStatePrecipitationRate()
     if precipitation_rate and precipitation_rate > 0 then
         local peakprecipitationrate = worlddevtools:GetPeakPrecipitationRate()
-        self:PushLine("Precipitation Rate", peakprecipitationrate ~= nil
-            and { precipitation_rate, peakprecipitationrate }
-            or Utils.String.ValueFloat(precipitation_rate))
+        self:PushLine(
+            "Precipitation Rate",
+            peakprecipitationrate ~= nil and { precipitation_rate, peakprecipitationrate }
+                or Utils.String.ValueFloat(precipitation_rate)
+        )
     end
 
     local is_snowing = worlddevtools:GetStateIsSnowing()
@@ -123,10 +125,7 @@ function WorldData:PushWorldPrecipitationLines()
     if precipitation_starts and precipitation_ends then
         local label = is_snowing and "Snow" or "Rain"
         if not worlddevtools:IsPrecipitation() then
-            self:PushLine(
-                label .. " Starts",
-                "~" .. Utils.String.ValueClock(precipitation_starts)
-            )
+            self:PushLine(label .. " Starts", "~" .. Utils.String.ValueClock(precipitation_starts))
         else
             self:PushLine(label .. " Ends", "~" .. Utils.String.ValueClock(precipitation_ends))
         end
@@ -277,8 +276,7 @@ function WorldData:PushDeersSpawnerLine()
     if not value then
         local spawner = data.deerherdspawner
         if spawner and type(spawner._timetospawn) == "number" then
-            value = spawner._timetospawn <= 0
-                and "waiting"
+            value = spawner._timetospawn <= 0 and "waiting"
                 or Utils.String.ValueClock(spawner._timetospawn - GetTime())
         elseif spawner and type(spawner._activedeer) == "table" then
             value = #spawner._activedeer
@@ -301,7 +299,7 @@ function WorldData:PushKlausSackSpawnerLine()
         local spawner = data.klaussackspawner
         if spawner and type(spawner.timetorespawn) == "number" then
             value = spawner.timetorespawn > 0
-                and Utils.String.ValueClock(spawner.timetorespawn - GetTime())
+                    and Utils.String.ValueClock(spawner.timetorespawn - GetTime())
                 or "no"
         elseif spawner and spawner.timetorespawn == false then
             value = "yes"
@@ -324,7 +322,7 @@ function WorldData:PushHoundedLine()
         local hounded = data.hounded
         if hounded and type(hounded.timetoattack) == "number" then
             value = hounded.timetoattack > 0
-                and Utils.String.ValueClock(hounded.timetoattack - GetTime())
+                    and Utils.String.ValueClock(hounded.timetoattack - GetTime())
                 or "no"
         end
     end
@@ -347,9 +345,7 @@ function WorldData:PushChessUnlocksLine()
     if not value then
         local chessunlocks = data.chessunlocks
         if chessunlocks and type(chessunlocks.unlocks) == "table" then
-            value = #chessunlocks.unlocks > 0
-                and table.concat(chessunlocks.unlocks, ", ")
-                or "no"
+            value = #chessunlocks.unlocks > 0 and table.concat(chessunlocks.unlocks, ", ") or "no"
         end
     end
 

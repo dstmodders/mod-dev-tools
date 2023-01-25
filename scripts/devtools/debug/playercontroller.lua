@@ -14,7 +14,7 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
 --- Lifecycle
 -- @section lifecycle
@@ -51,10 +51,7 @@ end
 -- @section helpers
 
 local function ActionCode(act)
-    return tostring(act ~= nil
-        and string.format("ACTIONS.%s.code", act.action.id)
-        or nil
-    )
+    return tostring(act ~= nil and string.format("ACTIONS.%s.code", act.action.id) or nil)
 end
 
 local function ActionModName(act)
@@ -72,21 +69,24 @@ end
 local function BufferedActionString(self, playercontroller, act)
     local distance = act.distance and tostring(act.distance) or "nil"
     local pos = (act.pos and act.pos.local_pt)
-        and string.format("Point(%0.2f, 0, %0.2f)", act.pos.local_pt.x, act.pos.local_pt.z)
+            and string.format("Point(%0.2f, 0, %0.2f)", act.pos.local_pt.x, act.pos.local_pt.z)
         or "nil"
 
     -- Reference: BufferedAction(self, doer, target, action, invobject, pos, recipe, distance, forced, rotation)
-    return string.format("BufferedAction(%s)", ConcatParameters(self, {
-        "ThePlayer",
-        act.target,
-        "ACTIONS." .. act.action.id,
-        act.invobject,
-        pos,
-        tostring(nil),
-        distance,
-        tostring(ActionNoForce(playercontroller.locomotor, act)),
-        tostring(act.rotation ~= 0 and act.rotation or nil)
-    }))
+    return string.format(
+        "BufferedAction(%s)",
+        ConcatParameters(self, {
+            "ThePlayer",
+            act.target,
+            "ACTIONS." .. act.action.id,
+            act.invobject,
+            pos,
+            tostring(nil),
+            distance,
+            tostring(ActionNoForce(playercontroller.locomotor, act)),
+            tostring(act.rotation ~= 0 and act.rotation or nil),
+        })
+    )
 end
 
 --- Mouse Clicks
@@ -138,7 +138,7 @@ local function DebugLMBClickSendRPCToServer(
         ActionNoForce(playercontroller.locomotor, act),
         ActionModName(act),
         platform,
-        platform ~= nil
+        platform ~= nil,
     })
 end
 
@@ -165,8 +165,7 @@ local function DebugRMBClickSendRPCToServer(
         ActionNoForce(playercontroller.locomotor, act),
         ActionModName(act),
         platform,
-        platform ~= nil
-
+        platform ~= nil,
     })
 end
 
@@ -184,13 +183,14 @@ function PlayerController:OverrideMouseClicks(playercontroller)
             if _self:IsAOETargeting() then
                 act = _self:GetRightMouseAction()
             else
-                act = _self:GetLeftMouseAction() or BufferedAction(
-                    _self.inst,
-                    nil,
-                    ACTIONS.WALKTO,
-                    nil,
-                    TheInput:GetWorldPosition()
-                )
+                act = _self:GetLeftMouseAction()
+                    or BufferedAction(
+                        _self.inst,
+                        nil,
+                        ACTIONS.WALKTO,
+                        nil,
+                        TheInput:GetWorldPosition()
+                    )
             end
 
             local mouseover, platform, x, z
@@ -201,8 +201,7 @@ function PlayerController:OverrideMouseClicks(playercontroller)
             else
                 local position = TheInput:GetWorldPosition()
                 platform, x, z = _self:GetPlatformRelativePosition(position.x, position.z)
-                mouseover = act.action ~= ACTIONS.DROP
-                    and TheInput:GetWorldEntityUnderMouse()
+                mouseover = act.action ~= ACTIONS.DROP and TheInput:GetWorldEntityUnderMouse()
                     or nil
             end
 
@@ -328,7 +327,7 @@ local function RemoteActionButton(self, playercontroller, act, is_released)
         ActionTarget(self, act),
         is_released,
         ActionNoForce(playercontroller.locomotor, act),
-        ActionModName(act)
+        ActionModName(act),
     })
 end
 
@@ -351,7 +350,8 @@ local function RemoteBufferedAction(self, playercontroller, action)
 end
 
 local function RemoteDirectWalking(self, playercontroller, x, z)
-    if playercontroller.remote_vector.x ~= x
+    if
+        playercontroller.remote_vector.x ~= x
         or playercontroller.remote_vector.z ~= z
         or playercontroller.remote_vector.y ~= 1
     then
@@ -360,7 +360,8 @@ local function RemoteDirectWalking(self, playercontroller, x, z)
 end
 
 local function RemoteDragWalking(self, playercontroller, x, z)
-    if playercontroller.remote_vector.x ~= x
+    if
+        playercontroller.remote_vector.x ~= x
         or playercontroller.remote_vector.z ~= z
         or playercontroller.remote_vector.y ~= 2
     then
@@ -466,15 +467,11 @@ local function RemoteMakeRecipeFromMenu(self, playercontroller, recipe, skin)
         params = { "RPC.MakeRecipeFromMenu", recipe.rpc_id, skin_idx }
     elseif playercontroller:CanLocomote() then
         params = { "RPC.MakeRecipeFromMenu", recipe.rpc_id, skin_idx }
-        DebugRemoteBufferedActionPreview(self, playercontroller, BufferedAction(
-            playercontroller.inst,
-            nil,
-            ACTIONS.BUILD,
-            nil,
-            nil,
-            recipe.name,
-            1
-        ))
+        DebugRemoteBufferedActionPreview(
+            self,
+            playercontroller,
+            BufferedAction(playercontroller.inst, nil, ACTIONS.BUILD, nil, nil, recipe.name, 1)
+        )
     end
 
     DebugRemoteSendRPCToServer(self, params)
@@ -482,10 +479,10 @@ end
 
 local function RemotePredictWalking(self, playercontroller, x, z)
     local y = playercontroller.directwalking and 3 or 4
-    if playercontroller.remote_vector.x ~= x
+    if
+        playercontroller.remote_vector.x ~= x
         or playercontroller.remote_vector.z ~= z
-        or (playercontroller.remote_vector.y ~= y
-        and playercontroller.remote_vector.y ~= 0)
+        or (playercontroller.remote_vector.y ~= y and playercontroller.remote_vector.y ~= 0)
     then
         local platform, px, pz = playercontroller:GetPlatformRelativePosition(x, z)
         DebugRemoteSendRPCToServer(self, {
@@ -521,7 +518,8 @@ local function RemoteUseItemFromInvTile(self, playercontroller, act, item)
             control_mods,
             ActionModName(act),
         }
-    elseif act.action ~= ACTIONS.WALKTO
+    elseif
+        act.action ~= ACTIONS.WALKTO
         and playercontroller:CanLocomote()
         and not playercontroller:IsBusy()
     then

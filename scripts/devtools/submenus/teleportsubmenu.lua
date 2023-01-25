@@ -13,9 +13,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Submenu = require "devtools/menu/submenu"
+local Submenu = require("devtools/menu/submenu")
 
 --- Lifecycle
 -- @section lifecycle
@@ -78,7 +78,7 @@ end
 function TeleportSubmenu:AddTeleportOptions()
     if not self.world:IsCave() then
         local livingtree = IsSpecialEventActive(SPECIAL_EVENTS.HALLOWED_NIGHTS)
-            and "livingtree_halloween"
+                and "livingtree_halloween"
             or "livingtree"
 
         self:AddGoNextOption("Antlion Nest", "antlion_spawner")

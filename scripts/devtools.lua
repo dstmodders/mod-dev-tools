@@ -33,18 +33,18 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
-require "consolecommands"
-require "devtools/constants"
+require("class")
+require("consolecommands")
+require("devtools/constants")
 
-local API = require "devtools/api"
-local Config = require "devtools/config"
-local Data = require "devtools/data"
-local Labels = require "devtools/labels"
-local PlayerDevTools = require "devtools/devtools/playerdevtools"
-local Submenu = require "devtools/menu/submenu"
-local Utils = require "devtools/utils"
-local WorldDevTools = require "devtools/devtools/worlddevtools"
+local API = require("devtools/api")
+local Config = require("devtools/config")
+local Data = require("devtools/data")
+local Labels = require("devtools/labels")
+local PlayerDevTools = require("devtools/devtools/playerdevtools")
+local Submenu = require("devtools/menu/submenu")
+local Utils = require("devtools/utils")
+local WorldDevTools = require("devtools/devtools/worlddevtools")
 
 --- Lifecycle
 -- @section lifecycle

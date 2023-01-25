@@ -30,17 +30,17 @@
 ----
 local Utils = {}
 
-Utils.Chain = require "devtools/utils/chain"
-Utils.Constant = require "devtools/utils/constant"
-Utils.Debug = require "devtools/utils/debug"
-Utils.Dump = require "devtools/utils/dump"
-Utils.Entity = require "devtools/utils/entity"
-Utils.Methods = require "devtools/utils/methods"
-Utils.Modmain = require "devtools/utils/modmain"
-Utils.RPC = require "devtools/utils/rpc"
-Utils.String = require "devtools/utils/string"
-Utils.Table = require "devtools/utils/table"
-Utils.Thread = require "devtools/utils/thread"
+Utils.Chain = require("devtools/utils/chain")
+Utils.Constant = require("devtools/utils/constant")
+Utils.Debug = require("devtools/utils/debug")
+Utils.Dump = require("devtools/utils/dump")
+Utils.Entity = require("devtools/utils/entity")
+Utils.Methods = require("devtools/utils/methods")
+Utils.Modmain = require("devtools/utils/modmain")
+Utils.RPC = require("devtools/utils/rpc")
+Utils.String = require("devtools/utils/string")
+Utils.Table = require("devtools/utils/table")
+Utils.Thread = require("devtools/utils/thread")
 
 --- Assets if the required field is not missing.
 -- @tparam string name

@@ -1,13 +1,13 @@
-require "busted.runner"()
-require "class"
-require "devtools/utils"
+require("busted.runner")()
+require("class")
+require("devtools/utils")
 
 describe("Utils.Entity", function()
     -- before_each initialization
     local Methods
 
     before_each(function()
-        Methods = require "devtools/utils/methods"
+        Methods = require("devtools/utils/methods")
     end)
 
     describe("AddMethodsToAnotherClass", function()
@@ -15,8 +15,7 @@ describe("Utils.Entity", function()
         local src, dest
 
         setup(function()
-            TestClassDestination = Class(function()
-            end)
+            TestClassDestination = Class(function() end)
 
             TestClassSource = Class(function(self)
                 self.test = true

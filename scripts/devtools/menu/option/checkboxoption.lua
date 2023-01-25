@@ -34,9 +34,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Option = require "devtools/menu/option/option"
+local Option = require("devtools/menu/option/option")
 
 --- Lifecycle
 -- @section lifecycle
@@ -85,21 +85,22 @@ end
 -- @treturn string
 function CheckboxOption:__tostring()
     local label = Option.__tostring(self)
-    local value = self.on_get_fn
-        and (self.on_get_fn(self, self.submenu) and "true" or "false")
+    local value = self.on_get_fn and (self.on_get_fn(self, self.submenu) and "true" or "false")
         or tostring(self.current)
 
     if type(self.label) == "table" and self.label.left then
         local spaces = value == "true" and "   " or "  "
         local prefix = self.label.prefix
-        return prefix and string.len(prefix) > 0
-            and string.format("%s%s    [ %s ]", prefix, label, value)
+        return prefix
+                and string.len(prefix) > 0
+                and string.format("%s%s    [ %s ]", prefix, label, value)
             or string.format("[ %s ]%s%s", value, spaces, label)
     end
 
     local prefix = type(self.label) == "table" and self.label.prefix
-    return prefix and string.len(prefix) > 0
-        and string.format("%s%s    [ %s ]", prefix, label, value)
+    return prefix
+            and string.len(prefix) > 0
+            and string.format("%s%s    [ %s ]", prefix, label, value)
         or string.format("%s    [ %s ]", label, value)
 end
 

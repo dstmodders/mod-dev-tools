@@ -14,7 +14,7 @@
 ----
 local Console = {}
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
 local _EMOTE_THREAD
 
@@ -166,7 +166,8 @@ end
 -- @usage d_emote("yawn", 10, 1) -- spam 10 "yawn" emotes every 1 second
 -- @usage d_emote("toast", 10, 1.1, "pose") -- spam both "toast" and "pose" emotes 10 times
 function d_emote(emote, num, pause, sec)
-    if IsRequiredParameterMissing("emote", emote, 1)
+    if
+        IsRequiredParameterMissing("emote", emote, 1)
         or IsInvalidParameterType(emote, "string", "emote", 1)
     then
         return
@@ -185,7 +186,7 @@ function d_emote(emote, num, pause, sec)
     end
 
     num = num ~= nil and num or 1
-    pause = pause ~= nil and pause or .5
+    pause = pause ~= nil and pause or 0.5
 
     _EMOTE_THREAD = StartThread(function()
         for _ = 1, num do
@@ -500,12 +501,8 @@ end
 
 local function SortByTypeAndValue(a, b)
     local a_type, b_type = type(a), type(b)
-    return a_type < b_type or (
-        a_type ~= "table"
-            and b_type ~= "table"
-            and a_type == b_type
-            and a < b
-    )
+    return a_type < b_type
+        or (a_type ~= "table" and b_type ~= "table" and a_type == b_type and a < b)
 end
 
 --- Dumps table.

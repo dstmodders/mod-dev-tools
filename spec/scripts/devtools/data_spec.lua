@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("Data", function()
     -- setup match
@@ -21,7 +21,7 @@ describe("Data", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyTerm()
@@ -80,7 +80,7 @@ describe("Data", function()
         -- initialization
         DebugSpyTerm()
         DebugSpyInit(spy)
-        Data = require "devtools/data"
+        Data = require("devtools/data")
         data = Data(modname)
 
         DebugSpyClear()
@@ -90,7 +90,7 @@ describe("Data", function()
 
     insulate("initialization", function()
         before_each(function()
-            Data = require "devtools/data"
+            Data = require("devtools/data")
         end)
 
         local function AssertDefaults(self)
@@ -244,7 +244,7 @@ describe("Data", function()
                         DebugSpyAssertWasCalled("DebugString", 1, {
                             "[data]",
                             "[save]",
-                            "Saved (Test)"
+                            "Saved (Test)",
                         })
                     end)
                 end)
@@ -255,7 +255,7 @@ describe("Data", function()
                         DebugSpyAssertWasCalled("DebugString", 1, {
                             "[data]",
                             "[save]",
-                            "Saved"
+                            "Saved",
                         })
                     end)
                 end)
@@ -274,12 +274,9 @@ describe("Data", function()
                 it("should call the SavePersistentString()", function()
                     data:Save()
                     assert.spy(SavePersistentString).was_called(1)
-                    assert.spy(SavePersistentString).was_called_with(
-                        data:GetSaveName(),
-                        nil,
-                        ENCODE_SAVES,
-                        nil
-                    )
+                    assert
+                        .spy(SavePersistentString)
+                        .was_called_with(data:GetSaveName(), nil, ENCODE_SAVES, nil)
                 end)
 
                 it("should call the callback if passed with true", function()
@@ -326,12 +323,9 @@ describe("Data", function()
             it("should call the TheSim:GetPersistentString()", function()
                 data:Load()
                 assert.spy(GetPersistentString).was_called(1)
-                assert.spy(GetPersistentString).was_called_with(
-                    match.is_ref(TheSim),
-                    data:GetSaveName(),
-                    match.is_function(),
-                    false
-                )
+                assert
+                    .spy(GetPersistentString)
+                    .was_called_with(match.is_ref(TheSim), data:GetSaveName(), match.is_function(), false)
             end)
         end)
 
@@ -405,11 +399,9 @@ describe("Data", function()
                 it("should call the TrackedAssert()", function()
                     data:OnLoad(str)
                     assert.spy(TrackedAssert).was_called(1)
-                    assert.spy(TrackedAssert).was_called_with(
-                        "TheSim:GetPersistentString " .. data.name,
-                        match.is_ref(json.decode),
-                        str
-                    )
+                    assert
+                        .spy(TrackedAssert)
+                        .was_called_with("TheSim:GetPersistentString " .. data.name, match.is_ref(json.decode), str)
                 end)
 
                 it("should set the dirty field to false", function()

@@ -13,9 +13,9 @@ local require = _G.require
 
 _G.MOD_DEV_TOOLS_TEST = false
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
-require "devtools/console"
+require("devtools/console")
 
 --- Globals
 -- @section globals
@@ -87,7 +87,7 @@ devtools:SetConfig("key_switch_data", GetKeyFromConfig("key_switch_data"))
 
 local DevToolsScreen -- not an instance
 
-DevToolsScreen = require "screens/devtoolsscreen"
+DevToolsScreen = require("screens/devtoolsscreen")
 DevToolsScreen:DoInit(devtools)
 
 --- Mod warning override
@@ -197,59 +197,68 @@ local function AddConsoleScreenPostInit(self)
     self.console_edit:AddWordPredictionDictionary({
         words = { "vTools" },
         delim = "De",
-        num_chars = 0
+        num_chars = 0,
     })
 
-    self.console_edit:AddWordPredictionDictionary({ words = {
-        "mptable",
-    }, delim = "du", num_chars = 2 })
+    self.console_edit:AddWordPredictionDictionary({
+        words = {
+            "mptable",
+        },
+        delim = "du",
+        num_chars = 2,
+    })
 
-    self.console_edit:AddWordPredictionDictionary({ words = {
-        -- general
-        "decodefile",
-        "decodesavedata",
-        "doaction",
-        "emote",
-        "emotepose",
-        "emotestop",
-        "findinventoryitem",
-        "findinventoryitems",
-        "gettags",
-        "say",
-        "says",
+    self.console_edit:AddWordPredictionDictionary({
+        words = {
+            -- general
+            "decodefile",
+            "decodesavedata",
+            "doaction",
+            "emote",
+            "emotepose",
+            "emotestop",
+            "findinventoryitem",
+            "findinventoryitems",
+            "gettags",
+            "say",
+            "says",
 
-        -- animstate
-        "getanim",
-        "getanimbank",
-        "getanimbuild",
+            -- animstate
+            "getanim",
+            "getanimbank",
+            "getanimbuild",
 
-        -- dump
-        "dumpcomponents",
-        "dumpeventlisteners",
-        "dumpfields",
-        "dumpfunctions",
-        "dumpreplicas",
-        "getcomponents",
-        "geteventlisteners",
-        "getfields",
-        "getfunctions",
-        "getreplicas",
+            -- dump
+            "dumpcomponents",
+            "dumpeventlisteners",
+            "dumpfields",
+            "dumpfunctions",
+            "dumpreplicas",
+            "getcomponents",
+            "geteventlisteners",
+            "getfields",
+            "getfunctions",
+            "getreplicas",
 
-        -- stategraph
-        "getsgname",
-        "getsgstate",
+            -- stategraph
+            "getsgname",
+            "getsgstate",
 
-        -- table
-        "tablecompare",
-        "tablecount",
-        "tablehasvalue",
-        "tablekeybyvalue",
-        "tablemerge",
-    }, delim = "d_", num_chars = 0 })
+            -- table
+            "tablecompare",
+            "tablecount",
+            "tablehasvalue",
+            "tablekeybyvalue",
+            "tablemerge",
+        },
+        delim = "d_",
+        num_chars = 0,
+    })
 
     local words = {}
     for k, v in pairs(devtools) do
-        if type(v) == "function"
+        if
+            type(v) == "function"
             and k ~= "is_a"
             and k ~= "_ctor"
             and not string.match(k, "^Debug")
@@ -292,7 +301,8 @@ AddComponentPostInit("playercontroller", function(playercontroller, player)
         if devtools then
             -- screen
             if DevToolsScreen then
-                if devtools:IsPaused()
+                if
+                    devtools:IsPaused()
                     and not DevToolsScreen:IsOpen()
                     and control == CONTROL_ACCEPT
                 then

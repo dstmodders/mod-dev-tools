@@ -13,10 +13,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Submenu = require "devtools/menu/submenu"
-local Utils = require "devtools/utils"
+local Submenu = require("devtools/menu/submenu")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -87,7 +87,7 @@ function CharacterRecipesSubmenu:AddRecipeSkinsOption(label, item, skins)
         skin_idx = Utils.Constant.GetSkinIndex(item, skin)
         table.insert(choices, {
             name = skin_name and skin_name or "Classic",
-            value = skin_idx and skin_idx or 0
+            value = skin_idx and skin_idx or 0,
         })
     end
 

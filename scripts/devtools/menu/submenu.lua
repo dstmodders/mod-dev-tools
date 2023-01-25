@@ -25,18 +25,18 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
-local ActionOption = require "devtools/menu/option/actionoption"
-local CheckboxOption = require "devtools/menu/option/checkboxoption"
-local ChoicesOption = require "devtools/menu/option/choicesoption"
-local DividerOption = require "devtools/menu/option/divideroption"
-local FontOption = require "devtools/menu/option/fontoption"
-local NumericOption = require "devtools/menu/option/numericoption"
-local SubmenuOption = require "devtools/menu/option/submenuoption"
-local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
+local ActionOption = require("devtools/menu/option/actionoption")
+local CheckboxOption = require("devtools/menu/option/checkboxoption")
+local ChoicesOption = require("devtools/menu/option/choicesoption")
+local DividerOption = require("devtools/menu/option/divideroption")
+local FontOption = require("devtools/menu/option/fontoption")
+local NumericOption = require("devtools/menu/option/numericoption")
+local SubmenuOption = require("devtools/menu/option/submenuoption")
+local ToggleCheckboxOption = require("devtools/menu/option/togglecheckboxoption")
 
 --- Lifecycle
 -- @section lifecycle
@@ -181,11 +181,12 @@ end
 --- Adds to root.
 function Submenu:AddToRoot(root, option)
     root = root ~= nil and root or self.root
-    option = option ~= nil and option or SubmenuOption({
-        label = self.label,
-        name = self.name,
-        options = self.options,
-    })
+    option = option ~= nil and option
+        or SubmenuOption({
+            label = self.label,
+            name = self.name,
+            options = self.options,
+        })
 
     if type(root) == "table" and type(self.on_add_to_root_fn) ~= "function" then
         table.insert(root, option)
@@ -284,14 +285,17 @@ function Submenu:AddToggleOption(label, get, set, idx, root)
         return
     end
 
-    table.insert(root, ToggleCheckboxOption({
-        label = label,
-        get = get,
-        set = set,
-        on_accept_fn = function()
-            return idx and self.screen:UpdateMenu(idx)
-        end,
-    }, self))
+    table.insert(
+        root,
+        ToggleCheckboxOption({
+            label = label,
+            get = get,
+            set = set,
+            on_accept_fn = function()
+                return idx and self.screen:UpdateMenu(idx)
+            end,
+        }, self)
+    )
 end
 
 --- Callbacks

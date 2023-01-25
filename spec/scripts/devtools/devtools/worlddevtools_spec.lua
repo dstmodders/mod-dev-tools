@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("WorldDevTools", function()
     -- setup
@@ -10,7 +10,7 @@ describe("WorldDevTools", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyTerm()
@@ -43,7 +43,7 @@ describe("WorldDevTools", function()
         devtools = MockDevTools()
         inst = MockWorldInst()
 
-        WorldDevTools = require "devtools/devtools/worlddevtools"
+        WorldDevTools = require("devtools/devtools/worlddevtools")
         worlddevtools = WorldDevTools(inst, devtools)
 
         WorldDevTools.StartPrecipitationThread = spy.new(Empty)
@@ -61,7 +61,7 @@ describe("WorldDevTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            WorldDevTools = require "devtools/devtools/worlddevtools"
+            WorldDevTools = require("devtools/devtools/worlddevtools")
         end)
 
         local function AssertDefaults(self)
@@ -464,7 +464,7 @@ describe("WorldDevTools", function()
             it("should debug string", function()
                 worlddevtools:Select()
                 DebugSpyAssertWasCalled("DebugString", 1, {
-                    "Selected TheWorld"
+                    "Selected TheWorld",
                 })
             end)
 
@@ -484,7 +484,7 @@ describe("WorldDevTools", function()
             it("should debug string", function()
                 worlddevtools:SelectNet()
                 DebugSpyAssertWasCalled("DebugString", 1, {
-                    "Selected TheWorld.net"
+                    "Selected TheWorld.net",
                 })
             end)
 
@@ -497,9 +497,8 @@ describe("WorldDevTools", function()
             local GetWorldEntityUnderMouse
 
             before_each(function()
-                GetWorldEntityUnderMouse = spy.new(
-                    ReturnValueFn({ GetDisplayName = ReturnValueFn("Test") })
-                )
+                GetWorldEntityUnderMouse =
+                    spy.new(ReturnValueFn({ GetDisplayName = ReturnValueFn("Test") }))
 
                 _G.TheInput.GetWorldEntityUnderMouse = GetWorldEntityUnderMouse
             end)
@@ -516,7 +515,7 @@ describe("WorldDevTools", function()
                     worlddevtools:SelectEntityUnderMouse()
                     DebugSpyAssertWasCalled("DebugString", 1, {
                         "Selected",
-                        "Test"
+                        "Test",
                     })
                 end)
 

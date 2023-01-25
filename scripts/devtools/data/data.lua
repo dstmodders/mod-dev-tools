@@ -18,9 +18,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -172,9 +172,10 @@ function Data:PushLine(name, value) -- luacheck: only
         value = Utils.String.TableSplit(value)
     end
 
-    table.insert(self.stack, (name and string.len(name) > 0)
-        and string.format("%s: %s", name, value)
-        or value)
+    table.insert(
+        self.stack,
+        (name and string.len(name) > 0) and string.format("%s: %s", name, value) or value
+    )
 end
 
 --- Other

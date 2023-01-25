@@ -1,6 +1,6 @@
-require "busted.runner"()
-require "class"
-require "devtools/utils"
+require("busted.runner")()
+require("class")
+require("devtools/utils")
 
 describe("Utils", function()
     -- setup
@@ -11,7 +11,7 @@ describe("Utils", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyTerm()
@@ -29,7 +29,7 @@ describe("Utils", function()
 
     before_each(function()
         -- initialization
-        Utils = require "devtools/utils"
+        Utils = require("devtools/utils")
 
         -- debug
         DebugSpyClear()
@@ -67,16 +67,16 @@ describe("Utils", function()
                 assert.spy(SendRemoteExecute).was_not_called()
                 Utils.ConsoleRemote('TheWorld:PushEvent("ms_setseason", "%s")', { "autumn" })
                 assert.spy(SendRemoteExecute).was_called(1)
-                assert.spy(SendRemoteExecute).was_called_with(
-                    match.is_ref(TheNet), 'TheWorld:PushEvent("ms_setseason", "autumn")', 1, 3
-                )
+                assert
+                    .spy(SendRemoteExecute)
+                    .was_called_with(match.is_ref(TheNet), 'TheWorld:PushEvent("ms_setseason", "autumn")', 1, 3)
             end)
 
             it("should add data correctly", function()
-                Utils.ConsoleRemote('%d, %0.2f, "%s"', { 1, .12345, "test" })
-                assert.spy(SendRemoteExecute).was_called_with(
-                    match.is_ref(TheNet), '1, 0.12, "test"', 1, 3
-                )
+                Utils.ConsoleRemote('%d, %0.2f, "%s"', { 1, 0.12345, "test" })
+                assert
+                    .spy(SendRemoteExecute)
+                    .was_called_with(match.is_ref(TheNet), '1, 0.12, "test"', 1, 3)
             end)
         end)
     end)

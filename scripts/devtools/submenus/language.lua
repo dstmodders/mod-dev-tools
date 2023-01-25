@@ -11,7 +11,7 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "devtools/constants"
+require("devtools/constants")
 
 return {
     label = "Language",
@@ -42,5 +42,5 @@ return {
             end
         end
         return t
-    end
+    end,
 }

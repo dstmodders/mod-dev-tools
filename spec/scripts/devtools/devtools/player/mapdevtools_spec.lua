@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("MapDevTools", function()
     -- before_each initialization
@@ -19,7 +19,7 @@ describe("MapDevTools", function()
         devtools = MockDevTools()
         playerdevtools = MockPlayerDevTools()
 
-        MapDevTools = require "devtools/devtools/player/mapdevtools"
+        MapDevTools = require("devtools/devtools/player/mapdevtools")
         mapdevtools = MapDevTools(playerdevtools, devtools)
 
         DebugSpyClear()
@@ -32,7 +32,7 @@ describe("MapDevTools", function()
             playerdevtools = MockPlayerDevTools()
 
             -- initialization
-            MapDevTools = require "devtools/devtools/player/mapdevtools"
+            MapDevTools = require("devtools/devtools/player/mapdevtools")
         end)
 
         local function AssertDefaults(self)
@@ -104,11 +104,11 @@ describe("MapDevTools", function()
                     mapdevtools:Reveal()
 
                     DebugSpyAssertWasCalled("DebugString", 2, {
-                        "Revealing map..."
+                        "Revealing map...",
                     })
 
                     DebugSpyAssertWasCalled("DebugString", 2, {
-                        "Map revealing has been completed"
+                        "Map revealing has been completed",
                     })
                 end)
 

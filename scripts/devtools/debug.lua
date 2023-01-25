@@ -12,11 +12,11 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Events = require "devtools/debug/events"
-local Globals = require "devtools/debug/globals"
-local PlayerController = require "devtools/debug/playercontroller"
+local Events = require("devtools/debug/events")
+local Globals = require("devtools/debug/globals")
+local PlayerController = require("devtools/debug/playercontroller")
 
 --- Lifecycle
 -- @section lifecycle
@@ -62,7 +62,8 @@ function Debug:ConcatParameters(t)
             elseif type(value) == "table" and value.GUID ~= nil then
                 -- Ent
                 value = self:EntsString(value)
-            elseif type(value) == "string"
+            elseif
+                type(value) == "string"
                 and value ~= "nil"
                 and value:sub(1, 7) ~= "ACTIONS"
                 and value:sub(1, 3) ~= "RPC"
@@ -74,10 +75,7 @@ function Debug:ConcatParameters(t)
             then
                 -- string
                 value = string.format('"%s"', tostring(value))
-            elseif value == nil
-                or type(value) == "boolean"
-                or type(value) == "number"
-            then
+            elseif value == nil or type(value) == "boolean" or type(value) == "number" then
                 -- simple
                 value = tostring(value)
             end

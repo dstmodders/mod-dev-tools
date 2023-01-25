@@ -29,10 +29,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local DevTools = require "devtools/devtools/devtools"
-local Utils = require "devtools/utils"
+local DevTools = require("devtools/devtools/devtools")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -156,7 +156,8 @@ end
 -- @section unfading
 
 local function OnPlayerFadeDirty(inst)
-    if inst
+    if
+        inst
         and inst._parent
         and inst._parent.HUD
         and type(inst.isfadein) == "userdata"

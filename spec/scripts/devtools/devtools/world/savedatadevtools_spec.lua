@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("SaveDataDevTools", function()
     -- initialization
@@ -26,7 +26,7 @@ describe("SaveDataDevTools", function()
         devtools = MockDevTools()
         worlddevtools = MockWorldDevTools()
 
-        SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
+        SaveDataDevTools = require("devtools/devtools/world/savedatadevtools")
         savedatadevtools = SaveDataDevTools(worlddevtools, devtools)
 
         DebugSpyClear()
@@ -38,7 +38,7 @@ describe("SaveDataDevTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            SaveDataDevTools = require "devtools/devtools/world/savedatadevtools"
+            SaveDataDevTools = require("devtools/devtools/world/savedatadevtools")
         end)
 
         local function AssertDefaults(self)

@@ -13,7 +13,7 @@
 ----
 local Entity = {}
 
-local Table = require "devtools/utils/table"
+local Table = require("devtools/utils/table")
 
 --- Returns an entity animation state bank.
 -- @see GetAnimStateBuild

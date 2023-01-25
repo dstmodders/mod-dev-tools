@@ -27,9 +27,9 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Option = require "devtools/menu/option/option"
+local Option = require("devtools/menu/option/option")
 
 --- Lifecycle
 -- @section lifecycle

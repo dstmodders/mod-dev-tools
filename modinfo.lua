@@ -1,16 +1,24 @@
 name = "Dev Tools"
 version = "0.7.0"
-description = [[Version: ]] .. version .. "\n\n" ..
-
-    [[An extendable mod, that simplifies the most common tasks for both developers and testers ]] ..
-    [[as an alternative to debugkeys.]] .. "\n\n" ..
-
-    [[v]] .. version .. [[:]] .. "\n" ..
-    [[- Added support for the dumped data sidebar]] .. "\n" ..
-    [[- Added support for the world state data sidebar]] .. "\n" ..
-    [[- Changed dump submenu]] .. "\n" ..
-    [[- Fixed issue with menu update when selecting player]] .. "\n" ..
-    [[- Refactored modinfo]]
+description = [[Version: ]]
+    .. version
+    .. "\n\n"
+    .. [[An extendable mod, that simplifies the most common tasks for both developers and testers ]]
+    .. [[as an alternative to debugkeys.]]
+    .. "\n\n"
+    .. [[v]]
+    .. version
+    .. [[:]]
+    .. "\n"
+    .. [[- Added support for the dumped data sidebar]]
+    .. "\n"
+    .. [[- Added support for the world state data sidebar]]
+    .. "\n"
+    .. [[- Changed dump submenu]]
+    .. "\n"
+    .. [[- Fixed issue with menu update when selecting player]]
+    .. "\n"
+    .. [[- Refactored modinfo]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
@@ -179,19 +187,9 @@ configuration_options = {
         "Key used for toggling the movement prediction"
     ),
 
-    AddKeyListConfig(
-        "key_pause",
-        "Pause key",
-        "Key used for pausing the game",
-        "KEY_P"
-    ),
+    AddKeyListConfig("key_pause", "Pause key", "Key used for pausing the game", "KEY_P"),
 
-    AddKeyListConfig(
-        "key_god_mode",
-        "God mode key",
-        "Key used for toggling god mode",
-        "KEY_G"
-    ),
+    AddKeyListConfig("key_god_mode", "God mode key", "Key used for toggling god mode", "KEY_G"),
 
     AddKeyListConfig(
         "key_teleport",
@@ -210,16 +208,18 @@ configuration_options = {
     AddKeyListConfig(
         "key_time_scale_increase",
         "Increase time scale key",
-        [[Key used to speed up the time scale.]] .. "\n" ..
-            [[Hold down the Shift key to scale up to the maximum]],
+        [[Key used to speed up the time scale.]]
+            .. "\n"
+            .. [[Hold down the Shift key to scale up to the maximum]],
         "KEY_PAGEUP"
     ),
 
     AddKeyListConfig(
         "key_time_scale_decrease",
         "Decrease time scale key",
-        [[Key used to slow down the time scale.]] .. "\n" ..
-            [[Hold down the Shift key to scale down to the minimum]],
+        [[Key used to slow down the time scale.]]
+            .. "\n"
+            .. [[Hold down the Shift key to scale down to the minimum]],
         "KEY_PAGEDOWN"
     ),
 
@@ -233,12 +233,13 @@ configuration_options = {
     AddConfig(
         "reset_combination",
         "Reset combination",
-        [[Key combination used for reloading all mods.]] .. "\n" ..
-            [[Will restart the game/server to the latest savepoint]],
+        [[Key combination used for reloading all mods.]]
+            .. "\n"
+            .. [[Will restart the game/server to the latest savepoint]],
         {
             { description = "Disabled", hover = "Reset will be completely disabled", data = false },
             { description = "Ctrl + R", data = "ctrl_r" },
-            { description = "Alt + R", data = "alt_r", },
+            { description = "Alt + R", data = "alt_r" },
             { description = "Shift + R", data = "shift_r" },
         },
         "ctrl_r"
@@ -407,15 +408,17 @@ configuration_options = {
     AddBooleanConfig(
         "default_forced_hud_visibility",
         "Default forced HUD visibility",
-        [[When enabled, forces HUD visibility when "playerhuddirty" event occurs.]] .. "\n" ..
-            [[Can be changed inside in-game menu]]
+        [[When enabled, forces HUD visibility when "playerhuddirty" event occurs.]]
+            .. "\n"
+            .. [[Can be changed inside in-game menu]]
     ),
 
     AddBooleanConfig(
         "default_forced_unfading",
         "Default forced unfading",
-        [[When enabled, forces unfading when "playerfadedirty" event occurs.]] .. "\n" ..
-            [[Can be changed inside in-game menu]]
+        [[When enabled, forces unfading when "playerfadedirty" event occurs.]]
+            .. "\n"
+            .. [[Can be changed inside in-game menu]]
     ),
 
     --
@@ -433,8 +436,9 @@ configuration_options = {
     AddBooleanConfig(
         "hide_changelog",
         "Hide changelog",
-        [[When enabled, hides the changelog in the mod description.]] .. "\n" ..
-            [[Mods should be reloaded to take effect]]
+        [[When enabled, hides the changelog in the mod description.]]
+            .. "\n"
+            .. [[Mods should be reloaded to take effect]]
     ),
 
     AddBooleanConfig(

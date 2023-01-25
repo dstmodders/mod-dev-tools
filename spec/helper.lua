@@ -47,8 +47,7 @@ function TableHasValue(t, value)
     return false
 end
 
-function Empty()
-end
+function Empty() end
 
 function ReturnValues(...)
     return ...
@@ -89,7 +88,7 @@ function DebugSpyInit(spy)
         "DebugTerm",
     }
 
-    _G.ModDevToolsDebug = require "devtools/debug"
+    _G.ModDevToolsDebug = require("devtools/debug")
     for _, method in pairs(methods) do
         if not _DEBUG_SPY[method] then
             _DEBUG_SPY[method] = spy.on(_G.ModDevToolsDebug, method)
@@ -127,12 +126,12 @@ function DebugSpy(name)
 end
 
 function DebugSpyAssert(name)
-    local assert = require "luassert.assert"
+    local assert = require("luassert.assert")
     return assert.spy(DebugSpy(name))
 end
 
 function DebugSpyAssertWasCalled(name, calls, args)
-    local match = require "luassert.match"
+    local match = require("luassert.match")
     calls = calls ~= nil and calls or 0
     args = args ~= nil and args or {}
     args = type(args) == "string" and { args } or args
@@ -281,10 +280,11 @@ end
 --
 
 function MockTheNet(client_table)
-    client_table = client_table ~= nil and client_table or {
-        { userid = "KU_admin", admin = true },
-        { userid = "KU_one", admin = false },
-    }
+    client_table = client_table ~= nil and client_table
+        or {
+            { userid = "KU_admin", admin = true },
+            { userid = "KU_one", admin = false },
+        }
 
     return require("busted").mock({
         GetClientTable = function()
@@ -466,7 +466,7 @@ function MockWorldDevTools()
         GetStatePhase = ReturnValueFn("day"),
         GetStatePrecipitationRate = ReturnValueFn(1.5),
         GetStateSeason = ReturnValueFn("autumn"),
-        GetStateSnowLevel = ReturnValueFn(.5),
+        GetStateSnowLevel = ReturnValueFn(0.5),
         GetStateTemperature = ReturnValueFn(20),
         GetStateWetness = ReturnValueFn(50),
         GetTimeUntilPhase = ReturnValueFn(60),

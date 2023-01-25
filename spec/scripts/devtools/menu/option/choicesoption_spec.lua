@@ -1,6 +1,6 @@
-require "busted.runner"()
+require("busted.runner")()
 
-local Helper = require "spec/scripts/devtools/menu/option/helper"
+local Helper = require("spec/scripts/devtools/menu/option/helper")
 
 describe("CheckboxOption", function()
     -- before_each initialization
@@ -18,7 +18,7 @@ describe("CheckboxOption", function()
             on_set_fn = spy.new(Empty),
         }
 
-        ChoicesOption = require "devtools/menu/option/choicesoption"
+        ChoicesOption = require("devtools/menu/option/choicesoption")
         choicesoption = ChoicesOption(options)
     end)
 

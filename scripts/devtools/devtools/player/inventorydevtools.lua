@@ -23,10 +23,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local DevTools = require "devtools/devtools/devtools"
-local Utils = require "devtools/utils"
+local DevTools = require("devtools/devtools/devtools")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -114,7 +114,8 @@ end
 function InventoryDevTools:GetInventoryEdible()
     local items = self.inventory:GetItems()
     for slot, item in pairs(items) do
-        if item:HasTag("cookable")
+        if
+            item:HasTag("cookable")
             or item:HasTag("edible_MEAT")
             or item:HasTag("edible_VEGGIE")
         then
@@ -132,9 +133,11 @@ function InventoryDevTools:EquipActiveItem(the_net)
         return false
     end
 
-    local _SendRPCToServer = the_net and function(...)
-        return TheNet:SendRPCToServer(...)
-    end or SendRPCToServer
+    local _SendRPCToServer = the_net
+            and function(...)
+                return TheNet:SendRPCToServer(...)
+            end
+        or SendRPCToServer
 
     if item:HasTag("_equippable") then
         if Utils.Chain.Get(item, "replica", "equippable", "EquipSlot", true) then
@@ -146,7 +149,7 @@ function InventoryDevTools:EquipActiveItem(the_net)
         self:DebugError(
             self:GetFnFullName("EquipActiveItem") .. ":",
             "not equippable",
-            "(" ..  Utils.Constant.GetStringName(item.prefab) .. ")"
+            "(" .. Utils.Constant.GetStringName(item.prefab) .. ")"
         )
     end
 

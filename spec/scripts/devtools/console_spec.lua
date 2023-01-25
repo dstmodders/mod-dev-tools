@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("Console", function()
     -- setup
@@ -21,7 +21,7 @@ describe("Console", function()
 
     before_each(function()
         -- initialization
-        DevToolsConsole = require "devtools/console"
+        DevToolsConsole = require("devtools/console")
 
         print:clear()
     end)
@@ -64,9 +64,9 @@ describe("Console", function()
                             assert.spy(print).was_not_called()
                             IsRequiredParameterMissing("test", nil)
                             assert.spy(print).was_called(1)
-                            assert.spy(print).was_called_with(
-                                'Error: required parameter "test" not provided'
-                            )
+                            assert
+                                .spy(print)
+                                .was_called_with('Error: required parameter "test" not provided')
                         end)
 
                         it("should return false", function()
@@ -79,9 +79,9 @@ describe("Console", function()
                             assert.spy(print).was_not_called()
                             IsRequiredParameterMissing("test", nil, 1)
                             assert.spy(print).was_called(1)
-                            assert.spy(print).was_called_with(
-                                'Error: required #1 parameter "test" not provided'
-                            )
+                            assert
+                                .spy(print)
+                                .was_called_with('Error: required #1 parameter "test" not provided')
                         end)
 
                         it("should return false", function()

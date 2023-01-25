@@ -24,10 +24,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local DevTools = require "devtools/devtools/devtools"
-local Utils = require "devtools/utils"
+local DevTools = require("devtools/devtools/devtools")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -89,7 +89,8 @@ end
 --
 -- @treturn table Recipes
 function CraftingDevTools:GetCharacterRecipes()
-    if not self.inst
+    if
+        not self.inst
         or not self.inst.player_classified
         or not self.inst.player_classified.recipes
     then
@@ -119,14 +120,16 @@ function CraftingDevTools:GetLearnedRecipes()
     end
 
     if self.ismastersim then
-        if self.inst.components
+        if
+            self.inst.components
             and self.inst.components.builder
             and self.inst.components.builder.recipes
         then
             return self.inst.components.builder.recipes
         end
     else
-        if self.inst.replica.builder
+        if
+            self.inst.replica.builder
             and self.inst.replica.builder.classified
             and self.inst.replica.builder.classified.recipes
         then
@@ -315,8 +318,7 @@ function CraftingDevTools:UnlockCharacterRecipes()
         self:DebugString(
             "Already",
             #self.character_recipes,
-            (#self.character_recipes > 1 or #self.character_recipes == 0)
-                and "recipes are stored."
+            (#self.character_recipes > 1 or #self.character_recipes == 0) and "recipes are stored."
                 or "recipe is stored.",
             "Use CraftingDevTools:LockCharacterRecipes() before unlocking"
         )

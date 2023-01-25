@@ -60,8 +60,7 @@ function Debug.AddMethods(dest)
         end
     else
         for _, v in pairs(methods) do
-            dest[v] = function()
-            end
+            dest[v] = function() end
         end
     end
 end

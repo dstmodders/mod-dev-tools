@@ -13,10 +13,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Data = require "devtools/data/data"
-local Utils = require "devtools/utils"
+local Data = require("devtools/data/data")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle

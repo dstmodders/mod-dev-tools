@@ -1,7 +1,7 @@
-local assert = require 'busted'.assert
-local before_each = require 'busted'.before_each
-local describe = require 'busted'.describe
-local it = require 'busted'.it
+local assert = require("busted").assert
+local before_each = require("busted").before_each
+local describe = require("busted").describe
+local it = require("busted").it
 
 local function TestOptionAsserts(options_fn, init_fn, field, _type, is_optional)
     describe("when the options." .. field, function()

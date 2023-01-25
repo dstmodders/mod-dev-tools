@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("DevTools", function()
     -- initialization
@@ -18,7 +18,7 @@ describe("DevTools", function()
         -- initialization
         _devtools = MockDevTools()
 
-        DevTools = require "devtools/devtools/devtools"
+        DevTools = require("devtools/devtools/devtools")
         devtools = DevTools("Test", _devtools)
 
         DebugSpyClear()
@@ -30,7 +30,7 @@ describe("DevTools", function()
             _devtools = MockDevTools()
 
             -- initialization
-            DevTools = require "devtools/devtools/devtools"
+            DevTools = require("devtools/devtools/devtools")
         end)
 
         local function AssertDefaults(self)

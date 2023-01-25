@@ -11,7 +11,7 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "devtools/constants"
+require("devtools/constants")
 
 return {
     label = "Weather Control",
@@ -74,8 +74,9 @@ return {
                     return math.floor(submenu.world:GetStateMoisture())
                 end,
                 on_set_fn = function(_, submenu, value)
-                    submenu.console:DeltaMoisture(math.floor(value)
-                        - math.floor(submenu.world:GetStateMoisture()))
+                    submenu.console:DeltaMoisture(
+                        math.floor(value) - math.floor(submenu.world:GetStateMoisture())
+                    )
                     submenu:UpdateScreen(nil, true)
                 end,
             },
@@ -107,8 +108,9 @@ return {
                     return math.floor(submenu.world:GetStateWetness())
                 end,
                 on_set_fn = function(_, submenu, value)
-                    submenu.console:DeltaWetness(math.floor(value)
-                        - math.floor(submenu.world:GetStateWetness()))
+                    submenu.console:DeltaWetness(
+                        math.floor(value) - math.floor(submenu.world:GetStateWetness())
+                    )
                     submenu:UpdateScreen(nil, true)
                 end,
             },

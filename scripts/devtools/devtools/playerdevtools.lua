@@ -38,16 +38,16 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
-require "consolecommands"
+require("class")
+require("consolecommands")
 
-local ConsolePlayerDevTools = require "devtools/devtools/player/consoledevtools"
-local CraftingPlayerDevTools = require "devtools/devtools/player/craftingdevtools"
-local DevTools = require "devtools/devtools/devtools"
-local InventoryPlayerDevTools = require "devtools/devtools/player/inventorydevtools"
-local MapPlayerDevTools = require "devtools/devtools/player/mapdevtools"
-local Utils = require "devtools/utils"
-local VisionPlayerDevTools = require "devtools/devtools/player/visiondevtools"
+local ConsolePlayerDevTools = require("devtools/devtools/player/consoledevtools")
+local CraftingPlayerDevTools = require("devtools/devtools/player/craftingdevtools")
+local DevTools = require("devtools/devtools/devtools")
+local InventoryPlayerDevTools = require("devtools/devtools/player/inventorydevtools")
+local MapPlayerDevTools = require("devtools/devtools/player/mapdevtools")
+local Utils = require("devtools/utils")
+local VisionPlayerDevTools = require("devtools/devtools/player/visiondevtools")
 
 -- event listeners
 local OnWereModeDirty
@@ -215,8 +215,13 @@ end
 -- @treturn boolean
 function PlayerDevTools:IsOverWater(player)
     player = player ~= nil and player or self.inst
-    if player and player.Transform and player.Transform.GetWorldPosition
-        and self.world and self.world.inst and self.world.inst.Map
+    if
+        player
+        and player.Transform
+        and player.Transform.GetWorldPosition
+        and self.world
+        and self.world.inst
+        and self.world.inst.Map
     then
         local x, y, z = player.Transform:GetWorldPosition()
         return not self.world.inst.Map:IsVisualGroundAtPoint(x, y, z)
@@ -300,7 +305,8 @@ function PlayerDevTools:IsGodMode(player)
     player = player ~= nil and player or self:GetSelected()
 
     if self:IsAdmin() then
-        if player
+        if
+            player
             and player.components
             and player.components.health
             and player.components.health.invincible ~= nil
@@ -427,10 +433,12 @@ end
 --- Checks if Grue (Charlie) can attack the owner.
 -- @treturn boolean
 function PlayerDevTools:CanGrueAttack()
-    return not (self:IsGodMode()
+    return not (
+        self:IsGodMode()
         or self:IsInLight()
         or self.inventory:HasEquippedMoggles()
-        or self:IsGhost())
+        or self:IsGhost()
+    )
 end
 
 --- Movement Prediction

@@ -10,7 +10,7 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "devtools/constants"
+require("devtools/constants")
 
 --- Toggle data option.
 -- @function Toggle

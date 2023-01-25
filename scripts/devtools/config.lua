@@ -12,10 +12,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
-require "devtools/constants"
+require("class")
+require("devtools/constants")
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -45,7 +45,8 @@ end)
 function Config:Load()
     if self.data then
         self.data:GeneralGet("config", self, "values")
-        if self.values == nil
+        if
+            self.values == nil
             or (type(self.values) == "table" and Utils.Table.Count(self.values) == 0)
         then
             self.values = self.defaults

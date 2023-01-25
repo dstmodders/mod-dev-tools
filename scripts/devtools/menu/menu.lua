@@ -26,31 +26,31 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
-require "consolecommands"
+require("class")
+require("consolecommands")
 
-local TextMenu = require "devtools/menu/textmenu"
+local TextMenu = require("devtools/menu/textmenu")
 
 -- submenus
-local CharacterRecipesSubmenu = require "devtools/submenus/characterrecipessubmenu"
-local Debug = require "devtools/submenus/debug"
-local DevTools = require "devtools/submenus/devtools"
-local DumpSubmenu = require "devtools/submenus/dumpsubmenu"
-local Labels = require "devtools/submenus/labels"
-local Language = require "devtools/submenus/language"
-local Map = require "devtools/submenus/map"
-local PlayerBarsSubmenu = require "devtools/submenus/playerbarssubmenu"
-local PlayerVision = require "devtools/submenus/playervision"
-local SeasonControl = require "devtools/submenus/seasoncontrol"
-local SelectSubmenu = require "devtools/submenus/selectsubmenu"
-local TeleportSubmenu = require "devtools/submenus/teleportsubmenu"
-local TimeControl = require "devtools/submenus/timecontrol"
-local WeatherControl = require "devtools/submenus/weathercontrol"
+local CharacterRecipesSubmenu = require("devtools/submenus/characterrecipessubmenu")
+local Debug = require("devtools/submenus/debug")
+local DevTools = require("devtools/submenus/devtools")
+local DumpSubmenu = require("devtools/submenus/dumpsubmenu")
+local Labels = require("devtools/submenus/labels")
+local Language = require("devtools/submenus/language")
+local Map = require("devtools/submenus/map")
+local PlayerBarsSubmenu = require("devtools/submenus/playerbarssubmenu")
+local PlayerVision = require("devtools/submenus/playervision")
+local SeasonControl = require("devtools/submenus/seasoncontrol")
+local SelectSubmenu = require("devtools/submenus/selectsubmenu")
+local TeleportSubmenu = require("devtools/submenus/teleportsubmenu")
+local TimeControl = require("devtools/submenus/timecontrol")
+local WeatherControl = require("devtools/submenus/weathercontrol")
 
 -- options
-local DividerOption = require "devtools/menu/option/divideroption"
-local ActionOption = require "devtools/menu/option/actionoption"
-local ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
+local DividerOption = require("devtools/menu/option/divideroption")
+local ActionOption = require("devtools/menu/option/actionoption")
+local ToggleCheckboxOption = require("devtools/menu/option/togglecheckboxoption")
 
 --- Lifecycle
 -- @section lifecycle
@@ -120,25 +120,31 @@ function Menu:AddToggleOption(label, get, set, idx)
         return
     end
 
-    table.insert(self.options, ToggleCheckboxOption({
-        label = label,
-        get = get,
-        set = set,
-        on_accept_fn = function()
-            return idx and self.screen:UpdateMenu(idx)
-        end,
-    }))
+    table.insert(
+        self.options,
+        ToggleCheckboxOption({
+            label = label,
+            get = get,
+            set = set,
+            on_accept_fn = function()
+                return idx and self.screen:UpdateMenu(idx)
+            end,
+        })
+    )
 end
 
 --- Adds grab profile option.
 function Menu:AddGrabProfileOption()
-    table.insert(self.options, ActionOption({
-        label = "Grab Profile",
-        on_accept_fn = function()
-            TheSim:Profile()
-            self.screen:Close()
-        end,
-    }))
+    table.insert(
+        self.options,
+        ActionOption({
+            label = "Grab Profile",
+            on_accept_fn = function()
+                TheSim:Profile()
+                self.screen:Close()
+            end,
+        })
+    )
 end
 
 --- Menu
@@ -175,7 +181,7 @@ function Menu:AddSelectedPlayerSubmenus()
     if playerdevtools:IsAdmin() then
         local player = playerdevtools:GetSelected()
         local prefix = #devtools:GetAllPlayers() > 1
-            and string.format("[ %s ]  ", player:GetDisplayName())
+                and string.format("[ %s ]  ", player:GetDisplayName())
             or ""
 
         self:AddToggleOption(

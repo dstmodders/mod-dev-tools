@@ -12,10 +12,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
-require "devtools/constants"
+require("class")
+require("devtools/constants")
 
-local Utils = require "devtools/utils"
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle

@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("VisionDevTools", function()
     -- setup
@@ -11,7 +11,7 @@ describe("VisionDevTools", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyTerm()
@@ -43,7 +43,7 @@ describe("VisionDevTools", function()
         playerdevtools = MockPlayerDevTools()
         playerdevtools.vision = nil
 
-        VisionDevTools = require "devtools/devtools/player/visiondevtools"
+        VisionDevTools = require("devtools/devtools/player/visiondevtools")
         visiondevtools = VisionDevTools(playerdevtools, devtools)
 
         DebugSpyClear()
@@ -57,7 +57,7 @@ describe("VisionDevTools", function()
             playerdevtools.vision = nil
 
             -- initialization
-            VisionDevTools = require "devtools/devtools/player/visiondevtools"
+            VisionDevTools = require("devtools/devtools/player/visiondevtools")
         end)
 
         local function AssertDefaults(self)
@@ -172,25 +172,15 @@ describe("VisionDevTools", function()
                 end)
 
                 it("should return the colour cubes table", function()
-                    assert.is_equal(
-                        NIGHTVISION_COLOUR_CUBES,
-                        visiondevtools:GetPlayerVisionCCT()
-                    )
+                    assert.is_equal(NIGHTVISION_COLOUR_CUBES, visiondevtools:GetPlayerVisionCCT())
                 end)
             end)
 
             describe("when some chain fields are missing", function()
                 it("should return nil", function()
-                    AssertChainNil(
-                        function()
-                            assert.is_nil(visiondevtools:GetPlayerVisionCCT())
-                        end,
-                        visiondevtools,
-                        "inst",
-                        "components",
-                        "playervision",
-                        "currentcctable"
-                    )
+                    AssertChainNil(function()
+                        assert.is_nil(visiondevtools:GetPlayerVisionCCT())
+                    end, visiondevtools, "inst", "components", "playervision", "currentcctable")
                 end)
             end)
         end)
@@ -207,17 +197,13 @@ describe("VisionDevTools", function()
                     assert.spy(PushEvent).was_not_called()
                     visiondevtools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
                     assert.spy(PushEvent).was_called(1)
-                    assert.spy(PushEvent).was_called_with(
-                        match.is_ref(playervision.inst),
-                        "ccoverrides",
-                        NIGHTVISION_COLOUR_CUBES
-                    )
+                    assert
+                        .spy(PushEvent)
+                        .was_called_with(match.is_ref(playervision.inst), "ccoverrides", NIGHTVISION_COLOUR_CUBES)
                 end)
 
                 it("should return true", function()
-                    assert.is_true(
-                        visiondevtools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES)
-                    )
+                    assert.is_true(visiondevtools:UpdatePlayerVisionCCT(NIGHTVISION_COLOUR_CUBES))
                 end)
             end)
 

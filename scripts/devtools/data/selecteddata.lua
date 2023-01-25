@@ -13,10 +13,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
+require("class")
 
-local Data = require "devtools/data/data"
-local Utils = require "devtools/utils"
+local Data = require("devtools/data/data")
+local Utils = require("devtools/utils")
 
 --- Lifecycle
 -- @section lifecycle
@@ -112,9 +112,8 @@ function SelectedData:PushPlayerData()
     if playerdevtools:IsOwner(player) or playerdevtools:IsReal(player) == false then
         if devtools.inst == player or (devtools.ismastersim or playerdevtools:IsAdmin()) then
             local health = Utils.String.ValuePercent(playerdevtools:GetHealthPercent(player) or 0)
-            local health_max = Utils.String.ValuePercent(
-                playerdevtools:GetMaxHealthPercent(player) or 0
-            )
+            local health_max =
+                Utils.String.ValuePercent(playerdevtools:GetMaxHealthPercent(player) or 0)
 
             self:PushLine("Health / Maximum", { health, health_max })
 

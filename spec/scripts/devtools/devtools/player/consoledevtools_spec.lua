@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("ConsoleDevTools", function()
     -- setup
@@ -13,7 +13,7 @@ describe("ConsoleDevTools", function()
     local DebugError, DebugErrorNotAdmin, DebugErrorNotInCave, DebugErrorNotInForest
 
     setup(function()
-        match = require "luassert.match"
+        match = require("luassert.match")
     end)
 
     teardown(function()
@@ -39,7 +39,7 @@ describe("ConsoleDevTools", function()
         _G.TheSim = MockTheSim()
 
         -- initialization
-        ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
+        ConsoleDevTools = require("devtools/devtools/player/consoledevtools")
         consoledevtools = ConsoleDevTools(playerdevtools, devtools)
 
         -- debug
@@ -58,7 +58,7 @@ describe("ConsoleDevTools", function()
             playerdevtools = MockPlayerDevTools()
 
             -- initialization
-            ConsoleDevTools = require "devtools/devtools/player/consoledevtools"
+            ConsoleDevTools = require("devtools/devtools/player/consoledevtools")
         end)
 
         local function AssertDefaults(self)
@@ -130,7 +130,7 @@ describe("ConsoleDevTools", function()
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
-                    { 'c_sethealth(%0.2f)', { .4 } },
+                    { "c_sethealth(%0.2f)", { 0.4 } },
                     { "Health:", "40%" },
                 },
             },
@@ -139,7 +139,7 @@ describe("ConsoleDevTools", function()
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
-                    { 'c_sethunger(%0.2f)', { .4 } },
+                    { "c_sethunger(%0.2f)", { 0.4 } },
                     { "Hunger:", "40%" },
                 },
             },
@@ -148,7 +148,7 @@ describe("ConsoleDevTools", function()
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
-                    { 'c_setsanity(%0.2f)', { .4 } },
+                    { "c_setsanity(%0.2f)", { 0.4 } },
                     { "Sanity:", "40%" },
                 },
             },
@@ -157,7 +157,7 @@ describe("ConsoleDevTools", function()
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
-                    { 'ConsoleCommandPlayer().components.health:SetPenalty(%0.2f)', { .6 } },
+                    { "ConsoleCommandPlayer().components.health:SetPenalty(%0.2f)", { 0.6 } },
                     { "Maximum Health:", "40%" },
                 },
             },
@@ -166,7 +166,7 @@ describe("ConsoleDevTools", function()
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
-                    { 'c_setmoisture(%0.2f)', { .4 } },
+                    { "c_setmoisture(%0.2f)", { 0.4 } },
                     { "Moisture:", "40%" },
                 },
             },
@@ -175,7 +175,7 @@ describe("ConsoleDevTools", function()
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
-                    { 'c_settemperature(%0.2f)', { 40 } },
+                    { "c_settemperature(%0.2f)", { 40 } },
                     { "Temperature:", "40" },
                 },
             },
@@ -184,7 +184,7 @@ describe("ConsoleDevTools", function()
                 invalid = { 1000, "1000" },
                 valid = {
                     40,
-                    { 'ConsoleCommandPlayer().components.wereness:SetPercent(%0.2f)', { 40 } },
+                    { "ConsoleCommandPlayer().components.wereness:SetPercent(%0.2f)", { 40 } },
                     { "Wereness:", "40" },
                 },
             },
@@ -274,8 +274,8 @@ describe("ConsoleDevTools", function()
                 world = "forest",
                 invalid = { "test", "test" },
                 valid = {
-                    .5,
-                    { 'TheWorld:PushEvent("ms_setsnowlevel", %0.2f)', { .5 } },
+                    0.5,
+                    { 'TheWorld:PushEvent("ms_setsnowlevel", %0.2f)', { 0.5 } },
                     { "ConsoleDevTools:SetSnowLevel():", "0.5" },
                 },
             },
@@ -302,10 +302,7 @@ describe("ConsoleDevTools", function()
                     end)
 
                     it("should return false", function()
-                        assert.is_false(
-                            consoledevtools[remote](consoledevtools),
-                            remote
-                        )
+                        assert.is_false(consoledevtools[remote](consoledevtools), remote)
                     end)
                 end)
 
@@ -318,8 +315,7 @@ describe("ConsoleDevTools", function()
 
                             before_each(function()
                                 consoledevtools.worlddevtools.IsCave = ReturnValueFn(true)
-                                debug_error_fn = world == "forest"
-                                    and DebugErrorNotInForest
+                                debug_error_fn = world == "forest" and DebugErrorNotInForest
                                     or DebugErrorNotInCave
                             end)
 
@@ -334,10 +330,7 @@ describe("ConsoleDevTools", function()
                             end)
 
                             it("should return false", function()
-                                assert.is_false(
-                                    consoledevtools[remote](consoledevtools),
-                                    remote
-                                )
+                                assert.is_false(consoledevtools[remote](consoledevtools), remote)
                             end)
                         end)
                     end
@@ -357,7 +350,7 @@ describe("ConsoleDevTools", function()
                             end
 
                             debug_fn = data.debug_fn == "DebugSelectedPlayerString"
-                                and DebugSelectedPlayerString
+                                    and DebugSelectedPlayerString
                                 or DebugString
                         end)
 
@@ -372,10 +365,9 @@ describe("ConsoleDevTools", function()
                             assert.spy(debug_fn, remote).was_not_called()
                             consoledevtools[remote](consoledevtools, unpack(value))
                             assert.spy(debug_fn, remote).was_called(1)
-                            assert.spy(debug_fn, remote).was_called_with(
-                                match.is_ref(consoledevtools),
-                                unpack(debug)
-                            )
+                            assert
+                                .spy(debug_fn, remote)
+                                .was_called_with(match.is_ref(consoledevtools), unpack(debug))
                         end)
 
                         it("should return true", function()
@@ -397,19 +389,13 @@ describe("ConsoleDevTools", function()
                                 assert.spy(DebugError, remote).was_called(1)
                                 assert.spy(DebugError, remote).was_called_with(
                                     match.is_ref(consoledevtools),
-                                    string.format(
-                                        "ConsoleDevTools:%s(): invalid value",
-                                        remote
-                                    ),
+                                    string.format("ConsoleDevTools:%s(): invalid value", remote),
                                     string.format("(%s)", error)
                                 )
                             end)
 
                             it("should return false", function()
-                                assert.is_false(
-                                    consoledevtools[remote](consoledevtools),
-                                    remote
-                                )
+                                assert.is_false(consoledevtools[remote](consoledevtools), remote)
                             end)
                         end)
                     end
@@ -427,10 +413,9 @@ describe("ConsoleDevTools", function()
                     assert.spy(DebugErrorNotInCave).was_not_called()
                     consoledevtools:MiniQuake()
                     assert.spy(DebugErrorNotInCave).was_called(1)
-                    assert.spy(DebugErrorNotInCave).was_called_with(
-                        match.is_ref(consoledevtools),
-                        "ConsoleDevTools:MiniQuake()"
-                    )
+                    assert
+                        .spy(DebugErrorNotInCave)
+                        .was_called_with(match.is_ref(consoledevtools), "ConsoleDevTools:MiniQuake()")
                 end)
 
                 it("should return false", function()
@@ -452,10 +437,9 @@ describe("ConsoleDevTools", function()
                         assert.spy(DebugErrorNotAdmin).was_not_called()
                         consoledevtools:MiniQuake()
                         assert.spy(DebugErrorNotAdmin).was_called(1)
-                        assert.spy(DebugErrorNotAdmin).was_called_with(
-                            match.is_ref(consoledevtools),
-                            "ConsoleDevTools:MiniQuake()"
-                        )
+                        assert
+                            .spy(DebugErrorNotAdmin)
+                            .was_called_with(match.is_ref(consoledevtools), "ConsoleDevTools:MiniQuake()")
                     end)
 
                     it("should return false", function()
@@ -508,9 +492,7 @@ describe("ConsoleDevTools", function()
                         end)
 
                         it("should return false", function()
-                            assert.is_false(
-                                consoledevtools:MiniQuake(1, "test", "test", "test")
-                            )
+                            assert.is_false(consoledevtools:MiniQuake(1, "test", "test", "test"))
                         end)
                     end)
                 end)

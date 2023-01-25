@@ -24,10 +24,10 @@
 -- @license MIT
 -- @release 0.7.1
 ----
-require "class"
-require "consolecommands"
+require("class")
+require("consolecommands")
 
-local DevTools = require "devtools/devtools/devtools"
+local DevTools = require("devtools/devtools/devtools")
 
 -- general
 local _SAVEDATA
@@ -122,11 +122,7 @@ local function ValidateLoadFile(self, savedata)
                         name .. ".activehasslers"
                     )
 
-                    ValidateLoadField(
-                        self,
-                        beargerspawner.lastKillDay,
-                        name .. ".lastKillDay"
-                    )
+                    ValidateLoadField(self, beargerspawner.lastKillDay, name .. ".lastKillDay")
 
                     ValidateLoadField(self, beargerspawner.warning, name .. ".warning")
                 end
@@ -140,11 +136,7 @@ local function ValidateLoadFile(self, savedata)
                         name .. ".activehasslers"
                     )
 
-                    ValidateLoadField(
-                        self,
-                        deerclopsspawner.warning,
-                        name .. ".warning"
-                    )
+                    ValidateLoadField(self, deerclopsspawner.warning, name .. ".warning")
                 end
 
                 name = "map.persistdata.deerherdspawner"
@@ -167,11 +159,7 @@ local function ValidateLoadFile(self, savedata)
                 name = "map.persistdata.malbatrossspawner"
                 local malbatrossspawner = persistdata.malbatrossspawner
                 if ValidateLoadField(self, malbatrossspawner, name) then
-                    ValidateLoadField(
-                        self,
-                        malbatrossspawner._firstspawn,
-                        name .. "._firstspawn"
-                    )
+                    ValidateLoadField(self, malbatrossspawner._firstspawn, name .. "._firstspawn")
 
                     ValidateLoadField(
                         self,
@@ -289,7 +277,8 @@ function SaveDataDevTools:GuessNrOfWalrusCamps()
     self.nr_of_walrus_camps = 0
     DebugStringStart(self, "Guessing the number of Walrus Camps...")
     for _, id in pairs(self.inst.topology.ids) do
-        if string.match(id, "WalrusHut_Grassy")
+        if
+            string.match(id, "WalrusHut_Grassy")
             or string.match(id, "WalrusHut_Plains")
             or string.match(id, "WalrusHut_Rocky")
         then

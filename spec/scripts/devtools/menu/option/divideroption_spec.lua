@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("DividerOption", function()
     -- before_each initialization
@@ -9,7 +9,7 @@ describe("DividerOption", function()
         -- initialization
         label = ""
 
-        DividerOption = require "devtools/menu/option/divideroption"
+        DividerOption = require("devtools/menu/option/divideroption")
         divideroption = DividerOption()
     end)
 
