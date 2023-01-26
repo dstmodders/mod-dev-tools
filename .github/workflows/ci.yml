@@ -39,6 +39,6 @@ jobs:
           slack: true
       - name: Upload coverage to Codecov
         if: ${{ !env.ACT && success() }}
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
