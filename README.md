@@ -1,9 +1,9 @@
 # mod-dev-tools
 
-[![CI][]](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
-[![Codecov][]](https://codecov.io/gh/dstmodders/mod-dev-tools)
+[![CI]](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
+[![Codecov]](https://codecov.io/gh/dstmodders/mod-dev-tools)
 
-[![Dev Tools](preview.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)
+[![Dev Tools]](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)
 
 ## Overview
 
@@ -43,28 +43,13 @@ was designed as an alternative to _debugkeys_.
 | **Hide changelog**                | _Enabled_        | When enabled, hides the changelog in the mod description |
 | **Debug**                         | _Disabled_       | When enabled, displays debug data in the console         |
 
-## Documentation
-
-The [LDoc][] documentation generator has been used for generating documentation,
-and the most recent version can be found here:
-http://github.victorpopkov.com/dst-mod-dev-tools/
-
-- [Installation](readme/01-installation.md)
-- [Development](readme/02-development.md)
-- [API](readme/03-api.md)
-- [Extending](readme/04-extending.md)
-
-## Roadmap
-
-You can always find and track the current states of the upcoming features/fixes
-on the following [Trello][] board: https://trello.com/b/3JtDZFJG
-
 ## License
 
 Released under the [MIT License](https://opensource.org/licenses/MIT).
 
 [ci]: https://img.shields.io/github/actions/workflow/status/dstmodders/mod-dev-tools/ci.yml?branch=no-sdk&label=ci
 [codecov]: https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools?token=i1KIj2t9iH
+[dev tools]: ./preview.png
 [don't starve together]: https://www.klei.com/games/dont-starve-together
 [ldoc]: https://stevedonovan.github.io/ldoc/
 [steam workshop]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
