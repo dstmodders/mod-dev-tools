@@ -1,5 +1,9 @@
 # mod-dev-tools
 
+> **NB!** Branch [no-sdk] is used solely for maintaining purposes before the
+> official [v1.0.0] release. It doesn't include all the latest features and/or
+> fixes. Consider switching to the [main] branch instead.
+
 [![CI]](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
 [![Codecov]](https://codecov.io/gh/dstmodders/mod-dev-tools)
 
@@ -52,5 +56,8 @@ Released under the [MIT License](https://opensource.org/licenses/MIT).
 [dev tools]: ./preview.png
 [don't starve together]: https://www.klei.com/games/dont-starve-together
 [ldoc]: https://stevedonovan.github.io/ldoc/
+[main]: https://github.com/dstmodders/mod-dev-tools
+[no-sdk]: https://github.com/dstmodders/mod-dev-tools/tree/no-sdk
 [steam workshop]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
 [trello]: https://trello.com/
+[v1.0.0]: https://github.com/dstmodders/mod-dev-tools/releases/tag/v1.0.0
