@@ -18,9 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v2
-        with:
-          submodules: true
+        uses: actions/checkout@v3
       - name: Lint
         uses: dstmodders/action@main
         with:
@@ -33,9 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v2
-        with:
-          submodules: true
+        uses: actions/checkout@v3
       - name: Test
         uses: dstmodders/action@main
         with:
