@@ -5,10 +5,16 @@ on:
     branches:
       - main
 
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: true
+permissions: read-all
+
 jobs:
   docs:
     environment: production
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Check out
         uses: actions/checkout@v3
