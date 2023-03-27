@@ -18,6 +18,10 @@ jobs:
         run: |
           echo "DOCKER_IMAGE=${{ secrets.DOCKER_REGISTRY_HOST }}/mod-dev-tools/docs" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
+      - name: Set docker outputs
+        id: docker
+        run: |
+          echo "cert-path=/home/runner/.docker/deploy" >> $GITHUB_OUTPUT
       - name: Generate documentation
         id: ldoc
         uses: dstmodders/action@main
@@ -63,7 +67,7 @@ jobs:
           chmod 400 "${DOCKER_CERT_PATH}/cert.pem"
           chmod 400 "${DOCKER_CERT_PATH}/key.pem"
         env:
-          DOCKER_CERT_PATH: /home/runner/.docker/deploy/
+          DOCKER_CERT_PATH: ${{ steps.docker.outputs.cert-path }}
       - name: Deploy Docker Stack
         working-directory: ./docs/
         run: |
@@ -75,7 +79,7 @@ jobs:
             --prune \
             "${{ secrets.DOCKER_STACK_NAME }}"
         env:
-          DOCKER_CERT_PATH: /home/runner/.docker/deploy/
+          DOCKER_CERT_PATH: ${{ steps.docker.outputs.cert-path }}
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
           DOCKER_STACK_NODE_HOSTNAME: ${{ secrets.DOCKER_STACK_NODE_HOSTNAME }}
           DOCKER_TLS_VERIFY: 1
