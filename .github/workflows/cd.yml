@@ -14,10 +14,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: true
-      - name: Set a job-wide environment variables
-        run: |
-          echo "DOCKER_IMAGE=${{ secrets.DOCKER_REGISTRY_HOST }}/mod-dev-tools/docs" >> $GITHUB_ENV
-          echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
       - name: Set docker outputs
         id: docker
         run: |
@@ -43,12 +39,12 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           flavor: latest=true
-          images: ${{ env.DOCKER_IMAGE }}
+          images: ${{ secrets.DOCKER_REGISTRY_HOST }}/mod-dev-tools/docs
           labels: maintainer=victor@popkov.me
       - name: Build an image
         uses: docker/build-push-action@v4
         with:
-          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_IMAGE_TAG }}
+          cache-from: type=registry,ref=${{ fromJSON(steps.meta.outputs.json).tags[0] }}
           cache-to: type=inline
           context: ./docs/
           file: ./docs/Dockerfile
@@ -81,6 +77,7 @@ jobs:
         env:
           DOCKER_CERT_PATH: ${{ steps.docker.outputs.cert-path }}
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
+          DOCKER_IMAGE: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
           DOCKER_STACK_NODE_HOSTNAME: ${{ secrets.DOCKER_STACK_NODE_HOSTNAME }}
           DOCKER_TLS_VERIFY: 1
           LOKI_PIPELINE_STAGE_FILE: ${{ secrets.LOKI_PIPELINE_STAGE_FILE }}
