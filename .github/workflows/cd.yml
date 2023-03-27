@@ -46,7 +46,7 @@ jobs:
         with:
           cache-from: type=registry,ref=${{ fromJSON(steps.meta.outputs.json).tags[0] }}
           cache-to: type=inline
-          context: ./docs/
+          context: .
           file: ./docs/Dockerfile
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm/v7
