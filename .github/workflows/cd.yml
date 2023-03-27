@@ -22,7 +22,7 @@ jobs:
           echo "GITHUB_JOB_NAME=docs" >> $GITHUB_ENV
       - name: Generate documentation
         id: ldoc
-        uses: dstmodders/github-action@main
+        uses: dstmodders/action@main
         with:
           ldoc: true
       - name: Set up QEMU
@@ -99,7 +99,7 @@ jobs:
           TRAEFIK_NAME: dstmodders-mod-dev-tools-docs
           TRAEFIK_PATH_PREFIX: /dev-tools/
       - name: Send Slack notification
-        uses: dstmodders/github-action@main
+        uses: dstmodders/action@main
         with:
           ignore-check-versions: true
           ignore-set-output: true

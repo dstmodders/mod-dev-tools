@@ -24,7 +24,7 @@ jobs:
         with:
           submodules: true
       - name: Lint
-        uses: dstmodders/github-action@main
+        uses: dstmodders/action@main
         with:
           luacheck: true
           prettier: true
@@ -39,7 +39,7 @@ jobs:
         with:
           submodules: true
       - name: Test
-        uses: dstmodders/github-action@main
+        uses: dstmodders/action@main
         with:
           busted: true
           slack: true
