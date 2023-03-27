@@ -44,7 +44,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          flavor: latest=true
+          flavor: latest=${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
           images: ${{ secrets.DOCKER_REGISTRY_HOST }}/mod-dev-tools/docs
           labels: maintainer=victor@popkov.me
       - name: Build an image
@@ -57,7 +57,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm/v7
           pull: true
-          push: ${{ github.ref == 'refs/heads/main' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
       - name: Add Docker certificates to access the remote host
         run: |
