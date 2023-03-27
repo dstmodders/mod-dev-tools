@@ -16,7 +16,7 @@ jobs:
           submodules: true
       - name: Set a job-wide environment variables
         run: |
-          echo "DOCKER_IMAGE=${{ secrets.PRIVATE_REGISTRY }}/mod-dev-tools/docs" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=${{ secrets.DOCKER_REGISTRY_HOST }}/mod-dev-tools/docs" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=latest" >> $GITHUB_ENV
       - name: Generate documentation
         id: ldoc
@@ -31,9 +31,9 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.PRIVATE_REGISTRY }}
-          username: ${{ secrets.PRIVATE_REGISTRY_USERNAME }}
-          password: ${{ secrets.PRIVATE_REGISTRY_PASSWORD }}
+          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASS }}
       - name: Generate an image metadata
         id: meta
         uses: docker/metadata-action@v4
@@ -67,22 +67,21 @@ jobs:
       - name: Deploy Docker Stack
         working-directory: ./docs/
         run: |
-          docker stack rm "${DOCKER_STACK_NAME}"
+          docker stack rm "${{ secrets.DOCKER_STACK_NAME }}"
           docker stack deploy \
             --with-registry-auth \
             --resolve-image=always \
             --compose-file=docker-stack.yml \
             --prune \
-            "${DOCKER_STACK_NAME}"
+            "${{ secrets.DOCKER_STACK_NAME }}"
         env:
           DOCKER_CERT_PATH: /home/runner/.docker/deploy/
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          DOCKER_STACK_NAME: dstmodders_mod_dev_tools
           DOCKER_STACK_NODE_HOSTNAME: ${{ secrets.DOCKER_STACK_NODE_HOSTNAME }}
           DOCKER_TLS_VERIFY: 1
-          LOKI_PIPELINE_STAGE_FILE: /etc/loki/pipelines/nginx.yml
+          LOKI_PIPELINE_STAGE_FILE: ${{ secrets.LOKI_PIPELINE_STAGE_FILE }}
           LOKI_URL: ${{ secrets.LOKI_URL }}
-          NGINX_CONF: /etc/nginx/nginx.conf
-          TRAEFIK_HOST: docs.dstmodders.com
-          TRAEFIK_NAME: dstmodders-mod-dev-tools-docs
-          TRAEFIK_PATH_PREFIX: /dev-tools/
+          NGINX_CONF: ${{ secrets.NGINX_CONF }}
+          TRAEFIK_HOSTNAME: ${{ secrets.DOCS_HOSTNAME }}
+          TRAEFIK_NAME: ${{ secrets.TRAEFIK_NAME }}
+          TRAEFIK_PATH_PREFIX: ${{ secrets.TRAEFIK_PATH_PREFIX }}
