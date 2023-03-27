@@ -24,11 +24,6 @@ jobs:
         id: docker
         run: |
           echo "cert-path=/home/runner/.docker/deploy" >> $GITHUB_OUTPUT
-      - name: Generate documentation
-        id: ldoc
-        uses: dstmodders/action@main
-        with:
-          ldoc: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
