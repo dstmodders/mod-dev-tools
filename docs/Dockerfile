@@ -1,3 +1,10 @@
-FROM nginx:1.21.3-alpine AS nginx
+FROM dstmodders/dst-mod:alpine AS builder
 
-COPY ./ /usr/share/nginx/html/
+WORKDIR /srv/mod-dev-tools/
+COPY . .
+RUN make ldoc
+
+FROM nginx:1.23.3-alpine
+
+WORKDIR /usr/share/nginx/html/
+COPY --from=builder /srv/mod-dev-tools/docs/ /usr/share/nginx/html/

@@ -1,8 +1,8 @@
 # mod-dev-tools
 
-[![CI](https://img.shields.io/github/workflow/status/dstmodders/mod-dev-tools/CI?label=ci)](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
-[![Deploy](https://img.shields.io/github/workflow/status/dstmodders/mod-dev-tools/Deploy?label=deploy)](https://github.com/dstmodders/mod-dev-tools/actions/workflows/deploy.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools.svg)](https://codecov.io/gh/dstmodders/mod-dev-tools)
+[![CI]](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
+[![CD]](https://github.com/dstmodders/mod-dev-tools/actions/workflows/cd.yml)
+[![Codecov]](https://codecov.io/gh/dstmodders/mod-dev-tools)
 
 [![Dev Tools](preview.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)
 
@@ -57,6 +57,9 @@ https://docs.dstmodders.com/dev-tools/
 
 Released under the [MIT License](https://opensource.org/licenses/MIT).
 
+[cd]: https://img.shields.io/github/actions/workflow/status/dstmodders/mod-dev-tools/cd.yml?branch=main&label=cd
+[ci]: https://img.shields.io/github/actions/workflow/status/dstmodders/mod-dev-tools/ci.yml?branch=main&label=ci
+[codecov]: https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools?token=i1KIj2t9iH
 [don't starve together]: https://www.klei.com/games/dont-starve-together
 [ldoc]: https://stevedonovan.github.io/ldoc/
 [steam workshop]: https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640

@@ -1,0 +1,89 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: true
+permissions: read-all
+
+jobs:
+  docs:
+    environment: production
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Set docker outputs
+        id: docker
+        run: |
+          echo "cert-path=/home/runner/.docker/deploy" >> $GITHUB_OUTPUT
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to the private registry
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASS }}
+      - name: Generate an image metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          flavor: latest=${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
+          images: ${{ secrets.DOCKER_REGISTRY_HOST }}/mod-dev-tools/docs
+          labels: maintainer=victor@popkov.me
+      - name: Build an image
+        uses: docker/build-push-action@v4
+        with:
+          cache-from: type=registry,ref=${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          cache-to: type=inline
+          context: .
+          file: ./docs/Dockerfile
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          pull: true
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+      - name: Add Docker certificates to access the remote host
+        run: |
+          mkdir -p "${DOCKER_CERT_PATH}"
+          echo "${{ secrets.DOCKER_TLS_CA }}" > "${DOCKER_CERT_PATH}/ca.pem"
+          echo "${{ secrets.DOCKER_TLS_CERT }}" > "${DOCKER_CERT_PATH}/cert.pem"
+          echo "${{ secrets.DOCKER_TLS_KEY }}" > "${DOCKER_CERT_PATH}/key.pem"
+          chmod 400 "${DOCKER_CERT_PATH}/ca.pem"
+          chmod 400 "${DOCKER_CERT_PATH}/cert.pem"
+          chmod 400 "${DOCKER_CERT_PATH}/key.pem"
+        env:
+          DOCKER_CERT_PATH: ${{ steps.docker.outputs.cert-path }}
+      - name: Deploy Docker Stack
+        working-directory: ./docs/
+        run: |
+          docker stack rm "${{ secrets.DOCKER_STACK_NAME }}"
+          docker stack deploy \
+            --with-registry-auth \
+            --resolve-image=always \
+            --compose-file=docker-stack.yml \
+            --prune \
+            "${{ secrets.DOCKER_STACK_NAME }}"
+        env:
+          DOCKER_CERT_PATH: ${{ steps.docker.outputs.cert-path }}
+          DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
+          DOCKER_IMAGE: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          DOCKER_STACK_NODE_HOSTNAME: ${{ secrets.DOCKER_STACK_NODE_HOSTNAME }}
+          DOCKER_TLS_VERIFY: 1
+          LOKI_PIPELINE_STAGE_FILE: ${{ secrets.LOKI_PIPELINE_STAGE_FILE }}
+          LOKI_URL: ${{ secrets.LOKI_URL }}
+          NGINX_CONF: ${{ secrets.NGINX_CONF }}
+          TRAEFIK_HOSTNAME: ${{ secrets.DOCS_HOSTNAME }}
+          TRAEFIK_NAME: ${{ secrets.TRAEFIK_NAME }}
+          TRAEFIK_PATH_PREFIX: ${{ secrets.TRAEFIK_PATH_PREFIX }}

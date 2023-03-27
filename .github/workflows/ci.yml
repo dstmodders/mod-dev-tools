@@ -20,11 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Lint
-        uses: dstmodders/github-action@main
+        uses: dstmodders/action@main
         with:
           luacheck: true
           prettier: true
@@ -35,16 +35,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Test
-        uses: dstmodders/github-action@main
+        uses: dstmodders/action@main
         with:
           busted: true
           slack: true
       - name: Upload coverage to Codecov
         if: ${{ !env.ACT && success() }}
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,3 +1,3 @@
 [submodule "scripts/devtools/sdk"]
 	path = scripts/devtools/sdk
-	url = https://github.com/dstmodders/dst-mod-sdk
+	url = https://github.com/dstmodders/mod-sdk
