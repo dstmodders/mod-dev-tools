@@ -38,36 +38,33 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.DOCKER_IMAGE }}
           flavor: latest=true
+          images: ${{ env.DOCKER_IMAGE }}
           labels: maintainer=victor@popkov.me
       - name: Build an image
         uses: docker/build-push-action@v4
         with:
+          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_IMAGE_TAG }}
+          cache-to: type=inline
           context: ./docs/
           file: ./docs/Dockerfile
+          labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm/v7
           pull: true
           push: ${{ !env.ACT && github.ref == 'refs/heads/main' }}
-          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_IMAGE_TAG }}
-          cache-to: type=inline
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
       - name: Add Docker certificates to access the remote host
         if: ${{ !env.ACT }}
         run: |
           mkdir -p "${DOCKER_CERT_PATH}"
-          echo "${DOCKER_TLS_CA}" > "${DOCKER_CERT_PATH}/ca.pem"
-          echo "${DOCKER_TLS_CERT}" > "${DOCKER_CERT_PATH}/cert.pem"
-          echo "${DOCKER_TLS_KEY}" > "${DOCKER_CERT_PATH}/key.pem"
+          echo "${{ secrets.DOCKER_TLS_CA }}" > "${DOCKER_CERT_PATH}/ca.pem"
+          echo "${{ secrets.DOCKER_TLS_CERT }}" > "${DOCKER_CERT_PATH}/cert.pem"
+          echo "${{ secrets.DOCKER_TLS_KEY }}" > "${DOCKER_CERT_PATH}/key.pem"
           chmod 400 "${DOCKER_CERT_PATH}/ca.pem"
           chmod 400 "${DOCKER_CERT_PATH}/cert.pem"
           chmod 400 "${DOCKER_CERT_PATH}/key.pem"
         env:
           DOCKER_CERT_PATH: /home/runner/.docker/deploy/
-          DOCKER_TLS_CA: ${{ secrets.DOCKER_TLS_CA }}
-          DOCKER_TLS_CERT: ${{ secrets.DOCKER_TLS_CERT }}
-          DOCKER_TLS_KEY: ${{ secrets.DOCKER_TLS_KEY }}
       - name: Deploy Docker Stack
         if: ${{ !env.ACT }}
         working-directory: ./docs/
@@ -80,19 +77,14 @@ jobs:
             --prune \
             "${DOCKER_STACK_NAME}"
         env:
-          # docker
           DOCKER_CERT_PATH: /home/runner/.docker/deploy/
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          DOCKER_TLS_VERIFY: 1
-          # docker stack
           DOCKER_STACK_NAME: dstmodders_mod_dev_tools
           DOCKER_STACK_NODE_HOSTNAME: ${{ secrets.DOCKER_STACK_NODE_HOSTNAME }}
-          # loki
+          DOCKER_TLS_VERIFY: 1
           LOKI_PIPELINE_STAGE_FILE: /etc/loki/pipelines/nginx.yml
           LOKI_URL: ${{ secrets.LOKI_URL }}
-          # nginx
           NGINX_CONF: /etc/nginx/nginx.conf
-          # traefik
           TRAEFIK_HOST: docs.dstmodders.com
           TRAEFIK_NAME: dstmodders-mod-dev-tools-docs
           TRAEFIK_PATH_PREFIX: /dev-tools/
