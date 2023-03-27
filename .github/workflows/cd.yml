@@ -51,10 +51,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm/v7
           pull: true
-          push: ${{ !env.ACT && github.ref == 'refs/heads/main' }}
+          push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
       - name: Add Docker certificates to access the remote host
-        if: ${{ !env.ACT }}
         run: |
           mkdir -p "${DOCKER_CERT_PATH}"
           echo "${{ secrets.DOCKER_TLS_CA }}" > "${DOCKER_CERT_PATH}/ca.pem"
@@ -66,7 +65,6 @@ jobs:
         env:
           DOCKER_CERT_PATH: /home/runner/.docker/deploy/
       - name: Deploy Docker Stack
-        if: ${{ !env.ACT }}
         working-directory: ./docs/
         run: |
           docker stack rm "${DOCKER_STACK_NAME}"
