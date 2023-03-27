@@ -50,7 +50,7 @@ jobs:
           context: .
           file: ./docs/Dockerfile
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           pull: true
           push: true
           tags: ${{ steps.meta.outputs.tags }}
