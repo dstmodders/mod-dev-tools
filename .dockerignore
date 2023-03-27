@@ -1,0 +1,10 @@
+.*
+CHANGELOG.md
+README.md
+docs/*
+modicon*
+preview.png
+spec/
+workshop/
+
+!docs/ldoc/

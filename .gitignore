@@ -20,7 +20,7 @@ description.txt
 
 # docs
 docs/*
-!docs/.dockerignore
+!.dockerignore
 !docs/docker-stack.yml
 !docs/Dockerfile
 !docs/ldoc/
