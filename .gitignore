@@ -7,13 +7,13 @@
 busted.out
 coverage/
 description.txt
-doc/*
+docs/*
 lcov.info
 luacov.*
 steam-workshop.zip
 workshop*/
 
-!doc/.dockerignore
-!doc/Dockerfile
-!doc/docker-stack.yml
-!doc/ldoc/
+!docs/.dockerignore
+!docs/Dockerfile
+!docs/docker-stack.yml
+!docs/ldoc/

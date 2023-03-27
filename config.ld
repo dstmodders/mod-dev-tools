@@ -5,12 +5,12 @@ full_description = "Mod for the game [Don\'t Starve Together](https://www.klei.c
     [[- **Source Code:** [https://github.com/dstmodders/mod-dev-tools](https://github.com/dstmodders/mod-dev-tools)]] .. "\n" ..
     [[- **Steam Workshop:** [https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640](https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640)]]
 
-dir = "doc"
+dir = "docs"
 file = "./scripts/"
 format = "markdown"
 readme = "readme"
 sort_modules = true
-style = "./doc/ldoc/"
+style = "./docs/ldoc/"
 use_markdown_titles = true
 
 custom_see_handler("^MOD_DEV_TOOLS\.(.*)$", function(name)

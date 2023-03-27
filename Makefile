@@ -62,7 +62,7 @@ install:
 		--exclude 'config.ld' \
 		--exclude 'CONTRIBUTING.md' \
 		--exclude 'description.txt*' \
-		--exclude 'doc/' \
+		--exclude 'docs/' \
 		--exclude 'lcov.info' \
 		--exclude 'luacov*' \
 		--exclude 'Makefile' \
@@ -76,7 +76,7 @@ install:
 		"${DST_MODS}/mod-dev-tools/"
 
 ldoc:
-	@find ./doc/* -type f -not -name Dockerfile -not -name docker-stack.yml -not -wholename ./doc/ldoc/ldoc.css -delete
+	@find ./docs/* -type f -not -name Dockerfile -not -name docker-stack.yml -not -wholename ./docs/ldoc/ldoc.css -delete
 	@ldoc .
 
 lint:
