@@ -1,8 +1,10 @@
-# mod-dev-tools
+> **Warning**
+>
+> Branch [no-sdk] is used solely for maintaining purposes before the official
+> [v1.0.0] release. It doesn't include all the latest features and/or fixes.
+> Consider switching to the [main] branch instead.
 
-> **NB!** Branch [no-sdk] is used solely for maintaining purposes before the
-> official [v1.0.0] release. It doesn't include all the latest features and/or
-> fixes. Consider switching to the [main] branch instead.
+# mod-dev-tools
 
 [![CI]](https://github.com/dstmodders/mod-dev-tools/actions/workflows/ci.yml)
 [![Codecov]](https://codecov.io/gh/dstmodders/mod-dev-tools)
