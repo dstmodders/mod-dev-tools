@@ -13,8 +13,8 @@
 
 ## Overview
 
-Mod for the game [Don't Starve Together][] which is available through the
-[Steam Workshop][] to improve the development/testing experience:
+Mod for the game [Don't Starve Together] which is available through the [Steam
+Workshop] to improve the development/testing experience:
 https://steamcommunity.com/sharedfiles/filedetails/?id=2220506640
 
 It was inspired by an abandoned _DebugMenuScreen_ withing the game engine and
@@ -53,8 +53,8 @@ was designed as an alternative to _debugkeys_.
 
 Released under the [MIT License](https://opensource.org/licenses/MIT).
 
-[ci]: https://img.shields.io/github/actions/workflow/status/dstmodders/mod-dev-tools/ci.yml?branch=no-sdk&label=ci
-[codecov]: https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools?token=i1KIj2t9iH
+[ci]: https://img.shields.io/github/actions/workflow/status/dstmodders/mod-dev-tools/ci.yml?branch=no-sdk&label=ci&logo=github
+[codecov]: https://img.shields.io/codecov/c/github/dstmodders/mod-dev-tools?token=i1KIj2t9iH&logo=codecov
 [dev tools]: ./preview.png
 [don't starve together]: https://www.klei.com/games/dont-starve-together
 [ldoc]: https://stevedonovan.github.io/ldoc/
