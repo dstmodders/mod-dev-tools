@@ -5,15 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased][]
+## [Unreleased]
 
-## [0.7.1][] - 2023-01-25
+## [0.7.1] - 2023-01-25
 
 ### Fixed
 
 - Issue with crashing when changing the character
 
-## [0.7.0][] - 2020-10-06
+## [0.7.0] - 2020-10-06
 
 ### Added
 
@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Issue with menu update when selecting player
 
-## [0.6.0][] - 2020-09-29
+## [0.6.0] - 2020-09-29
 
 ### Added
 
@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Issue with data sidebar scrolling position while switching
 
-## [0.5.0][] - 2020-09-23
+## [0.5.0] - 2020-09-23
 
 ### Added
 
@@ -61,13 +61,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Issue with the switch data key configuration
 
-## [0.4.1][] - 2020-09-21
+## [0.4.1] - 2020-09-21
 
 ### Fixed
 
 - Issue with crashing related to data loading
 
-## [0.4.0][] - 2020-09-21
+## [0.4.0] - 2020-09-21
 
 ### Added
 
@@ -80,7 +80,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Refactored data sidebars
 
-## [0.3.0][] - 2020-09-20
+## [0.3.0] - 2020-09-20
 
 ### Added
 
@@ -96,7 +96,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Issue with d_gettags console command
 
-## [0.2.0][] - 2020-09-11
+## [0.2.0] - 2020-09-11
 
 ### Added
 
