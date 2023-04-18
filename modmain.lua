@@ -491,10 +491,3 @@ elseif _RESET_COMBINATION == "shift_r" then
         return Reset(KEY_SHIFT)
     end)
 end
-
---- KnownModIndex
--- @section knownmodindex
-
-if GetModConfigData("hide_changelog") then
-    Utils.Modmain.HideChangelog(modname, true)
-end

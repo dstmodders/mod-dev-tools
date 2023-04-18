@@ -5,12 +5,6 @@ description = [[Version: ]]
     .. "\n\n"
     .. [[An extendable mod, that simplifies the most common tasks for both developers and testers ]]
     .. [[as an alternative to debugkeys.]]
-    .. "\n\n"
-    .. [[v]]
-    .. version
-    .. [[:]]
-    .. "\n"
-    .. [[- Fixed issue with crashing when changing the character]]
 author = "Demonblink"
 api_version = 10
 forumthread = ""
@@ -423,14 +417,6 @@ configuration_options = {
         "default_mod_warning",
         "Disable mod warning",
         "When enabled, disables the mod warning when starting the game"
-    ),
-
-    AddBooleanConfig(
-        "hide_changelog",
-        "Hide changelog",
-        [[When enabled, hides the changelog in the mod description.]]
-            .. "\n"
-            .. [[Mods should be reloaded to take effect]]
     ),
 
     AddBooleanConfig(
