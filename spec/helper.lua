@@ -21,10 +21,10 @@ end
 
 local SDK
 
-SDK = require "devtools/sdk/sdk/sdk"
+SDK = require("devtools/sdk/sdk/sdk")
 SDK.SetIsSilent(true).Load({
     modname = "mod-dev-tools",
-    AddPrefabPostInit = function() end
+    AddPrefabPostInit = function() end,
 }, "devtools/sdk")
 
 _G.SDK = SDK
@@ -102,10 +102,11 @@ end
 --
 
 function MockTheNet(client_table)
-    client_table = client_table ~= nil and client_table or {
-        { userid = "KU_admin", admin = true },
-        { userid = "KU_one", admin = false },
-    }
+    client_table = client_table ~= nil and client_table
+        or {
+            { userid = "KU_admin", admin = true },
+            { userid = "KU_one", admin = false },
+        }
 
     return require("busted").mock({
         GetClientTable = function()
@@ -291,7 +292,7 @@ function MockWorldInst()
             temperature = 20,
             moisture = 500,
             moistureceil = 750,
-            snowlevel = .5,
+            snowlevel = 0.5,
             issnowing = false,
             precipitation = "none",
             precipitationrate = 1.5,

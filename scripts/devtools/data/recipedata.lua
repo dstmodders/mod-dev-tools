@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local Data = require "devtools/data/data"
-local SDK = require "devtools/sdk/sdk/sdk"
+local Data = require("devtools/data/data")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -64,10 +64,17 @@ function RecipeData:PushIngredientLine(type, amount)
 
     if inventory then
         local state = inventory:Has(type, amount)
-        table.insert(self.stack, string.format("x%d %s", amount, table.concat({
-            name,
-            state and "yes" or "no",
-        }, " | ")))
+        table.insert(
+            self.stack,
+            string.format(
+                "x%d %s",
+                amount,
+                table.concat({
+                    name,
+                    state and "yes" or "no",
+                }, " | ")
+            )
+        )
     else
         table.insert(self.stack, string.format("x%d %s", amount, name))
     end

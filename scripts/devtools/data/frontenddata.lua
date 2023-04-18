@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local Data = require "devtools/data/data"
-local SDK = require "devtools/sdk/sdk/sdk"
+local Data = require("devtools/data/data")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle

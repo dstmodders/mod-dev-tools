@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local SDK = require "devtools/sdk/sdk/sdk"
-local Submenu = require "devtools/menu/submenu"
+local SDK = require("devtools/sdk/sdk/sdk")
+local Submenu = require("devtools/menu/submenu")
 
 --- Lifecycle
 -- @section lifecycle
@@ -94,7 +94,7 @@ function CharacterRecipesSubmenu:AddRecipeSkinsOption(label, item, skins)
         skin_idx = SDK.Constant.GetSkinIndex(item, skin)
         table.insert(choices, {
             name = skin_name and skin_name or "Classic",
-            value = skin_idx and skin_idx or 0
+            value = skin_idx and skin_idx or 0,
         })
     end
 

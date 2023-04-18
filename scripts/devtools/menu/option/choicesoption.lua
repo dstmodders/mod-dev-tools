@@ -35,17 +35,17 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local Option = require "devtools/menu/option/option"
-local SDK = require "devtools/sdk/sdk/sdk"
+local Option = require("devtools/menu/option/option")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Helpers
 -- @section helpers
 
 local function GetTableKeyByValue(list, value)
     for k, v in pairs(list) do
-        if v.value == value
-            or (type(v.value) == "table"
-            and SDK.Utils.Table.Compare(v.value, value))
+        if
+            v.value == value
+            or (type(v.value) == "table" and SDK.Utils.Table.Compare(v.value, value))
         then
             return k
         end

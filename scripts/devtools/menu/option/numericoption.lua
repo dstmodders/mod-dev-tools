@@ -33,7 +33,7 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local Option = require "devtools/menu/option/option"
+local Option = require("devtools/menu/option/option")
 
 --- Lifecycle
 -- @section lifecycle

@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 --local Helper = require "spec/scripts/devtools/menu/option/helper"
 
@@ -20,7 +20,7 @@ describe("NumericOption", function()
             step = 1,
         }
 
-        NumericOption = require "devtools/menu/option/numericoption"
+        NumericOption = require("devtools/menu/option/numericoption")
         numericoption = NumericOption(options)
     end)
 

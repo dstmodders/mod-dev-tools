@@ -18,7 +18,7 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local SDK = require "devtools/sdk/sdk/sdk"
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -170,9 +170,10 @@ function Data:PushLine(name, value) -- luacheck: only
         value = table.concat(value, " | ")
     end
 
-    table.insert(self.stack, (name and string.len(name) > 0)
-        and string.format("%s: %s", name, value)
-        or value)
+    table.insert(
+        self.stack,
+        (name and string.len(name) > 0) and string.format("%s: %s", name, value) or value
+    )
 end
 
 --- Other

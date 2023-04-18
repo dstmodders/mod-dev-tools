@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("WorldTools", function()
     -- setup
@@ -10,7 +10,7 @@ describe("WorldTools", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyInit()
@@ -42,7 +42,7 @@ describe("WorldTools", function()
         devtools = MockDevTools()
         inst = MockWorldInst()
 
-        WorldTools = require "devtools/tools/worldtools"
+        WorldTools = require("devtools/tools/worldtools")
         worldtools = WorldTools(inst, devtools)
 
         WorldTools.StartPrecipitationThread = spy.new(Empty)
@@ -60,7 +60,7 @@ describe("WorldTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            WorldTools = require "devtools/tools/worldtools"
+            WorldTools = require("devtools/tools/worldtools")
         end)
 
         local function AssertDefaults(self)
@@ -171,7 +171,7 @@ describe("WorldTools", function()
             it("should debug string", function()
                 worldtools:Select()
                 AssertDebugSpyWasCalled("DebugString", 1, {
-                    "Selected TheWorld"
+                    "Selected TheWorld",
                 })
             end)
 
@@ -191,7 +191,7 @@ describe("WorldTools", function()
             it("should debug string", function()
                 worldtools:SelectNet()
                 AssertDebugSpyWasCalled("DebugString", 1, {
-                    "Selected TheWorld.net"
+                    "Selected TheWorld.net",
                 })
             end)
 
@@ -204,9 +204,8 @@ describe("WorldTools", function()
             local GetWorldEntityUnderMouse
 
             before_each(function()
-                GetWorldEntityUnderMouse = spy.new(
-                    ReturnValueFn({ GetDisplayName = ReturnValueFn("Test") })
-                )
+                GetWorldEntityUnderMouse =
+                    spy.new(ReturnValueFn({ GetDisplayName = ReturnValueFn("Test") }))
 
                 _G.TheInput.GetWorldEntityUnderMouse = GetWorldEntityUnderMouse
             end)
@@ -223,7 +222,7 @@ describe("WorldTools", function()
                     worldtools:SelectEntityUnderMouse()
                     AssertDebugSpyWasCalled("DebugString", 1, {
                         "Selected",
-                        "Test"
+                        "Test",
                     })
                 end)
 

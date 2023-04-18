@@ -11,7 +11,7 @@
 -- @release 0.8.0-alpha
 ----
 
-local SDK = require "devtools/sdk/sdk/sdk"
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Mod constants.
 -- @table MOD_DEV_TOOLS

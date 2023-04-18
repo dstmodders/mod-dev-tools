@@ -34,13 +34,13 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "consolecommands"
+require("consolecommands")
 
-local DevTools = require "devtools/tools/tools"
-local PlayerCraftingTools = require "devtools/tools/playercraftingtools"
-local PlayerInventoryTools = require "devtools/tools/playerinventorytools"
-local PlayerVisionTools = require "devtools/tools/playervisiontools"
-local SDK = require "devtools/sdk/sdk/sdk"
+local DevTools = require("devtools/tools/tools")
+local PlayerCraftingTools = require("devtools/tools/playercraftingtools")
+local PlayerInventoryTools = require("devtools/tools/playerinventorytools")
+local PlayerVisionTools = require("devtools/tools/playervisiontools")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 -- event listeners
 local OnWereModeDirty
@@ -165,7 +165,8 @@ function PlayerTools:IsGodMode(player)
     player = player ~= nil and player or self:GetSelected()
 
     if SDK.Player.IsAdmin() then
-        if player
+        if
+            player
             and player.components
             and player.components.health
             and player.components.health.invincible ~= nil
@@ -238,10 +239,12 @@ end
 --- Checks if Grue (Charlie) can attack the owner.
 -- @treturn boolean
 function PlayerTools:CanGrueAttack()
-    return not (self:IsGodMode()
+    return not (
+        self:IsGodMode()
         or SDK.Player.IsInLight()
         or SDK.Player.IsGhost()
-        or SDK.Player.Inventory.HasEquippedItemWithTag(EQUIPSLOTS.HEAD, "nightvision"))
+        or SDK.Player.Inventory.HasEquippedItemWithTag(EQUIPSLOTS.HEAD, "nightvision")
+    )
 end
 
 --- Selection

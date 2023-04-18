@@ -23,8 +23,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local DevTools = require "devtools/tools/tools"
-local SDK = require "devtools/sdk/sdk/sdk"
+local DevTools = require("devtools/tools/tools")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -81,7 +81,8 @@ end
 function PlayerInventoryTools:GetInventoryEdible()
     local items = self.inventory:GetItems()
     for slot, item in pairs(items) do
-        if item:HasTag("cookable")
+        if
+            item:HasTag("cookable")
             or item:HasTag("edible_MEAT")
             or item:HasTag("edible_VEGGIE")
         then

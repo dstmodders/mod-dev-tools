@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local Data = require "devtools/data/data"
-local SDK = require "devtools/sdk/sdk/sdk"
+local Data = require("devtools/data/data")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -108,9 +108,8 @@ function SelectedData:PushPlayerData()
 
     if SDK.Player.IsOwner(player) or SDK.Player.IsReal(player) == false then
         if devtools.inst == player or (SDK.World.IsMasterSim() or SDK.Player.IsAdmin()) then
-            local health = SDK.Utils.Value.ToPercentString(
-                SDK.Player.Attribute.GetHealthPercent() or 0
-            )
+            local health =
+                SDK.Utils.Value.ToPercentString(SDK.Player.Attribute.GetHealthPercent() or 0)
 
             local health_max = SDK.Utils.Value.ToPercentString(
                 SDK.Player.Attribute.GetHealthLimitPercent(player) or 0

@@ -43,11 +43,7 @@ local function OptionType(field, name, _type, is_optional)
         return
     end
     OptionRequired(field, name)
-    assert(type(field) == _type, string.format(
-        "Option %s should be a %s",
-        name,
-        _type
-    ))
+    assert(type(field) == _type, string.format("Option %s should be a %s", name, _type))
 end
 
 --- Lifecycle

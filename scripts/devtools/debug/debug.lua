@@ -23,10 +23,10 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local DebugEvents = require "devtools/debug/debugevents"
-local DebugGlobals = require "devtools/debug/debugglobals"
-local DebugPlayerController = require "devtools/debug/debugplayercontroller"
-local SDK = require "devtools/sdk/sdk/sdk"
+local DebugEvents = require("devtools/debug/debugevents")
+local DebugGlobals = require("devtools/debug/debugglobals")
+local DebugPlayerController = require("devtools/debug/debugplayercontroller")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -36,14 +36,11 @@ local SDK = require "devtools/sdk/sdk/sdk"
 -- @usage local debug = Debug()
 local Debug = Class(function(self)
     SDK.Debug.AddMethods(self)
-    SDK.Method
-        .SetClass(self)
-        .AddToString("Debug")
-        .AddGetters({
-            events = "GetEvents",
-            globals = "GetGlobals",
-            playercontroller = "GetPlayerController",
-        })
+    SDK.Method.SetClass(self).AddToString("Debug").AddGetters({
+        events = "GetEvents",
+        globals = "GetGlobals",
+        playercontroller = "GetPlayerController",
+    })
 
     -- submodules
     self.events = nil
@@ -87,7 +84,8 @@ function Debug:ConcatParameters(t)
             elseif type(value) == "table" and value.GUID ~= nil then
                 -- Ent
                 value = self:EntsString(value)
-            elseif type(value) == "string"
+            elseif
+                type(value) == "string"
                 and value ~= "nil"
                 and value:sub(1, 7) ~= "ACTIONS"
                 and value:sub(1, 3) ~= "RPC"
@@ -99,10 +97,7 @@ function Debug:ConcatParameters(t)
             then
                 -- string
                 value = string.format('"%s"', tostring(value))
-            elseif value == nil
-                or type(value) == "boolean"
-                or type(value) == "number"
-            then
+            elseif value == nil or type(value) == "boolean" or type(value) == "number" then
                 -- simple
                 value = tostring(value)
             end

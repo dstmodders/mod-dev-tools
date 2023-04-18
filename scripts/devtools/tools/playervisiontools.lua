@@ -29,8 +29,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local DevTools = require "devtools/tools/tools"
-local SDK = require "devtools/sdk/sdk/sdk"
+local DevTools = require("devtools/tools/tools")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -168,7 +168,11 @@ function PlayerVisionTools:HideSpawner(inst)
     if not self:IsSpawner(inst) then
         return
     end
-    if not inst.AnimState or inst.AnimState:GetBuild() ~= "star_cold" or not inst.entity:IsVisible() then
+    if
+        not inst.AnimState
+        or inst.AnimState:GetBuild() ~= "star_cold"
+        or not inst.entity:IsVisible()
+    then
         return
     end
     inst.AnimState:SetAddColour(0.0, 0.0, 0.0, 0.0)

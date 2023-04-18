@@ -24,9 +24,9 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "devtools/constants"
+require("devtools/constants")
 
-local SDK = require "devtools/sdk/sdk/sdk"
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -65,7 +65,8 @@ end)
 -- @treturn boolean
 function Config:Load()
     SDK.PersistentData.Get("config", self, "values")
-    if self.values == nil
+    if
+        self.values == nil
         or (type(self.values) == "table" and SDK.Utils.Table.Count(self.values) == 0)
     then
         self.values = self.defaults

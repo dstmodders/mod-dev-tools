@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local Data = require "devtools/data/data"
-local SDK = require "devtools/sdk/sdk/sdk"
+local Data = require("devtools/data/data")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle
@@ -75,14 +75,16 @@ function WorldData:PushWorldMoistureLine()
             )
         end
 
-        local value = moisture_floor and table.concat({
-            SDK.Utils.Value.ToFloatString(moisture_floor),
-            moisture_string,
-            SDK.Utils.Value.ToFloatString(moisture_ceil),
-        }, " | ") or table.concat({
-            moisture_string,
-            SDK.Utils.Value.ToFloatString(moisture_ceil),
-        }, " | ")
+        local value = moisture_floor
+                and table.concat({
+                    SDK.Utils.Value.ToFloatString(moisture_floor),
+                    moisture_string,
+                    SDK.Utils.Value.ToFloatString(moisture_ceil),
+                }, " | ")
+            or table.concat({
+                moisture_string,
+                SDK.Utils.Value.ToFloatString(moisture_ceil),
+            }, " | ")
 
         self:PushLine("Moisture", value)
     end
@@ -113,7 +115,7 @@ function WorldData:PushWorldPrecipitationLines()
         local peakprecipitationrate = SDK.World.Weather.GetPeakPrecipitationRate()
         self:PushLine("Precipitation Rate", peakprecipitationrate ~= nil and {
             SDK.Utils.Value.ToFloatString(precipitation_rate),
-            SDK.Utils.Value.ToFloatString(peakprecipitationrate)
+            SDK.Utils.Value.ToFloatString(peakprecipitationrate),
         } or SDK.Utils.Value.ToFloatString(precipitation_rate))
     end
 
@@ -277,8 +279,7 @@ function WorldData:PushDeersSpawnerLine()
     if not value then
         local spawner = data.deerherdspawner
         if spawner and type(spawner._timetospawn) == "number" then
-            value = spawner._timetospawn <= 0
-                and "waiting"
+            value = spawner._timetospawn <= 0 and "waiting"
                 or SDK.Utils.Value.ToClockString(spawner._timetospawn - GetTime())
         elseif spawner and type(spawner._activedeer) == "table" then
             value = #spawner._activedeer
@@ -301,7 +302,7 @@ function WorldData:PushKlausSackSpawnerLine()
         local spawner = data.klaussackspawner
         if spawner and type(spawner.timetorespawn) == "number" then
             value = spawner.timetorespawn > 0
-                and SDK.Utils.Value.ToClockString(spawner.timetorespawn - GetTime())
+                    and SDK.Utils.Value.ToClockString(spawner.timetorespawn - GetTime())
                 or "no"
         elseif spawner and spawner.timetorespawn == false then
             value = "yes"
@@ -324,15 +325,12 @@ function WorldData:PushHoundedLine()
         local hounded = data.hounded
         if hounded and type(hounded.timetoattack) == "number" then
             value = hounded.timetoattack > 0
-                and SDK.Utils.Value.ToClockString(hounded.timetoattack - GetTime())
+                    and SDK.Utils.Value.ToClockString(hounded.timetoattack - GetTime())
                 or "no"
         end
     end
 
-    self:PushLine(
-        (SDK.World.IsCave() and "Worms" or "Hounds") .. " Attack",
-        value or "error"
-    )
+    self:PushLine((SDK.World.IsCave() and "Worms" or "Hounds") .. " Attack", value or "error")
 end
 
 --- Pushes `chessunlocks` line.
@@ -347,9 +345,7 @@ function WorldData:PushChessUnlocksLine()
     if not value then
         local chessunlocks = data.chessunlocks
         if chessunlocks and type(chessunlocks.unlocks) == "table" then
-            value = #chessunlocks.unlocks > 0
-                and table.concat(chessunlocks.unlocks, ", ")
-                or "no"
+            value = #chessunlocks.unlocks > 0 and table.concat(chessunlocks.unlocks, ", ") or "no"
         end
     end
 

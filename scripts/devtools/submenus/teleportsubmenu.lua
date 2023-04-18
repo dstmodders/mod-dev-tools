@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local SDK = require "devtools/sdk/sdk/sdk"
-local Submenu = require "devtools/menu/submenu"
+local SDK = require("devtools/sdk/sdk/sdk")
+local Submenu = require("devtools/menu/submenu")
 
 --- Lifecycle
 -- @section lifecycle
@@ -63,9 +63,9 @@ function TeleportSubmenu:AddGoNextOption(label, prefab)
     self:AddActionOption({
         label = label,
         on_accept_fn = function()
-            SDK.Remote.Player.GoNext(type(prefab) == "table"
-                and prefab[math.random(#prefab)]
-                or prefab)
+            SDK.Remote.Player.GoNext(
+                type(prefab) == "table" and prefab[math.random(#prefab)] or prefab
+            )
             self:UpdateScreen()
         end,
     })
@@ -75,7 +75,7 @@ end
 function TeleportSubmenu:AddTeleportOptions()
     if not SDK.World.IsCave() then
         local livingtree = IsSpecialEventActive(SPECIAL_EVENTS.HALLOWED_NIGHTS)
-            and "livingtree_halloween"
+                and "livingtree_halloween"
             or "livingtree"
 
         self:AddGoNextOption("Antlion Nest", "antlion_spawner")

@@ -25,10 +25,10 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "consolecommands"
+require("consolecommands")
 
-local DevTools = require "devtools/tools/tools"
-local SDK = require "devtools/sdk/sdk/sdk"
+local DevTools = require("devtools/tools/tools")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 -- threads
 local _PRECIPITATION_THREAD_ID = "mod_dev_tools_precipitation_thread"

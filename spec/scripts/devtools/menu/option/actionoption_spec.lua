@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("ActionOption", function()
     -- before_each initialization
@@ -13,7 +13,7 @@ describe("ActionOption", function()
             on_cursor_fn = spy.new(Empty),
         }
 
-        ActionOption = require "devtools/menu/option/actionoption"
+        ActionOption = require("devtools/menu/option/actionoption")
         actionoption = ActionOption(options)
     end)
 

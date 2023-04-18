@@ -1,6 +1,6 @@
-require "busted.runner"()
+require("busted.runner")()
 
-local Helper = require "spec/scripts/devtools/menu/option/helper"
+local Helper = require("spec/scripts/devtools/menu/option/helper")
 
 describe("SubmenuOption", function()
     -- setup
@@ -25,7 +25,7 @@ describe("SubmenuOption", function()
 
         submenu = {}
 
-        SubmenuOption = require "devtools/menu/option/submenuoption"
+        SubmenuOption = require("devtools/menu/option/submenuoption")
         submenuoption = SubmenuOption(options, submenu)
     end)
 
@@ -81,22 +81,18 @@ describe("SubmenuOption", function()
                     assert.spy(options.on_accept_fn).was_not_called()
                     submenuoption:OnAccept(menu)
                     assert.spy(options.on_accept_fn).was_called(1)
-                    assert.spy(options.on_accept_fn).was_called_with(
-                        match.is_ref(submenuoption),
-                        match.is_ref(submenu),
-                        match.is_ref(menu)
-                    )
+                    assert
+                        .spy(options.on_accept_fn)
+                        .was_called_with(match.is_ref(submenuoption), match.is_ref(submenu), match.is_ref(menu))
                 end)
 
                 it("should push options to the menu", function()
                     assert.spy(menu.PushOptions).was_not_called()
                     submenuoption:OnAccept(menu)
                     assert.spy(menu.PushOptions).was_called(1)
-                    assert.spy(menu.PushOptions).was_called_with(
-                        match.is_ref(menu),
-                        match.is_table(options),
-                        submenuoption.name
-                    )
+                    assert
+                        .spy(menu.PushOptions)
+                        .was_called_with(match.is_ref(menu), match.is_table(options), submenuoption.name)
                 end)
             end)
         end)

@@ -25,7 +25,7 @@ local TheInput = _G.TheInput
 
 local SDK
 
-SDK = require "devtools/sdk/sdk/sdk"
+SDK = require("devtools/sdk/sdk/sdk")
 SDK.Load(env, "devtools/sdk")
 
 --- Debugging
@@ -37,7 +37,7 @@ SDK.Debug.ModConfigs()
 --- Initialization
 -- @section initialization
 
-require "devtools/console"
+require("devtools/console")
 
 local devtools
 
@@ -52,7 +52,7 @@ devtools:SetConfig("key_switch_data", SDK.Config.GetModKeyConfigData("key_switch
 
 local DevToolsScreen -- not an instance
 
-DevToolsScreen = require "screens/devtoolsscreen"
+DevToolsScreen = require("screens/devtoolsscreen")
 DevToolsScreen:DoInit(devtools)
 
 --- Mod warning override
@@ -123,48 +123,52 @@ end)
 SDK.Console.AddWordPredictionDictionaries({
     { delim = "De", num_chars = 0, words = { "vTools" } },
     { delim = "du", num_chars = 2, words = { "mptable" } },
-    { delim = "d_", num_chars = 0, words = {
-        -- general
-        "decodefile",
-        "decodesavedata",
-        "doaction",
-        "emote",
-        "emotepose",
-        "emotestop",
-        "findinventoryitem",
-        "findinventoryitems",
-        "gettags",
-        "say",
-        "says",
+    {
+        delim = "d_",
+        num_chars = 0,
+        words = {
+            -- general
+            "decodefile",
+            "decodesavedata",
+            "doaction",
+            "emote",
+            "emotepose",
+            "emotestop",
+            "findinventoryitem",
+            "findinventoryitems",
+            "gettags",
+            "say",
+            "says",
 
-        -- animstate
-        "getanim",
-        "getanimbank",
-        "getanimbuild",
+            -- animstate
+            "getanim",
+            "getanimbank",
+            "getanimbuild",
 
-        -- dump
-        "dumpcomponents",
-        "dumpeventlisteners",
-        "dumpfields",
-        "dumpfunctions",
-        "dumpreplicas",
-        "getcomponents",
-        "geteventlisteners",
-        "getfields",
-        "getfunctions",
-        "getreplicas",
+            -- dump
+            "dumpcomponents",
+            "dumpeventlisteners",
+            "dumpfields",
+            "dumpfunctions",
+            "dumpreplicas",
+            "getcomponents",
+            "geteventlisteners",
+            "getfields",
+            "getfunctions",
+            "getreplicas",
 
-        -- stategraph
-        "getsgname",
-        "getsgstate",
+            -- stategraph
+            "getsgname",
+            "getsgstate",
 
-        -- table
-        "tablecompare",
-        "tablecount",
-        "tablehasvalue",
-        "tablekeybyvalue",
-        "tablemerge",
-    } },
+            -- table
+            "tablecompare",
+            "tablecount",
+            "tablehasvalue",
+            "tablekeybyvalue",
+            "tablemerge",
+        },
+    },
     function()
         local words = SDK.Dump.GetFunctions(devtools, true)
         for k, word in pairs(words) do
@@ -173,7 +177,7 @@ SDK.Console.AddWordPredictionDictionaries({
             end
         end
         return { delim = "DevTools:", num_chars = 0, words = words }
-    end
+    end,
 })
 
 --- Player Controller
@@ -195,7 +199,8 @@ SDK.OverrideComponentMethod("playercontroller", "OnControl", function(old, self,
 
     if devtools then
         -- screen
-        if DevToolsScreen
+        if
+            DevToolsScreen
             and not DevToolsScreen:IsOpen()
             and control == CONTROL_ACCEPT
             and SDK.Time.IsPaused()

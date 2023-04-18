@@ -13,7 +13,7 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local SDK = require "devtools/sdk/sdk/sdk"
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Helpers
 -- @section class
@@ -120,7 +120,8 @@ function DebugEvents:ActivatePlayer()
     local fn_name = "ActivatePlayer"
     local name = "ThePlayer"
 
-    if not ThePlayer
+    if
+        not ThePlayer
         or not ThePlayer.event_listeners
         or SDK.Utils.Table.Count(ThePlayer.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_player)
@@ -152,7 +153,8 @@ function DebugEvents:ActivatePlayerClassified()
     local fn_name = "ActivatePlayerClassified"
     local name = "ThePlayer.player_classified"
 
-    if not ThePlayer
+    if
+        not ThePlayer
         or not ThePlayer.player_classified
         or not ThePlayer.player_classified.event_listeners
         or SDK.Utils.Table.Count(ThePlayer.player_classified.event_listeners) == 0
@@ -171,18 +173,15 @@ function DebugEvents:DeactivatePlayerClassified()
     local fn_name = "DeactivatePlayerClassified"
     local name = "ThePlayer.player_classified"
 
-    if not ThePlayer
+    if
+        not ThePlayer
         or CheckIfAlreadyDeactivated(self, fn_name, self.activated_player_classified)
     then
         return false
     end
 
-    self.activated_player_classified = Deactivate(
-        self,
-        name,
-        ThePlayer.player_classified,
-        self.activated_player_classified
-    )
+    self.activated_player_classified =
+        Deactivate(self, name, ThePlayer.player_classified, self.activated_player_classified)
 
     return true
 end
@@ -198,7 +197,8 @@ function DebugEvents:ActivateWorld()
     local fn_name = "ActivateWorld"
     local name = "TheWorld"
 
-    if not TheWorld
+    if
+        not TheWorld
         or not TheWorld.event_listeners
         or SDK.Utils.Table.Count(TheWorld.event_listeners) == 0
         or CheckIfAlreadyActivated(self, fn_name, self.activated_world)

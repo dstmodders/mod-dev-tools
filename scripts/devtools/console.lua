@@ -41,7 +41,7 @@
 ----
 local Console = {}
 
-local SDK = require "devtools/sdk/sdk/sdk"
+local SDK = require("devtools/sdk/sdk/sdk")
 
 local _EMOTE_THREAD
 
@@ -193,7 +193,8 @@ end
 -- @usage d_emote("yawn", 10, 1) -- spam 10 "yawn" emotes every 1 second
 -- @usage d_emote("toast", 10, 1.1, "pose") -- spam both "toast" and "pose" emotes 10 times
 function d_emote(emote, num, pause, sec)
-    if IsRequiredParameterMissing("emote", emote, 1)
+    if
+        IsRequiredParameterMissing("emote", emote, 1)
         or IsInvalidParameterType(emote, "string", "emote", 1)
     then
         return
@@ -212,7 +213,7 @@ function d_emote(emote, num, pause, sec)
     end
 
     num = num ~= nil and num or 1
-    pause = pause ~= nil and pause or .5
+    pause = pause ~= nil and pause or 0.5
 
     _EMOTE_THREAD = StartThread(function()
         for _ = 1, num do

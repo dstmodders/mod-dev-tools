@@ -11,9 +11,9 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "devtools/constants"
+require("devtools/constants")
 
-local SDK = require "devtools/sdk/sdk/sdk"
+local SDK = require("devtools/sdk/sdk/sdk")
 
 local _SEASONS = {
     { name = "Autumn", value = "autumn", default = TUNING.AUTUMN_LENGTH },

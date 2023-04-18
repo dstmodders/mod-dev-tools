@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("PlayerInventoryTools", function()
     -- initialization
@@ -19,7 +19,7 @@ describe("PlayerInventoryTools", function()
         playertools = MockPlayerTools()
         playertools.inventory = nil
 
-        PlayerInventoryTools = require "devtools/tools/playerinventorytools"
+        PlayerInventoryTools = require("devtools/tools/playerinventorytools")
         playerinventorytools = PlayerInventoryTools(playertools, devtools)
 
         DebugSpyClear()
@@ -33,7 +33,7 @@ describe("PlayerInventoryTools", function()
             playertools.inventory = nil
 
             -- initialization
-            PlayerInventoryTools = require "devtools/tools/playerinventorytools"
+            PlayerInventoryTools = require("devtools/tools/playerinventorytools")
         end)
 
         local function AssertDefaults(self)

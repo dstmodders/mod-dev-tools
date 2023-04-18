@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local SDK = require "devtools/sdk/sdk/sdk"
-local Submenu = require "devtools/menu/submenu"
+local SDK = require("devtools/sdk/sdk/sdk")
+local Submenu = require("devtools/menu/submenu")
 
 --- Lifecycle
 -- @section lifecycle

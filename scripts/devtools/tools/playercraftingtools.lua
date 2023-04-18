@@ -24,8 +24,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local DevTools = require "devtools/tools/tools"
-local SDK = require "devtools/sdk/sdk/sdk"
+local DevTools = require("devtools/tools/tools")
+local SDK = require("devtools/sdk/sdk/sdk")
 
 --- Lifecycle
 -- @section lifecycle

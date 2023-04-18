@@ -11,10 +11,10 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "devtools/constants"
+require("devtools/constants")
 
-local SDK = require "devtools/sdk/sdk/sdk"
-local Toggle = require "devtools/submenus/option/toggle"
+local SDK = require("devtools/sdk/sdk/sdk")
+local Toggle = require("devtools/submenus/option/toggle")
 
 return {
     label = "Player Vision",
@@ -26,12 +26,7 @@ return {
             "IsForcedHUDVisibility",
             "ToggleForcedHUDVisibility"
         ),
-        Toggle(
-            "vision",
-            "Spawners Visibility",
-            "IsSpawnersVisibility",
-            "ToggleSpawnersVisibility"
-        ),
+        Toggle("vision", "Spawners Visibility", "IsSpawnersVisibility", "ToggleSpawnersVisibility"),
         {
             type = MOD_DEV_TOOLS.OPTION.TOGGLE_CHECKBOX,
             options = {

@@ -11,7 +11,7 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "devtools/constants"
+require("devtools/constants")
 
 local screen_width, screen_height = TheSim:GetScreenSize()
 
@@ -101,9 +101,9 @@ return {
                             label = "Height",
                             min = 10,
                             max = function(_, submenu)
-                                return math.floor(screen_height
-                                    / submenu.devtools:GetConfig("font_size")
-                                    / 2)
+                                return math.floor(
+                                    screen_height / submenu.devtools:GetConfig("font_size") / 2
+                                )
                             end,
                             on_accept_fn = function(_, submenu)
                                 OnAcceptConfig(submenu, "size_height")

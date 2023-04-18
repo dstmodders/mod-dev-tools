@@ -13,8 +13,8 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local SDK = require "devtools/sdk/sdk/sdk"
-local Submenu = require "devtools/menu/submenu"
+local SDK = require("devtools/sdk/sdk/sdk")
+local Submenu = require("devtools/menu/submenu")
 
 --- Lifecycle
 -- @section lifecycle
@@ -130,10 +130,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
     if #fields > 0 then
         self:AddFieldsSubmenu("Fields", object, options)
         if type(object) == "table" then
-            if #components > 0
-                or #event_listeners > 0
-                or #functions > 0
-            then
+            if #components > 0 or #event_listeners > 0 or #functions > 0 then
                 self:AddDividerOption(options)
             end
         end
@@ -170,11 +167,7 @@ function DumpSubmenu:AddDumpOptions(name, options, object)
     end
 
     if type(object) == "table" then
-        if #components > 0
-            or #event_listeners > 0
-            or #fields > 0
-            or #functions > 0
-        then
+        if #components > 0 or #event_listeners > 0 or #fields > 0 or #functions > 0 then
             self:AddDividerOption(options)
         end
 

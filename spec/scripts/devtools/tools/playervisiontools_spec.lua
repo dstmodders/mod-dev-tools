@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("PlayerVisionTools", function()
     -- before_each initialization
@@ -26,7 +26,7 @@ describe("PlayerVisionTools", function()
         playertools = MockPlayerTools()
         playertools.vision = nil
 
-        PlayerVisionTools = require "devtools/tools/playervisiontools"
+        PlayerVisionTools = require("devtools/tools/playervisiontools")
         playervisiontools = PlayerVisionTools(playertools, devtools)
 
         DebugSpyClear()
@@ -40,7 +40,7 @@ describe("PlayerVisionTools", function()
             playertools.vision = nil
 
             -- initialization
-            PlayerVisionTools = require "devtools/tools/playervisiontools"
+            PlayerVisionTools = require("devtools/tools/playervisiontools")
         end)
 
         local function AssertDefaults(self)

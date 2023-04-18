@@ -26,9 +26,9 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "devtools/constants"
+require("devtools/constants")
 
-local SDK = require "devtools/sdk/sdk/sdk"
+local SDK = require("devtools/sdk/sdk/sdk")
 
 -- threads
 local _LABEL_UPDATE_THREAD_ID = "mod_dev_tools_label_update_thread"
@@ -42,19 +42,16 @@ local _LABEL_UPDATE_THREAD_ID = "mod_dev_tools_label_update_thread"
 -- @usage local labels = Labels(devtools)
 local Labels = Class(function(self, devtools)
     SDK.Debug.AddMethods(self)
-    SDK.Method
-        .SetClass(self)
-        .AddToString("Labels")
-        .AddGetters({
-            default_font = "GetDefaultFont",
-            default_font_size = "GetDefaultFontSize",
-            default_username_mode = "GetDefaultUsernameMode",
-            font = "GetFont",
-            font_size = "GetFontSize",
-            is_selected_enabled = "IsSelectedEnabled",
-            is_username_enabled = "IsUsernameEnabled",
-            username_mode = "GetUsernameMode",
-        })
+    SDK.Method.SetClass(self).AddToString("Labels").AddGetters({
+        default_font = "GetDefaultFont",
+        default_font_size = "GetDefaultFontSize",
+        default_username_mode = "GetDefaultUsernameMode",
+        font = "GetFont",
+        font_size = "GetFontSize",
+        is_selected_enabled = "IsSelectedEnabled",
+        is_username_enabled = "IsUsernameEnabled",
+        username_mode = "GetUsernameMode",
+    })
 
     -- general
     self.default_font = nil
@@ -217,10 +214,7 @@ function Labels:UpdateSelected()
             local sg_name = SDK.Entity.GetStateGraphName(inst)
             local sg_state = SDK.Entity.GetStateGraphState(inst)
             if sg_name then
-                text = text
-                    .. "StateGraph: "
-                    .. table.concat({ sg_name, sg_state }, " | ")
-                    .. "\n"
+                text = text .. "StateGraph: " .. table.concat({ sg_name, sg_state }, " | ") .. "\n"
             end
         end
 
@@ -229,9 +223,7 @@ function Labels:UpdateSelected()
             local as_build = SDK.Entity.GetAnimStateBuild(inst)
             local as_anim = SDK.Entity.GetAnimStateAnim(inst)
             if as_bank then
-                text = text
-                    .. "AnimState: "
-                    .. table.concat({ as_bank, as_build, as_anim }, " | ")
+                text = text .. "AnimState: " .. table.concat({ as_bank, as_build, as_anim }, " | ")
             end
         end
 

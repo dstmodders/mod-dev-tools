@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("CheckboxOption", function()
     -- setup
@@ -9,7 +9,7 @@ describe("CheckboxOption", function()
     local CheckboxOption, checkboxoption
 
     setup(function()
-        match = require "luassert.match"
+        match = require("luassert.match")
     end)
 
     before_each(function()
@@ -24,7 +24,7 @@ describe("CheckboxOption", function()
 
         submenu = {}
 
-        CheckboxOption = require "devtools/menu/option/checkboxoption"
+        CheckboxOption = require("devtools/menu/option/checkboxoption")
         checkboxoption = CheckboxOption(options, submenu)
     end)
 
@@ -141,11 +141,9 @@ describe("CheckboxOption", function()
                 checkboxoption:Left()
                 assert.is_false(checkboxoption.current)
                 assert.spy(options.on_set_fn).was_called(1)
-                assert.spy(options.on_set_fn).was_called_with(
-                    match.is_ref(checkboxoption),
-                    match.is_ref(submenu),
-                    false
-                )
+                assert
+                    .spy(options.on_set_fn)
+                    .was_called_with(match.is_ref(checkboxoption), match.is_ref(submenu), false)
             end)
         end)
 
@@ -156,11 +154,9 @@ describe("CheckboxOption", function()
                 checkboxoption:Right()
                 assert.is_true(checkboxoption.current)
                 assert.spy(options.on_set_fn).was_called(1)
-                assert.spy(options.on_set_fn).was_called_with(
-                    match.is_ref(checkboxoption),
-                    match.is_ref(submenu),
-                    true
-                )
+                assert
+                    .spy(options.on_set_fn)
+                    .was_called_with(match.is_ref(checkboxoption), match.is_ref(submenu), true)
             end)
         end)
     end)
@@ -171,10 +167,9 @@ describe("CheckboxOption", function()
                 assert.spy(checkboxoption.on_get_fn).was_not_called()
                 checkboxoption:__tostring()
                 assert.spy(checkboxoption.on_get_fn).was_called(1)
-                assert.spy(checkboxoption.on_get_fn).was_called_with(
-                    match.is_ref(checkboxoption),
-                    match.is_ref(submenu)
-                )
+                assert
+                    .spy(checkboxoption.on_get_fn)
+                    .was_called_with(match.is_ref(checkboxoption), match.is_ref(submenu))
             end)
         end
 
@@ -183,11 +178,10 @@ describe("CheckboxOption", function()
             name = name ~= nil and name or "Test"
 
             it("should return the label with " .. value, function()
-                assert.is_equal(string.format(
-                    "%s    [ %s ]",
-                    name,
-                    value
-                ), checkboxoption:__tostring())
+                assert.is_equal(
+                    string.format("%s    [ %s ]", name, value),
+                    checkboxoption:__tostring()
+                )
             end)
         end
 
@@ -197,12 +191,10 @@ describe("CheckboxOption", function()
             prefix = prefix ~= nil and prefix or "(Prefix) "
 
             it("should return the prefixed label with " .. value, function()
-                assert.is_equal(string.format(
-                    "%s%s    [ %s ]",
-                    prefix,
-                    name,
-                    value
-                ), checkboxoption:__tostring())
+                assert.is_equal(
+                    string.format("%s%s    [ %s ]", prefix, name, value),
+                    checkboxoption:__tostring()
+                )
             end)
         end
 

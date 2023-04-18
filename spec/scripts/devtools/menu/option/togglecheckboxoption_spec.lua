@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("ToggleCheckboxOption", function()
     -- before_each initialization
@@ -19,7 +19,7 @@ describe("ToggleCheckboxOption", function()
 
         submenu = {}
 
-        ToggleCheckboxOption = require "devtools/menu/option/togglecheckboxoption"
+        ToggleCheckboxOption = require("devtools/menu/option/togglecheckboxoption")
         togglecheckboxoption = ToggleCheckboxOption(options, submenu)
     end)
 

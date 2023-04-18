@@ -11,9 +11,9 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "devtools/constants"
+require("devtools/constants")
 
-local Toggle = require "devtools/submenus/option/toggle"
+local Toggle = require("devtools/submenus/option/toggle")
 
 return {
     label = "Labels",

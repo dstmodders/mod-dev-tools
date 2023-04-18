@@ -1,4 +1,4 @@
-require "busted.runner"()
+require("busted.runner")()
 
 describe("PlayerTools", function()
     -- setup
@@ -23,7 +23,7 @@ describe("PlayerTools", function()
 
     setup(function()
         -- match
-        match = require "luassert.match"
+        match = require("luassert.match")
 
         -- debug
         DebugSpyInit()
@@ -38,7 +38,7 @@ describe("PlayerTools", function()
 
         _G.TUNING = {
             MINERHAT_LIGHTTIME = 468,
-            TORCH_DAMAGE = 34 * .5,
+            TORCH_DAMAGE = 34 * 0.5,
         }
     end)
 
@@ -80,27 +80,27 @@ describe("PlayerTools", function()
         _G.TheNet = MockTheNet({
             {
                 userid = inst.userid,
-                admin = true
+                admin = true,
             },
             {
                 userid = "KU_one",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_two",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_three",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_four",
-                admin = false
+                admin = false,
             },
             {
                 userid = "KU_five",
-                admin = false
+                admin = false,
             },
         })
 
@@ -119,7 +119,7 @@ describe("PlayerTools", function()
         devtools = MockDevTools()
         world = MockWorldTools()
 
-        PlayerTools = require "devtools/tools/playertools"
+        PlayerTools = require("devtools/tools/playertools")
         playertools = PlayerTools(inst, world, devtools)
 
         DebugSpyClear()
@@ -131,7 +131,7 @@ describe("PlayerTools", function()
             devtools = MockDevTools()
 
             -- initialization
-            PlayerTools = require "devtools/tools/playertools"
+            PlayerTools = require("devtools/tools/playertools")
         end)
 
         local function AssertDefaults(self)
@@ -181,11 +181,9 @@ describe("PlayerTools", function()
 
             it("should call the instance ListenForEvent()", function()
                 assert.spy(inst.ListenForEvent).was_called(1)
-                assert.spy(inst.ListenForEvent).was_called_with(
-                    match.is_ref(inst),
-                    "weremodedirty",
-                    match.is_function()
-                )
+                assert
+                    .spy(inst.ListenForEvent)
+                    .was_called_with(match.is_ref(inst), "weremodedirty", match.is_function())
             end)
         end)
 
@@ -348,7 +346,8 @@ describe("PlayerTools", function()
 
                         before_each(function()
                             _HasEquippedItemWithTag = _G.SDK.Player.Inventory.HasEquippedItemWithTag
-                            _G.SDK.Player.Inventory.HasEquippedItemWithTag = spy.new(ReturnValueFn(true))
+                            _G.SDK.Player.Inventory.HasEquippedItemWithTag =
+                                spy.new(ReturnValueFn(true))
                         end)
 
                         teardown(function()
@@ -410,7 +409,7 @@ describe("PlayerTools", function()
                         playertools:Select(player)
                         AssertDebugSpyWasCalled("DebugString", 1, {
                             "Selected",
-                            player:GetDisplayName()
+                            player:GetDisplayName(),
                         })
                     end)
                 end)
@@ -456,13 +455,13 @@ describe("PlayerTools", function()
                         AssertDebugSpyWasCalled("DebugString", 2, {
                             "[client]",
                             "Selected",
-                            name
+                            name,
                         })
 
                         AssertDebugSpyWasCalled("DebugString", 2, {
                             "[server]",
                             "Selected",
-                            name
+                            name,
                         })
                     end)
                 end)
@@ -734,7 +733,7 @@ describe("PlayerTools", function()
                         playertools:ToggleGodMode(player)
                         AssertDebugSpyWasCalled("DebugError", 1, {
                             "PlayerTools:ToggleGodMode():",
-                            "not an admin"
+                            "not an admin",
                         })
                     end)
                 end)
@@ -785,7 +784,7 @@ describe("PlayerTools", function()
                             playertools:ToggleGodMode(player)
                             AssertDebugSpyWasCalled("DebugString", 1, {
                                 "(" .. player:GetDisplayName() .. ")",
-                                "God Mode is enabled"
+                                "God Mode is enabled",
                             })
                         end)
                     end)
@@ -838,7 +837,7 @@ describe("PlayerTools", function()
                             playertools:ToggleGodMode(player)
                             AssertDebugSpyWasCalled("DebugString", 1, {
                                 "(" .. player:GetDisplayName() .. ")",
-                                "God Mode is disabled"
+                                "God Mode is disabled",
                             })
                         end)
                     end)

@@ -37,7 +37,7 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-local CheckboxOption = require "devtools/menu/option/checkboxoption"
+local CheckboxOption = require("devtools/menu/option/checkboxoption")
 
 --- Lifecycle
 -- @section lifecycle

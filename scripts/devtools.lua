@@ -42,17 +42,17 @@
 -- @license MIT
 -- @release 0.8.0-alpha
 ----
-require "consolecommands"
-require "devtools/constants"
+require("consolecommands")
+require("devtools/constants")
 
-local API = require "devtools/api"
-local Config = require "devtools/config"
-local Debug = require "devtools/debug/debug"
-local Labels = require "devtools/labels"
-local PlayerTools = require "devtools/tools/playertools"
-local SDK = require "devtools/sdk/sdk/sdk"
-local Submenu = require "devtools/menu/submenu"
-local WorldTools = require "devtools/tools/worldtools"
+local API = require("devtools/api")
+local Config = require("devtools/config")
+local Debug = require("devtools/debug/debug")
+local Labels = require("devtools/labels")
+local PlayerTools = require("devtools/tools/playertools")
+local SDK = require("devtools/sdk/sdk/sdk")
+local Submenu = require("devtools/menu/submenu")
+local WorldTools = require("devtools/tools/worldtools")
 
 --- Lifecycle
 -- @section lifecycle
@@ -62,15 +62,12 @@ local WorldTools = require "devtools/tools/worldtools"
 -- @usage local devtools = DevTools()
 local DevTools = Class(function(self)
     SDK.Debug.AddMethods(self)
-    SDK.Method
-        .SetClass(self)
-        .AddToString("DevTools")
-        .AddGetters({
-            api = "GetAPI",
-            debug = "GetDebug",
-            screen = "GetScreen",
-            submenus_data = "GetSubmenusData",
-        })
+    SDK.Method.SetClass(self).AddToString("DevTools").AddGetters({
+        api = "GetAPI",
+        debug = "GetDebug",
+        screen = "GetScreen",
+        submenus_data = "GetSubmenusData",
+    })
 
     -- general
     self.api = API(self)
