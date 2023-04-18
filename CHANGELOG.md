@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased][]
+## [Unreleased]
 
 ### Added
 
-- Add "Hide Ground Overlay" player vision suboption
+- Add new "Hide Ground Overlay" player vision suboption
 - Add support for args in the toggle checkbox option
 - Add support for pause and time scale keys outside of gameplay
 
@@ -24,13 +24,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove "Hide changelog" configuration
 - Remove changelog from modinfo
 
-## [0.7.1][] - 2023-01-25
+## [0.7.1] - 2023-01-25
 
 ### Fixed
 
-- Issue with crashing when changing the character
+- Fix crashing when changing the character
 
-## [0.7.0][] - 2020-10-06
+## [0.7.0] - 2020-10-06
 
 ### Added
 
@@ -44,9 +44,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Fix issue with menu update when selecting player
+- Fix menu update when selecting player
 
-## [0.6.0][] - 2020-09-29
+## [0.6.0] - 2020-09-29
 
 ### Added
 
@@ -60,15 +60,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Fix issue with data sidebar scrolling position while switching
+- Fix scroll positioning for data sidebar while switching
 
-## [0.5.0][] - 2020-09-23
+## [0.5.0] - 2020-09-23
 
 ### Added
 
-- Add "Select key" configuration
+- Add new "Select key" configuration
+- Add support for scrolling in data sidebar
 - Add support for selecting either menu or data sidebar
-- Add support for the mouse scroll in data sidebar
 
 ### Changed
 
@@ -76,15 +76,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Fix issue with "Switch data key" configuration
+- Fix switch data key configuration
 
-## [0.4.1][] - 2020-09-21
+## [0.4.1] - 2020-09-21
 
 ### Fixed
 
-- Fix issue with crashing related to data loading
+- Fix crashing related to data loading
 
-## [0.4.0][] - 2020-09-21
+## [0.4.0] - 2020-09-21
 
 ### Added
 
@@ -97,12 +97,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Refactor data sidebars
 
-## [0.3.0][] - 2020-09-20
+## [0.3.0] - 2020-09-20
 
 ### Added
 
-- Add "Switch data key" configuration
-- Add support for the sidebar data switching
+- Add new "Switch data key" configuration
+- Add support for switching sidebar data
 
 ### Changed
 
@@ -111,23 +111,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Fix issue with `d_gettags` console command
+- Fix `d_gettags()` console command
 
-## [0.2.0][] - 2020-09-11
+## [0.2.0] - 2020-09-11
 
 ### Added
 
-- Add "Hide changelog" configuration
-- Add API support
+- Add new "Hide changelog" configuration
+- Add support for mod API
 
 ### Changed
 
 - Enable "Player Vision" submenu on non-admin servers
-- Increase mod loading priority
+- Increase the mod loading priority
 
 ### Fixed
 
-- Fix issue with crashing when disabling a recipe tab
+- Fix crashing when disabling a recipe tab
 
 ## 0.1.0 - 2020-09-05
 
