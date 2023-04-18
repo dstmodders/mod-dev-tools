@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove "Hide changelog" configuration
 - Remove changelog from modinfo
 
+## [0.7.1][] - 2023-01-25
+
+### Fixed
+
+- Issue with crashing when changing the character
+
 ## [0.7.0][] - 2020-10-06
 
 ### Added
@@ -127,7 +133,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 First release.
 
-[unreleased]: https://github.com/dstmodders/mod-dev-tools/compare/v0.7.0...HEAD
+[unreleased]: https://github.com/dstmodders/mod-dev-tools/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/dstmodders/mod-dev-tools/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/dstmodders/mod-dev-tools/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/dstmodders/mod-dev-tools/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/dstmodders/mod-dev-tools/compare/v0.4.1...v0.5.0
