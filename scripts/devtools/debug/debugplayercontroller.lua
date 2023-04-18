@@ -177,17 +177,17 @@ function DebugPlayerController:OverrideMouseClicks(playercontroller)
     local OldOnLeftClick = playercontroller.OnLeftClick
     local OldOnRightClick = playercontroller.OnRightClick
 
-    local function NewOnLeftClick(_self, down)
-        OldOnLeftClick(_self, down)
+    local function NewOnLeftClick(on_left_click, down)
+        OldOnLeftClick(on_left_click, down)
 
         if SDK.Debug.IsDebug("lmb") and down and not TheInput:GetHUDEntityUnderMouse() then
             local act
-            if _self:IsAOETargeting() then
-                act = _self:GetRightMouseAction()
+            if on_left_click:IsAOETargeting() then
+                act = on_left_click:GetRightMouseAction()
             else
-                act = _self:GetLeftMouseAction()
+                act = on_left_click:GetLeftMouseAction()
                     or BufferedAction(
-                        _self.inst,
+                        on_left_click.inst,
                         nil,
                         ACTIONS.WALKTO,
                         nil,
@@ -202,18 +202,18 @@ function DebugPlayerController:OverrideMouseClicks(playercontroller)
                 z = act.pos.local_pt.z
             else
                 local position = TheInput:GetWorldPosition()
-                platform, x, z = _self:GetPlatformRelativePosition(position.x, position.z)
+                platform, x, z = on_left_click:GetPlatformRelativePosition(position.x, position.z)
                 mouseover = act.action ~= ACTIONS.DROP and TheInput:GetWorldEntityUnderMouse()
                     or nil
             end
 
             local is_previewed = false
-            local control_mods = _self:EncodeControlMods()
+            local control_mods = on_left_click:EncodeControlMods()
 
-            if _self.locomotor == nil then
+            if on_left_click.locomotor == nil then
                 DebugLMBClickSendRPCToServer(
                     self,
-                    _self,
+                    on_left_click,
                     act,
                     x,
                     z,
@@ -222,13 +222,13 @@ function DebugPlayerController:OverrideMouseClicks(playercontroller)
                     control_mods,
                     platform
                 )
-            elseif act.action ~= ACTIONS.WALKTO and _self:CanLocomote() then
+            elseif act.action ~= ACTIONS.WALKTO and on_left_click:CanLocomote() then
                 is_previewed = true
                 local is_released = not TheInput:IsControlPressed(CONTROL_PRIMARY)
-                DebugMBBufferedActionPreview(self, _self, "lmb", act)
+                DebugMBBufferedActionPreview(self, on_left_click, "lmb", act)
                 DebugLMBClickSendRPCToServer(
                     self,
-                    _self,
+                    on_left_click,
                     act,
                     x,
                     z,
@@ -240,31 +240,32 @@ function DebugPlayerController:OverrideMouseClicks(playercontroller)
             end
 
             if is_previewed == false then
-                DebugMBBufferedAction(self, _self, "lmb", act)
+                DebugMBBufferedAction(self, on_left_click, "lmb", act)
             end
         end
     end
 
-    local function NewOnRightClick(_self, down)
-        OldOnRightClick(_self, down)
+    local function NewOnRightClick(on_right_click, down)
+        OldOnRightClick(on_right_click, down)
 
         if SDK.Debug.IsDebug("rmb") and down and not TheInput:GetHUDEntityUnderMouse() then
-            local act = _self:GetRightMouseAction()
+            local act = on_right_click:GetRightMouseAction()
             if act then
-                if _self.deployplacer ~= nil and act.action == ACTIONS.DEPLOY then
-                    act.rotation = _self.deployplacer.Transform:GetRotation()
+                if on_right_click.deployplacer ~= nil and act.action == ACTIONS.DEPLOY then
+                    act.rotation = on_right_click.deployplacer.Transform:GetRotation()
                 end
 
                 local is_previewed = false
                 local position = TheInput:GetWorldPosition()
                 local mouseover = TheInput:GetWorldEntityUnderMouse()
-                local control_mods = _self:EncodeControlMods()
-                local platform, x, z = _self:GetPlatformRelativePosition(position.x, position.z)
+                local control_mods = on_right_click:EncodeControlMods()
+                local platform, x, z =
+                    on_right_click:GetPlatformRelativePosition(position.x, position.z)
 
                 if self.locomotor == nil then
                     DebugRMBClickSendRPCToServer(
                         self,
-                        _self,
+                        on_right_click,
                         act,
                         x,
                         z,
@@ -276,10 +277,10 @@ function DebugPlayerController:OverrideMouseClicks(playercontroller)
                 elseif act.action ~= ACTIONS.WALKTO and self:CanLocomote() then
                     is_previewed = true
                     local is_released = not TheInput:IsControlPressed(CONTROL_SECONDARY)
-                    DebugMBBufferedActionPreview(self, _self, "lmb", act)
+                    DebugMBBufferedActionPreview(self, on_right_click, "lmb", act)
                     DebugRMBClickSendRPCToServer(
                         self,
-                        _self,
+                        on_right_click,
                         act,
                         x,
                         z,
@@ -291,7 +292,7 @@ function DebugPlayerController:OverrideMouseClicks(playercontroller)
                 end
 
                 if is_previewed == false then
-                    DebugMBBufferedAction(self, _self, "rmb", act)
+                    DebugMBBufferedAction(self, on_right_click, "rmb", act)
                 end
             end
         end

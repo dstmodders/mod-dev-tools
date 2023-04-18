@@ -3,7 +3,7 @@ local before_each = require("busted").before_each
 local describe = require("busted").describe
 local it = require("busted").it
 
-local function TestOptionAsserts(options_fn, init_fn, field, _type, is_optional)
+local function TestOptionAsserts(options_fn, init_fn, field, option_type, is_optional)
     describe("when the options." .. field, function()
         describe("is not passed", function()
             before_each(function()
@@ -32,7 +32,7 @@ local function TestOptionAsserts(options_fn, init_fn, field, _type, is_optional)
                     table = {},
                 }
 
-                options_fn()[field] = data[_type]
+                options_fn()[field] = data[option_type]
             end)
 
             it("shouldn't error when valid", function()
@@ -41,7 +41,7 @@ local function TestOptionAsserts(options_fn, init_fn, field, _type, is_optional)
                 end)
             end)
 
-            describe("but not a " .. _type, function()
+            describe("but not a " .. option_type, function()
                 before_each(function()
                     options_fn()[field] = true
                 end)
@@ -49,7 +49,7 @@ local function TestOptionAsserts(options_fn, init_fn, field, _type, is_optional)
                 it("should error", function()
                     assert.has_error(function()
                         init_fn(options_fn())
-                    end, "Option " .. field .. " should be a " .. _type)
+                    end, "Option " .. field .. " should be a " .. option_type)
                 end)
             end)
         end)

@@ -38,12 +38,12 @@ local function OptionRequired(field, name)
     assert(field ~= nil, "Option " .. name .. " is required")
 end
 
-local function OptionType(field, name, _type, is_optional)
+local function OptionType(field, name, option_type, is_optional)
     if is_optional and not field then
         return
     end
     OptionRequired(field, name)
-    assert(type(field) == _type, string.format("Option %s should be a %s", name, _type))
+    assert(type(field) == option_type, string.format("Option %s should be a %s", name, option_type))
 end
 
 --- Lifecycle
