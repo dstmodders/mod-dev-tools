@@ -45,8 +45,8 @@ end
 local function AddBooleanConfig(name, label, hover, default)
     default = default == nil and true or default
     return AddConfig(name, label, hover, {
-        { description = "Enabled", data = true },
         { description = "Disabled", data = false },
+        { description = "Enabled", data = true },
     }, default)
 end
 
