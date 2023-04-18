@@ -11,106 +11,106 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Issue with crashing when changing the character
+- Fix crashing when changing the character
 
 ## [0.7.0] - 2020-10-06
 
 ### Added
 
-- Support for the dumped data sidebar
-- Support for the world state data sidebar
+- Add new "Dumped" data sidebar
+- Add new "World State" data sidebar
 
 ### Changed
 
-- Dump submenu
-- Refactored modinfo
+- Change "Dump" submenu
+- Refactor modinfo
 
 ### Fixed
 
-- Issue with menu update when selecting player
+- Fix menu update when selecting player
 
 ## [0.6.0] - 2020-09-29
 
 ### Added
 
-- Support for "data_sidebar" in submenu data tables
-- Support for the data sidebars number
-- Support for the selected entity tags data sidebar
+- Add new "Selected Entity Tags" data sidebar
+- Add support for "data_sidebar" in submenu data tables
+- Add support for showing the number of data sidebars
 
 ### Changed
 
-- Refactored data sidebars
+- Refactor data sidebars
 
 ### Fixed
 
-- Issue with data sidebar scrolling position while switching
+- Fix scroll positioning for data sidebar while switching
 
 ## [0.5.0] - 2020-09-23
 
 ### Added
 
-- Support for selecting either menu or data sidebar
-- Support for the mouse scroll in data sidebar
-- Support for the select key configuration
+- Add new "Select key" configuration
+- Add support for scrolling in data sidebar
+- Add support for selecting either menu or data sidebar
 
 ### Changed
 
-- Improved data sidebar update when selecting entity
+- Improve data sidebar update when selecting entity
 
 ### Fixed
 
-- Issue with the switch data key configuration
+- Fix switch data key configuration
 
 ## [0.4.1] - 2020-09-21
 
 ### Fixed
 
-- Issue with crashing related to data loading
+- Fix crashing related to data loading
 
 ## [0.4.0] - 2020-09-21
 
 ### Added
 
-- Locale text scale in the front-end data sidebar
-- New "Dev Tools" submenu
-- New font option
-- Support for ignoring the locale text scale in tools
+- Add "Locale Text Scale" in the front-end data sidebar
+- Add "Toggle Locale Text Scale" in "Dev Tools" submenu
+- Add new "Dev Tools" submenu
+- Add new font option
 
 ### Changed
 
-- Refactored data sidebars
+- Refactor data sidebars
 
 ## [0.3.0] - 2020-09-20
 
 ### Added
 
-- Support for the sidebar data switching
-- Support for the switch data key configuration
+- Add new "Switch data key" configuration
+- Add support for switching sidebar data
 
 ### Changed
 
-- Improved overlay sizing and centring
-- Some configurations
+- Change some configurations
+- Improve overlay sizing and centring
 
 ### Fixed
 
-- Issue with d_gettags console command
+- Fix `d_gettags()` console command
 
 ## [0.2.0] - 2020-09-11
 
 ### Added
 
-- Support for the API
-- Support for the hide changelog configuration
+- Add new "Hide changelog" configuration
+- Add support for mod API
 
 ### Changed
 
-- Enabled player vision submenu on non-admin servers
-- Mod loading priority to be higher than the default
+- Enable "Player Vision" submenu on non-admin servers
+- Increase the mod loading priority
 
 ### Fixed
 
-- Issue with crashing when disabling a recipe tab
+- Fix crashing when disabling a recipe tab
 
 ## 0.1.0 - 2020-09-05
 
