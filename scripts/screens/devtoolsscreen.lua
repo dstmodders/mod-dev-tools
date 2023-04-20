@@ -158,7 +158,16 @@ function DevToolsScreen:CanToggle() -- luacheck: only
         end
     end
 
-    return true
+    local has_text_widget_focus = true
+    if TheFrontEnd and TheFrontEnd.GetFocusWidget then
+        local widget = TheFrontEnd:GetFocusWidget()
+        if widget and widget.name == "Text" then
+            return false
+        end
+        return true
+    end
+
+    return has_text_widget_focus
 end
 
 --- Checks if screen is in open state.

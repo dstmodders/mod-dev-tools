@@ -86,9 +86,28 @@ end
 --- Checks if a user can press our key.
 -- @treturn boolean
 function DevTools:CanPressKeyInGamePlay()
+    if not InGamePlay() then
+        return false
+    end
+
     local playerdevtools = self.player
-    return InGamePlay()
-        and playerdevtools
+    if not playerdevtools then
+        return false
+    end
+
+    local player = playerdevtools:GetPlayer()
+    if not player then
+        return false
+    end
+
+    local has_text_widget_focus = false
+    if TheFrontEnd and TheFrontEnd.GetFocusWidget then
+        local widget = TheFrontEnd:GetFocusWidget()
+        has_text_widget_focus = widget and widget.name == "Text" or false
+    end
+
+    return not player.HUD:HasInputFocus()
+        and not has_text_widget_focus
         and not playerdevtools:IsHUDChatInputScreenOpen()
         and not playerdevtools:IsHUDConsoleScreenOpen()
         and not playerdevtools:IsHUDWritableScreenActive()
