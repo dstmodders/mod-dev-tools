@@ -19,6 +19,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Migrate to the new mod SDK
 - Rename and restructure some classes
 
+## [0.8.0] - 2023-04-20
+
+### Changed
+
+- Reorder booleans in configurations
+- Replace empty values with dashes in data sidebar
+
+### Fixed
+
+- Fix handling of keys in text inputs
+
 ### Removed
 
 - Remove "Hide changelog" configuration
@@ -133,7 +144,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 First release.
 
-[unreleased]: https://github.com/dstmodders/mod-dev-tools/compare/v0.7.1...HEAD
+[unreleased]: https://github.com/dstmodders/mod-dev-tools/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/dstmodders/mod-dev-tools/compare/v0.7.1...v0.8.0
 [0.7.1]: https://github.com/dstmodders/mod-dev-tools/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/dstmodders/mod-dev-tools/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/dstmodders/mod-dev-tools/compare/v0.5.0...v0.6.0
