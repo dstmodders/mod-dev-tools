@@ -170,9 +170,10 @@ function Data:PushLine(name, value) -- luacheck: only
         value = table.concat(value, " | ")
     end
 
+    local v = string.len(value) > 0 and value or "-"
     table.insert(
         self.stack,
-        (name and string.len(name) > 0) and string.format("%s: %s", name, value) or value
+        (name and string.len(name) > 0) and string.format("%s: %s", name, v) or v
     )
 end
 
