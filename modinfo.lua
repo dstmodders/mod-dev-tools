@@ -148,52 +148,52 @@ configuration_options = {
 
     AddKeyListConfig(
         "key_toggle_tools",
-        "Toggle tools key",
+        "Toggle Tools Key",
         "Key used for toggling the tools",
         "KEY_RIGHTBRACKET"
     ),
 
     AddKeyListConfig(
         "key_switch_data",
-        "Switch data key",
+        "Switch Data Key",
         "Key used for switching data sidebar",
         "KEY_X"
     ),
 
     AddKeyListConfig(
         "key_select",
-        "Select key",
+        "Select Key",
         "Key used for selecting between menu and data sidebar",
         "KEY_TAB"
     ),
 
     AddKeyListConfig(
         "key_movement_prediction",
-        "Movement prediction key",
+        "Movement Prediction Key",
         "Key used for toggling the movement prediction"
     ),
 
-    AddKeyListConfig("key_pause", "Pause key", "Key used for pausing the game", "KEY_P"),
+    AddKeyListConfig("key_pause", "Pause Key", "Key used for pausing the game", "KEY_P"),
 
-    AddKeyListConfig("key_god_mode", "God mode key", "Key used for toggling god mode", "KEY_G"),
+    AddKeyListConfig("key_god_mode", "God Mode Key", "Key used for toggling god mode", "KEY_G"),
 
     AddKeyListConfig(
         "key_teleport",
-        "Teleport key",
+        "Teleport Key",
         "Key used for (fake) teleporting on mouse position",
         "KEY_T"
     ),
 
     AddKeyListConfig(
         "key_select_entity",
-        "Select entity key",
+        "Select Entity Key",
         "Key used for selecting an entity under mouse",
         "KEY_Z"
     ),
 
     AddKeyListConfig(
         "key_time_scale_increase",
-        "Increase time scale key",
+        "Increase Time Scale Key",
         [[Key used to speed up the time scale.]]
             .. "\n"
             .. [[Hold down the Shift key to scale up to the maximum]],
@@ -202,7 +202,7 @@ configuration_options = {
 
     AddKeyListConfig(
         "key_time_scale_decrease",
-        "Decrease time scale key",
+        "Decrease Time Scale Key",
         [[Key used to slow down the time scale.]]
             .. "\n"
             .. [[Hold down the Shift key to scale down to the minimum]],
@@ -211,14 +211,14 @@ configuration_options = {
 
     AddKeyListConfig(
         "key_time_scale_default",
-        "Default time scale key",
+        "Default Time Scale Key",
         "Key used to restore the default time scale",
         "KEY_HOME"
     ),
 
     AddConfig(
         "reset_combination",
-        "Reset combination",
+        "Reset Combination",
         [[Key combination used for reloading all mods.]]
             .. "\n"
             .. [[Will restart the game/server to the latest savepoint]],
@@ -239,13 +239,13 @@ configuration_options = {
 
     AddBooleanConfig(
         "default_god_mode",
-        "Default god mode",
+        "Default God Mode",
         "When enabled, enables god mode by default.\nCan be changed inside in-game menu"
     ),
 
     AddBooleanConfig(
         "default_free_crafting",
-        "Default free crafting mode",
+        "Default Free Crafting Mode",
         "When enabled, enables crafting mode by default.\nCan be changed inside in-game menu"
     ),
 
@@ -253,7 +253,7 @@ configuration_options = {
 
     AddConfig(
         "default_labels_font",
-        "Default labels font",
+        "Default Labels Font",
         "Which labels font should be used by default?\nCan be changed inside in-game menu",
         {
             {
@@ -347,7 +347,7 @@ configuration_options = {
 
     AddNumbersConfig(
         "default_labels_font_size",
-        "Default labels font size",
+        "Default Labels Font Size",
         "Which labels font size should be used by default?\nCan be changed inside in-game menu",
         6,
         32,
@@ -356,19 +356,19 @@ configuration_options = {
 
     AddBooleanConfig(
         "default_selected_labels",
-        "Default selected labels",
+        "Default Selected Labels",
         "When enabled, show selected labels by default.\nCan be changed inside in-game menu"
     ),
 
     AddBooleanConfig(
         "default_username_labels",
-        "Default username labels",
+        "Default Username Labels",
         "When enabled, shows username labels by default.\nCan be changed inside in-game menu"
     ),
 
     AddConfig(
         "default_username_labels_mode",
-        "Default username labels mode",
+        "Default Username Labels Mode",
         "Which username labels mode should be used by default?\nCan be changed inside in-game menu",
         {
             {
@@ -393,7 +393,7 @@ configuration_options = {
 
     AddBooleanConfig(
         "default_forced_hud_visibility",
-        "Default forced HUD visibility",
+        "Default Forced HUD Visibility",
         [[When enabled, forces HUD visibility when "playerhuddirty" event occurs.]]
             .. "\n"
             .. [[Can be changed inside in-game menu]]
@@ -401,7 +401,7 @@ configuration_options = {
 
     AddBooleanConfig(
         "default_forced_unfading",
-        "Default forced unfading",
+        "Default Forced Unfading",
         [[When enabled, forces unfading when "playerfadedirty" event occurs.]]
             .. "\n"
             .. [[Can be changed inside in-game menu]]
@@ -415,7 +415,7 @@ configuration_options = {
 
     AddBooleanConfig(
         "default_mod_warning",
-        "Disable mod warning",
+        "Disable Mod Warning",
         "When enabled, disables the mod warning when starting the game"
     ),
 
